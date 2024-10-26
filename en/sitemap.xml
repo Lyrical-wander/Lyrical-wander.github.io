@@ -3,6 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://Lyrical-wander.github.io/en/categories/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -10,16 +11,18 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://Lyrical-wander.github.io/ar/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://Lyrical-wander.github.io/en/categories/"
                 />
   </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/css/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/html/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://Lyrical-wander.github.io/en/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -27,16 +30,34 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://Lyrical-wander.github.io/ar/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://Lyrical-wander.github.io/en/"
                 />
   </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/markdown/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/p/markdown-syntax-guide/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/post/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://Lyrical-wander.github.io/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://Lyrical-wander.github.io/en/post/"
+                />
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/categories/syntax/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://Lyrical-wander.github.io/en/tags/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -44,13 +65,48 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://Lyrical-wander.github.io/ar/tags/"
+                hreflang="en"
+                href="https://Lyrical-wander.github.io/en/tags/"
+                />
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/themes/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/categories/themes/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/p/placeholder-text/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/tag-with-whitespaces/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/categories/test/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://Lyrical-wander.github.io/categories/test/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Lyrical-wander.github.io/en/tags/"
+                href="https://Lyrical-wander.github.io/en/categories/test/"
                 />
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/categories/test-with-whitespaces/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/text/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/p/math-typesetting/</loc>
+    <lastmod>2019-03-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/tags/emoji/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://Lyrical-wander.github.io/en/p/emoji-support/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url>
 </urlset>
