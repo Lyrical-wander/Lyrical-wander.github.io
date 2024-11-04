@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于PyQt开发的脚本集合包，本文主要讲述程序入口，以及解释了为什么Pyisntaller打包后图标不显示的问题">
-<title>基于PyQt开发的脚本集合包（三）</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于PyQt开发的脚本集合包，本文主要讲述UTF-8编码器的实现方法">
+<title>基于PyQt开发的脚本集合包（六）</title>
 
-<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/'>
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/'>
 
-<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（三）">
-<meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述程序入口，以及解释了为什么Pyisntaller打包后图标不显示的问题">
-<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/'>
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（六）">
+<meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述UTF-8编码器的实现方法">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/'>
 <meta property='og:site_name' content='苏三有春的博客'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-11-01T10:40:00&#43;08:00'/><meta property='article:modified_time' content='2024-11-01T10:40:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.png' />
-<meta name="twitter:title" content="基于PyQt开发的脚本集合包（三）">
-<meta name="twitter:description" content="基于PyQt开发的脚本集合包，本文主要讲述程序入口，以及解释了为什么Pyisntaller打包后图标不显示的问题"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-11-04T21:36:00&#43;08:00'/><meta property='article:modified_time' content='2024-11-04T21:36:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.png' />
+<meta name="twitter:title" content="基于PyQt开发的脚本集合包（六）">
+<meta name="twitter:description" content="基于PyQt开发的脚本集合包，本文主要讲述UTF-8编码器的实现方法"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -288,56 +288,19 @@
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li>
-      <ol>
-        <li><a href="#1-qapplication-类">1. <strong><code>QApplication</code> 类</strong></a></li>
-        <li><a href="#2-sysargv-的作用">2. <strong><code>sys.argv</code> 的作用</strong></a></li>
-        <li><a href="#3-初始化应用程序">3. <strong>初始化应用程序</strong></a></li>
-      </ol>
-    </li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt_hu18299242409021908448.png"
-                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt_hu2213941626906010426.png 1600w"
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt_hu18299242409021908448.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt_hu2213941626906010426.png 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（三）" />
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）" />
                 
             </a>
         </div>
@@ -360,12 +323,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/">基于PyQt开发的脚本集合包（三）</a>
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">基于PyQt开发的脚本集合包（六）</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            基于PyQt开发的脚本集合包，本文主要讲述程序入口，以及解释了为什么Pyisntaller打包后图标不显示的问题
+            基于PyQt开发的脚本集合包，本文主要讲述UTF-8编码器的实现方法
         </h3>
         
     </div>
@@ -386,7 +349,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Nov 01, 2024</time>
+                <time class="article-time--published">Nov 04, 2024</time>
             </div>
         
 
@@ -401,7 +364,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 4 分钟
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -416,16 +379,25 @@
     <section class="article-content">
     
     
-    <h1 id="pyqt程序入口qmainwindow">PyQt程序入口（QMainWindow）
-</h1><p>main.py是程序的入口，程序最开始运行的文件，在这个文件中，需要完成以下几件事：</p>
-<ul>
-<li>创建一个MainWindow（主窗口）</li>
-<li>设置主窗口的标题，图标</li>
-<li>设置窗口的主体（centralWidget）</li>
-<li>设置窗口的状态栏</li>
-<li>创建workspaces目录</li>
-<li>运行窗口</li>
-</ul>
+    <h1 id="方法在工程中的位置">方法在工程中的位置
+</h1><p>这一小节需要结合前面的<a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%ba%8c/"  target="_blank" rel="noopener"
+    >基于PyQt开发的脚本集合包（二）</a>内容来看，在那一篇文章中，我们讲到，我们讲主界面，功能UI界面，以及实现功能本身的方法分别放在了不同的地方以方便我们维护，此方法属于功能的实现，因此与其它脚本功能一同放在了<code>tools</code>目录下，如果要调用该功能，则需要使用<code>import</code>导入模块。</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408.png"
+	width="594"
+	height="276"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu1751319344734010631.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu17231952748570868241.png 1024w"
+	loading="lazy"
+	
+		alt="image-20241104210652408"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="215"
+		data-flex-basis="516px"
+	
+></p>
+<h1 id="代码解释">代码解释
+</h1><p>convertor模块中并没有类，只有一个方法，即<code>convertor</code>方法，它接受一个字符串参数，并将字符串进行编码，处理成UTF-8格式，输出十六进制数以及十六进制数的个数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -443,133 +415,47 @@
 </span><span class="lnt">13
 </span><span class="lnt">14
 </span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span> 
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="o">*</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="o">*</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">PrimeWindow</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainWindow</span><span class="p">(</span><span class="n">QMainWindow</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&#34;Script Tools&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowIcon</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="s2">&#34;_internal/res/icon/icon.ico&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="n">centralWidget</span> <span class="o">=</span> <span class="n">PrimeWindow</span><span class="o">.</span><span class="n">PrimeWindow</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="n">centralWidget</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">addStatusBar</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">addStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span> <span class="o">=</span> <span class="n">QStatusBar</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusWidget</span> <span class="o">=</span> <span class="n">QWidget</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusLayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">copyrightlable</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="s2">&#34;© Author: LyricalRover. All rights reserved.&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">versionlable</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="s2">&#34;Last updated: 2024-10-18. Version: 1.3.1&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">copyrightlable</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusLayout</span><span class="o">.</span><span class="n">addStretch</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versionlable</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusWidget</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statusLayout</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statusWidget</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&#34;workspaces&#34;</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&#34;workspaces&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">convertor</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将字符串s编码为UTF-8格式的字节串</span>
+</span></span><span class="line"><span class="cl">    <span class="n">strlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">strlen</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 将字节串转换为十六进制表示，同时移除b&#39;&#39;标记并替换\\x为0x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hexstr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">byte</span><span class="si">:</span><span class="s1">02x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">byte</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;UTF-8&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hexstr</span> <span class="o">=</span> <span class="n">hexstr</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>  <span class="c1"># 可选：转换为大写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 添加空格使得输出更易于阅读</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hexstr_space</span> <span class="o">=</span> <span class="s1">&#39;, 0x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hexstr</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hexstr_space</span> <span class="o">=</span> <span class="s1">&#39;0x&#39;</span><span class="o">+</span><span class="n">hexstr_space</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">+</span> <span class="n">hexstr_space</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">,</span><span class="n">res</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>最开始进入的地方是：if__name__ == &ldquo;_<em>main</em>_&rdquo;:</p>
-<p>app = QApplication(sys.argv)初始化应用程序对象</p>
-<blockquote>
-<h3 id="1-qapplication-类">1. <strong><code>QApplication</code> 类</strong>
-</h3><ul>
-<li><code>QApplication</code> 是 Qt 应用程序的主类，负责管理应用程序的控制流和主要设置。</li>
-<li>它处理应用程序的主事件循环，并为 GUI 元素提供必要的支持。</li>
-<li>每个使用 Qt 的应用程序通常需要一个 <code>QApplication</code> 实例。</li>
-</ul>
-<h3 id="2-sysargv-的作用">2. <strong><code>sys.argv</code> 的作用</strong>
-</h3><ul>
-<li><code>sys.argv</code> 是一个列表，包含命令行参数。这些参数是在运行 Python 脚本时传递的。</li>
-<li><code>QApplication</code> 可以使用这些参数来配置应用程序的行为，例如窗口大小、样式等。</li>
-</ul>
-<h3 id="3-初始化应用程序">3. <strong>初始化应用程序</strong>
-</h3><p>通过 <code>app = QApplication(sys.argv)</code>，你完成了以下几个步骤：</p>
+</div><p>以下逐行解释代码：</p>
 <ul>
-<li><strong>创建应用程序对象</strong>：这行代码创建了一个 <code>QApplication</code> 的实例，并将命令行参数传递给它。</li>
-<li><strong>设置事件循环</strong>：这个实例负责管理 GUI 的事件循环，使得应用程序能够响应用户输入和事件（例如鼠标点击、键盘输入等）。</li>
-<li><strong>为应用程序提供上下文</strong>：<code>QApplication</code> 提供了关于应用程序的信息，例如样式、主题、字体等。</li>
+<li>初始化<code>res</code>字符串变量，</li>
+<li>获取传入的参数<code>s</code>字符串的长度，并传给<code>strlen</code></li>
+<li>for循环遍历字符串中的每一个字符</li>
+<li><code>s[i].encode(&quot;UTF-8&quot;)</code>将字符编码为UTF-8字节串</li>
+<li><code>for byte in ...</code>是一个生成器表达式，它遍历编码后的字节串，每个<code>byte</code>表示UTF-8编码中的每一个字节</li>
+<li><code>f'{byte:02x}'</code>将每个字节转换为两位的十六进制字符串，0表示如果十六进制不足两位，则以0补足，2表示宽度位两位，x表示以十六进制格式输出，比如：如果<code>byte</code>的值为255，则会生成&rsquo;ff&rsquo;，如果<code>byte</code>的值为7，则会生成'07'</li>
+<li><code>''.join(...)</code>，<code>join</code>方法将生成器表达式的所有结果连成一个字符串，即格式化操作，例如：一个字符编码为<code>b'\xe4\xb8\xad'</code>，经过格式化后将变成<code>'e4b8ad'</code></li>
+<li><code>upper</code>方法将输出的字符串中所有小写转换成大写</li>
+<li>又一个<code>join</code>方法，将<code>hexstr</code>一个字符一个字符拆开，每个两个字符中间便加入<code>, 0x</code>，经过上一个<code>join</code>方法，这次经过格式化操作后，<code>e4b8ad</code>将会变成<code>E4, 0xB8, 0xAD, 0x</code></li>
+<li>在字符串最前面加上<code>0x</code>，变成：<code>0xE4, 0xB8, 0xAD, 0x</code></li>
+<li>删除最后3个字符（-1是最后一个，-2是倒数第二个，但是<code>[]</code>读内容的规则：前面读，后面不读，也就是虽然是最后一位是倒数第二，但实际上倒数第二不读，只读到倒数第三）</li>
+<li>打印<code>res</code>结果</li>
+<li>返回结果以及<code>0x</code>的计数（通过计算<code>0x</code>来计算有多少个十六进制数）</li>
 </ul>
-</blockquote>
-<p>创建MainWindow对象，即运行上面的class中的代码</p>
-<p><code>def __init__</code>中，设置窗口的标题，设置窗口的图标，在这里可以看到，设置图标的路径是：<strong>_internal/res/icon/icon.ico</strong>，但我们并没有创建这个__internal的目录，回顾环境配置中pyinstaller部分的讲解：“pyinstaller在v6.0版本以后，数据将被移动到<code>__internal</code>目录下”，也就是说，如果我们打包程序形成exe文件后，想要文件能够正确找到icon的地址，则必须在你写的地址前加上<code>__internal</code>目录，配合上打包时的参数,<code>-add-data &quot;icon.ico;__internal/res/icon/icon.ico&quot;</code>，就可以在打包后显示正常的图标。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">centralWidget</span> <span class="o">=</span> <span class="n">PrimeWindow</span><span class="o">.</span><span class="n">PrimeWindow</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>上面的代码是创建一个UI主体，该主体是PrimeWindow对象，这个类在PrimeWindow.py中，这个主体内具体是怎样的后面会讲到。</p>
-<p>addStatusBar的结构如下图所示：</p>
-<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct.png"
-	width="712"
-	height="147"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu7294286202204780821.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu3715101181839059963.png 1024w"
-	loading="lazy"
-	
-		alt="BTStruct"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="484"
-		data-flex-basis="1162px"
-	
-></p>
-<p>左右分别是两个label的Widget，分别装了两条信息，中间用addStretch弹簧将两个label分压向两侧。</p>
-<p>理想很丰满，现实很骨感，实际上并没有呈现出这样一个操作，我猜测应该是有另一个东西阻碍了StatusBar，并没有完整占据整个窗口的下方，也就是说，StatusBar本身被压缩了，导致versionlabel并没有被压向窗口主体的右侧。但具体原因尚不明朗。</p>
-<p>还有一点值得注意的是：</p>
-<p>我在引入第三方库的时候因为偷懒使用了“*”，即：from PyQt5.QtWidgets import *等。</p>
-<p>建议使用了什么就引入import什么，而不是为了图方便而直接使用“*”，理由如下：</p>
-<ol>
-<li>python模块的导入实际上是通过<code>import</code>来进行导入的，一个模块一旦被导入，后续的导入操作则直接从缓存中读出，而不会重复导入，这就说明，在初次操作时，需要加载导入内容，如果使用“*”，初次导入的时间开销会更多一些，但后续的性能差别并不明显。</li>
-<li>由于<code>import *</code>会导入所有的公共成员，因此它可能会占用更多的内存，因此空间开销会更大。</li>
-<li>使用更明确的导入方式，会有助于代码的可读性，避免不必要的模块加载，减少潜在的时间和空间开销，同时较少命名冲突的风险，这种情况在大型项目中更为明显。</li>
-</ol>
+<h1 id="本文要点">本文要点
+</h1><ul>
+<li>本文中展示了，方法在工程中的位置，以及如何在工作区UI对象中导入该模块</li>
+<li>详细解释了convertor方法如何实现字符串转UTF-8格式</li>
+<li>其中有许多用法值得我们详细学习，比如<code>join</code>方法的使用，<code>f'{byte:02x}'</code>将每个字节转换成十六进制数，<code>upper</code>方法的使用，<code>[]</code>的读取范围的规则等</li>
+</ul>
 
 </section>
 
@@ -636,30 +522,6 @@
             
                 
 <article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/">
         
         
@@ -701,6 +563,30 @@
 
         <div class="article-details">
             <h2 class="article-title">基于PyQt开发的脚本集合包（四）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（三）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（三）</h2>
         </div>
     </a>
 </article>
