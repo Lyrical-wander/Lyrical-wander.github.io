@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Fri, 01 Nov 2024 10:43:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 04 Nov 2024 09:45:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>技术杂谈</title>
+        <link>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</link>
+        <pubDate>Mon, 04 Nov 2024 09:45:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/airplane.jpg" alt="Featured image of post 技术杂谈" /&gt;</description>
+        </item>
+        <item>
         <title>PyQt5</title>
         <link>https://Lyrical-wander.github.io/categories/pyqt5/</link>
         <pubDate>Fri, 01 Nov 2024 10:43:00 +0800</pubDate>

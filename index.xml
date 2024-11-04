@@ -7,7 +7,179 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Fri, 01 Nov 2024 10:43:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 04 Nov 2024 09:45:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>VSCode无法使用右键“用VScode打开文件夹”解决办法</title>
+        <link>https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+        <pubDate>Mon, 04 Nov 2024 09:45:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png" alt="Featured image of post VSCode无法使用右键“用VScode打开文件夹”解决办法" /&gt;&lt;h1 id=&#34;前言&#34;&gt;前言
+&lt;/h1&gt;&lt;p&gt;作者的编程环境为VScode，工作时常使用VScode打开整个工程文件夹。如果先打开VScode再从VScode中选择文件夹打开效率太慢，作者一般使用的方式是右键文件夹，直接选择&amp;quot;通过code打开文件夹&amp;quot;，但某天，作者同往常一样工作时发现快捷键不起效，桌面的快捷方式也变成了无法使用的状态。&lt;/p&gt;
+&lt;p&gt;通过&lt;code&gt;设置&lt;/code&gt;索引回快捷方式的目标和起始位置，发现找不到对应的&lt;code&gt;code.exe&lt;/code&gt;文件。这说明可能有以下几种情况：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;VScode在我不知情的情况下被卸载了&lt;/li&gt;
+&lt;li&gt;VScode中code.exe执行文件被删了&lt;/li&gt;
+&lt;li&gt;VScode出于某种情况（可能是更新），将执行文件改了名字或移动了位置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;更新vscode快捷方式&#34;&gt;更新VScode快捷方式
+&lt;/h1&gt;&lt;p&gt;通过查找VScode的目录，发现code.exe文件从原本的&lt;code&gt;Microsoft VS Code&lt;/code&gt;目录下移动到&lt;code&gt;Microsoft VS Code\_&lt;/code&gt;目录下，多了一级目录，&lt;strong&gt;暂不清楚什么原因&lt;/strong&gt;，因此桌面快捷方式不起作用，只需要将快捷方式的目标和起始位置做一下修改，桌面的快捷方式就可以重新使用了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963.png&#34;
+	width=&#34;501&#34;
+	height=&#34;303&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu3299072808937954804.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu1312488146243212494.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104101906963&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;165&#34;
+		data-flex-basis=&#34;396px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;右键使用vscode打开文件夹&#34;&gt;右键使用VScode打开文件夹
+&lt;/h1&gt;&lt;h2 id=&#34;重装软件&#34;&gt;重装软件
+&lt;/h2&gt;&lt;p&gt;重装软件确实是一个简单且有效的方法，如果你的VScode比较干净的话。但如果你安装了许多插件且配置了多个Python的虚拟环境（那可是一个大工程），那么放弃现在的VScode对你来说可能是一个噩梦。如果你是此类人，我推荐你使用&lt;strong&gt;下面的方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;修改注册表&#34;&gt;修改注册表
+&lt;/h2&gt;&lt;p&gt;使用&lt;code&gt;win + R&lt;/code&gt;打开运行，输入&lt;code&gt;regedit&lt;/code&gt;打开注册表。&lt;/p&gt;
+&lt;h3 id=&#34;配置右键使用vscode打开文件&#34;&gt;配置：右键使用vscode打开文件
+&lt;/h3&gt;&lt;p&gt;你可以直接在左侧目录树下找到&lt;code&gt;HKEY_CLASSES_ROOT\*\shell&lt;/code&gt;，也可以在上方地址栏中输入，索引到相应的目录中&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825.png&#34;
+	width=&#34;381&#34;
+	height=&#34;357&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu15788003540213273265.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu10132448298365792822.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104103228825&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;106&#34;
+		data-flex-basis=&#34;256px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在此目录下，shell目录下，执行以下操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;右键目录新建VisualCode项（根据知乎大神的操作，但是我看原本VScode自动配置时是生成VSCode项，名字似乎无关紧要，重点是其中的数据。如果你本身就有VSCode项，可以尝试直接对VSCode项做修改，而不新建VisualCode项）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置操作描述&lt;/strong&gt;：VisualCode项中有一个名称为&lt;code&gt;(默认)&lt;/code&gt;的数据，双击进去填写数值数据&lt;code&gt;用VScode打开&lt;/code&gt;这个数据是你右键文件时出现的操作描述&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931.png&#34;
+	width=&#34;600&#34;
+	height=&#34;317&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu16254094868969890119.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu5160087606884622162.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104104005931&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;189&#34;
+		data-flex-basis=&#34;454px&#34;
+	
+&gt;这个描述可自定义，你改成用&lt;code&gt;用全世界最好用的VScode打开&lt;/code&gt;也可以&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置图标&lt;/strong&gt;：右键刚才新建的VisualCode项，在VisualCode中新建一个&lt;code&gt;可扩充字符串值&lt;/code&gt;，双击该数据，将数值名称改为&lt;code&gt;Icon&lt;/code&gt;，将数值数据修改为：Code.exe执行文件的地址，如我的地址为：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;C:\Users\86153\AppData\Local\Programs\Microsoft VS Code_\Code.exe&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280.png&#34;
+	width=&#34;707&#34;
+	height=&#34;276&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu16629371489639553308.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu1650627882931876073.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104104711280&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;256&#34;
+		data-flex-basis=&#34;614px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置命令&lt;/strong&gt;：右键刚才新建的VisualCode项，在VisualCode项中新建一个&lt;code&gt;项&lt;/code&gt;，命名为&lt;code&gt;command&lt;/code&gt;，这个项中也会有一个默认值，双击默认，修改数值数据为：&lt;code&gt;&amp;quot;your\path\Code.exe&amp;quot; &amp;quot;%1&amp;quot;&lt;/code&gt;，注意：要有&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;引号，%1为要打开的文件参数&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934.png&#34;
+	width=&#34;1185&#34;
+	height=&#34;383&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu17824744985564027553.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu12600755054536125379.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104105531934&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;309&#34;
+		data-flex-basis=&#34;742px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置右键使用vscode打开文件夹&#34;&gt;配置：右键使用vscode打开文件夹
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;找到&lt;code&gt;HKEY_CLASSES_ROOT\Directory\shell&lt;/code&gt;目录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;除了更改目录，其它操作与上面的完全一样&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375.png&#34;
+	width=&#34;1123&#34;
+	height=&#34;427&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu7281386191722519328.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu14869815443115981233.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104110104375&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;262&#34;
+		data-flex-basis=&#34;631px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置右键空白处使用vscode打开文件夹&#34;&gt;配置：右键空白处使用vscode打开文件夹
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;找到&lt;code&gt;HKEY_CLASSES_ROOT\Directory\Background\shell&lt;/code&gt;目录。&lt;/li&gt;
+&lt;li&gt;把command中的数值数据中的&lt;code&gt;%1&lt;/code&gt;改成&lt;code&gt;%V&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;其它操作与上面完全一样&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593.png&#34;
+	width=&#34;1018&#34;
+	height=&#34;350&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu15325921557374164745.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu12526577052122247765.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20241104112003593&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;290&#34;
+		data-flex-basis=&#34;698px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;效果&#34;&gt;效果
+&lt;/h1&gt;&lt;p&gt;现在，你就可以使用右键文件夹，使用vscode打开该文件夹&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png&#34;
+	width=&#34;225&#34;
+	height=&#34;61&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu746695615025887818.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu891048134147510453.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;368&#34;
+		data-flex-basis=&#34;885px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;参考文章：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/428704111&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;右键菜单加入用VSCode打开文件和文件夹 - 知乎&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>基于PyQt开发的脚本集合包（四）</title>
         <link>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/</link>
         <pubDate>Fri, 01 Nov 2024 10:43:00 +0800</pubDate>
