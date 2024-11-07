@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于PyQt开发的脚本集合包，本文主要讲述翻译器的UI设计以及代码实现，该翻译器中，我们会使用一些前文没有提及的控件以及模型类">
+<title>基于PyQt开发的脚本集合包（七）</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（七）">
+<meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述翻译器的UI设计以及代码实现，该翻译器中，我们会使用一些前文没有提及的控件以及模型类">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-11-07T15:33:00&#43;08:00'/><meta property='article:modified_time' content='2024-11-07T15:33:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.png' />
+<meta name="twitter:title" content="基于PyQt开发的脚本集合包（七）">
+<meta name="twitter:description" content="基于PyQt开发的脚本集合包，本文主要讲述翻译器的UI设计以及代码实现，该翻译器中，我们会使用一些前文没有提及的控件以及模型类"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#翻译器的ui布局">翻译器的UI布局</a></li>
+    <li><a href="#代码解释">代码解释</a>
+      <ol>
+        <li><a href="#创建布局对象">创建布局对象</a></li>
+        <li><a href="#翻译语言的选择与切换ui设计">翻译语言的选择与切换UI设计</a></li>
+        <li><a href="#翻译文本框的ui设计">翻译文本框的UI设计</a></li>
+        <li><a href="#快速翻译列表ui设计">快速翻译列表UI设计</a></li>
+        <li><a href="#tranasexchange">tranasexchange</a></li>
+        <li><a href="#translating">translating</a></li>
+        <li><a href="#modelselected">modelselected</a></li>
+      </ol>
+    </li>
+    <li><a href="#本文要点">本文要点</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt_hu18299242409021908448.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt_hu2213941626906010426.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（七）" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" style="background-color: #2a9d8f; color: #fff;">
+                Python
+            </a>
+        
+            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
+                PyQt5
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">基于PyQt开发的脚本集合包（七）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            基于PyQt开发的脚本集合包，本文主要讲述翻译器的UI设计以及代码实现，该翻译器中，我们会使用一些前文没有提及的控件以及模型类
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 07, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>上期文章我们讲了如何去实现一个UTF-8编码的转换器的构造以及代码实现。本期我们实现脚本集合包的第二个脚本（功能）：翻译器。目前，该翻译一起支持中译英，英译中，或自动检测翻译。翻译功能的实现本质上是通过爬虫技术去爬取网页实现的翻译功能，因此翻译功能需要联网才可进行。因此，在设计之初需要注意的是（虽然笔者并不是在设计之初就意识到会有这么多问题）：如何爬取一个网站，如何将需要翻译的内容上传给网站，是否需要判断当前状态是否联网，如何判断是否联网。如果处于断网状态如何处理&hellip;&hellip;接下来两到三篇文章会详细讲述这些问题如何解决。</p>
+<h2 id="翻译器的ui布局">翻译器的UI布局
+</h2><p>首先先看翻译器的UI布局</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692.png"
+	width="708"
+	height="738"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu12612883408098425675.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu13195618120501701307.png 1024w"
+	loading="lazy"
+	
+		alt="translator-UIlayout"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="95"
+		data-flex-basis="230px"
+	
+></p>
+<p>可以看到这个翻译器的主要框架分为上中下三个部分，垂直分布，因此，主布局是一个垂直布局，三个部分分别是：翻译语言选择，翻译文本框，快速翻译三个部分。</p>
+<ul>
+<li><strong>翻译语言选择</strong>：该部分由从左到右三个部分组成，水平布局，第一个下拉列表可选取待翻译语言的语种，包括：<code>自动检测</code>、<code>中文</code>、<code>English</code>三种，中间的组件是一个带有图标的按钮，可以转换左右下拉列表的语种，右边的下拉列表可选取翻译后的语种，包括：<code>English</code>、<code>中文</code>。</li>
+<li><strong>翻译文本框</strong>：该部分由从左到右三个部分组成，水平布局，第一个文本框是可读写文本框，可输入待翻译的内容，中间是一个按钮，点击按钮则开始翻译，右边文本框是一个只读文本框，在点击翻译按钮后，若翻译成功则会在该文本框中显示翻译后的内容。</li>
+<li><strong>快速翻译</strong>：快速翻译一个ListView，列表组件，其中存储了一个字典，显示对应的key，点击后会自动访问对应key的value，将value显示出来，无需联网，用于快速反应一些常用常翻译的内容。</li>
+</ul>
+<h2 id="代码解释">代码解释
+</h2><h3 id="创建布局对象">创建布局对象
+</h3><p>根据上述UI的设计，我们可以创建对应的layout对象，并将子布局一次添加进主布局，主布局设置为widget的布局</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># create a horizontal layout</span>
+</span></span><span class="line"><span class="cl">        <span class="n">layout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span> <span class="c1"># 主布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">langlayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span> <span class="c1"># 翻译语言选择的布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hlayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span> <span class="c1"># 翻译文本框的布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">listlayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span> <span class="c1"># 快速翻译列表的布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">langlayout</span><span class="p">)</span> <span class="c1"># 将三个子布局添加进主布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">hlayout</span><span class="p">)</span> <span class="c1"># 将三个子布局添加进主布局</span>
+</span></span><span class="line"><span class="cl">        <span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">listlayout</span><span class="p">)</span> <span class="c1"># 将三个子布局添加进主布局</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="c1"># 将layout设置为该翻译器widget的布局</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="翻译语言的选择与切换ui设计">翻译语言的选择与切换UI设计
+</h3><p>该部分由两个comboBox（下拉列表）和一个PushButton（按钮）组成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># lang layout</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span> <span class="o">=</span> <span class="n">QComboBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建输入语言的下拉列表</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&#34;自动检测&#34;</span><span class="p">)</span> <span class="c1"># 往下拉列表中添加元素</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&#34;中文&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&#34;English&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 将下拉列表中的第二个元素（0为第一个）设置为默认选项</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span> <span class="o">=</span> <span class="n">QComboBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建输出语言的下拉列表</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">addItems</span><span class="p">([</span><span class="s1">&#39;中文&#39;</span><span class="p">,</span><span class="s1">&#39;English&#39;</span><span class="p">])</span> <span class="c1"># 往下拉列表中添加元素</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 将下拉列表中的第二个元素设置为默认选项</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建交换语种的按钮</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pixmap</span> <span class="o">=</span> <span class="n">QPixmap</span><span class="p">(</span><span class="s2">&#34;_internal/res/img/exchange.ico&#34;</span><span class="p">)</span> <span class="c1"># 将图标添加进变量</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">pixmap</span><span class="p">))</span> <span class="c1"># 为按钮设置图标</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="o">.</span><span class="n">setIconSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="o">.</span><span class="n">sizeHint</span><span class="p">())</span> <span class="c1"># 设置图标为自适应按钮大小</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="s2">&#34;交换语言&#34;</span><span class="p">)</span> <span class="c1"># 为按钮设置提示泡泡</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tranasexchange</span><span class="p">)</span> <span class="c1"># 给按钮点击状态连接事件方法，该方法将调转输入与输出语种</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">langlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="p">)</span> <span class="c1"># 将三个组件都加入到第一个子布局中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">langlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exchangebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">langlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这一段代码值得注意的是：</p>
+<ul>
+<li>
+<p>这段代码展示了之前文章未出现的组件，即下拉列表（ComboBox）。</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284.png"
+	width="200"
+	height="84"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu6269650132027120636.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu9595666156847587778.png 1024w"
+	loading="lazy"
+	
+		alt="ComboBox"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="238"
+		data-flex-basis="571px"
+	
+></p>
+</li>
+<li>
+<p>下拉列表有两种添加元素的方法，<code>addItem()</code>与<code>addItems()</code>，一个参数为单个元素，一个参数为<code>list</code>，可同时输入多个元素。</p>
+</li>
+<li>
+<p><code>setCurrentIndex()</code>方法可设置下拉列表的首选项，比如：下拉列表的顺序为：自动检测，中文，English，我想让中文成为默认选项，则可使用<code>setCurrentIndex(1)</code>来使得中文成为默认选项，因为python是从0开始算起的。</p>
+</li>
+<li>
+<p>按钮可以添加图标，这个图标的地址开头是<code>__internal</code>，为什么使用这个作为最高级目录，请看往期内容<a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%b8%89/#1-qapplication-%e7%b1%bb"  target="_blank" rel="noopener"
+    >基于PyQt开发的脚本集合包（三）</a>第三节初始化应用程序部分，<strong>在窗口标签部分讲过相关内容</strong>。</p>
+</li>
+<li>
+<p>按键的提示泡泡长这样，当鼠标放在按钮上，会弹出一个小框描述该按键的功能。</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564.png"
+	width="197"
+	height="69"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu10739282547161097641.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu13502898684981347801.png 1024w"
+	loading="lazy"
+	
+		alt="Tooltip"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="285"
+		data-flex-basis="685px"
+	
+></p>
+</li>
+</ul>
+<h3 id="翻译文本框的ui设计">翻译文本框的UI设计
+</h3><p>该部分是由两个文本框与一个按键组成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># input editor</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">QTextEdit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建输入文本框</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">setPlaceholderText</span><span class="p">(</span><span class="s2">&#34;翻译内容&#34;</span><span class="p">)</span> <span class="c1"># 设置文本框的背景内容</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span> <span class="c1"># 将输入文本框添加到子布局中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TextEditStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span> <span class="c1"># 修改文本框的样式，作者创建的方法，非第三方库调用</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># translation button</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">button</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;翻译&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建翻译按钮</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">button</span><span class="p">)</span> <span class="c1"># 修改按钮的样式，作者创建的方法，非第三方库调用</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">button</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">translating</span><span class="p">)</span> <span class="c1"># 按钮点击状态连接到translating事件方法</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">button</span><span class="p">)</span> <span class="c1"># 将按钮添加到子布局中</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># output edit</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span> <span class="o">=</span> <span class="n">QTextEdit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 创建输出文本框</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="o">.</span><span class="n">setPlaceholderText</span><span class="p">(</span><span class="s2">&#34;翻译结果&#34;</span><span class="p">)</span> <span class="c1"># 设置文本框的背景内容</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="o">.</span><span class="n">setReadOnly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># 设置文本框为只读</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="p">)</span> <span class="c1"># 将文本框添加到子布局中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TextEditStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="p">)</span> <span class="c1"># 修改文本框的样式，作者创建的方法，非第三方库调用</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这段代码并没有什么需要特殊注意的地方，在之前的文章中我们已经用过多次了</p>
+<h3 id="快速翻译列表ui设计">快速翻译列表UI设计
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># list layout</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">workdist</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;快进&#39;</span><span class="p">:</span><span class="s1">&#39;forward&#39;</span><span class="p">,</span><span class="s1">&#39;后退&#39;</span><span class="p">:</span><span class="s1">&#39;backward&#39;</span><span class="p">,</span><span class="s1">&#39;暂停&#39;</span><span class="p">:</span><span class="s1">&#39;pause&#39;</span><span class="p">,</span><span class="s1">&#39;停止&#39;</span><span class="p">:</span><span class="s1">&#39;stop&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="s1">&#39;播放&#39;</span><span class="p">:</span><span class="s1">&#39;play&#39;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">QStandardItemModel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># 创建一个模型类，0行1列，即没有元素</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">QListView</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 设置一个ListView对象</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span> <span class="c1"># 设置ListView对象的模型为上面创建的模型</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdist</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># 做一个for循环，循环从workdist中读取key</span>
+</span></span><span class="line"><span class="cl">            <span class="n">item</span> <span class="o">=</span> <span class="n">QStandardItem</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c1"># 按顺序，将key设置为模型元素对象</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">appendRow</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># 将对象添加到模型中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ListViewStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span> <span class="c1"># 修改ListView的样式，作者创建的方法，非第三方库调用</span>
+</span></span><span class="line"><span class="cl">        <span class="n">listlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span> <span class="c1"># 将ListView对象添加到子布局中</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modelselected</span><span class="p">)</span> <span class="c1"># 将listview的点击状态连接到事件方法modelselected</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里新知识比较多，尤其是出现了一个陌生的控件<code>QListView</code>与一个模型类<code>QStandardItemModel</code></p>
+<ul>
+<li>
+<p><code>QStandardItemModel</code>的定义</p>
+<blockquote>
+<p>在 PyQt 中，<code>QStandardItemModel</code> 是一个常用的模型类，它提供了一种标准的方式来存储和管理数据，尤其是用于与视图类（如 <code>QListView</code>、<code>QTreeView</code> 和 <code>QTableView</code>）配合使用。<code>QStandardItemModel</code> 是一种基于项（Item）模型的数据结构，它通过 <code>QStandardItem</code> 类来表示每个数据项。</p>
+<p><strong><code>QStandardItemModel</code> 主要特点：</strong></p>
+<ol>
+<li><strong>基于项的模型</strong>：它使用 <code>QStandardItem</code> 来表示数据的每一项，<code>QStandardItem</code> 是存储数据和管理项状态的对象。</li>
+<li><strong>支持树形和表格数据</strong>：通过 <code>QStandardItemModel</code> 可以管理数据，支持表格和树形结构。它可以通过层次结构来组织数据。</li>
+<li><strong>与视图（View）绑定</strong>：<code>QStandardItemModel</code> 与 PyQt 中的视图类（如 <code>QListView</code>、<code>QTreeView</code>、<code>QTableView</code>）一起使用，模型控制数据，而视图负责数据的显示和交互。</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>QListView控件与QComboBox功能相似，但是用途，行为和样式差别较大，直接问大模型会给你长长的一条差别，但在这里，使用QListView的原因是它<strong>好看</strong>，可自定义样式，且不会收束成一个单个元素，而是完整地展示所有元素。</p>
+</li>
+</ul>
+<p>布局代码解释完了，接下来我们看一下实现交互功能的代码：</p>
+<h3 id="tranasexchange">tranasexchange
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">tranasexchange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cba</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cbb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">cba</span> <span class="o">==</span> <span class="s2">&#34;自动检测&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cba</span> <span class="o">=</span> <span class="s2">&#34;English&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">setCurrentText</span><span class="p">(</span><span class="n">cbb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">setCurrentText</span><span class="p">(</span><span class="n">cba</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个代码逻辑很简单实际上就是一个获取两个QComboBox的当前选择内容，然后交换它，因为<code>langto</code>并没有<code>自动检测</code>这一选项，所以当<code>langfrom</code>选择的是<code>自动检测</code>，则切换成<code>English</code>。</p>
+<h3 id="translating">translating
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">translating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">currentText</span><span class="p">(),</span><span class="s2">&#34; to &#34;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">toPlainText</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tran</span> <span class="o">=</span> <span class="n">Translation</span><span class="o">.</span><span class="n">translating</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">langfromcb</span><span class="o">.</span><span class="n">currentText</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">langtocb</span><span class="o">.</span><span class="n">currentText</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">tran</span> <span class="o">==</span> <span class="s2">&#34;website is not reachable&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MsgClass</span><span class="p">()</span><span class="o">.</span><span class="n">show_HTTP_error</span><span class="p">(</span><span class="s2">&#34;Website is not reachable&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">tran</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>首先将从什么语种翻译到什么语种打印到log面板上</li>
+<li><code>text</code>变量获取当前输入文本框中的文本内容</li>
+<li>将<code>text</code>中的文本内容，当前选择的两个语种，一共3个参数传入Translation对象的translating方法中，该方法才是真正实现翻译功能的方法，该方法会返回一个字符串，<code>tran</code>获取这个字符串</li>
+<li>该<code>if</code>的其实就是回应我们开头提出的问题：“需不需要判断网络问题”以及“如果网络异常该怎么办”，在一开始，笔者并没有处理这个异常，直到有一次笔者挂了clash访问GitHub时，无法访问翻译网站，结果导致程序闪退，所以，必须要判断网络问题，才做了这个<code>if</code>判断来抛出异常，使脚本在遇到网络问题时依然能够正常运行。</li>
+<li>MsgClass是笔者写的一个消息处理类，主要功能是获取文本，制作一个弹窗，弹窗内容就是获取到的文本，在这里是<code>Website is not reachable</code></li>
+<li>如果网络没有问题，则不会将获取的文本输出到输出文本框中</li>
+<li>当然这个网络异常逻辑设计并不完美，因为有可能翻译的内容恰恰是<code>website is not reachable</code>，这样也会导致UI这一部分误以为是网络异常，从而弹窗警告。更优解时返回两个变量，一个变量是翻译内容，一个变量是网站访问情况。<code>if</code>检测网站访问情况，如果非200，如404，则抛出弹窗警告。</li>
+</ul>
+<h3 id="modelselected">modelselected
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">modelselected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(),</span><span class="s1">&#39;to&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">workdist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">()])</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">()])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果是点击快速翻译中的某一项，则无需点击翻译按钮，直接完成翻译</p>
+<ul>
+<li>在log面板上打印当前选择的元素以及元素所对应的value（元素为字典中的key）</li>
+<li>将元素设置为输入文本框的内容</li>
+<li>将元素对应的value设置为输出文本框的内容</li>
+</ul>
+<h2 id="本文要点">本文要点
+</h2><ul>
+<li>翻译器的主要UI布局其实是模仿目前市面上大多数的翻译器设计的，主要是模仿<strong>微软翻译</strong>，即：<a class="link" href="https://cn.bing.com/translator?ref=TThis&amp;text=&amp;from=en&amp;to=zh-Hans"  target="_blank" rel="noopener"
+    >搜索 Microsoft Translator - 从英语翻译到中文 (简体)</a>。其实，该翻译器的实现，主要也是爬取了微软翻译，翻译器模仿成用户，向微软翻译发送翻译文本，并获取返回的response，拿到翻译后的结果。之所以不爬取有道翻译，是因为有道翻译对爬虫限制很高，现在甚至无法打开开发者工具（如果在有道翻译页面强行打开开发者工具，会导致闪退该页面）。</li>
+<li>在这个页面的UI设计中，我们加入了许多新玩意儿，比如<code>ListView</code>，模型类<code>QStandardItemModel</code>，<code>QComboBox</code>，等等有趣的东西，想使用但却没有实际例子模仿的小伙伴可以借鉴参考。</li>
+<li>在本文中我们回答了开头的五个问题中的两个，“是否需要判断当前状态是否联网”答案是：需要判断当前状态是否联网，如果不加以判断，当处于断网时，爬虫无法正常爬取网页，会抛出Error或Exception，如果处理，则会导致程序闪退。</li>
+<li>“如果处于断网状态如何处理”，答案是，当判断出断网状态时，会抛出弹窗警告，弹窗警告的设计是笔者自做，后续系列更新会介绍。</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pyqt%E5%AE%9E%E6%88%98/">PyQt实战</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（五）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（五）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（四）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（四）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（三）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（三）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（二）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
