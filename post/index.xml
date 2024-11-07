@@ -7,7 +7,162 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Thu, 07 Nov 2024 15:33:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 07 Nov 2024 19:16:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>基于PyQt开发的脚本集合包（八）</title>
+        <link>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/</link>
+        <pubDate>Thu, 07 Nov 2024 19:16:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（八）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;本文虽然被归类于PyQt开发实战，但实际上并没有关于PyQt的相关知识，这篇文章着重基于上篇文章，讲述笔者在开发翻译器时如何做爬取微软翻译网站时的分析，如何获取到网站所需要的信息。这其中也是夹杂了许多笔者个人的猜想与运气才碰出来的，笔者对爬虫也没有做更深的学习，只有一些粗浅的理解，并结合这个项目一点一点摸出来的，可能有更专业的工具与更成体系的知识架构，笔者也要去学习，希望这篇文章对读者能起到一些帮助和启发。&lt;/p&gt;
+&lt;p&gt;本文从笔者第一次爬取开始讲起，第一次失败了，总结了失败的经验，第二次才爬取成功。&lt;/p&gt;
+&lt;h2 id=&#34;第一次爬取微软翻译&#34;&gt;第一次爬取微软翻译
+&lt;/h2&gt;&lt;h3 id=&#34;分析&#34;&gt;分析
+&lt;/h3&gt;&lt;p&gt;在笔者进行爬虫的时候，首先先打开了浏览器自带的开发者工具查看网络数据，看看在翻译时客户端与服务器之间做了哪些交流&lt;/p&gt;
+&lt;p&gt;在排查的过程中，发现有一个名称叫做&lt;code&gt;ttranslate...&lt;/code&gt;的包引起了笔者的注意，点进去发现这其中确实携带了笔者要翻译的信息&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549.png&#34;
+	width=&#34;1152&#34;
+	height=&#34;580&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu6691820176331615924.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu5740964339205335993.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;network searching&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;198&#34;
+		data-flex-basis=&#34;476px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;从上图中可以看到，包的负载中的表单数据中有一项&lt;code&gt;Text&lt;/code&gt;，携带的数据刚好是我们输入的翻译内容&lt;code&gt;你好&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;打开&lt;code&gt;预览&lt;/code&gt;可以看到更详细的信息&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984.png&#34;
+	width=&#34;678&#34;
+	height=&#34;199&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu9421665414626696627.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu17216807519245443259.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;translations&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;340&#34;
+		data-flex-basis=&#34;817px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在这里可以发现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这里有我们翻译之前的语种，即：&lt;code&gt;zh-Hans&lt;/code&gt;，简体中文&lt;/li&gt;
+&lt;li&gt;翻译后的文本，保存在一个名为&lt;code&gt;translations&lt;/code&gt;的数据中，&lt;code&gt;text&lt;/code&gt;:&lt;code&gt;Hello&lt;/code&gt;，这个数据就是我们要获取的数据，其实这就是对于翻译请求的响应，打开响应界面也是这一串信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;响应界面如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216.png&#34;
+	width=&#34;409&#34;
+	height=&#34;457&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4459737528598064534.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4367045138561470661.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;response&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;89&#34;
+		data-flex-basis=&#34;214px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以，本质上，笔者就是想要获得对于这个请求的响应，因此笔者的方法是模仿这个包的请求，读取它的响应，从而获得对应的翻译数据。&lt;/p&gt;
+&lt;h3 id=&#34;实践&#34;&gt;实践
+&lt;/h3&gt;&lt;p&gt;因此根据爬虫的流程，笔者先获取了&lt;code&gt;ttranslate&lt;/code&gt;的请求URL，即：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;再获取了请求标头中的&lt;code&gt;User-Agent&lt;/code&gt;，即：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950.png&#34;
+	width=&#34;723&#34;
+	height=&#34;525&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu15595943230810178636.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu10759054228420497974.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;request info&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;137&#34;
+		data-flex-basis=&#34;330px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取URL是为了获取请求的目的地，获取User-Agent是为了让服务器认为我们是一个人，而不是脚本在自动操作（虽然真的是一个脚本），现在这两者已经获取，我们这段信息就有了身份。（虽然请求标头中还有许多其它的信息，但笔者也没搞懂有什么作用，索性也就没管）&lt;/p&gt;
+&lt;p&gt;接下来这既然是一个请求，那么我们就需要携带需要请求的消息，消息的格式是什么呢？在负载中可以找到，负载就是请求的内容，如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728.png&#34;
+	width=&#34;499&#34;
+	height=&#34;416&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu9498056735675901140.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu234058426219559170.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;request-info&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;119&#34;
+		data-flex-basis=&#34;287px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;显而易见的是，表单数据中携带了我们待翻译内容的语种，翻译结果的语种，以及翻译的数据。我们需要将这些信息放进我们的请求中。&lt;/p&gt;
+&lt;p&gt;信息收集完毕，开始编写代码（下面展示代码主题，读者需要注意这其中还调用了第三方关于爬虫的库，如报错，请pip install 响应的第三方库）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;user-agent&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;fromLang&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;zh-Hans&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;to&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;text&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;urllib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;parse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;urlencode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;encode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;req&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;urllib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;headers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;urllib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;urlopen&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;html&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;decode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;target&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loads&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;target&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;translations&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;text&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以下，我们来逐行分析代码：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将刚刚得到的URL存放起来&lt;/li&gt;
+&lt;li&gt;将&lt;code&gt;user-agent&lt;/code&gt;也存放起来，存放在&lt;code&gt;header&lt;/code&gt;字典中&lt;/li&gt;
+&lt;li&gt;将我们请求的数据：翻译前的语种，翻译后的语种，文本也存放起来，存放在&lt;code&gt;data&lt;/code&gt;字典中&lt;/li&gt;
+&lt;li&gt;将&lt;code&gt;data&lt;/code&gt;进行&lt;code&gt;utf-8&lt;/code&gt;加密，转换成响应的url请求格式&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;Request&lt;/code&gt;方法发送请求，参数为&lt;code&gt;url&lt;/code&gt;,&lt;code&gt;data&lt;/code&gt;,&lt;code&gt;header&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;urlopen&lt;/code&gt;方法获取响应&lt;/li&gt;
+&lt;li&gt;将响应解码&lt;/li&gt;
+&lt;li&gt;将JSON格式的字符串解析成python对象，比如字典，列表等&lt;/li&gt;
+&lt;li&gt;获取这个target中关于&lt;code&gt;translation&lt;/code&gt;列表下的字典的&lt;code&gt;text&lt;/code&gt;对应的值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结
+&lt;/h3&gt;&lt;p&gt;以上，是笔者的第一次爬虫，一开始爬取的时候使用正常，可以正常的使用，但没过多久，翻译器无法使用，无故闪退，笔者开始debug，发现已经无法通过这个url发送请求了。&lt;/p&gt;
+&lt;p&gt;笔者开始整理，经过多次请求尝试和实验，发现url存在一些端倪：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们再来看一下这个URL，可以发现，这URL本身就携带了一些信息，&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;，这两个数据在每次会话结束后，都会发生变化，也就是说，当一个会话结束后，笔者所记录的&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;就失效了，无法访问，因此，这一次爬虫并不成功，还需要继续改进，获取每次访问微软翻译时的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;数据。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语
+&lt;/h2&gt;&lt;p&gt;总的来说，本文只是笔者在爬虫方向上的一次探索与学习，这是一次失败的尝试，不过可以看出，笔者在学习上的思路，笔者在学习时，喜欢在实践中发现问题并解决问题，因为理论与实践总是存在一定的差距，现实世界总是复杂且多变的。在实践中，你总会发现一些与理论有偏差或者相悖的地方，让你陷入迷茫，但是在实践中，你不会没有一点头绪，相反，在实践中，你有太多太多的方向去验证问题的本质，有时候往往是方向太多，你无法确定哪条路才能通向正确，你害怕做了无用功，害怕走错了方向，因此迟迟不敢动手，才导致了自己的踌躇不前。在现实世界中抽丝剥茧，也是一种学习，虽然笔者在这里也走错了路，离成功还有一段距离，但是走到这里，让笔者学会了如何看网络包，分析请求和响应，学会调用request库，以及最重要的找到了正确的道路，即：接下来，我们要想办法找到每一次&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;这两个数据如何变，在哪里变，如何获取到那个存放这两个数据的包。致敬技术，希望你变得更强！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>基于PyQt开发的脚本集合包（七）</title>
         <link>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/</link>
         <pubDate>Thu, 07 Nov 2024 15:33:00 +0800</pubDate>
