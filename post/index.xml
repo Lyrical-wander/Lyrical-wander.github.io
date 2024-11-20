@@ -600,8 +600,8 @@
         <pubDate>Mon, 18 Nov 2024 19:31:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker.png" alt="Featured image of post 搭建自己的Wiki知识库" /&gt;&lt;h1 id=&#34;前言&#34;&gt;前言
-&lt;/h1&gt;&lt;p&gt;前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。&lt;/p&gt;
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker.png" alt="Featured image of post 搭建自己的Wiki知识库" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。&lt;/p&gt;
 &lt;p&gt;Wiki是一种允许多人共同编辑和管理内容的平台，可以让被授权过的用户在上面创建，修改和更新页面，实现协作和信息共享，广泛应用于教育，公司文档管理，项目合作等多个领域。&lt;/p&gt;
 &lt;p&gt;笔者选择采用Wiki.js，一个开源且美观的Wiki程序，在网上照猫画虎地用了docker技术下载安装在Ubuntu22.04系统中，如果你采用的配置和我一样，那么可能会遇到我遇到的这些坑。&lt;/p&gt;
 &lt;p&gt;参考文档：&lt;/p&gt;
@@ -622,11 +622,11 @@
 &lt;blockquote&gt;
 &lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&#34;安装docker&#34;&gt;安装Docker
-&lt;/h1&gt;&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2302416&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;安装docker&#34;&gt;安装Docker
+&lt;/h2&gt;&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2302416&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云&lt;/a&gt;，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用&lt;code&gt;IP:端口&lt;/code&gt;访问。&lt;/p&gt;
-&lt;h2 id=&#34;1更新apt-get&#34;&gt;1.更新apt-get
-&lt;/h2&gt;&lt;p&gt;因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。&lt;/p&gt;
+&lt;h3 id=&#34;1更新apt-get&#34;&gt;1.更新apt-get
+&lt;/h3&gt;&lt;p&gt;因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。&lt;/p&gt;
 &lt;p&gt;首先更新一下包管理器，并安装必要的软件包&lt;code&gt;curl&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -638,8 +638,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;apt-get -y install curl
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;2下载安装docker-ce&#34;&gt;2.下载安装Docker-ce
-&lt;/h2&gt;&lt;p&gt;接下来注意了：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2下载安装docker-ce&#34;&gt;2.下载安装Docker-ce
+&lt;/h3&gt;&lt;p&gt;接下来注意了：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者曾在这里踩过坑：根据上面腾讯云的内容，笔者是无法直接安装并docker的，笔者怀疑是镜像源的问题，现在许多国内镜像源在pull的时候都会出现报错，因此，笔者做了以下修改：&lt;a class=&#34;link&#34; href=&#34;https://mirrors.huaweicloud.com/mirrorDetail/5ea14d84b58d16ef329c5c13?mirrorName=docker-ce&amp;amp;catalog=docker&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;华为开源镜像站_软件开发服务_华为云&lt;/a&gt;&lt;/p&gt;
@@ -683,8 +683,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
-&lt;h2 id=&#34;3启动docker&#34;&gt;3.启动Docker
-&lt;/h2&gt;&lt;p&gt;执行以下命令启动docker&lt;/p&gt;
+&lt;h3 id=&#34;3启动docker&#34;&gt;3.启动Docker
+&lt;/h3&gt;&lt;p&gt;执行以下命令启动docker&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -712,9 +712,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;新版的docker自带了compose命令，即，你无需下载docker-compose，即可使用&lt;code&gt;docker compose&lt;/code&gt;命令（注意中间是空格）&lt;/p&gt;
-&lt;h1 id=&#34;部署wikijs&#34;&gt;部署Wiki.js
-&lt;/h1&gt;&lt;h2 id=&#34;1新建目录&#34;&gt;1.新建目录
-&lt;/h2&gt;&lt;p&gt;新建Wiki.js的存放目录，且移动到目录下&lt;/p&gt;
+&lt;h2 id=&#34;部署wikijs&#34;&gt;部署Wiki.js
+&lt;/h2&gt;&lt;h3 id=&#34;1新建目录&#34;&gt;1.新建目录
+&lt;/h3&gt;&lt;p&gt;新建Wiki.js的存放目录，且移动到目录下&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -724,8 +724,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里新建了两个目录，一个是docker目录下的wikijs，一个是数据库的目录，数据库采用postgresql，具体数据库的差异笔者也需要去学习一下。&lt;/p&gt;
-&lt;h2 id=&#34;2新建docker-composeyaml文件&#34;&gt;2.新建docker-compose.yaml文件
-&lt;/h2&gt;&lt;p&gt;docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用&lt;code&gt;nano&lt;/code&gt;命令来配置，因为在新安装的系统中，没有&lt;code&gt;vim&lt;/code&gt;命令，如果想使用&lt;code&gt;vim&lt;/code&gt;命令需要&lt;code&gt;apt-get install vim&lt;/code&gt;先下载。&lt;/p&gt;
+&lt;h3 id=&#34;2新建docker-composeyaml文件&#34;&gt;2.新建docker-compose.yaml文件
+&lt;/h3&gt;&lt;p&gt;docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用&lt;code&gt;nano&lt;/code&gt;命令来配置，因为在新安装的系统中，没有&lt;code&gt;vim&lt;/code&gt;命令，如果想使用&lt;code&gt;vim&lt;/code&gt;命令需要&lt;code&gt;apt-get install vim&lt;/code&gt;先下载。&lt;/p&gt;
 &lt;p&gt;创建并编辑docker-compose.yaml文件&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -806,8 +806,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;可以看到，这里我们需要下载两个东西，一个是db即database，一个是wiki即Wiki.js，端口开放为2078，即如果你想访问Wiki.js，则需要通过&lt;code&gt;IP地址:端口号（2078）&lt;/code&gt;的形式访问，如果不做方向代理的话&lt;/p&gt;
 &lt;p&gt;编写完成后，按&lt;code&gt;Ctrl + x&lt;/code&gt;退出，按&lt;code&gt;y&lt;/code&gt;确认保存，按&lt;code&gt;enter&lt;/code&gt;回车键退出&lt;/p&gt;
-&lt;h2 id=&#34;3更改镜像源&#34;&gt;3.更改镜像源
-&lt;/h2&gt;&lt;p&gt;原本到这里，按照文章的内容应该是开始运行命令下载&lt;/p&gt;
+&lt;h3 id=&#34;3更改镜像源&#34;&gt;3.更改镜像源
+&lt;/h3&gt;&lt;p&gt;原本到这里，按照文章的内容应该是开始运行命令下载&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -854,15 +854,15 @@
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;https://docker.1panel.live&lt;/code&gt;是第二篇文章博主提供的，这个镜像源可以让我成功地下载yaml配置中的&lt;code&gt;db&lt;/code&gt;，即下载数据库，后面的镜像源采用的是第一篇博主的。它无法正常下载&lt;code&gt;db&lt;/code&gt;，会报出上面的错误，但是可以下载&lt;code&gt;wiki&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;下载时间较长，根据笔者多次失败经历以及更换镜像源的经历，在下载过程中60s内没有爆出上述错误，且&lt;code&gt;db&lt;/code&gt;于&lt;code&gt;wiki&lt;/code&gt;的下载项都出现，即开始正常下载&lt;/p&gt;
 &lt;p&gt;什么叫“&lt;code&gt;db&lt;/code&gt;于&lt;code&gt;wiki&lt;/code&gt;的下载项都出现呢”，当你运行&lt;code&gt;docker compose up -d&lt;/code&gt;命令后，会先出现 &lt;code&gt;db&lt;/code&gt;与&lt;code&gt;wiki&lt;/code&gt;两项在转圈圈，但是这两项下有许多文件需要下载，需要全部文件都展示出并显示等待下载，才算是开始正常下载。&lt;/p&gt;
-&lt;h1 id=&#34;访问wikijs&#34;&gt;访问Wiki.js
-&lt;/h1&gt;&lt;p&gt;通过浏览器访问&lt;code&gt;IP地址:2078&lt;/code&gt;即可访问你自己的Wiki.js。&lt;/p&gt;
+&lt;h2 id=&#34;访问wikijs&#34;&gt;访问Wiki.js
+&lt;/h2&gt;&lt;p&gt;通过浏览器访问&lt;code&gt;IP地址:2078&lt;/code&gt;即可访问你自己的Wiki.js。&lt;/p&gt;
 &lt;p&gt;在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：&lt;/p&gt;
 &lt;p&gt;一台&lt;code&gt;台式机&lt;/code&gt;，开着&lt;code&gt;虚拟机&lt;/code&gt;运行Ubuntu环境下载了Wiki.js，想通过另一台&lt;code&gt;计算机（笔记本）&lt;/code&gt;访问这个Wiki.js&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;获取ip地址&#34;&gt;获取IP地址
-&lt;/h2&gt;&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
+&lt;h3 id=&#34;获取ip地址&#34;&gt;获取IP地址
+&lt;/h3&gt;&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -880,8 +880,8 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ifconfig
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;查看防火墙状态&#34;&gt;查看防火墙状态
-&lt;/h2&gt;&lt;p&gt;使用以下命令查看防火墙状态，确保防火墙关闭&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;查看防火墙状态&#34;&gt;查看防火墙状态
+&lt;/h3&gt;&lt;p&gt;使用以下命令查看防火墙状态，确保防火墙关闭&lt;/p&gt;
 &lt;p&gt;如果使用的是&lt;code&gt;ufw&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;查看防火墙状态：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -901,14 +901,14 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ufw disable
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;小结&#34;&gt;小结
-&lt;/h2&gt;&lt;p&gt;值得注意的是：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;小结&#34;&gt;小结
+&lt;/h3&gt;&lt;p&gt;值得注意的是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者踩过的坑：&lt;/p&gt;
 &lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&#34;总结&#34;&gt;总结
-&lt;/h1&gt;&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;安装Docker时出现大大小小各种错误，包括镜像源不行，下载过慢，GPG无法使用，&lt;code&gt;apt-key&lt;/code&gt;命令被弃用等&lt;/li&gt;
 &lt;li&gt;在部署Wiki.js时，遇到的最重要的问题就是镜像源问题，虽然在最后笔者采用的镜像源帮助了笔者完整下载，但是在这之前，笔者浏览了许多文章（大多数都相似，使用阿里云的镜像源），都无法正常下载，真的很崩溃。&lt;/li&gt;

@@ -310,21 +310,29 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#1更新apt-get">1.更新apt-get</a></li>
-    <li><a href="#2下载安装docker-ce">2.下载安装Docker-ce</a></li>
-    <li><a href="#3启动docker">3.启动Docker</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#1新建目录">1.新建目录</a></li>
-    <li><a href="#2新建docker-composeyaml文件">2.新建docker-compose.yaml文件</a></li>
-    <li><a href="#3更改镜像源">3.更改镜像源</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#获取ip地址">获取IP地址</a></li>
-    <li><a href="#查看防火墙状态">查看防火墙状态</a></li>
-    <li><a href="#小结">小结</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#安装docker">安装Docker</a>
+      <ol>
+        <li><a href="#1更新apt-get">1.更新apt-get</a></li>
+        <li><a href="#2下载安装docker-ce">2.下载安装Docker-ce</a></li>
+        <li><a href="#3启动docker">3.启动Docker</a></li>
+      </ol>
+    </li>
+    <li><a href="#部署wikijs">部署Wiki.js</a>
+      <ol>
+        <li><a href="#1新建目录">1.新建目录</a></li>
+        <li><a href="#2新建docker-composeyaml文件">2.新建docker-compose.yaml文件</a></li>
+        <li><a href="#3更改镜像源">3.更改镜像源</a></li>
+      </ol>
+    </li>
+    <li><a href="#访问wikijs">访问Wiki.js</a>
+      <ol>
+        <li><a href="#获取ip地址">获取IP地址</a></li>
+        <li><a href="#查看防火墙状态">查看防火墙状态</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
   </ol>
 </nav>
         </div>
@@ -420,8 +428,8 @@
     <section class="article-content">
     
     
-    <h1 id="前言">前言
-</h1><p>前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。</p>
+    <h2 id="前言">前言
+</h2><p>前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。</p>
 <p>Wiki是一种允许多人共同编辑和管理内容的平台，可以让被授权过的用户在上面创建，修改和更新页面，实现协作和信息共享，广泛应用于教育，公司文档管理，项目合作等多个领域。</p>
 <p>笔者选择采用Wiki.js，一个开源且美观的Wiki程序，在网上照猫画虎地用了docker技术下载安装在Ubuntu22.04系统中，如果你采用的配置和我一样，那么可能会遇到我遇到的这些坑。</p>
 <p>参考文档：</p>
@@ -442,11 +450,11 @@
 <blockquote>
 <p>这里是笔者踩过的坑：&hellip;&hellip;</p>
 </blockquote>
-<h1 id="安装docker">安装Docker
-</h1><p>如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，<a class="link" href="https://cloud.tencent.com/developer/article/2302416"  target="_blank" rel="noopener"
+<h2 id="安装docker">安装Docker
+</h2><p>如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，<a class="link" href="https://cloud.tencent.com/developer/article/2302416"  target="_blank" rel="noopener"
     >【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云</a>，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用<code>IP:端口</code>访问。</p>
-<h2 id="1更新apt-get">1.更新apt-get
-</h2><p>因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。</p>
+<h3 id="1更新apt-get">1.更新apt-get
+</h3><p>因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。</p>
 <p>首先更新一下包管理器，并安装必要的软件包<code>curl</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -458,8 +466,8 @@
 </span></span><span class="line"><span class="cl">apt-get -y install curl
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="2下载安装docker-ce">2.下载安装Docker-ce
-</h2><p>接下来注意了：</p>
+</div><h3 id="2下载安装docker-ce">2.下载安装Docker-ce
+</h3><p>接下来注意了：</p>
 <blockquote>
 <p>笔者曾在这里踩过坑：根据上面腾讯云的内容，笔者是无法直接安装并docker的，笔者怀疑是镜像源的问题，现在许多国内镜像源在pull的时候都会出现报错，因此，笔者做了以下修改：<a class="link" href="https://mirrors.huaweicloud.com/mirrorDetail/5ea14d84b58d16ef329c5c13?mirrorName=docker-ce&amp;catalog=docker"  target="_blank" rel="noopener"
     >华为开源镜像站_软件开发服务_华为云</a></p>
@@ -503,8 +511,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></blockquote>
-<h2 id="3启动docker">3.启动Docker
-</h2><p>执行以下命令启动docker</p>
+<h3 id="3启动docker">3.启动Docker
+</h3><p>执行以下命令启动docker</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -532,9 +540,9 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>新版的docker自带了compose命令，即，你无需下载docker-compose，即可使用<code>docker compose</code>命令（注意中间是空格）</p>
-<h1 id="部署wikijs">部署Wiki.js
-</h1><h2 id="1新建目录">1.新建目录
-</h2><p>新建Wiki.js的存放目录，且移动到目录下</p>
+<h2 id="部署wikijs">部署Wiki.js
+</h2><h3 id="1新建目录">1.新建目录
+</h3><p>新建Wiki.js的存放目录，且移动到目录下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -544,8 +552,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里新建了两个目录，一个是docker目录下的wikijs，一个是数据库的目录，数据库采用postgresql，具体数据库的差异笔者也需要去学习一下。</p>
-<h2 id="2新建docker-composeyaml文件">2.新建docker-compose.yaml文件
-</h2><p>docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用<code>nano</code>命令来配置，因为在新安装的系统中，没有<code>vim</code>命令，如果想使用<code>vim</code>命令需要<code>apt-get install vim</code>先下载。</p>
+<h3 id="2新建docker-composeyaml文件">2.新建docker-compose.yaml文件
+</h3><p>docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用<code>nano</code>命令来配置，因为在新安装的系统中，没有<code>vim</code>命令，如果想使用<code>vim</code>命令需要<code>apt-get install vim</code>先下载。</p>
 <p>创建并编辑docker-compose.yaml文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -626,8 +634,8 @@
 </div>
 </div><p>可以看到，这里我们需要下载两个东西，一个是db即database，一个是wiki即Wiki.js，端口开放为2078，即如果你想访问Wiki.js，则需要通过<code>IP地址:端口号（2078）</code>的形式访问，如果不做方向代理的话</p>
 <p>编写完成后，按<code>Ctrl + x</code>退出，按<code>y</code>确认保存，按<code>enter</code>回车键退出</p>
-<h2 id="3更改镜像源">3.更改镜像源
-</h2><p>原本到这里，按照文章的内容应该是开始运行命令下载</p>
+<h3 id="3更改镜像源">3.更改镜像源
+</h3><p>原本到这里，按照文章的内容应该是开始运行命令下载</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -674,15 +682,15 @@
 </div><p><code>https://docker.1panel.live</code>是第二篇文章博主提供的，这个镜像源可以让我成功地下载yaml配置中的<code>db</code>，即下载数据库，后面的镜像源采用的是第一篇博主的。它无法正常下载<code>db</code>，会报出上面的错误，但是可以下载<code>wiki</code>。</p>
 <p>下载时间较长，根据笔者多次失败经历以及更换镜像源的经历，在下载过程中60s内没有爆出上述错误，且<code>db</code>于<code>wiki</code>的下载项都出现，即开始正常下载</p>
 <p>什么叫“<code>db</code>于<code>wiki</code>的下载项都出现呢”，当你运行<code>docker compose up -d</code>命令后，会先出现 <code>db</code>与<code>wiki</code>两项在转圈圈，但是这两项下有许多文件需要下载，需要全部文件都展示出并显示等待下载，才算是开始正常下载。</p>
-<h1 id="访问wikijs">访问Wiki.js
-</h1><p>通过浏览器访问<code>IP地址:2078</code>即可访问你自己的Wiki.js。</p>
+<h2 id="访问wikijs">访问Wiki.js
+</h2><p>通过浏览器访问<code>IP地址:2078</code>即可访问你自己的Wiki.js。</p>
 <p>在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：</p>
 <p>一台<code>台式机</code>，开着<code>虚拟机</code>运行Ubuntu环境下载了Wiki.js，想通过另一台<code>计算机（笔记本）</code>访问这个Wiki.js</p>
 <blockquote>
 <p>笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。</p>
 </blockquote>
-<h2 id="获取ip地址">获取IP地址
-</h2><p>首先使用以下命令查看虚拟机的IP地址</p>
+<h3 id="获取ip地址">获取IP地址
+</h3><p>首先使用以下命令查看虚拟机的IP地址</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -700,8 +708,8 @@
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ifconfig
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="查看防火墙状态">查看防火墙状态
-</h2><p>使用以下命令查看防火墙状态，确保防火墙关闭</p>
+</div><h3 id="查看防火墙状态">查看防火墙状态
+</h3><p>使用以下命令查看防火墙状态，确保防火墙关闭</p>
 <p>如果使用的是<code>ufw</code></p>
 <p>查看防火墙状态：</p>
 <div class="highlight"><div class="chroma">
@@ -721,14 +729,14 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ufw disable
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="小结">小结
-</h2><p>值得注意的是：</p>
+</div><h3 id="小结">小结
+</h3><p>值得注意的是：</p>
 <blockquote>
 <p>笔者踩过的坑：</p>
 <p>通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中</p>
 </blockquote>
-<h1 id="总结">总结
-</h1><p>在本次搭建的过程中，笔者也学到了很多东西：</p>
+<h2 id="总结">总结
+</h2><p>在本次搭建的过程中，笔者也学到了很多东西：</p>
 <ul>
 <li>安装Docker时出现大大小小各种错误，包括镜像源不行，下载过慢，GPG无法使用，<code>apt-key</code>命令被弃用等</li>
 <li>在部署Wiki.js时，遇到的最重要的问题就是镜像源问题，虽然在最后笔者采用的镜像源帮助了笔者完整下载，但是在这之前，笔者浏览了许多文章（大多数都相似，使用阿里云的镜像源），都无法正常下载，真的很崩溃。</li>
