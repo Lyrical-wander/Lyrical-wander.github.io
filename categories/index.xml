@@ -7,13 +7,29 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Fri, 08 Nov 2024 12:02:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 19 Nov 2024 21:47:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>技术杂谈</title>
+        <link>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</link>
+        <pubDate>Tue, 19 Nov 2024 21:47:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/image.jpg" alt="Featured image of post 技术杂谈" /&gt;</description>
+        </item>
+        <item>
+        <title>阅读</title>
+        <link>https://Lyrical-wander.github.io/categories/%E8%AF%BB%E4%B9%A6/</link>
+        <pubDate>Tue, 12 Nov 2024 14:20:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/categories/%E8%AF%BB%E4%B9%A6/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E8%AF%BB%E4%B9%A6/readbook.jpg" alt="Featured image of post 阅读" /&gt;</description>
+        </item>
+        <item>
         <title>Python</title>
         <link>https://Lyrical-wander.github.io/categories/python/</link>
         <pubDate>Fri, 08 Nov 2024 12:02:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/categories/python/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/categories/python/python-logo.png" alt="Featured image of post Python" /&gt;</description>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/python/python.png" alt="Featured image of post Python" /&gt;</description>
         </item>
         <item>
         <title>网络爬虫</title>
@@ -21,7 +37,7 @@
         <pubDate>Fri, 08 Nov 2024 12:02:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/</guid>
-        <description></description>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/webspider.jpg" alt="Featured image of post 网络爬虫" /&gt;</description>
         </item>
         <item>
         <title>PyQt5</title>
@@ -29,15 +45,7 @@
         <pubDate>Thu, 07 Nov 2024 15:33:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/categories/pyqt5/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/categories/pyqt5/pyqt5_logo.jpg" alt="Featured image of post PyQt5" /&gt;</description>
-        </item>
-        <item>
-        <title>技术杂谈</title>
-        <link>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</link>
-        <pubDate>Mon, 04 Nov 2024 09:45:00 +0800</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/airplane.jpg" alt="Featured image of post 技术杂谈" /&gt;</description>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/pyqt5/qt-logo.png" alt="Featured image of post PyQt5" /&gt;</description>
         </item>
         <item>
         <title>日隙随笔</title>
@@ -45,7 +53,7 @@
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post 日隙随笔" /&gt;</description>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/image.jpg" alt="Featured image of post 日隙随笔" /&gt;</description>
         </item>
         
     </channel>

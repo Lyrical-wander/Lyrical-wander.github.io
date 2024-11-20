@@ -13,7 +13,7 @@
         <pubDate>Fri, 08 Nov 2024 12:02:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（九）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider.jpg" alt="Featured image of post 基于PyQt开发的脚本集合包（九）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;本文笔者吸取了第一次爬取微软翻译的经验，发现在对微软翻译进行请求的时候，URL会随着会话结束而重新生成，这一点是本文需要解决的内容，且除了URL中出现的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;两个数据外，在请求的表单数据中，还有&lt;code&gt;key&lt;/code&gt;和&lt;code&gt;token&lt;/code&gt;两个数据也在动态变化。本文旨在追踪这几个数据在何时被发送，如何被获取。&lt;/p&gt;
 &lt;h2 id=&#34;分析&#34;&gt;分析
 &lt;/h2&gt;&lt;p&gt;首先，重新打开浏览器自带的开发者工具，随便翻译一词，让客户端发送一次翻译请求&lt;code&gt;ttranslatev3&lt;/code&gt;，可以发现，这次URL与前一篇文章&lt;a class=&#34;link&#34; href=&#34;https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e5%85%ab/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -545,7 +545,7 @@
         <pubDate>Thu, 07 Nov 2024 19:16:00 +0800</pubDate>
         
         <guid>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（八）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/webspider.jpg" alt="Featured image of post 基于PyQt开发的脚本集合包（八）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;本文虽然被归类于PyQt开发实战，但实际上并没有关于PyQt的相关知识，这篇文章着重基于上篇文章，讲述笔者在开发翻译器时如何做爬取微软翻译网站时的分析，如何获取到网站所需要的信息。这其中也是夹杂了许多笔者个人的猜想与运气才碰出来的，笔者对爬虫也没有做更深的学习，只有一些粗浅的理解，并结合这个项目一点一点摸出来的，可能有更专业的工具与更成体系的知识架构，笔者也要去学习，希望这篇文章对读者能起到一些帮助和启发。&lt;/p&gt;
 &lt;p&gt;本文从笔者第一次爬取开始讲起，第一次失败了，总结了失败的经验，第二次才爬取成功。&lt;/p&gt;
 &lt;h2 id=&#34;第一次爬取微软翻译&#34;&gt;第一次爬取微软翻译
