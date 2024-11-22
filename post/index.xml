@@ -7,7 +7,25 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Thu, 21 Nov 2024 13:14:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 22 Nov 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>流浪诗人</title>
+        <link>https://Lyrical-wander.github.io/p/%E6%B5%81%E6%B5%AA%E8%AF%97%E4%BA%BA/</link>
+        <pubDate>Fri, 22 Nov 2024 19:20:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/p/%E6%B5%81%E6%B5%AA%E8%AF%97%E4%BA%BA/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E6%B5%81%E6%B5%AA%E8%AF%97%E4%BA%BA/image2.jpg" alt="Featured image of post 流浪诗人" /&gt;&lt;h2 id=&#34;我是流浪的诗人&#34;&gt;我是流浪的诗人
+&lt;/h2&gt;&lt;p&gt;在现实的荒芜中&lt;/p&gt;
+&lt;p&gt;捡拾破碎的梦境&lt;/p&gt;
+&lt;p&gt;这一片是海盗的船帆&lt;/p&gt;
+&lt;p&gt;那一片是宇宙的吟唱&lt;/p&gt;
+&lt;p&gt;我以梦作诗&lt;/p&gt;
+&lt;p&gt;将诗喂给残缺污秽的灵魂&lt;/p&gt;
+&lt;p&gt;梦啊&lt;/p&gt;
+&lt;p&gt;如果没有你&lt;/p&gt;
+&lt;p&gt;我早已死在某个枯树之上！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>计算机系统中信息数据的处理</title>
         <link>https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/</link>
         <pubDate>Thu, 21 Nov 2024 13:14:00 +0800</pubDate>
@@ -38,7 +56,7 @@
 &lt;p&gt;可以看到，在C语言中，数据类型在不同的字长的机器上占有不同的字节数，程序员应该力图使它们的程序在不同的机器和编译器上是可移植的，可移植性的一个方面就是程序堆不同数据类型的确切大小不敏感。&lt;/p&gt;
 &lt;h2 id=&#34;布尔代数&#34;&gt;布尔代数
 &lt;/h2&gt;&lt;p&gt;布尔代数实际上就是围绕数字0与1建立起来的一种代数体系，以研究逻辑推理和基本原则。&lt;/p&gt;
-&lt;p&gt;布尔代数只有0和1两个数，拥有&lt;strong&gt;与（&amp;amp;）&lt;/strong&gt;、&lt;strong&gt;或（|）&lt;/strong&gt;、&lt;strong&gt;非（~）&lt;/strong&gt;、**异或（^）**等运算，且运算间也遵循某种分配律和交换律&lt;/p&gt;
+&lt;p&gt;布尔代数只有0和1两个数，拥有&lt;strong&gt;与（&amp;amp;）&lt;/strong&gt;、&lt;strong&gt;或（|）&lt;/strong&gt;、&lt;strong&gt;非（~）&lt;/strong&gt;、&lt;strong&gt;异或（^）&lt;/strong&gt; 等运算，且运算间也遵循某种分配律和交换律&lt;/p&gt;
 &lt;h3 id=&#34;位级运算&#34;&gt;位级运算
 &lt;/h3&gt;&lt;p&gt;在这里我们值得一提的是：在异或（^）运算中，我们需要注意到：&lt;code&gt;a^a=0&lt;/code&gt;以及&lt;code&gt;a^b^a=b&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;正是由于异或拥有这种神奇的性质，我们可以完成以下脑经急转弯。&lt;/p&gt;
@@ -161,7 +179,7 @@
 &lt;/h2&gt;&lt;p&gt;跳过了无符号数的编码&lt;/p&gt;
 &lt;p&gt;在计算机中，有符号数的表示方式就是补码，将&lt;strong&gt;字&lt;/strong&gt;中最高有效位定义为&lt;strong&gt;负权&lt;/strong&gt;（negative weight），如&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;1011 = $-1&lt;em&gt;2^3+0&lt;/em&gt;2^2+1&lt;em&gt;2^1+1&lt;/em&gt;2^0$ = -8 + 0 + 2 + 1 = -5&lt;/p&gt;
+&lt;p&gt;1011 = -1*$2^3$+0*$2^2$+1*$2^1$+1*$2^0$ = -8 + 0 + 2 + 1 = -5&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;在这种编码下，最高位变成了乘了一个&lt;code&gt;-1&lt;/code&gt;，因此，在这种情况下，我们要考虑在有有符号数补码编码的情况下的几种特殊情况：&lt;/p&gt;
 &lt;blockquote&gt;

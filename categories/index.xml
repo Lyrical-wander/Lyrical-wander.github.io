@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Thu, 21 Nov 2024 13:14:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 22 Nov 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>日隙随笔</title>
+        <link>https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/</link>
+        <pubDate>Fri, 22 Nov 2024 19:20:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/image.jpg" alt="Featured image of post 日隙随笔" /&gt;</description>
+        </item>
+        <item>
         <title>阅读</title>
         <link>https://Lyrical-wander.github.io/categories/%E9%98%85%E8%AF%BB/</link>
         <pubDate>Thu, 21 Nov 2024 13:14:00 +0800</pubDate>
@@ -46,14 +54,6 @@
         
         <guid>https://Lyrical-wander.github.io/categories/pyqt5/</guid>
         <description>&lt;img src="https://Lyrical-wander.github.io/categories/pyqt5/qt-logo.png" alt="Featured image of post PyQt5" /&gt;</description>
-        </item>
-        <item>
-        <title>日隙随笔</title>
-        <link>https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/categories/%E6%97%A5%E9%9A%99%E9%9A%8F%E7%AC%94/image.jpg" alt="Featured image of post 日隙随笔" /&gt;</description>
         </item>
         
     </channel>
