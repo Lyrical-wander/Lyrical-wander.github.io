@@ -1019,13 +1019,11 @@
 <li><code>add        r5,r12</code>：该指令将<code>r12</code>与<code>r5</code>相加，即式子中的两个<code>local_30</code>相加，并将结果存放到<code>r5</code>中。</li>
 <li><code>eors       r5,r2</code>：将<code>r5</code>寄存器与<code>r2</code>寄存器中的值做异或运算。</li>
 </ul>
-<p>通过汇编指令，我们可以推算出运算的优先级为：
-$$</p>
-<p>r1 = bVar2 \oplus param_1
-\r2 = local_30[*(int *)(&amp;DAT_00019c0c + iVar4)] + local_30[*piVar1]
-\res = r1 \oplus r2
-$$</p>
-<h3 id="第0个数据的解码">第0个数据的解码
+$$
+r1 = bVar2 \oplus param_1\\
+r2 = local\_30[*(int *)(\&DAT\_00019c0c + iVar4)] + local\_30[*piVar1]\\
+res = r1 \oplus r2
+$$<h3 id="第0个数据的解码">第0个数据的解码
 </h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
