@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在反汇编的过程中，发现了一个有趣的decryption函数，从这个函数可以看到，反汇编工具整理的C与汇编代码的不一致">
+<title>逆向工程实战，在反汇编中发生的事</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="逆向工程实战，在反汇编中发生的事">
+<meta property='og:description' content="在反汇编的过程中，发现了一个有趣的decryption函数，从这个函数可以看到，反汇编工具整理的C与汇编代码的不一致">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='反汇编' /><meta property='article:tag' content='逆向工程' /><meta property='article:published_time' content='2024-12-08T19:20:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-08T19:20:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg' />
+<meta name="twitter:title" content="逆向工程实战，在反汇编中发生的事">
+<meta name="twitter:description" content="在反汇编的过程中，发现了一个有趣的decryption函数，从这个函数可以看到，反汇编工具整理的C与汇编代码的不一致"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#adpcm_decoder1函数">adpcm_decoder1函数</a>
+      <ol>
+        <li><a href="#c代码">C代码</a></li>
+        <li><a href="#decryption函数并非adpcm的一部分">Decryption函数并非ADPCM的一部分</a></li>
+        <li><a href="#decryption函数的参数问题">Decryption函数的参数问题</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ol>
+    </li>
+    <li><a href="#decryption函数">decryption函数</a>
+      <ol>
+        <li><a href="#c代码-1">C代码</a></li>
+        <li><a href="#数据本地化">数据本地化</a></li>
+        <li><a href="#第19到1的数据解码">第19到1的数据解码</a>
+          <ol>
+            <li><a href="#local_30int-dat_00019c0c--ivar4">local_30[*(int *)(&amp;DAT_00019c0c + iVar4)]</a></li>
+            <li><a href="#local_30pivar1">local_30[*piVar1]</a></li>
+            <li><a href="#解码过程">解码过程</a></li>
+          </ol>
+        </li>
+        <li><a href="#第0个数据的解码">第0个数据的解码</a></li>
+        <li><a href="#返回数据">返回数据</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/">
+                <img src="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA_hu746002552548213857.jpg"
+                        srcset="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA_hu746002552548213857.jpg 800w, /p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA_hu5009087502213625999.jpg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 逆向工程实战，在反汇编中发生的事" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" style="background-color: #2a9d8f; color: #fff;">
+                技术杂谈
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/">逆向工程实战，在反汇编中发生的事</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            在反汇编的过程中，发现了一个有趣的decryption函数，从这个函数可以看到，反汇编工具整理的C与汇编代码的不一致
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 08, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 14 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>今天对某外国的机器中的某个音频解码库进行反汇编，发现了一些有趣的知识，故而记录下来，以防以后重复遇到。</p>
+<p>现笔者使用的反汇编工具为“<code>Ghidra</code>”。可在GitHub上下载：<a class="link" href="https://github.com/NationalSecurityAgency/ghidra"  target="_blank" rel="noopener"
+    >NationalSecurityAgency/ghidra: Ghidra is a software reverse engineering (SRE) framework</a></p>
+<p><code>Ghidra</code>是由美国国家安全局研究局创建和维护的软件逆向工程 (SRE) 框架 。该框架包括一套功能齐全的高端软件分析工具，使用户能够在包括 <code>Windows</code>、<code>macOS</code> 和 <code>Linux </code>在内的各种平台上分析编译代码。功能包括反汇编、汇编、反编译、绘图和脚本，以及数百个其他功能。</p>
+<p><code>Ghidra</code>由<code>java</code>编写，因此使用<code>Ghidra</code>前先配置<code>java</code>运行环境。</p>
+<blockquote>
+<p>注：本文不介绍Ghidra的使用</p>
+</blockquote>
+<h2 id="adpcm_decoder1函数">adpcm_decoder1函数
+</h2><h3 id="c代码">C代码
+</h3><p>笔者通过获取机器日志，发现了机器存在音频解码函数，通过<code>grep</code>命令查询到了，存有相应解码函数的库文件，并将库文件<code>pull</code>了出来，我们来看一下该库文件中相应的解码函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">adpcm_decoder1</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">param_1</span><span class="p">,</span><span class="n">undefined2</span> <span class="o">*</span><span class="n">param_2</span><span class="p">,</span><span class="kt">int</span> <span class="n">param_3</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">param_4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">bVar1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uint</span> <span class="n">uVar2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uint</span> <span class="n">uVar4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uint</span> <span class="n">uVar8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="o">*</span><span class="n">local_2c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">local_28</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">undefined2</span> <span class="o">*</span><span class="n">local_24</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="nf">__divsi3</span><span class="p">(</span><span class="n">param_3</span><span class="p">,</span><span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">iVar6</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">&lt;</span> <span class="n">iVar3</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">=</span> <span class="n">iVar6</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Decryption</span><span class="p">(</span><span class="mh">0x32</span><span class="p">,</span><span class="n">param_1</span> <span class="o">+</span> <span class="n">iVar6</span> <span class="o">*</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bVar1</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uVar8</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar5</span> <span class="o">=</span> <span class="n">param_4</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar6</span> <span class="o">=</span> <span class="o">*</span><span class="n">param_4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c5c</span> <span class="o">+</span> <span class="n">iVar5</span> <span class="o">*</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">local_2c</span> <span class="o">=</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">local_24</span> <span class="o">=</span> <span class="n">param_2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">local_28</span> <span class="o">=</span> <span class="n">param_3</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">local_28</span><span class="p">;</span> <span class="n">local_28</span> <span class="o">=</span> <span class="n">local_28</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uVar2</span> <span class="o">=</span> <span class="n">uVar8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">bVar1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">uVar8</span> <span class="o">=</span> <span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="o">*</span><span class="n">local_2c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">local_2c</span> <span class="o">=</span> <span class="n">local_2c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">uVar2</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">uVar8</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uVar4</span> <span class="o">=</span> <span class="n">uVar2</span> <span class="o">&amp;</span> <span class="mh">0xf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bVar1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">bool</span><span class="p">)(</span><span class="n">bVar1</span> <span class="o">^</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar5</span> <span class="o">=</span> <span class="n">iVar5</span> <span class="o">+</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">DAT_00019dc0</span><span class="p">)[</span><span class="n">uVar4</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">iVar5</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar5</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="mh">0x58</span> <span class="o">&lt;</span> <span class="n">iVar5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar5</span> <span class="o">=</span> <span class="mh">0x58</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar7</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="kt">int</span><span class="p">)(</span><span class="n">uVar4</span> <span class="o">&lt;&lt;</span> <span class="mh">0x1d</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar7</span> <span class="o">=</span> <span class="n">iVar7</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="kt">int</span><span class="p">)(</span><span class="n">uVar4</span> <span class="o">&lt;&lt;</span> <span class="mh">0x1e</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar7</span> <span class="o">=</span> <span class="n">iVar7</span> <span class="o">+</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">uVar2</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar7</span> <span class="o">=</span> <span class="n">iVar7</span> <span class="o">+</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">uVar2</span> <span class="o">&amp;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar7</span> <span class="o">=</span> <span class="o">-</span><span class="n">iVar7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar6</span> <span class="o">=</span> <span class="n">iVar6</span> <span class="o">+</span> <span class="n">iVar7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">iVar6</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mh">0x8000</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar6</span> <span class="o">=</span> <span class="o">-</span><span class="mh">0x8000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="mh">0x7fff</span> <span class="o">&lt;</span> <span class="n">iVar6</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">iVar6</span> <span class="o">=</span> <span class="mh">0x7fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c5c</span> <span class="o">+</span> <span class="n">iVar5</span> <span class="o">*</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">local_24</span> <span class="o">=</span> <span class="p">(</span><span class="kt">short</span><span class="p">)</span><span class="n">iVar6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_24</span> <span class="o">=</span> <span class="n">local_24</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">*</span><span class="n">param_4</span> <span class="o">=</span> <span class="n">iVar6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">param_4</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">iVar5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上是反汇编后的结果，<code>Ghidra</code>将机器语言解析成汇编语言，再自动转换成相应的C语言。</p>
+<h3 id="decryption函数并非adpcm的一部分">Decryption函数并非ADPCM的一部分
+</h3><p>可以看到，这是典型的ADPCM音频解码算法，笔者已经对比过经典的开源ADPCM音频解码算法的C语言版本，确实是相差无几，但在这段代码中，多出了以下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="nf">__divsi3</span><span class="p">(</span><span class="n">param_3</span><span class="p">,</span><span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">iVar6</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">&lt;</span> <span class="n">iVar3</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">=</span> <span class="n">iVar6</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Decryption</span><span class="p">(</span><span class="mh">0x32</span><span class="p">,</span><span class="n">param_1</span> <span class="o">+</span> <span class="n">iVar6</span> <span class="o">*</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在解释这一段内容前，读者需要先了解：该机器通过蓝牙接收语音数据，每语音帧20字节。但机器处理不一定是20字节一处理，根据音频收发的速率，丢包率以及buffer的大小决定。</p>
+<p>现在笔者来解释一下这一段的内容：</p>
+<ul>
+<li>param_3除以20，将结果赋值给iVar3变量，这里计算出一共进来多少语音帧需要处理，每帧20字节</li>
+<li>一个for循环，将每帧数据丢入<code>Decryption</code>函数中进行处理</li>
+<li>Decryption函数接收两个参数，0x32,一个固定的常量值；param_1 + iVar6 * 0x14，param_1是语音数据的数组指针</li>
+</ul>
+<h3 id="decryption函数的参数问题">Decryption函数的参数问题
+</h3><blockquote>
+<p>这里解释一下Decryption函数接收的两个参数，实际上，Decryption函数接收三个参数，在这里，Ghidra在C中只给出了两个参数，笔者不清楚这是Ghidra的特性还是工具缺陷。对汇编不感兴趣的同学可以跳过这一部分，但推荐看看</p>
+<p>下面会给出Decryption的函数体，在函数体中可以发现Decryption是接收三个参数的，这里我们讲解一下这一段for循环的汇编内容</p>
+<p>C语言：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">iVar6</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">&lt;</span> <span class="n">iVar3</span><span class="p">;</span> <span class="n">iVar6</span> <span class="o">=</span> <span class="n">iVar6</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Decryption</span><span class="p">(</span><span class="mh">0x32</span><span class="p">,</span><span class="n">param_1</span> <span class="o">+</span> <span class="n">iVar6</span> <span class="o">*</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>汇编：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                             LAB_00016624      
+</span></span><span class="line"><span class="cl">        00016624 bc  42           cmp        r4,r7
+</span></span><span class="line"><span class="cl">        00016626 09  da           bge        LAB_0001663c
+</span></span><span class="line"><span class="cl">        00016628 14  22           movs       r2,#0x14
+</span></span><span class="line"><span class="cl">        0001662a 62  43           muls       r2,r4
+</span></span><span class="line"><span class="cl">        0001662c 01  9b           ldr        r3,[sp,#local_2c ]
+</span></span><span class="line"><span class="cl">        0001662e 32  20           movs       r0,#0x32
+</span></span><span class="line"><span class="cl">        00016630 9a  18           adds       r2,r3,r2
+</span></span><span class="line"><span class="cl">        00016632 11  1c           adds       r1,r2,#0x0
+</span></span><span class="line"><span class="cl">        00016634 ff  f7  38  ff   bl         Decryption     
+</span></span><span class="line"><span class="cl">        00016638 01  34           adds       r4,#0x1
+</span></span><span class="line"><span class="cl">        0001663a f3  e7           b          LAB_00016624
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是这个for循环中涉及到的汇编语言，我们尝试在这段汇编中找到Decryption的三个参数</p>
+<ul>
+<li><code>cmp</code> 指令表示比较，即比较<code>r4</code>与<code>r7</code>寄存器中的值，结合c代码，可以看出，<code>r4</code>，<code>r7</code>分别代表了<code>iVar6</code>和<code>iVar3</code>，但目前不清楚哪个对哪个。</li>
+<li><code>bge</code> 指令是分支指令，表示条件跳转(branch if greater or equal)，即如果大于等于，则跳转。这两个指令合起来为，如果<code>r4≥r7</code>，则跳转到<code>LAB_0001663c</code>代码段，可以看出，已经超出了这个for循环的地址，即退出了for循环。</li>
+<li><code>movs</code> 指令表示移动，将立即数<code>0x14</code>移动到<code>r2</code>寄存器中，现在<code>r2</code>寄存器中存储了<code>0x14</code>这个值。</li>
+<li><code>muls</code> 指令表示乘法，即将<code>r2</code>与<code>r4</code>寄存器中的值相乘，结合c代码可以看到，代码中仅有一个乘法，即<code>iVar6 * 0x14</code>，可以得出，<code>r2 = 0x14，r4 = iVar6</code>。</li>
+<li><code>ldr</code> 指令表示加载寄存器(load register)，语法为：<code>ldr &lt;寄存器&gt;, [&lt;基址寄存器&gt;, &lt;偏移量&gt;]</code>，从基址寄存器中取出地址，加上偏移量，将结果加载到寄存器中，这里取出的地址加载到r3中，在c代码中，只有一个涉及到取址操作，即<code>param_1</code>，这是一个<code>adpcm_decoder1</code>函数接受的传参，传入的是一个指针，即<code>param_1</code>其实是一个数组指针。这里是获取<code>param_1</code>数组的地址，放到<code>r3</code>中。</li>
+<li><code>movs</code> 指令表示移动，将立即数<code>0x32</code>移动到<code>r0</code>寄存器中，现在<code>r0</code>寄存器中存放了<code>0x32</code>这个值。</li>
+<li><code>adds</code> 指令表示加法，将<code>r3</code>与<code>r2</code>相加，并存放到<code>r2</code>寄存器中，即，<code>param_1</code>的地址加上一个计算的偏移量，本质上是从<code>param_1</code>的语音数据中获取第n个语音帧的地址。</li>
+<li><code>adds</code> 指令表示假发，将<code>r2</code>寄存器的值加上立即数<code>0x00</code>存放到<code>r1</code>寄存器中，这操作让<code>r2</code>寄存器存放的内容与<code>r1</code>一致。</li>
+<li><code>bl</code> 指令表示跳转，即跳转到<code>Decryption</code>函数的位置去，执行<code>Decryption</code>函数，并把下一条指令的地址存放到<code>lr</code>寄存器中，以方便<code>Decryption</code>函数执行完能回来，相当于压栈，将<code>Decryption</code>函数压入函数栈。</li>
+<li><code>adds</code> 指令表示加法，将<code>r4 </code>加上立即数<code>0x01</code>，并存放到<code>r4</code>中，即for循环的的++操作。</li>
+</ul>
+<p>可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为<code>r0</code>存放了<code>0x32</code>，<code>r1</code>存放了param_1的偏移地址，<code>r2</code>存放与<code>r1</code>相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的<code>param_1</code>,<code>param_2</code>,<code>param_3</code>三个参数调用时所使用的寄存器，分别为<code>r0</code>，<code>r1</code>，<code>r2</code>，本文给出结论，不做赘述。</p>
+</blockquote>
+<h3 id="小结">小结
+</h3><p>总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在<code>raw data</code>与<code>adpcm data</code>之间还加入了一个加密解密过程，即，实际上的过程为：</p>
+<blockquote>
+<p>原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data</p>
+</blockquote>
+<p>因此，接下来看如何用解密算法还原加密算法</p>
+<h2 id="decryption函数">decryption函数
+</h2><h3 id="c代码-1">C代码
+</h3><p>下面是decryption函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">Decryption</span><span class="p">(</span><span class="n">byte</span> <span class="n">param_1</span><span class="p">,</span><span class="kt">int</span> <span class="n">param_2</span><span class="p">,</span><span class="kt">int</span> <span class="n">param_3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="o">*</span><span class="n">piVar1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">byte</span> <span class="n">bVar2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">iVar4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">byte</span> <span class="n">local_30</span> <span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">local_1c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">local_1c</span> <span class="o">=</span> <span class="n">__stack_chk_guard</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="n">iVar3</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">byte</span> <span class="o">*</span><span class="p">)(</span><span class="n">param_2</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mh">0x13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar4</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">piVar1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">DAT_00019c08</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bVar2</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span><span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">         <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="n">piVar1</span><span class="p">]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">local_30</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mh">0x3e</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">(</span><span class="n">byte</span> <span class="o">*</span><span class="p">)(</span><span class="n">param_3</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">)</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="n">iVar3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">local_1c</span> <span class="o">!=</span> <span class="n">__stack_chk_guard</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="cm">/* WARNING: Subroutine does not return */</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">__stack_chk_fail</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>笔者依次解释上面的代码</p>
+<h3 id="数据本地化">数据本地化
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="n">iVar3</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">byte</span> <span class="o">*</span><span class="p">)(</span><span class="n">param_2</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mh">0x13</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这一段代码其实很好看出是在做什么，就是将传入的数据存在函数内部的局部变量中，<code>iVar3</code>变量是一个很重要的变量，在后续计算中会用到，记住它。在将所有数据搬完之后（一共20个字节，一语音帧20个字节），<code>iVar3</code>变量来到了<code>0x13</code>，十进制<code>19</code></p>
+<h3 id="第19到1的数据解码">第19到1的数据解码
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar4</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">piVar1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">DAT_00019c08</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bVar2</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span><span class="n">iVar3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">         <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="n">piVar1</span><span class="p">]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里有一个很容易混淆的地方，就是标题采用的“第19到第1”这个概念，我们只能说，从while循环，从<code>iVar3</code>变量的角度，是“从19到1”，而从数据的角度说并不是这样。为了强化读者这个概念，我们先介绍<code>local_30[*(int *)(&amp;DAT_00019c0c + iVar4)]</code>与<code>local_30[*piVar1]</code>这两个变量。</p>
+<h4 id="local_30int-dat_00019c0c--ivar4">local_30[*(int *)(&amp;DAT_00019c0c + iVar4)]
+</h4><p>首先，从定义上看<code>byte local_30 [20];</code>，local_30是一个数组的局部变量，且具有20个元素的大小，每个元素的大小为1byte，即，该数组是专门存放音频数据的。</p>
+<p>其次，我们先看<code>local_30[*(int *)(&amp;DAT_00019c0c + iVar4)]</code>，数组的内部<code>index</code>部分很复杂，我们来做介绍</p>
+<ul>
+<li><code>&amp;DAT_00019c0c</code>是内存中的一个地址</li>
+<li><code>&amp;DAT_00019c0c + iVar4</code>表示这个地址 + 一个<code>偏移量</code>，组成一个新的地址</li>
+<li><code>(int *)(&amp;DAT_00019c0c + iVar4)</code>表示将这个地址被强制类型转换为<code>int</code>类型的指针</li>
+<li><code>*(int *)(&amp;DAT_00019c0c + iVar4)</code>表示取值这个<code>int</code>指针，即从这个地址中取值，这个值是<code>int</code>类型的</li>
+</ul>
+<p>然后，我们来看这个<code>iVar4</code>变量，<code>iVar4 = iVar3 * 4</code>，在每一次循环中，<code>iVar4</code>都会被更新一次，且更新为<code>iVar3 * 4</code>，<code>iVar3</code>在每次循环中会被做<code>-1</code>操作。也就是说，第一次<code>iVar4 = 19 * 4</code>，第二次为<code>iVar4 = 18 * 4</code>，以此类推。</p>
+<p>最后，我们查查这个<code>DAT_00019c0c</code>，以及它对应的偏移量中究竟存了什么东西，通过<code>Ghidra</code>的汇编地址中可以查到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                             DAT_00019c0c 
+</span></span><span class="line"><span class="cl">        00019c0c 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c0d 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c0e 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c0f 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c10 0c              ??         0Ch
+</span></span><span class="line"><span class="cl">        00019c11 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c12 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c13 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c14 0d              ??         0Dh
+</span></span><span class="line"><span class="cl">		# 为方便阅读，此处省略部分......
+</span></span><span class="line"><span class="cl">        00019c4c 01              ??         01h
+</span></span><span class="line"><span class="cl">        00019c4d 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c4e 00              ??         00h
+</span></span><span class="line"><span class="cl">        00019c4f 00              ??         00h
+</span></span><span class="line"><span class="cl">                             DAT_00019c50                               
+</span></span><span class="line"><span class="cl">        00019c50 02  00  00  00    undefine   00000002h
+</span></span><span class="line"><span class="cl">                             DAT_00019c54                                     
+</span></span><span class="line"><span class="cl">        00019c54 07  00  00  00    undefine   00000007h
+</span></span><span class="line"><span class="cl">                             DAT_00019c58                                     
+</span></span><span class="line"><span class="cl">        00019c58 08  00  00  00    undefine   00000008h
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>0x00019c0c地址存放的数据为0x00，隔4个字节后，0x00019c10地址存放的数据为0x0c&hellip;&hellip;一直到19 * 4个字节，即0x00019c58存放的数据为0x08，通过查询并列出发现，其数据依次为：</p>
+<blockquote>
+<p>0x0	0xc	0xd	0x3	0x4
+0x9	0xa	0xb	0x10	0x11
+0x12	0x13	0x5	0x6	0xe
+0xf	0x1	0x2	0x7	0x8</p>
+</blockquote>
+<p>刚好是0~20，即根据通过&rsquo;iVar3&rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&hellip;，4，3，13，12，0，而非按顺序解码。</p>
+<h4 id="local_30pivar1">local_30[*piVar1]
+</h4><p>在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其<code>index</code>表示为<code>*piVar1</code>。</p>
+<p>看<code>piVar1 = &amp;DAT_00019c08 + iVar3; </code>一些敏锐的同学可能注意到，在我们介绍的前一个变量中，地址都是四个字节一偏移，在内存地址中查询数据的分布，也是四个字节存一个数据，其它地方都是0，而按照我们的理解，<code>piVar1 = &amp;DAT_00019c08 + iVar3 * 4;</code>似乎才是正确的。我们查看一下相应的汇编代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        000164da ee  59           ldr        r6,[r5,r7]=&gt;DAT_00019c58                       
+</span></span><span class="line"><span class="cl">        000164dc 04  3d           subs       r5,#0x4
+</span></span><span class="line"><span class="cl">        000164de 7d  59           ldr        r5,[r7,r5]=&gt;DAT_00019c54                    
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这一段代码，分别是做了<code>*(int *)(&amp;DAT_00019c0c + iVar4)</code>的计算以及<code>piVar1 = &amp;DAT_00019c08 + iVar3</code>的计算，我们来解释一下：</p>
+<ul>
+<li><code>ldr</code>指令表示加载寄存器，先计算<code>r5</code>与<code>r7</code>寄存器相加的值，再传给<code>r6</code>寄存器，<code>ghidra</code>已经给出了第一次循环中指向的地址，即<code>0x00019c58</code></li>
+<li><code>subs</code>指令表示减法，将<code>r5</code>寄存器中的值减去立即数<code>0x04</code>并传给寄存器<code>r5</code></li>
+<li>与第一条指令相同，且<code>ghidra</code>给出了第一次循环中指向的地址，即<code>0x00019c54</code></li>
+</ul>
+<p>这样可以看出，实际上，寄存器<code>r5</code>与<code>r6</code>都是读地址值且相差仅有4个字节。也就是说，<code>piVar1</code>比<code>&amp;DAT_00019c08 + iVar3 * 4</code>仅仅相差了4个字节，例如：在第一次循环中，<code>&amp;DAT_00019c08 + iVar3 * 4</code>中的值为0x8，<code>piVar1</code>中的值为0x7，在最后一次循环中，<code>&amp;DAT_00019c08 + iVar3 * 4</code>的值为0xc，<code>piVar1</code>的值为0x0。</p>
+<p>为什么C代码会与汇编相差如此之大呢，第一，在GCC编译C语言的过程中，本身会对代码进行优化，即调整指令顺序，甚至优化掉部分操作，以提升效率；第二，从已经编译过的二进制文件反推出C语言代码本身就是非常难的一件事情，正如数学中，求导的难度往往比求原函数的难度要低。所以有些细微的差池是可能的，因此在逆向工程中，除了要看C代码，还要检查汇编代码以及内存的走向。</p>
+<h4 id="解码过程">解码过程
+</h4><p>现在我们了解了那两个复杂的变量，现在我们来讲一讲解码的算法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">         <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">DAT_00019c0c</span> <span class="o">+</span> <span class="n">iVar4</span><span class="p">)]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="o">*</span><span class="n">piVar1</span><span class="p">]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这条运算中，我们可以了解到<code>local_30[*(int *)(&amp;DAT_00019c0c + iVar4)]</code>表示当前解码运算的数据，<code>local_30[*piVar1]</code>表示下一个解码运算的数据，例如：当<code>*(int *)(&amp;DAT_00019c0c + iVar4)=8</code>时，<code>*piVar1 = 7</code>，这样上式就变成了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>依次类推，到最后一次循环时，上式变成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们假设，存在一个<code>table[20]</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">table</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x0</span><span class="p">,</span><span class="mh">0xc</span><span class="p">,</span><span class="mh">0xd</span><span class="p">,</span><span class="mh">0x3</span><span class="p">,</span><span class="mh">0x4</span><span class="p">,</span>\
+</span></span><span class="line"><span class="cl">    <span class="mh">0x9</span><span class="p">,</span><span class="mh">0xa</span><span class="p">,</span><span class="mh">0xb</span><span class="p">,</span><span class="mh">0x10</span><span class="p">,</span><span class="mh">0x11</span><span class="p">,</span>\
+</span></span><span class="line"><span class="cl">	<span class="mh">0x12</span><span class="p">,</span><span class="mh">0x13</span><span class="p">,</span><span class="mh">0x5</span><span class="p">,</span><span class="mh">0x6</span><span class="p">,</span><span class="mh">0xe</span>\
+</span></span><span class="line"><span class="cl">	<span class="mh">0xf</span><span class="p">,</span><span class="mh">0x1</span><span class="p">,</span><span class="mh">0x2</span><span class="p">,</span><span class="mh">0x7</span><span class="p">,</span><span class="mh">0x8</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>那么整个while循环可以改写成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">local_30</span><span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="n">iVar3</span><span class="p">]]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">         <span class="n">local_30</span><span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="n">iVar3</span><span class="p">]]</span> <span class="o">+</span> <span class="n">local_30</span><span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="n">iVar3</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">^</span> <span class="n">bVar2</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样，读者应该可以理解，我们从<code>iVar3</code>的角度上来讲，是“从第19到1的解码”，但从数据实际的解码顺序来讲，其实是“8，7，2，1，15，14，6，5，19，18，17，16，11，10，9，4，3，13，12”的顺序解码，0在后面单独解码。</p>
+<p>这19个数据，每一个解码，都依赖于前一个还未解码的数据，即当解码第8个数据的时候，需要依赖第7个数据，当解码第12个数据时，需要依赖第0个数据。</p>
+<p>现在我们仔细讲一下式子，在该式子中，<code> bVar2 = (byte)iVar3;</code>即，<code>bVar2</code>与<code>iVar3</code>相同，从19到1根据循环次数递减，<code>param_1</code>是一个常量，为<code>0x32</code>，是从adpcm_decoder1中传进来的第一个参数，如果不记得可往上翻阅。</p>
+<p>在这条式子中，既有加法，又有异或运算，那么问题来了，该怎样计算呢？或者说，先算哪个呢？</p>
+<p>这时熟悉C语言的同学们会说，在C语言中，加减法的优先级高于异或运算的优先级，因此先计算<code>local_30[table[iVar3]] + local_30[table[iVar3-1]]</code>，再计算<code> ^ bVar2 ^ param_1</code>，答案是没错的，在不同的语言中，异或运算与加减法的优先级可能会有所不同，因此这里的运算优先级要额外注意，但同理，在逆向工程中，不要过分相信逆向工具给你的C代码，它不一定是你想象的那样，因此我们还是来看一下它的汇编代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                             LAB_000164d6
+</span></span><span class="line"><span class="cl">        000164d6 1a  1c           adds       r2,r3,#0x0
+</span></span><span class="line"><span class="cl">        000164d8 9d  00           lsls       r5,r3,#0x2
+</span></span><span class="line"><span class="cl">        000164da ee  59           ldr        r6,[r5,r7]=&gt;DAT_00019c58
+</span></span><span class="line"><span class="cl">        000164dc 04  3d           subs       r5,#0x4
+</span></span><span class="line"><span class="cl">        000164de 7d  59           ldr        r5,[r7,r5]=&gt;DAT_00019c54
+</span></span><span class="line"><span class="cl">        000164e0 42  40           eors       r2,r0
+</span></span><span class="line"><span class="cl">        000164e2 01  92           str        r2,[sp,#local_3c ]
+</span></span><span class="line"><span class="cl">        000164e4 4a  5d           ldrb       r2,[r1,r5]
+</span></span><span class="line"><span class="cl">        000164e6 8d  5d           ldrb       r5,[r1,r6]
+</span></span><span class="line"><span class="cl">        000164e8 01  3b           subs       r3,#0x1
+</span></span><span class="line"><span class="cl">        000164ea 94  46           mov        r12 ,r2
+</span></span><span class="line"><span class="cl">        000164ec 01  9a           ldr        r2,[sp,#local_3c ]
+</span></span><span class="line"><span class="cl">        000164ee 65  44           add        r5,r12
+</span></span><span class="line"><span class="cl">        000164f0 55  40           eors       r5,r2
+</span></span><span class="line"><span class="cl">        000164f2 8d  55           strb       r5,[r1,r6]
+</span></span><span class="line"><span class="cl">        000164f4 00  2b           cmp        r3,#0x0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为式子中有一个“+”和两个“^”，因此我们只要着重看“add”指令与“eor”指令即可。</p>
+<ul>
+<li><code>adds       r2,r3,#0x0</code>：这条指令并不是加法指令，而是将<code>r3</code>寄存器中的值赋值给<code>r2</code>寄存器，这个寄存器中实际存了什么值呢，我们看后续有一个<code>subs       r3,#0x1</code>，因此可知，<code>r3</code>寄存器是在循环中递减的，这符合<code>bVar2</code>的特征，因此可以断定，<code>r2</code>寄存器存储的实际上就是<code>bVar2</code>。</li>
+<li><code>eors       r2,r0</code>：<code>r2</code>寄存器与<code>r0</code>寄存器的值做异或运算，将结果存放到<code>r2</code>中，在我们之前提到，<code>r0</code>寄存器存储的是<code>param_1</code>传参，即<code>0x32</code>固定参数，因此这条指令实际上就是<code>bVar2 ^ param_1</code>。</li>
+<li><code>ldrb       r2,[r1,r5]</code>：指令表示加载寄存器，<code>r5</code>与<code>r6</code>两个寄存器的内容我们上面分析过，<code>[r1,r5]</code>表示目标内存地址，这个地址是通过将寄存器<code>r1</code>与<code>r5</code>的值相加得来的，<code>r1</code>为<code>param_2</code>，即数据数组指针，<code>r5</code>为上面分析时讲到的乱序查表得到的偏移量。两者相加则索引到对应的数据。将其存放在<code>r2</code>中，下面<code>ldrb       r5,[r1,r6]</code>一样。</li>
+<li><code>mov        r12 ,r2</code>：该指令将<code>r2</code>寄存器中的值转移到<code>r12</code>寄存器，因此，现在<code>r12</code>与<code>r2</code>的内容一样。</li>
+<li><code>add        r5,r12</code>：该指令将<code>r12</code>与<code>r5</code>相加，即式子中的两个<code>local_30</code>相加，并将结果存放到<code>r5</code>中。</li>
+<li><code>eors       r5,r2</code>：将<code>r5</code>寄存器与<code>r2</code>寄存器中的值做异或运算。</li>
+</ul>
+<p>通过汇编指令，我们可以推算出运算的优先级为：
+$$</p>
+<p>r1 = bVar2 \oplus param_1
+\r2 = local_30[*(int *)(&amp;DAT_00019c0c + iVar4)] + local_30[*piVar1]
+\res = r1 \oplus r2
+$$</p>
+<h3 id="第0个数据的解码">第0个数据的解码
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="n">local_30</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mh">0x3e</span> <span class="o">^</span> <span class="n">param_1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iVar3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第0个数据不依赖于任何其它的数据，仅靠自身便可完成解码</p>
+<p>其对应的汇编代码也很简单，如果读者理解了上面的过程，那么理解这一段汇编代码也是轻而易举，在此笔者不做过多赘述</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        000164fc 3e  38           subs       r0,#0x3e
+</span></span><span class="line"><span class="cl">        000164fe 50  40           eors       r0,r2
+</span></span><span class="line"><span class="cl">        00016500 08  70           strb       r0,[r1,#0x0 ]=&gt;local_30
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="返回数据">返回数据
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">(</span><span class="n">byte</span> <span class="o">*</span><span class="p">)(</span><span class="n">param_3</span> <span class="o">+</span> <span class="n">iVar3</span><span class="p">)</span> <span class="o">=</span> <span class="n">local_30</span><span class="p">[</span><span class="n">iVar3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iVar3</span> <span class="o">=</span> <span class="n">iVar3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">iVar3</span> <span class="o">!=</span> <span class="mh">0x14</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在此过程中，通过while循环将<code>local_30</code>中已经完成解码的数据全部放到<code>param_3</code>参数中，完成了数据的返回（因为<code>param_3</code>是一个指针，因此对指针数据做修改在函数退出时修改依然成立，而不会随着函数出栈而消失）。</p>
+<h2 id="总结">总结
+</h2><p>在这个反汇编的过程中，我们通过C代码与汇编代码的结合，还原出了解码过程的真实情况，因此，在反汇编中除了看反汇编工具提供的c语言代码，也需要看原来的汇编代码。所以，在逆向工程中，学会阅读汇编代码对你的帮助时巨大的，会避免因编译优化等问题带来的困扰，同时，笔者推荐读一读《深入理解计算机系统》，会让你对C和逆向有更深层次的理解，最后祝你变得更强！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/">反汇编</a>
+        
+            <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">逆向工程</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.c73a3cd190043181fa64790bc0f348a2_hu15472825668118018732.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于Hugo构建一个属于自己的博客（二）"
+                        
+                        data-hash="md5-xzo80ZAEMYH6ZHkLwPNIog==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于Hugo构建一个属于自己的博客（二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.c73a3cd190043181fa64790bc0f348a2_hu15472825668118018732.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于Hugo构建一个属于自己的博客（一）"
+                        
+                        data-hash="md5-xzo80ZAEMYH6ZHkLwPNIog==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于Hugo构建一个属于自己的博客（一）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker.b8567812859b3084afbb1e32e25877c0_hu8744663680994870229.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 搭建自己的Wiki知识库"
+                        
+                        data-hash="md5-uFZ4EoWbMISvux4y4lh3wA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">搭建自己的Wiki知识库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.a5da78eb07d30b9277eed3729c7abc94_hu14903723194235886028.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post VSCode无法使用右键“用VScode打开文件夹”解决办法"
+                        
+                        data-hash="md5-pdp46wfTC5J37tNynHq8lA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">VSCode无法使用右键“用VScode打开文件夹”解决办法</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
