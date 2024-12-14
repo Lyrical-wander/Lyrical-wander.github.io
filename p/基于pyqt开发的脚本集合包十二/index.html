@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在本文中，我们将实现进度条组件与编解码器之间的通信，让进度条能获取编解码器的进度，以更改自身显示；实现编码器的UI。本文涉及到的知识点有：python中的多线程创建，线程间的消息传递，如何让subporcess不反复弹出CMD窗口">
+<title>基于PyQt开发的脚本集合包（十二）</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（十二）">
+<meta property='og:description' content="在本文中，我们将实现进度条组件与编解码器之间的通信，让进度条能获取编解码器的进度，以更改自身显示；实现编码器的UI。本文涉及到的知识点有：python中的多线程创建，线程间的消息传递，如何让subporcess不反复弹出CMD窗口">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-12-14T18:03:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-14T18:03:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png' />
+<meta name="twitter:title" content="基于PyQt开发的脚本集合包（十二）">
+<meta name="twitter:description" content="在本文中，我们将实现进度条组件与编解码器之间的通信，让进度条能获取编解码器的进度，以更改自身显示；实现编码器的UI。本文涉及到的知识点有：python中的多线程创建，线程间的消息传递，如何让subporcess不反复弹出CMD窗口"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#python中的线程">Python中的线程</a>
+      <ol>
+        <li><a href="#创建线程">创建线程</a></li>
+        <li><a href="#线程之间的消息传递">线程之间的消息传递</a>
+          <ol>
+            <li><a href="#使用-queuequeue-进行线程通信">使用 <code>queue.Queue</code> 进行线程通信</a></li>
+            <li><a href="#使用-threadingevent-进行线程通信">使用 <code>threading.Event</code> 进行线程通信</a></li>
+            <li><a href="#使用-threadinglock-和共享变量">使用 <code>threading.Lock</code> 和共享变量</a></li>
+            <li><a href="#使用-threadingcondition-进行更复杂的通信">使用 <code>threading.Condition</code> 进行更复杂的通信</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#编码器ui设计">编码器UI设计</a></li>
+    <li><a href="#解码器启动脚本">解码器启动脚本</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu18299242409021908448.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu2213941626906010426.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" style="background-color: #2a9d8f; color: #fff;">
+                Python
+            </a>
+        
+            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
+                PyQt5
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">基于PyQt开发的脚本集合包（十二）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            在本文中，我们将实现进度条组件与编解码器之间的通信，让进度条能获取编解码器的进度，以更改自身显示；实现编码器的UI。本文涉及到的知识点有：python中的多线程创建，线程间的消息传递，如何让subporcess不反复弹出CMD窗口
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 14, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 12 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。</p>
+<h2 id="python中的线程">Python中的线程
+</h2><p>Python处理线程的模块有两个：<code>thread</code> 和 <code>threading</code>。Python 3已经停用了 <code>thread</code>模块，并改名为<code> _thread</code> 模块。Python 3在 <code>_thread</code> 模块的基础上开发了更高级的 <code>threading</code> 模块，因此我们现在用的线程模块都是 <code>threading</code> 模块。</p>
+<h3 id="创建线程">创建线程
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>target</code> 指要创建的线程的方法名，<code>name</code> 指给此线程命名，命名后可以调用 <code>threading.current_thread().name</code> 方法输出该线程的名字， <code>args/kwargs</code> 指 <code>target</code> 指向的方法需要传递的参数，必须是元组形式，如果只有一个参数，需要以添加逗号。</p>
+<h3 id="线程之间的消息传递">线程之间的消息传递
+</h3><p>线程与线程之间的通信是一个常见的需求。Python提供了几种方法来实现进程与进程之间的通信，常见的方式包括：<code>queue.Queue</code>、<code>threading.Event</code>、<code>threading.Lock</code>等同步原语。</p>
+<h4 id="使用-queuequeue-进行线程通信">使用 <code>queue.Queue</code> 进行线程通信
+</h4><p><code>queue.Queue</code> 是线程安全的队列，适合用于线程之间的数据传递。你可以在子线程中将数据放入队列，然后在主线程中读取。</p>
+<p><strong>示例代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pythonCopy</span> <span class="n">Codeimport</span> <span class="n">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">queue</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 子线程函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">worker</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 模拟一些工作</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Message </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>  <span class="c1"># 将消息放入队列</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Worker: Sent message </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 主线程</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建一个队列</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建并启动子线程</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 主线程从队列中接收消息</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">msg</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>  <span class="c1"># 阻塞直到队列中有数据</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Main Thread: Received </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>  <span class="c1"># 等待子线程结束</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>解释</strong>：</p>
+<ul>
+<li>子线程 <code>worker</code> 将一些消息放入队列 <code>q</code> 中。</li>
+<li>主线程从队列中获取消息并打印。<code>queue.get()</code> 是阻塞的，直到队列中有新的数据。</li>
+<li><code>q.put()</code> 和 <code>q.get()</code> 是线程安全的，可以在多个线程之间安全地交换数据。</li>
+</ul>
+<h4 id="使用-threadingevent-进行线程通信">使用 <code>threading.Event</code> 进行线程通信
+</h4><p><code>threading.Event</code> 是一个简单的同步原语，允许线程在等待某个条件发生时进行通信。例如，主线程可以等待子线程完成某些操作，或者子线程可以通知主线程某个事件已经发生。</p>
+<p><strong>示例代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pythonCopy</span> <span class="n">Codeimport</span> <span class="n">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 子线程函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">worker</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 模拟一些工作</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Worker: Setting event&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>  <span class="c1"># 设置事件，通知主线程</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 主线程</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建一个事件对象</span>
+</span></span><span class="line"><span class="cl">    <span class="n">event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建并启动子线程</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">event</span><span class="p">,))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Main Thread: Waiting for event&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># 阻塞，直到子线程设置事件</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Main Thread: Event received&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>  <span class="c1"># 等待子线程结束</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>解释：</strong></p>
+<ul>
+<li>子线程在执行完某些任务后调用 <code>event.set()</code> 来通知主线程。</li>
+<li>主线程使用 <code>event.wait()</code> 来等待事件的发生，<code>wait()</code> 会阻塞直到事件被设置。</li>
+</ul>
+<h4 id="使用-threadinglock-和共享变量">使用 <code>threading.Lock</code> 和共享变量
+</h4><p>如果需要在多个线程之间共享一些资源（如变量），可以使用 <code>threading.Lock</code> 来避免竞争条件（race condition），确保数据的一致性。</p>
+<p><strong>示例代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pythonCopy</span> <span class="n">Codeimport</span> <span class="n">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 共享变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">shared_data</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 子线程函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">worker</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">shared_data</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 模拟工作</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>  <span class="c1"># 使用锁保护共享资源</span>
+</span></span><span class="line"><span class="cl">            <span class="n">shared_data</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Worker: Incremented shared_data to </span><span class="si">{</span><span class="n">shared_data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 主线程</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建并启动子线程</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>  <span class="c1"># 等待子线程结束</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 访问共享资源</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>  <span class="c1"># 同样使用锁保护共享资源</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Main Thread: Final shared_data is </span><span class="si">{</span><span class="n">shared_data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>解释：</strong></p>
+<ul>
+<li><code>shared_data</code> 是一个主线程和子线程共享的变量。</li>
+<li>使用 <code>threading.Lock()</code> 来确保只有一个线程能够访问和修改共享数据，从而避免了数据的竞争。</li>
+</ul>
+<h4 id="使用-threadingcondition-进行更复杂的通信">使用 <code>threading.Condition</code> 进行更复杂的通信
+</h4><p><code>threading.Condition</code> 是一种更复杂的同步机制，允许线程在某个条件发生时进行等待和通知。它结合了 <code>Lock</code> 和 <code>Event</code> 的特性，适用于更复杂的线程间协调问题。</p>
+<p><strong>示例代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pythonCopy</span> <span class="n">Codeimport</span> <span class="n">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 共享资源和条件变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">shared_data</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">condition</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 子线程函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">worker</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">shared_data</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 模拟工作</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">shared_data</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># 修改共享数据</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Worker: Shared data set to 42&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">condition</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>  <span class="c1"># 通知主线程</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 主线程</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建并启动子线程</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Main Thread: Waiting for condition&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">condition</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># 等待通知</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Main Thread: Shared data is </span><span class="si">{</span><span class="n">shared_data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>  <span class="c1"># 等待子线程结束</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>解释：</strong></p>
+<ul>
+<li>子线程修改共享数据并使用 <code>condition.notify()</code> 通知主线程。</li>
+<li>主线程通过 <code>condition.wait()</code> 等待子线程通知，直到条件满足才继续执行。</li>
+</ul>
+<p>接下来我们看一下编解码器UI是如何调用编解码器以及编解码器如何与进度条进行消息传递的</p>
+<h2 id="编码器ui设计">编码器UI设计
+</h2><p>编码器的UI布局在上一篇文章中已经阐述过，在这里就不做过多的赘述，直接放上代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtSvg</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">queue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.btnStyle</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.editStyle</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.getPath</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.progressBar</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tools.adpcmcoder.adpcmEncRun</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tools.adpcmcoder.adpcmDecRun</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">WAcodec</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filePaths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">initUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">initUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 文件选择</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">lable</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="s2">&#34;请选择文件&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">QLineEdit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LineEditStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;选择文件&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getpath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 编码器选择</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">codeclayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">codeccb</span> <span class="o">=</span> <span class="n">QComboBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">codeccb</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s1">&#39;ADPCM&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">codeclayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codeccb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codeclayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 编码解码选择</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">encdeclayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">encdecbtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;编码&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encdecbtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">encdecbtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encodeRun</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">encdeclayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encdecbtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">decbtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;解码&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decbtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">decbtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decodeRun</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">encdeclayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decbtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encdeclayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 进度条</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">runlayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span> <span class="o">=</span> <span class="n">ProgressBar</span><span class="p">()</span>  <span class="c1"># 自定义进度条</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">runlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runlayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">getpath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filePaths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">encodeRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;未选择文件&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="o">.</span><span class="n">init_grids</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">codeccb</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;ADPCM&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 以多线程并发的形式规避ADPCM编解码时带来的卡顿问题</span>
+</span></span><span class="line"><span class="cl">            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">ADPCMencodeRun</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span><span class="n">q</span><span class="p">),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="o">.</span><span class="n">update_progress</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>      
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">decodeRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;未选择文件&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="o">.</span><span class="n">init_grids</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">codeccb</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;ADPCM&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">ADPCMdecodeRun</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span><span class="n">q</span><span class="p">),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="o">.</span><span class="n">update_progress</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>PyQt5部分的代码已经是老朋友了，获取文件，下拉选框，两个按钮。进度条的设计在上一篇文章中详细介绍过，这里着重介绍按钮按下时，创建线程执行编解码器与进度条</p>
+<p>以解码器为例：</p>
+<ul>
+<li>使用<code>threading.Thread</code>函数创建线程，<code>target</code>传入线程需要调用的方法，即<code>ADPCMdecodeRun</code>，解码启动脚本，<code>args</code>向<code>ADPCMdecodeRun</code>方法传入参数，文件路径与队列对象，队列对象用于保存和传输消息，<code>daemon</code>表示该线程是否为守护线程，如果是，则它会在主线程结束时自动终止，哪怕它的任务没有结束，如果不是，则如果它的任务没有结束，程序会等待它执行完毕才会结束</li>
+<li><code>.start</code>表示启动该线程</li>
+</ul>
+<h2 id="解码器启动脚本">解码器启动脚本
+</h2><p>介绍完如何开启线程与线程之间如何进行通信，那么我们接下来就实现解码器的启动脚本，并在解码器的启动脚本中做一些小小的设计：</p>
+<ul>
+<li>设置一个<code>percent</code>，来记录当前已解码的进度，<code>percent</code>记录的是 <code>已解码行数/总行数</code></li>
+<li>因为进度条共有100个格子来表示<code>0%,1%,...,100%</code>，因此进度条应接收整数的<code>1，2，3，4，...</code>，进而<code>percent</code>应该是整数，且<code>+1</code>后通过<code>put</code>方法，向进度条传递消息</li>
+<li>进度条通过<code>get</code>方法阻塞自己，等待解码器的消息，当解码器传递来新的消息时，就会触发更新进度条。</li>
+</ul>
+<p>接下来我们看编码器的启动脚本代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">queue</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">ADPCMdecodeRun</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM decode start&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workspaces/pcm.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fw</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">error</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">linecount</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">totalcount</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">progressblock</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">percent</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>  <span class="c1"># 仅在 Windows 上使用这个设置</span>
+</span></span><span class="line"><span class="cl">        <span class="n">creation_flags</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CREATE_NO_WINDOW</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">creation_flags</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 在其他平台上没有必要使用这个参数</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###···················DEXP ADPCM解码··························</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM decoding ...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">totalcount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">progressblock</span> <span class="o">=</span> <span class="n">totalcount</span> <span class="o">/</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 若打包，用下面路径</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#args = [&#34;_internal/res/AdpcmCodec/adpcmdecoder.exe&#34;] + adlist</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 若调试，用下面路径</span>
+</span></span><span class="line"><span class="cl">            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;src</span><span class="se">\\</span><span class="s2">tools</span><span class="se">\\</span><span class="s2">adpcmcoder</span><span class="se">\\</span><span class="s2">adpcmdecoder.exe&#34;</span><span class="p">]</span> <span class="o">+</span> <span class="n">adlist</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(args)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">creationflags</span><span class="o">=</span><span class="n">creation_flags</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(&#34;STDOUT:&#34;, result.stdout)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(&#34;liencount:&#34;,linecount)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">linecount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workspaces/pcm.txt&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fw</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">linecount</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">linecount</span> <span class="o">&gt;</span> <span class="n">percent</span> <span class="o">*</span> <span class="n">progressblock</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#msg = f&#34;已完成{percent}%&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#print(&#34;msg:&#34;,msg)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#print(&#34;linecount:&#34;,linecount)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">percent</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM decode end&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这段代码中，可以看到，<code>ADPCMdecodeRun</code>方法除了接收文件路径外，还接收一个<code>q</code>变量，即<code>Queue</code>对象，这样，在该线程中可以使用队列对象来传递消息，我们来依次解释一下代码：</p>
+<ul>
+<li>写文件，使用<code>w</code>打开后直接关闭，达到一个创建文件，若文件存在，则清空文件中的内容的目的（因为后面我们用<code>a</code>命令在文件中追加内容，如果不提前清理文件，则会在同名文件下追加内容导致数据会乱）</li>
+<li>默认情况下，Windows会弹出命令窗口（CMD）以运行程序，在此python脚本中，因为会循环调用CMD来启动解码器<code>adpcmdecoder.exe</code>，因此会导致CMD窗口被反复打开又关闭。为避免这个CMD窗口弹出，可以通过设置<code>subprocess</code>的<code>creation_flags</code>参数来隐藏它。具体来说，你可以使用 <code>subprocess.CREATE_NO_WINDOW</code> 来防止命令行窗口的出现。这对于 Windows 系统特别有效。</li>
+<li><code>totalcount</code>获取总行数，<code>progressblock</code>为总行数的1%</li>
+<li>循环读取数据，并将数据放入解码器中，注意，这里使用的是ADPCM解码器，根据往期内容，我们的解码器接收的参数为：函数名称，<code>valprev</code>，<code>index</code>，<code>data_1</code>，<code>data_2</code>，&hellip;.，<code>data_n</code>。<code>valprev</code>与<code>index</code>初始化值为0。</li>
+<li>如果解码失败或遇到错误参数，导致解码器无法正常解码，解码器会返回非0数字，脚本会记录下当前未被正确解码的行数，保存在<code>error</code>列表中</li>
+<li>对解码后的数据做分割处理，在这里返回的数据保存方式为：<code>data_0</code>，<code>data_1</code>，<code>data_2</code>，&hellip;.，<code>data_n</code>，<code>valprev</code>，<code>index</code>，这与输入的刚好相反，将<code>valprev</code>与<code>index</code>这两个参数放在最后，因为历史遗留问题，笔者没(lan)有(de)改动。</li>
+<li>将<code>valprev</code>与<code>index</code>保存在<code>adlist</code>列表的开头，用以下一次解码，并在<code>hex_list</code>列表中弹出这两个值，因为写入数据时不需要这两个值，这两个是解码时产生的中间值，不是数据。</li>
+<li>将数据写入文件中，<code>a</code>表示在末尾追加内容</li>
+<li><code>linecount</code>记录当前行数，如果<code>linecount</code>超过了<code>progressblock * percent</code>，则执行<code>percent ++</code> 操作。例如：文件中共有100行数据，则<code>totalcount=100</code>，<code>progressblock=10</code>，现在当<code>linecount=11</code>时，则会导致<code>linecount &gt; percent * progressblock</code>，则会对<code>percent+1</code>，此时<code>percent= 1</code></li>
+<li>如果上面的条件达成，则会将<code>percent=1</code>的消息通过<code>q.put</code>方法放到队列中</li>
+<li>此时，在进度条对象<code>ProgressBar</code>中的<code>update_progress</code>方法中的<code>percent = q.get()</code>在阻塞，检测是否有新消息，现在得到了新消息，则将消息赋值给<code>percent</code>，如此，就实现了解码的进度传递给进度条组件的操作。</li>
+</ul>
+<p>以上便是解码启动器脚本，下面给出编码器启动脚本，原理相同，代码改动不大，笔者就不做赘述</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">queue</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">ADPCMencodeRun</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM encode start&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workspaces/adpcm.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fw</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="n">error</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">linecount</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">totalcount</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">progressblock</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">percent</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>  <span class="c1"># 仅在 Windows 上使用这个设置</span>
+</span></span><span class="line"><span class="cl">        <span class="n">creation_flags</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CREATE_NO_WINDOW</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">creation_flags</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 在其他平台上没有必要使用这个参数</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###···················DEXP ADPCM编码··························</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM encoding ...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">totalcount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">progressblock</span> <span class="o">=</span> <span class="n">totalcount</span> <span class="o">/</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 若打包，用下面路径</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#args = [&#34;_internal/res/AdpcmCodec/adpcmencoder.exe&#34;] + adlist</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 若调试，用下面路径</span>
+</span></span><span class="line"><span class="cl">            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;src</span><span class="se">\\</span><span class="s2">tools</span><span class="se">\\</span><span class="s2">adpcmcoder</span><span class="se">\\</span><span class="s2">adpcmencoder.exe&#34;</span><span class="p">]</span> <span class="o">+</span> <span class="n">adlist</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(args)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">creationflags</span><span class="o">=</span><span class="n">creation_flags</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(&#34;STDOUT:&#34;, result.stdout)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#print(&#34;liencount:&#34;,linecount)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">linecount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="n">adlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">hex_list</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workspaces/adpcm.txt&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fw</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">hex_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">linecount</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">linecount</span> <span class="o">&gt;</span> <span class="n">percent</span> <span class="o">*</span> <span class="n">progressblock</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#msg = f&#34;已完成{percent}%&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#print(&#34;msg:&#34;,msg)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">#print(&#34;linecount:&#34;,linecount)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">percent</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;ADPCM encode done&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结
+</h2><p>这是一个简单的实现线程之间消息传递的模式，在我的实践中是可行的，至此，我们实现了音频编解码器的功能模块，并实现了一个新的组件，即进度条。当然，这个功能模块尚不完美，后续还会持续地检查并优化（如果有优化方法的小伙伴也欢迎私信我）。在这里我整理了几点不足：</p>
+<ul>
+<li>首先，ADPCM的编解码器通过<code>subprocess</code>的方法循环调用确实有些笨拙，也比较吃性能，在频繁地启动编码器过程中，往往会损失大量的时间</li>
+<li>其次，在实际测试过程中ADPCM的编解码速度时好时坏，同一份数据，有时候会非常慢，有时候又会非常快，我通过观察脚本的硬件调度，发现内存占用比没有发生很大的变化，但是GPU的调度会有明显变化，当GPU持续被分配给脚本时，编解码的速度会非常快，当GPU没有被分配给脚本时，编码速度会变得异常慢。为什么会产生GPU分配的差异原因笔者还没查出来，在代码中，Python也没有显式地说明在什么环节会调用GPU，笔者也没有刻意地去调用GPU，如果直到原因的同学可以私信我。</li>
+<li><code>percent</code>这种简易（甚至说简陋）的粗暴计算编解码进度的方法实在有些拙劣，可能还会产生其它对进度预估错误的情况发生。我推测可能会产生bug的一种场景是，当adpcm编解码速度过快，进度条还未处理上一条消息的绘制时，下一条消息就来了，可能会导致缺画漏画的情况，笔者还没测出，但笔者会持续改进算法，也希望各位大佬能够指点一二。</li>
+</ul>
+<p>到目前为止，音频编解码器模块的代码已经全部出来。</p>
+<ul>
+<li>
+<p>我们先从UI界面开始，通过<code>PrimeWindow</code>的<code>stack</code>切换到音频编解码器模块，即本文出现的第一个代码，那里实现了编解码器功能区的UI</p>
+<p>代码存放的工程目录如下：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004.png"
+	width="521"
+	height="441"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu16936110322661815955.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu17483567161437215341.png 1024w"
+	loading="lazy"
+	
+		alt="AudiocodecClass"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="118"
+		data-flex-basis="283px"
+	
+></p>
+</li>
+<li>
+<p>之后，便是音频编码器的启动脚本与解码器的启动脚本都在本文中展示了</p>
+<p>工程目录如下：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755.png"
+	width="507"
+	height="434"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu6539725557923321828.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu187096352633717672.png 1024w"
+	loading="lazy"
+	
+		alt="adpcm codec Runner"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="116"
+		data-flex-basis="280px"
+	
+></p>
+</li>
+<li>
+<p>再者，到进度条样式的实现，在上一篇文章中实现了</p>
+<p>工程目录如下：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230.png"
+	width="482"
+	height="275"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu9143734324339566444.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu11304473506844748505.png 1024w"
+	loading="lazy"
+	
+		alt="prphressBar"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="175"
+		data-flex-basis="420px"
+	
+></p>
+</li>
+<li>
+<p>最后，到编解码器的实际实现，这部分是通过C程序实现的，在上上篇文章中实现了</p>
+<p>工程目录如下：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774.png"
+	width="517"
+	height="430"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu1216690107204511031.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu109410861840441875.png 1024w"
+	loading="lazy"
+	
+		alt="exe file directory"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="120"
+		data-flex-basis="288px"
+	
+></p>
+</li>
+</ul>
+<p>阅读完这三篇文章，加上熟悉本系列前期的基础，即工程布局架构，你可以轻松复制我的代码，实现自己的音频编解码器，快来试试吧！有任何疑问请联系我，祝你变得更强！</p>
+<blockquote>
+<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pyqt%E5%AE%9E%E6%88%98/">PyQt实战</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十一）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十一）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（七）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（七）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（五）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（五）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

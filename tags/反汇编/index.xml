@@ -252,9 +252,9 @@
 &lt;li&gt;&lt;code&gt;ldr&lt;/code&gt; 指令表示加载寄存器(load register)，语法为：&lt;code&gt;ldr &amp;lt;寄存器&amp;gt;, [&amp;lt;基址寄存器&amp;gt;, &amp;lt;偏移量&amp;gt;]&lt;/code&gt;，从基址寄存器中取出地址，加上偏移量，将结果加载到寄存器中，这里取出的地址加载到r3中，在c代码中，只有一个涉及到取址操作，即&lt;code&gt;param_1&lt;/code&gt;，这是一个&lt;code&gt;adpcm_decoder1&lt;/code&gt;函数接受的传参，传入的是一个指针，即&lt;code&gt;param_1&lt;/code&gt;其实是一个数组指针。这里是获取&lt;code&gt;param_1&lt;/code&gt;数组的地址，放到&lt;code&gt;r3&lt;/code&gt;中。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;movs&lt;/code&gt; 指令表示移动，将立即数&lt;code&gt;0x32&lt;/code&gt;移动到&lt;code&gt;r0&lt;/code&gt;寄存器中，现在&lt;code&gt;r0&lt;/code&gt;寄存器中存放了&lt;code&gt;0x32&lt;/code&gt;这个值。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r3&lt;/code&gt;与&lt;code&gt;r2&lt;/code&gt;相加，并存放到&lt;code&gt;r2&lt;/code&gt;寄存器中，即，&lt;code&gt;param_1&lt;/code&gt;的地址加上一个计算的偏移量，本质上是从&lt;code&gt;param_1&lt;/code&gt;的语音数据中获取第n个语音帧的地址。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示假发，将&lt;code&gt;r2&lt;/code&gt;寄存器的值加上立即数&lt;code&gt;0x00&lt;/code&gt;存放到&lt;code&gt;r1&lt;/code&gt;寄存器中，这操作让&lt;code&gt;r2&lt;/code&gt;寄存器存放的内容与&lt;code&gt;r1&lt;/code&gt;一致。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r2&lt;/code&gt;寄存器的值加上立即数&lt;code&gt;0x00&lt;/code&gt;存放到&lt;code&gt;r1&lt;/code&gt;寄存器中，这操作让&lt;code&gt;r2&lt;/code&gt;寄存器存放的内容与&lt;code&gt;r1&lt;/code&gt;一致。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;bl&lt;/code&gt; 指令表示跳转，即跳转到&lt;code&gt;Decryption&lt;/code&gt;函数的位置去，执行&lt;code&gt;Decryption&lt;/code&gt;函数，并把下一条指令的地址存放到&lt;code&gt;lr&lt;/code&gt;寄存器中，以方便&lt;code&gt;Decryption&lt;/code&gt;函数执行完能回来，相当于压栈，将&lt;code&gt;Decryption&lt;/code&gt;函数压入函数栈。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r4 &lt;/code&gt;加上立即数&lt;code&gt;0x01&lt;/code&gt;，并存放到&lt;code&gt;r4&lt;/code&gt;中，即for循环的的++操作。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r4 &lt;/code&gt;加上立即数&lt;code&gt;0x01&lt;/code&gt;，并存放到&lt;code&gt;r4&lt;/code&gt;中，即for循环的++操作。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -458,7 +458,7 @@
 0x12	0x13	0x5	0x6	0xe
 0xf	0x1	0x2	0x7	0x8&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;刚好是0~20，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
+&lt;p&gt;刚好是0~19，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
 &lt;h4 id=&#34;local_30pivar1&#34;&gt;local_30[*piVar1]
 &lt;/h4&gt;&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;看&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3; &lt;/code&gt;一些敏锐的同学可能注意到，在我们介绍的前一个变量中，地址都是四个字节一偏移，在内存地址中查询数据的分布，也是四个字节存一个数据，其它地方都是0，而按照我们的理解，&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3 * 4;&lt;/code&gt;似乎才是正确的。我们查看一下相应的汇编代码：&lt;/p&gt;
@@ -602,6 +602,7 @@
 &lt;li&gt;&lt;code&gt;add        r5,r12&lt;/code&gt;：该指令将&lt;code&gt;r12&lt;/code&gt;与&lt;code&gt;r5&lt;/code&gt;相加，即式子中的两个&lt;code&gt;local_30&lt;/code&gt;相加，并将结果存放到&lt;code&gt;r5&lt;/code&gt;中。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;eors       r5,r2&lt;/code&gt;：将&lt;code&gt;r5&lt;/code&gt;寄存器与&lt;code&gt;r2&lt;/code&gt;寄存器中的值做异或运算。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;通过汇编指令，我们可以推算出运算的优先级为：&lt;/p&gt;
 $$
 r1 = bVar2 \oplus param_1\\
 r2 = local\_30[*(int *)(\&amp;DAT\_00019c0c + iVar4)] + local\_30[*piVar1]\\

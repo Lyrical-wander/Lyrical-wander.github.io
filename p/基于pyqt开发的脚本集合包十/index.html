@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于PyQt开发的脚本集合包，本文主要讲述使用Python提取JSON文件中的数据">
+<title>基于PyQt开发的脚本集合包（十）</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（十）">
+<meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述使用Python提取JSON文件中的数据">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-12-12T19:26:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-12T19:26:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.png' />
+<meta name="twitter:title" content="基于PyQt开发的脚本集合包（十）">
+<meta name="twitter:description" content="基于PyQt开发的脚本集合包，本文主要讲述使用Python提取JSON文件中的数据"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#json数据处理ui">JSON数据处理UI</a></li>
+    <li><a href="#json数据的来源">JSON数据的来源</a></li>
+    <li><a href="#json数据提取">JSON数据提取</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt_hu18299242409021908448.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt_hu2213941626906010426.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十）" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" style="background-color: #2a9d8f; color: #fff;">
+                Python
+            </a>
+        
+            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
+                PyQt5
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">基于PyQt开发的脚本集合包（十）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            基于PyQt开发的脚本集合包，本文主要讲述使用Python提取JSON文件中的数据
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 12, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>距离上次更新PyQt实战系列隔了好久，因为现实中比较忙，而且确实是存货已经用完，现在对脚本集合包更新了一些新的内容，包括：JSON数据的处理，ADPCM音频编解码，PCM二进制文件构建以及PCMM音频播放功能，此外，还有一个数据加密解密算法，与笔者之前的文章<a class="link" href="https://www.lyrical-wander.cn/p/%e9%80%86%e5%90%91%e5%b7%a5%e7%a8%8b%e5%ae%9e%e6%88%98%e5%9c%a8%e5%8f%8d%e6%b1%87%e7%bc%96%e4%b8%ad%e5%8f%91%e7%94%9f%e7%9a%84%e4%ba%8b/"  target="_blank" rel="noopener"
+    >《逆向工程实战，在反汇编中发生的事》</a>中的算法一致，是笔者在反汇编的学习中无意间发现的一种数据加密算法，简单且有效，当初逆向该算法时花了不少时间，总之，这些内容后续都会讲到！</p>
+<h2 id="json数据处理ui">JSON数据处理UI
+</h2><p>本功能的UI设计十分简单，用到的全是PyQt5实战系列提及过的内容，因此本文将不再重复讲解UI界面的代码，但是代码依然会贴出来，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtSvg</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.btnStyle</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.editStyle</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.getPath</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tools.wiresharckJsonProcess</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">WwiresharkJsonProc</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filePaths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">initUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">initUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">JsonProcesslayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">JsonProcesslayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 文件选择</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">lable</span> <span class="o">=</span> <span class="n">QLabel</span><span class="p">(</span><span class="s2">&#34;请选择文件&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">QLineEdit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LineEditStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;选择文件&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getpath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choosebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">JsonProcesslayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filelayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 开始处理</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exebtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;开始处理&#34;</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">exebtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exebtn_press_clicked</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">JsonProcesslayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exebtn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">getpath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filePaths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">exebtn_press_clicked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">processJson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filePaths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>界面非常简单，如下所示</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012.png"
+	width="1124"
+	height="767"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu11800908548311208436.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu16546038208090371240.png 1024w"
+	loading="lazy"
+	
+		alt="JsonProcessUI"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="351px"
+	
+></p>
+<p>可以看到，在这个页面下仅有一个文件选择的组件加上一个处理的按钮。非常简单的一个页面设计，本文的重点并不在这个UI设计上，而是在wireshark的抓包数据转换成JSON格式以及python提取JSON数据。</p>
+<h2 id="json数据的来源">JSON数据的来源
+</h2><p>本文所使用的JSON数据来源于wireshark抓包，wireshark是一个网络封包分析工具，可以截取各种网络数据包，并显示数据包中的各种详细信息，常用于开发测试过程中的问题定位。但笔者并不是用wireshark来处理网络封包，而是处理低功耗蓝牙(BLE)的封包。wireshark本身并没有捕获BLE数据包的能力，但是结合特殊的dongle可以，使用<code>NRF52832 BLE Sniffer</code>低功耗蓝牙抓包器可以捕捉到到低功耗蓝牙的空中数据，非常实用，感兴趣的同学可以在网上查询相关信息，本文不做赘述。</p>
+<p>这里笔者对一个数据包做了筛选，如下图所示，从机通过<code>notify</code>的形式向主机传递消息，消息通过<code>handle</code>值为<code>0x97</code>的特征传递给主机，这里不了解蓝牙的同学可以不用理会，以后笔者会单独出一个蓝牙系列，分享笔者的蓝牙知识。</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490.png"
+	width="1637"
+	height="821"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu13577053340987916241.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu144507735475922064.png 1024w"
+	loading="lazy"
+	
+		alt="wireshark info"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="199"
+		data-flex-basis="478px"
+	
+></p>
+<p>在下面详细信息中可以看到，所选中的这一条数据，是从机通过<code>handle</code>为<code>0x97</code>的特征，向主机发送共计<code>120</code>个字节的<code>value</code>数据：<code>3b 18 01 ....... 04 d1 1a</code>，如果手动一条一条数据中蓝色框框的内容复制出来是非常耗时的，可以采用以下方式获取数据：</p>
+<blockquote>
+<p>文件 → 导出分组解析结果 → As JSON</p>
+</blockquote>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755.png"
+	width="435"
+	height="446"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu2230223600654996945.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu7901580446656711177.png 1024w"
+	loading="lazy"
+	
+		alt="export data as JSON file"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="97"
+		data-flex-basis="234px"
+	
+></p>
+<p>可以导出JSON格式的数据，我们展示一下JSON数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_index&#34;</span><span class="p">:</span> <span class="s2">&#34;packets-2024-12-06&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_type&#34;</span><span class="p">:</span> <span class="s2">&#34;doc&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_score&#34;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_source&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;layers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;frame&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.section_number&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.interface_id&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.interface_id_tree&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;frame.interface_name&#34;</span><span class="p">:</span> <span class="s2">&#34;COM30-4.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;frame.interface_description&#34;</span><span class="p">:</span> <span class="s2">&#34;nRF Sniffer for Bluetooth LE COM30&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.encap_type&#34;</span><span class="p">:</span> <span class="s2">&#34;186&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.time&#34;</span><span class="p">:</span> <span class="s2">&#34;Dec  6, 2024 11:19:43.491844000 中国标准时间&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.offset_shift&#34;</span><span class="p">:</span> <span class="s2">&#34;0.000000000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.time_epoch&#34;</span><span class="p">:</span> <span class="s2">&#34;1733455183.491844000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.time_delta&#34;</span><span class="p">:</span> <span class="s2">&#34;0.000231000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.time_delta_displayed&#34;</span><span class="p">:</span> <span class="s2">&#34;0.000000000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.time_relative&#34;</span><span class="p">:</span> <span class="s2">&#34;62.812024000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.number&#34;</span><span class="p">:</span> <span class="s2">&#34;12534&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.len&#34;</span><span class="p">:</span> <span class="s2">&#34;53&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.cap_len&#34;</span><span class="p">:</span> <span class="s2">&#34;53&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.marked&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.ignored&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;frame.protocols&#34;</span><span class="p">:</span> <span class="s2">&#34;nordic_ble:btle:btl2cap:btatt&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;nordic_ble&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.board_id&#34;</span><span class="p">:</span> <span class="s2">&#34;30&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.header&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.plen&#34;</span><span class="p">:</span> <span class="s2">&#34;46&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.protover&#34;</span><span class="p">:</span> <span class="s2">&#34;3&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.packet_counter&#34;</span><span class="p">:</span> <span class="s2">&#34;36765&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.packet_id&#34;</span><span class="p">:</span> <span class="s2">&#34;6&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.len&#34;</span><span class="p">:</span> <span class="s2">&#34;10&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.flags&#34;</span><span class="p">:</span> <span class="s2">&#34;0x0d&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.flags_tree&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.crcok&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.direction&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.encrypted&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.micok&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.phy&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;nordic_ble.flag_reserved7&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.channel&#34;</span><span class="p">:</span> <span class="s2">&#34;29&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.rssi&#34;</span><span class="p">:</span> <span class="s2">&#34;-45&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.event_counter&#34;</span><span class="p">:</span> <span class="s2">&#34;1158&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.time&#34;</span><span class="p">:</span> <span class="s2">&#34;1172995411&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.packet_time&#34;</span><span class="p">:</span> <span class="s2">&#34;296&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.delta_time&#34;</span><span class="p">:</span> <span class="s2">&#34;151&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;nordic_ble.delta_time_ss&#34;</span><span class="p">:</span> <span class="s2">&#34;231&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;btle&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.access_address&#34;</span><span class="p">:</span> <span class="s2">&#34;0x27353836&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.master_bd_addr&#34;</span><span class="p">:</span> <span class="s2">&#34;90:e4:68:a8:41:7c&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.slave_bd_addr&#34;</span><span class="p">:</span> <span class="s2">&#34;00:00:00:08:47:2c&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.data_header&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.llid&#34;</span><span class="p">:</span> <span class="s2">&#34;0x02&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.next_expected_sequence_number&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.sequence_number&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.more_data&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.cte_info_present&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.rfu&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btle.data_header.length&#34;</span><span class="p">:</span> <span class="s2">&#34;27&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.length&#34;</span><span class="p">:</span> <span class="s2">&#34;27&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.l2cap_index&#34;</span><span class="p">:</span> <span class="s2">&#34;132&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.connection_parameters_in&#34;</span><span class="p">:</span> <span class="s2">&#34;11696&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btle.crc&#34;</span><span class="p">:</span> <span class="s2">&#34;0xe3cc46&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;btl2cap&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btl2cap.length&#34;</span><span class="p">:</span> <span class="s2">&#34;23&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btl2cap.cid&#34;</span><span class="p">:</span> <span class="s2">&#34;0x0004&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;btatt&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btatt.opcode&#34;</span><span class="p">:</span> <span class="s2">&#34;0x1b&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btatt.opcode_tree&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btatt.opcode.authentication_signature&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btatt.opcode.command&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btatt.opcode.method&#34;</span><span class="p">:</span> <span class="s2">&#34;0x1b&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btatt.handle&#34;</span><span class="p">:</span> <span class="s2">&#34;0x0036&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btatt.handle_tree&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;btatt.service_uuid16&#34;</span><span class="p">:</span> <span class="s2">&#34;0x1812&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;btatt.value&#34;</span><span class="p">:</span> <span class="s2">&#34;60:d8:4b:d4:62:66:d9:d5:4c:d5:5f:d6:d3:5d:63:da:64:d7:61:d8&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这么长的数据，仅仅wireshark中展示的一条数据，而我们需要的数据，仅仅是<code>btatt.value</code>这一个属性</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;btatt.value&#34;</span><span class="err">:</span> <span class="s2">&#34;60:d8:4b:d4:62:66:d9:d5:4c:d5:5f:d6:d3:5d:63:da:64:d7:61:d8&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而敏锐的同学可以发现，此JSON文件的开头，是<code>[</code>，也就是说，此JSON文件的框架是<code>[{第一条数据},{第二条数据}....{第n条数据}...]</code>，这种格式非常适合<code>python</code>通过<code>list</code>数据结构进行处理。</p>
+<h2 id="json数据提取">JSON数据提取
+</h2><p>先来观察我们需要的目标数据，<code>btatt.value</code>，这是由多层字典嵌套在其中的，因此要依次往上查找不同层级的字典，可以发现：</p>
+<blockquote>
+<ul>
+<li>__source</li>
+<li>layers
+<ul>
+<li>btatt
+<ul>
+<li>btatt.value</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>是这样的一个结构。</p>
+<p>我们现在来看代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">processJson</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&#34;r&#34;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">attvalue</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attvalue</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">voicevalue</span> <span class="o">=</span> <span class="n">attvalue</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&#34;_source&#34;</span><span class="p">][</span><span class="s2">&#34;layers&#34;</span><span class="p">][</span><span class="s2">&#34;btatt&#34;</span><span class="p">][</span><span class="s2">&#34;btatt.value&#34;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;workspaces/VoiceData.txt&#34;</span><span class="p">,</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">voicevalue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;line len: &#34;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">voicevalue</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;line count: &#34;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">attvalue</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># print(data)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们来分析一下代码：</p>
+<ul>
+<li>从<code>filename</code>这个文件中读取数据，以<code>utf-8</code>编码格式解码</li>
+<li><code>json.load(f)</code>是指从<code>f</code>中读取数据<code>JSON</code>数据，解析并返回对应的<code>Python</code>对象（例如，字典，列表等，具体取决于JSON的结构），通过我们上面的分析，此json会被解析成python的列表（因为最外层是<code>[]</code>）。</li>
+<li>循环读取<code>attvalue</code>列表对象</li>
+<li>读取<code>attvallue</code>列表中第<code>i</code>个元素中的<code>layers</code>字典中的<code>btatt</code>字典中的<code>btatt.value</code>所对应的值，并加上一个换行符<code>/n</code>，最后复制给<code>voicevalue</code></li>
+<li>将<code>voicevalue</code>写进<code>workspaces/VoiceData.txt</code>文件的末尾，<code>a</code>表示在文件末尾写入东西，而不覆盖原来的内容。</li>
+<li>当将所有的内容都写完时，返回每条数据的数据量以及数据总量</li>
+</ul>
+<p>该方法被单独写在<code>wiresharckJsonProcess.py</code>文件中，存放在<code>tools</code>目录下，被UI页面通过<code>import</code>以模块导入的形式使用。</p>
+<h2 id="总结">总结
+</h2><p>本文的内容并不复杂，主要是如何从<code>wireshark</code>中导出<code>JSON</code>数据，以及如何使用<code>python</code>对数据进行过滤和处理，JSON是非常常用的数据传输和保存格式尤其在网络中非常常用，因此熟练的掌握看懂和处理对程序员来说是值得的，而且并不难不是吗，祝你变得更强！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pyqt%E5%AE%9E%E6%88%98/">PyQt实战</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十一）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十一）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（七）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（七）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（五）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（五）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

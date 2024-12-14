@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器。本文涉及到的知识点有：ADPCM的算法思想，ADPCM编解码算法实现，ADPCM主函数调用，以及GCC多文件编译">
+<title>ADPCM编解码器的实现</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="ADPCM编解码器的实现">
+<meta property='og:description' content="接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器。本文涉及到的知识点有：ADPCM的算法思想，ADPCM编解码算法实现，ADPCM主函数调用，以及GCC多文件编译">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C' /><meta property='article:published_time' content='2024-12-12T22:23:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-12T22:23:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave.jpg' />
+<meta name="twitter:title" content="ADPCM编解码器的实现">
+<meta name="twitter:description" content="接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器。本文涉及到的知识点有：ADPCM的算法思想，ADPCM编解码算法实现，ADPCM主函数调用，以及GCC多文件编译"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#adpcm算法原理">ADPCM算法原理</a>
+      <ol>
+        <li><a href="#adpcmadaptive-differential-pulse-code-modulation自适应差分脉冲编码调制">ADPCM(Adaptive Differential Pulse Code Modulation)自适应差分脉冲编码调制</a></li>
+      </ol>
+    </li>
+    <li><a href="#adpcm解码代码">ADPCM解码代码</a></li>
+    <li><a href="#adpcm编码代码">ADPCM编码代码</a></li>
+    <li><a href="#adpcmdecmain">AdpcmDecMain</a></li>
+    <li><a href="#adpcmencmain">AdpcmEncMain</a></li>
+    <li><a href="#编译">编译</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+                <img src="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu18441471226944700505.jpg"
+                        srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu18441471226944700505.jpg 800w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu14646642207657149465.jpg 1600w"
+                        width="800" 
+                        height="293" 
+                        loading="lazy"
+                        alt="Featured image of post ADPCM编解码器的实现" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
+                PyQt5
+            </a>
+        
+            <a href="/categories/%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81/" style="background-color: #2a9d8f; color: #fff;">
+                音频编解码
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">ADPCM编解码器的实现</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器。本文涉及到的知识点有：ADPCM的算法思想，ADPCM编解码算法实现，ADPCM主函数调用，以及GCC多文件编译
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 12, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 13 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>从本篇文章开始，接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器，第二篇文章，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，在第三篇文章中 ，我们将实现编解码器的UI以及进度条与编解码器的消息传递。这三篇文章涉及到的知识点较多，比如ADPCM编解码的实现算法，python脚本使用subprocess调用C编译的exe可执行文件，python的多线程功能应用，线程之间的消息传递，还有特色进度条的实现等等。知识点很多，也是笔者自己一点一点摸索出来的，有许多不足的地方，还请多多指正批评。同时，模块的代码分布在三篇文章中，在第三篇文章的结尾，笔者会给出代码的存放的工程目录，这样大家就可以理解代码中的<code>import</code>模块导入。</p>
+<p>本文开始讲述实现音频的编解码，目前笔者只写了一个算法，APDCM，产生笔者自写ADPCM的原因是笔者当初使用<code>ffmpeg</code>解一些经过ADPCM压缩后的数据，发现非常困难，不是因为<code>ffmpeg</code>没有ADPCM解码算法，而是它拥有太多ADPCM算法了，如果你安装了<code>ffmpeg</code>的话，使用命令<code>ffmpeg -codecs</code>可以查询<code>ffmpeg</code>内置的编解码库，关于ADPCM的就有如下：
+<img src="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png"
+	width="760"
+	height="841"
+	srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu5102930148191537069.png 480w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu11763498343134490784.png 1024w"
+	loading="lazy"
+	
+		alt="ADPCM in ffmpeg"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="90"
+		data-flex-basis="216px"
+	
+></p>
+<p>我并没有完全看完这些ADPCM算法各有哪些不同，笔者只对比过一些变种，如微软的ADPCM，<code>adpcm_ms</code>，它生成的二进制文件前会增加一些头部信息，指明其是由<code>adpcm_ms</code>编码的，其编码算法究竟和开源的ADPCM究竟有何不同，本文没有做详细的对比，但就其加的头部信息，就让其无法解码经过经典开源ADPCM算法编码的音频数据。因此笔者就根据开源的ADPCM算法，自行编写编解码器。</p>
+<h2 id="adpcm算法原理">ADPCM算法原理
+</h2><p>本文不对ADPCM算法做非常详细的数学推导，只介绍大概思想原理，如想了解更详细的原理，可以推荐可以去看看<a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668"  target="_blank" rel="noopener"
+    >ADPCM(自适应差分脉冲编码调制)的原理和计算_单片机使用adpcm音频编解码算法-CSDN博客</a>这篇文章。关于原理部分，笔者对这篇文章做一些简单地整理。</p>
+<h3 id="adpcmadaptive-differential-pulse-code-modulation自适应差分脉冲编码调制">ADPCM(Adaptive Differential Pulse Code Modulation)自适应差分脉冲编码调制
+</h3><p>ADPCM是DPCM的进阶版本，而DPCM是改良PCM而来的，我们先介绍PCM</p>
+<p><strong>PCM，脉冲编码调制</strong>，是声音模拟信号数字化的一种基础技术，本质上是将时间连续取值的模拟信号转换成离散的数字信号，即模数转换，事实上，“连续”这个词在机器上是非常难以实现的，现在大多数的“连续”，实际上都是快速且频繁的“离散”组成的，包括音频，视频等。过程就是采样，量化和编码。首先由硬件机器采样，将采样得到的信号幅度转换成数字（ADC）。PCM实际上就是一个大数组，数组中的每个值，代表了当前时间点上的模拟量强度。</p>
+<p>在量化过程中会产生误差，一般而言，ADC的精度越高，失真越小，常见的量化数位8比特，16比特，32比特。</p>
+<p><strong>DPCM，差分脉冲编码调制</strong>，PCM是原始采样数据，即不对数据做压缩，保存的是最原始采样结果，这样的是数据量是比较大的，尤其在嵌入式设备中，硬件规格较低，在存储空间以及功耗方面都有比较严格的要求，传输PCM数据显然是不合适的。因此，我们需要对PCM数据进行压缩。</p>
+<p>对音频数据归纳时可以看到，数据值与相邻的值通常相差不大，即过渡得比较平滑，不会忽高忽低，因此两点之间得差值不会太大，所以我们可以使用差值来表示下一个数据，而这个差值，可以用很少的位数(比如4比特)来进行表示，这样，如果PCM的量化位数位16比特时（一般会采用16比特），那么使用差分法将会把数据缩小成原来的1/4。</p>
+<p>以8K的采样率为例，即1秒钟，机器采样8000次，量化精度为16比特，则1秒钟的数据量为 8000 * 16bit = 8000 * 2 byte = 128 000 bit = 128kb，如果用4bit表示差值，则1秒钟的数据仅需存储32kb左右的数据量。</p>
+<p>DPCM存在一个问题，虽然音频数据大多数时候是比较平滑的，但是还是存在差值较大的情况，如果差值超过了4比特(-15,15)，就无法很好地还原原来的数据，这时候如果增大差值宽度，例如将4比特调整为6比特或8比特，可以减少此问题的发送概率，但同样地，数据量增大了。</p>
+<p>ADPCM的出发点就是解决DPCM的差值宽度问题，通过采用一个差值表（IMA ADPCM中使用89个固定差值，取值从7到32767），将差值的范围放宽到16bit，此时差值在数组中的编号只需要6bit就可以表示（0，88），再进一步只记录编号的变化值，就将变化量压缩到4bit。</p>
+<p>16bit的 IMA ADPCM 编码产生的数据为一个数组, 数组中每个数都是4个bit(值范围为0x00到0x0F), 因为C语言编程中变量的最小单位是byte, 所以通常表示为 uint8_t 数组, 数组中每个元素存储2个 ADPCM 编码值, 或者对于32位系统使用 uint32_t, 每个元素存储8个 ADPCM 编码值.</p>
+<p>对于IMA ADPCM, 还需要了解两个码表, 一个是差值步长码表, 一个是差值步长下标变化量码表</p>
+<p>差值步长码表: 下标从0到88, 共89个值, 从小到大, 非均匀分布, 下标越大, 值之间的间隔越大, 这个码表的具体计算方式不清楚, 通过多次项拟合需要至少4次方到5次方才能拟合。
+差值步长下标变化量码表: 下标从-7到7, ADPCM 队列中每个值可以通过这个直接查表得到下一个值的差值步长的下标变化量, 进而得到下一个值的差值步长. 值在 [-3, 3] 之间的, 变化都是-1, 也就是差值步长变小, 在[-4,-7]和[4,7]的, 变化是2,4,6,8, 可以看到对于-7和7, 差值步长会快速增大。</p>
+<p>下面给出ADPCM解码和编码C程序</p>
+<h2 id="adpcm解码代码">ADPCM解码代码
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;adpcm.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">adpcm_decoder</span><span class="p">(</span><span class="kt">char</span> <span class="n">indata</span><span class="p">[],</span> <span class="kt">short</span> <span class="n">outdata</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">adpcm_state_t</span><span class="o">*</span> <span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">indexTable</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="mi">89</span><span class="p">]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">50</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">130</span><span class="p">,</span> <span class="mi">143</span><span class="p">,</span> <span class="mi">157</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">209</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">253</span><span class="p">,</span> <span class="mi">279</span><span class="p">,</span> <span class="mi">307</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">337</span><span class="p">,</span> <span class="mi">371</span><span class="p">,</span> <span class="mi">408</span><span class="p">,</span> <span class="mi">449</span><span class="p">,</span> <span class="mi">494</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">598</span><span class="p">,</span> <span class="mi">658</span><span class="p">,</span> <span class="mi">724</span><span class="p">,</span> <span class="mi">796</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">876</span><span class="p">,</span> <span class="mi">963</span><span class="p">,</span> <span class="mi">1060</span><span class="p">,</span> <span class="mi">1166</span><span class="p">,</span> <span class="mi">1282</span><span class="p">,</span> <span class="mi">1411</span><span class="p">,</span> <span class="mi">1552</span><span class="p">,</span> <span class="mi">1707</span><span class="p">,</span> <span class="mi">1878</span><span class="p">,</span> <span class="mi">2066</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">2272</span><span class="p">,</span> <span class="mi">2499</span><span class="p">,</span> <span class="mi">2749</span><span class="p">,</span> <span class="mi">3024</span><span class="p">,</span> <span class="mi">3327</span><span class="p">,</span> <span class="mi">3660</span><span class="p">,</span> <span class="mi">4026</span><span class="p">,</span> <span class="mi">4428</span><span class="p">,</span> <span class="mi">4871</span><span class="p">,</span> <span class="mi">5358</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">5894</span><span class="p">,</span> <span class="mi">6484</span><span class="p">,</span> <span class="mi">7132</span><span class="p">,</span> <span class="mi">7845</span><span class="p">,</span> <span class="mi">8630</span><span class="p">,</span> <span class="mi">9493</span><span class="p">,</span> <span class="mi">10442</span><span class="p">,</span> <span class="mi">11487</span><span class="p">,</span> <span class="mi">12635</span><span class="p">,</span> <span class="mi">13899</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">15289</span><span class="p">,</span> <span class="mi">16818</span><span class="p">,</span> <span class="mi">18500</span><span class="p">,</span> <span class="mi">20350</span><span class="p">,</span> <span class="mi">22385</span><span class="p">,</span> <span class="mi">24623</span><span class="p">,</span> <span class="mi">27086</span><span class="p">,</span> <span class="mi">29794</span><span class="p">,</span> <span class="mi">32767</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">adpcm_state_t</span> <span class="n">voice_adpcmState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">signed</span> <span class="kt">char</span><span class="o">*</span> <span class="n">inp</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span><span class="o">*</span> <span class="n">outp</span><span class="p">;</span>       
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">sign</span><span class="p">;</span>        
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">delta</span><span class="p">;</span>   
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">step</span><span class="p">;</span>        
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">valpred</span><span class="p">;</span>       
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">vpdiff</span><span class="p">;</span>        
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">index</span><span class="p">;</span>      
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">inputbuffer</span><span class="p">;</span>    
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">bufferstep</span><span class="p">;</span>    
+</span></span><span class="line"><span class="cl">    <span class="n">outp</span> <span class="o">=</span> <span class="n">outdata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inp</span> <span class="o">=</span> <span class="p">(</span><span class="kt">signed</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">indata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">valpred</span> <span class="o">=</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">valprev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span> <span class="o">=</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">step</span> <span class="o">=</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bufferstep</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">len</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">len</span><span class="o">--</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">bufferstep</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">delta</span> <span class="o">=</span> <span class="n">inputbuffer</span> <span class="o">&amp;</span> <span class="mh">0xf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">inputbuffer</span> <span class="o">=</span> <span class="o">*</span><span class="n">inp</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputbuffer</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">bufferstep</span> <span class="o">=</span> <span class="o">!</span><span class="n">bufferstep</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">        <span class="n">index</span> <span class="o">+=</span> <span class="n">indexTable</span><span class="p">[</span><span class="n">delta</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">88</span> <span class="p">)</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">88</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">     
+</span></span><span class="line"><span class="cl">        <span class="n">sign</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">&amp;</span> <span class="mi">8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">vpdiff</span> <span class="o">=</span> <span class="n">step</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">delta</span> <span class="o">&amp;</span> <span class="mi">4</span> <span class="p">)</span> <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">delta</span> <span class="o">&amp;</span> <span class="mi">2</span> <span class="p">)</span> <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">delta</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="p">)</span> <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="o">&gt;&gt;</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">sign</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">-=</span> <span class="n">vpdiff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">+=</span> <span class="n">vpdiff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">valpred</span> <span class="o">&gt;</span> <span class="mi">32767</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">=</span> <span class="mi">32767</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">valpred</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">32768</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32768</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">step</span> <span class="o">=</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">*</span><span class="n">outp</span><span class="o">++</span> <span class="o">=</span> <span class="n">valpred</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">state</span><span class="o">-&gt;</span><span class="n">valprev</span> <span class="o">=</span> <span class="n">valpred</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">state</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="adpcm编码代码">ADPCM编码代码
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;adpcm.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">adpcm_encoder</span><span class="p">(</span><span class="kt">short</span> <span class="n">indata</span><span class="p">[],</span> <span class="kt">char</span> <span class="n">outdata</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">adpcm_state_t</span><span class="o">*</span> <span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">indexTable</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="mi">89</span><span class="p">]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">50</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">130</span><span class="p">,</span> <span class="mi">143</span><span class="p">,</span> <span class="mi">157</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">209</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">253</span><span class="p">,</span> <span class="mi">279</span><span class="p">,</span> <span class="mi">307</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">337</span><span class="p">,</span> <span class="mi">371</span><span class="p">,</span> <span class="mi">408</span><span class="p">,</span> <span class="mi">449</span><span class="p">,</span> <span class="mi">494</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">598</span><span class="p">,</span> <span class="mi">658</span><span class="p">,</span> <span class="mi">724</span><span class="p">,</span> <span class="mi">796</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">876</span><span class="p">,</span> <span class="mi">963</span><span class="p">,</span> <span class="mi">1060</span><span class="p">,</span> <span class="mi">1166</span><span class="p">,</span> <span class="mi">1282</span><span class="p">,</span> <span class="mi">1411</span><span class="p">,</span> <span class="mi">1552</span><span class="p">,</span> <span class="mi">1707</span><span class="p">,</span> <span class="mi">1878</span><span class="p">,</span> <span class="mi">2066</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">2272</span><span class="p">,</span> <span class="mi">2499</span><span class="p">,</span> <span class="mi">2749</span><span class="p">,</span> <span class="mi">3024</span><span class="p">,</span> <span class="mi">3327</span><span class="p">,</span> <span class="mi">3660</span><span class="p">,</span> <span class="mi">4026</span><span class="p">,</span> <span class="mi">4428</span><span class="p">,</span> <span class="mi">4871</span><span class="p">,</span> <span class="mi">5358</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">5894</span><span class="p">,</span> <span class="mi">6484</span><span class="p">,</span> <span class="mi">7132</span><span class="p">,</span> <span class="mi">7845</span><span class="p">,</span> <span class="mi">8630</span><span class="p">,</span> <span class="mi">9493</span><span class="p">,</span> <span class="mi">10442</span><span class="p">,</span> <span class="mi">11487</span><span class="p">,</span> <span class="mi">12635</span><span class="p">,</span> <span class="mi">13899</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">15289</span><span class="p">,</span> <span class="mi">16818</span><span class="p">,</span> <span class="mi">18500</span><span class="p">,</span> <span class="mi">20350</span><span class="p">,</span> <span class="mi">22385</span><span class="p">,</span> <span class="mi">24623</span><span class="p">,</span> <span class="mi">27086</span><span class="p">,</span> <span class="mi">29794</span><span class="p">,</span> <span class="mi">32767</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span> 
+</span></span><span class="line"><span class="cl">    <span class="kt">adpcm_state_t</span> <span class="n">voice_adpcmState</span><span class="p">;</span>   
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span><span class="o">*</span> <span class="n">inp</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">    <span class="kt">signed</span> <span class="kt">char</span><span class="o">*</span> <span class="n">outp</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>            
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">sign</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">delta</span><span class="p">;</span>        
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">diff</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">step</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">valpred</span><span class="p">;</span>       
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">vpdiff</span><span class="p">;</span>       
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">index</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">outputbuffer</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">bufferstep</span><span class="p">;</span>     
+</span></span><span class="line"><span class="cl">    <span class="n">outp</span> <span class="o">=</span> <span class="p">(</span><span class="kt">signed</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">outdata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inp</span> <span class="o">=</span> <span class="n">indata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">valpred</span> <span class="o">=</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">valprev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span> <span class="o">=</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">step</span> <span class="o">=</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bufferstep</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">len</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">len</span><span class="o">--</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="o">*</span><span class="n">inp</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">diff</span> <span class="o">=</span> <span class="n">val</span> <span class="o">-</span> <span class="n">valpred</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sign</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">8</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">sign</span> <span class="p">)</span> <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">diff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">vpdiff</span> <span class="o">=</span> <span class="p">(</span><span class="n">step</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">diff</span> <span class="o">&gt;=</span> <span class="n">step</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">delta</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">diff</span> <span class="o">-=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">step</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">diff</span> <span class="o">&gt;=</span> <span class="n">step</span>  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">delta</span> <span class="o">|=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">diff</span> <span class="o">-=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">step</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">diff</span> <span class="o">&gt;=</span> <span class="n">step</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">delta</span> <span class="o">|=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">vpdiff</span> <span class="o">+=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">sign</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">-=</span> <span class="n">vpdiff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">+=</span> <span class="n">vpdiff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">valpred</span> <span class="o">&gt;</span> <span class="mi">32767</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">=</span> <span class="mi">32767</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">valpred</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">32768</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valpred</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32768</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">delta</span> <span class="o">|=</span> <span class="n">sign</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">index</span> <span class="o">+=</span> <span class="n">indexTable</span><span class="p">[</span><span class="n">delta</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">88</span> <span class="p">)</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">88</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">step</span> <span class="o">=</span> <span class="n">stepsizeTable</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">bufferstep</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">outputbuffer</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xf0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*</span><span class="n">outp</span><span class="o">++</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&amp;</span> <span class="mh">0x0f</span><span class="p">)</span> <span class="o">|</span> <span class="n">outputbuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">bufferstep</span> <span class="o">=</span> <span class="o">!</span><span class="n">bufferstep</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">bufferstep</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">*</span><span class="n">outp</span><span class="o">++</span> <span class="o">=</span> <span class="n">outputbuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">state</span><span class="o">-&gt;</span><span class="n">valprev</span> <span class="o">=</span> <span class="n">valpred</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">state</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在代码中，已经把差分表以及步长表都放在了函数中</p>
+<p>下面给出编码器与解码器共用的头文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#ifndef __ADPCM_H__
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define __ADPCM_H__
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">adpcm_state</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span>      <span class="n">valprev</span><span class="p">;</span>    
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span>       <span class="n">index</span><span class="p">;</span>         
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">adpcm_state</span> <span class="kt">adpcm_state_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">adpcm_decoder</span><span class="p">(</span><span class="kt">char</span> <span class="p">[],</span> <span class="kt">short</span> <span class="p">[],</span> <span class="kt">int</span><span class="p">,</span> <span class="k">struct</span> <span class="n">adpcm_state</span><span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">adpcm_encoder</span><span class="p">(</span><span class="kt">short</span> <span class="p">[],</span> <span class="kt">char</span> <span class="p">[],</span> <span class="kt">int</span><span class="p">,</span> <span class="k">struct</span> <span class="n">adpcm_state</span><span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#endif 
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这个头文件中，存放着一个结构体，<code>adpcm_state</code>，该结构体有两个变量，<code>valprev</code>表示预测值，<code>index</code>表示步长。</p>
+<p>每次计算后，都会生成一个新的<code>valprev</code>和<code>index</code>，用以计算下一个值，因此，我们如果想要做一个编解码器，则必须向该程序中传递输入数组，<code>adpcm_state</code>以及数据长度。</p>
+<p>上面是ADPCM的编码与解码算法，注意，上面的算法并不能直接构成一个可执行文件，因为没有main函数入口</p>
+<p>因为我们的数据是通过python来进行读写的，因此我们要通过python将数据传入ADPCM编码器与解码器的入口，由入口对数据稍作处理，再传入ADPCM算法中进行运算，输出的结果由入口打印出来，打印的结果被python捕获并写入相应的文件中。</p>
+<p>下面给出ADPCM编解码器的入口</p>
+<h2 id="adpcmdecmain">AdpcmDecMain
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdint.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;adpcm.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="cm">/******************************************************************
+</span></span></span><span class="line"><span class="cl"><span class="cm">    ADPCM is a lossless data compression algorithm.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    it is used in video and audio compression.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    it is a type of adaptive differential pulse code modulation (ADPCM).
+</span></span></span><span class="line"><span class="cl"><span class="cm">    ADPCM is a type of lossless data compression algorithm that uses a variable bit rate to encode audio or video data.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    in this example, adpcm has three five arguments: valprev, index, indata, outdata, len.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    len: the length of outdata which is the double of indata.But it is quadruple of data that was compress by adpcm,
+</span></span></span><span class="line"><span class="cl"><span class="cm">    because the data type of indata is char(1 octet), the data type of outdata is short(2 octet).
+</span></span></span><span class="line"><span class="cl"><span class="cm">    The compression ratio is 4:1
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果没有输入参数，则直接返回错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">argc</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;No arguments provided</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">errno</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 获取参数，并将参数转换成十六进制，如果遇见非法参数，则返回错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">invalue</span><span class="p">[</span><span class="n">argc</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="o">*</span> <span class="n">endptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//argv[i]是字符串，需要转换成十六进制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//endptr是一个指向char的指针，用于指向字符串的结尾
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//16 表示十六进制转换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//strtol是一个标准库函数，用于将字符串转换成整数，他将返回一个long类型的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">invalue</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="nf">strtol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">endptr</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">*</span><span class="n">endptr</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">||</span> <span class="n">endptr</span> <span class="o">==</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">||</span> <span class="n">errno</span> <span class="o">==</span> <span class="n">ERANGE</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Invalid argument: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 将参数中，index，prevalue和data的值提取出来
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 定义变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">indata</span><span class="p">[</span><span class="n">argc</span><span class="o">-</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">valprex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">argc</span><span class="o">-</span><span class="mi">3</span><span class="p">;</span>       <span class="c1">// 通过检查参数的长度来确定数据的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 提取data
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">indata</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">invalue</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 提取valprex和index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">valprex</span> <span class="o">=</span> <span class="p">(</span><span class="kt">short</span><span class="p">)</span> <span class="n">invalue</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span> <span class="o">=</span> <span class="n">invalue</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>   
+</span></span><span class="line"><span class="cl">    <span class="kt">adpcm_state_t</span> <span class="n">voice_adpcmState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">valprev</span> <span class="o">=</span> <span class="n">valprex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 进行解码 outdata的长度冗余
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">short</span> <span class="n">outdata</span><span class="p">[</span><span class="mi">276</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">adpcm_decoder</span><span class="p">(</span><span class="n">indata</span><span class="p">,</span> <span class="n">outdata</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span><span class="o">&amp;</span><span class="n">voice_adpcmState</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 循环打印结果，被python脚本捕获
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %04hx &#34;</span><span class="p">,</span><span class="n">outdata</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %04hx &#34;</span><span class="p">,</span><span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">valprev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %02x &#34;</span><span class="p">,</span><span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们能以解码器入口为例来解释代码，编码器入口同理：</p>
+<ul>
+<li>main函数接收参数，第一个参数无疑是函数名，第二个参数是<code>valprev</code>，第三个参数是<code>index</code>，第四个参数往后是待解码的数据。</li>
+<li>解释一下<code>strtol</code>函数，<code>argv[i]</code>是输入参数，<code>&amp;endptr</code>是一个指向<code>char*</code>的指针，它将在解析后指向第一个不属于数字部分的字符（如果整个字符串都是有效数字，它将指向字符串的末尾）。<code>16</code>是十六进制。</li>
+<li><code>strtol</code>函数会返回一个<code>long</code>类型的整数值，它是从字符串中解析出来的，如果字符串中包含无效字符，<code>strtol</code>将会在该字符串处停止解析，<code>endptr</code>将会指向该处。</li>
+<li><code>outdata</code>做了冗余处理，根据经验，一语音帧最大138个字节。<code>len</code>是传入的待解码的数据长度，如若供有20个字节的待解码数据，则<code>len=20</code></li>
+<li>有同学能猜出为什么循环打印<code>outdata</code>要乘以2吗？总结时会给出解释。</li>
+<li>将<code>outdata</code>打印出来，被python脚本捕获，将<code>valprev</code>与<code>index</code>一起打印，被python脚本捕获，在下一轮数据来临时，带上<code>valprev</code>和<code>index</code>。</li>
+<li>在这里敏锐的同学可能会注意到，我们在输入时，<code>valprev</code>和<code>index</code>参数是放在数据前面的，而在输出时，则是放在数据后面的，使用的同学需注意这一点，并没有什么特殊含义，只是笔者当初脚本先传的<code>valprev</code>和<code>index</code>，而编解码器后给出这两个值，笔者没改过来而已。</li>
+<li>在此轮解码结束后，编码器将结束生命周期，此时内存将全部释放，<code>valprev</code>与<code>index</code>将会丢失，因此必须抛出给python脚本，以供下一次解码时使用</li>
+</ul>
+<h2 id="adpcmencmain">AdpcmEncMain
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdint.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;adpcm.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="cm">/******************************************************************
+</span></span></span><span class="line"><span class="cl"><span class="cm">    ADPCM is a lossless data compression algorithm.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    it is used in video and audio compression.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    it is a type of adaptive differential pulse code modulation (ADPCM).
+</span></span></span><span class="line"><span class="cl"><span class="cm">    ADPCM is a type of lossless data compression algorithm that uses a variable bit rate to encode audio or video data.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    in this example, adpcm has three five arguments: valprev, index, indata, outdata, len.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    len: the length of outdata which is the double of indata.But it is quadruple of data that was compress by adpcm,
+</span></span></span><span class="line"><span class="cl"><span class="cm">    because the data type of indata is char(1 octet), the data type of outdata is short(2 octet).
+</span></span></span><span class="line"><span class="cl"><span class="cm">    The compression ratio is 4:1
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">adpcm_state_t</span> <span class="n">voice_adpcmState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">indata</span><span class="p">[</span><span class="n">argc</span><span class="o">-</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">valprex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="p">(</span><span class="n">argc</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//如果没有输入参数，则直接返回错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">argc</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;No arguments provided</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">errno</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//获取参数，并将参数转换成十六进制，如果遇见非法参数，则返回错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="o">*</span> <span class="n">endptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//argv[i]是字符串，需要转换成十六进制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//endptr是一个指向char的指针，用于指向字符串的结尾
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//16 表示十六进制转换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//strtol是一个标准库函数，用于将字符串转换成整数，他将返回一个long类型的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span><span class="p">(</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">valprex</span> <span class="o">=</span> <span class="p">(</span><span class="kt">short</span><span class="p">)</span><span class="nf">strtol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">endptr</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="nf">strtol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">endptr</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">indata</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">short</span><span class="p">)</span><span class="nf">strtol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">endptr</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">*</span><span class="n">endptr</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">||</span> <span class="n">endptr</span> <span class="o">==</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">||</span> <span class="n">errno</span> <span class="o">==</span> <span class="n">ERANGE</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Invalid argument: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">valprev</span> <span class="o">=</span> <span class="n">valprex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 进行解码 outdata的长度冗余
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">outdata</span><span class="p">[</span><span class="mi">276</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">adpcm_encoder</span><span class="p">(</span><span class="n">indata</span><span class="p">,</span> <span class="n">outdata</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">voice_adpcmState</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 循环打印结果，被python脚本捕获
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %02hhx &#34;</span><span class="p">,(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)</span><span class="n">outdata</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %04hx &#34;</span><span class="p">,</span><span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">valprev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; %02x &#34;</span><span class="p">,</span><span class="n">voice_adpcmState</span><span class="p">.</span><span class="n">index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编码器入口与解码器入口大差不差，大家仔细阅读即可</p>
+<h2 id="编译">编译
+</h2><p>在本文中可以看到，我们采用了一个头文件，一个c文件存放编码算法，一个c文件存放程序入口这种形式来组织代码，这样的好处是方便整理代码，可读性更高，但同时呢，无法直接运行，因为编码算法的c文件与程序入口的c文件并没有链接到一起，因此程序入口无法找到<code>adpcm_encoder</code>和<code>adpcm_decoder</code>的函数实现，我们需要使用GCC命令来对文件进行手动编译。命令如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc AdpcmDecMain.c AdpcmDec.c -o AdpcmDecoder
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这条命令的作用是：</p>
+<p>将<code>AdpcmDecMain.c</code>文件与<code>AdpcmDec.c</code>文件编译并链接在一起，生成一个名为<code>AdpcmDecoder.exe</code>的可执行文件</p>
+<h2 id="总结">总结
+</h2><p>这篇文章总的来说笔者不是很满意，因为并没有仔细解释ADPCM的原理，笔者认为<a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668"  target="_blank" rel="noopener"
+    >ADPCM(自适应差分脉冲编码调制)的原理和计算_单片机使用adpcm音频编解码算法-CSDN博客</a>这篇文章已经给出的非常详细，笔者解释只是锦上添花，而笔者也没有想到更好的理解方法，如果笔者后续对这些音频算法有更深的理解时，笔者会做出整理。</p>
+<p>现在给出上面的问题的解释，为什么循环打印<code>outdata</code>要乘以2，这是因为，我们解码前的数据存储的是前一个数据与后一个数据的差分，仅用4bit存储，而解码后的单个PCM数据就有16bit，但在C语言中，最小存储单位为<code>uint8_t</code>，即8个比特，在本程序中，解码前的数据用<code>char</code>存储，也是8个比特，也就是说，一个<code>indata</code>能存储两个差分数据，即两个解码前的数据，<code>outdata</code>数组的数据类型是<code>short</code>即16个比特，一个解码的<code>indata</code>，解码后需要两个<code>outdata</code>来存储才行，这样，<code>outdata</code>的长度就是<code>indata</code>的2倍</p>
+<p>为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的<code>len</code>是输入参数的两倍，这与解码器不同，与adpcm算法内部的<code>len</code>有关。</p>
+<p>python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！</p>
+<blockquote>
+<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c/">C</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十一）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十一）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（七）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（七）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

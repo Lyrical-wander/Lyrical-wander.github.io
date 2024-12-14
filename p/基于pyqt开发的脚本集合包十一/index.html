@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制.">
+<title>基于PyQt开发的脚本集合包（十一）</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（十一）">
+<meta property='og:description' content="在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制.">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-12-13T13:26:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-13T13:26:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.png' />
+<meta name="twitter:title" content="基于PyQt开发的脚本集合包（十一）">
+<meta name="twitter:description" content="在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#ui框架">UI框架</a></li>
+    <li><a href="#进度条展示">进度条展示</a></li>
+    <li><a href="#代码详解">代码详解</a></li>
+    <li><a href="#总结">总结</a>
+      <ol>
+        <li><a href="#进度条的更新实际上是对控件的重新绘制">进度条的更新实际上是对控件的重新绘制</a></li>
+        <li><a href="#通过消息队列传递更新消息">通过消息队列传递更新消息</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt_hu18299242409021908448.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt_hu2213941626906010426.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十一）" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" style="background-color: #2a9d8f; color: #fff;">
+                Python
+            </a>
+        
+            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
+                PyQt5
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">基于PyQt开发的脚本集合包（十一）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 13, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>这是实现音频编解码器功能模块的第二篇文章，在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文主要实现特色进度条，在本文中，我们会涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制。本文仅介绍编解码器UI的布局，因为实现UI时会用到开线程的部分，因此本文先不展示。</p>
+<p>本次笔者设计的特色进度条，是涂格子形式的进度条，当进度增加时，进度条内的方格会被随机涂上颜色，供大家参考。</p>
+<h2 id="ui框架">UI框架
+</h2><p>如下图所示：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188.png"
+	width="1122"
+	height="766"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu17251643162458516597.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu10630458649422691579.png 1024w"
+	loading="lazy"
+	
+		alt="start"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="351px"
+	
+></p>
+<ul>
+<li>
+<p>编码器的UI布局同样为垂直分布</p>
+</li>
+<li>
+<p>在第一层级，由经典的选择文件构成，这个选择文件的布局样式已经在本系列中多次出现</p>
+</li>
+<li>
+<p>一个下拉选择框，目前只有ADPCM一个算法可供选择</p>
+</li>
+<li>
+<p>两个按钮水平布局，编码按钮启动编码器，解码按钮启动解码器</p>
+</li>
+<li>
+<p>编解码器读取选中的文件，从文件中读取数据。注意，文件最好是txt文件格式，数据是十六进制数1字节为单位，以空格分隔开，可选择一帧数据一行，如下图所示：</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298.png"
+	width="549"
+	height="391"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18329291701166208966.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18168692022278040201.png 1024w"
+	loading="lazy"
+	
+		alt="adpcmData.txt"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="140"
+		data-flex-basis="336px"
+	
+></p>
+</li>
+<li>
+<p>解码器会在workspaces目录下生成<code>pcm.txt</code>数据文件，其中包含了解码后的PCM数据，以文本形式保存，后续将其放入pcm构建器中可生成二进制文件，在PCM播放器中播放即可。</p>
+</li>
+<li>
+<p>编码器会在workspaces目录下生成<code>adpcm.txt</code>数据文件，其中包含了编码后的ADPCM数据，以文本形式保存，后续如何处理数据，可自行决定。</p>
+</li>
+<li>
+<p>最下方是进度条，由20*5共100个方格组成，在未启动状态下为灰色，当开始解码或编码时，编码进度每增加1%，那么就会随机涂蓝一个格子，在进度为100%时，即编码完成，则所有格子全部为蓝色。</p>
+</li>
+<li>
+<p>当重新开始编码或解码时，格子会重新初始化，全部被重新涂成灰色。</p>
+</li>
+</ul>
+<h2 id="进度条展示">进度条展示
+</h2><p>下面是正在解码过程中的进度条展示，在右边的日志展示区中可以看到，正在进行ADPCM解码，在功能区中，下方进度条在随机选择格子涂蓝，将这些以显示当前进度</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122.png"
+	width="1122"
+	height="766"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu2621589240093356188.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu9791393477353833336.png 1024w"
+	loading="lazy"
+	
+		alt="processbar of decoding"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="351px"
+	
+></p>
+<p>下面是解码结束后的进度条样式，可以看到，在右边的日志区中，显示<code>ADPCM decode end</code>，adpcm解码完成，下方的进度条已被完全涂成蓝色。</p>
+<p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816.png"
+	width="1122"
+	height="766"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu8945448312101488568.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu1529046219813022820.png 1024w"
+	loading="lazy"
+	
+		alt="processbar of decode end"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="351px"
+	
+></p>
+<h2 id="代码详解">代码详解
+</h2><p>下面给出进度条的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QTimer</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="n">QColor</span><span class="p">,</span> <span class="n">QPainter</span><span class="p">,</span> <span class="n">QPainterPath</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QVBoxLayout</span><span class="p">,</span> <span class="n">QPushButton</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">queue</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ProgressBar</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setFixedSize</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">160</span><span class="p">)</span>  <span class="c1"># 设置进度条的大小</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># 每个方格的宽度和高度</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">total_grids</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">)</span>  <span class="c1"># 方格总数</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">lit_grids</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 当前已点亮的方格数量</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">grid_status</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_grids</span>  <span class="c1"># 每个方格是否被点亮</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">init_grids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">lit_grids</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 当前已点亮的方格数量</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">grid_status</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_grids</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># 更新进度条绘制</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">update_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;随机点亮一个未点亮的方格&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">percent</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lit_grids</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_grids</span> <span class="ow">and</span> <span class="n">percent</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 随机选择一个未点亮的方格</span>
+</span></span><span class="line"><span class="cl">                <span class="n">unlit_grids</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_status</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">lit</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">random_grid</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">unlit_grids</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">grid_status</span><span class="p">[</span><span class="n">random_grid</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># 点亮该方格</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">lit_grids</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># 增加已点亮的方格数量</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># 更新进度条绘制</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">percent</span> <span class="o">==</span> <span class="mi">100</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">paintEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;自定义绘制进度条&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">painter</span> <span class="o">=</span> <span class="n">QPainter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">painter</span><span class="o">.</span><span class="n">setRenderHint</span><span class="p">(</span><span class="n">QPainter</span><span class="o">.</span><span class="n">Antialiasing</span><span class="p">)</span>  <span class="c1"># 启用抗锯齿效果，使边角更平滑</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 绘制方格</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="n">col</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span>
+</span></span><span class="line"><span class="cl">                <span class="n">y</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 计算当前方格的索引</span>
+</span></span><span class="line"><span class="cl">                <span class="n">index</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">col</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_status</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">color</span> <span class="o">=</span> <span class="n">QColor</span><span class="p">(</span><span class="mi">144</span><span class="p">,</span> <span class="mi">203</span><span class="p">,</span> <span class="mi">251</span><span class="p">)</span>   <span class="c1"># 已点亮的部分，蓝色</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">color</span> <span class="o">=</span> <span class="n">QColor</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span> <span class="c1"># 未点亮的部分，灰色</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">painter</span><span class="o">.</span><span class="n">fillRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_size</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>  <span class="c1"># 绘制方格</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">painter</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们来解释一下上面的代码：</p>
+<ul>
+<li>在<code>__init__</code>方法中，设置了一些基础配置，进度条的大小，方格的大小，方格的总数，已点亮的方格数，每个方格的状态（是否被点亮了），值得注意的是，方格的总是是通过进度条的长除以方格的长，进度条的宽除以方格的宽然后相乘的来的，这里直接翻译为20*5 = 100</li>
+<li><code>init_grids</code>方法重新初始化方格的基础配置，归零已点亮的方格数量，擦除方格的状态，并重新绘制进度条，即恢复初始状态</li>
+<li><code>update_progress</code>方法用以更新进度，可以看到，该函数接收一个<code>q</code>参数，该参数为一个队列对象，用以线程之间的沟通（线程方面我们下篇文章讨论），此处做一个while的死循环，从队列中获取来自另一个线程的消息，这个操作是阻塞的，也就是说，当未从队列中获取新的消息，则线程不会继续进行下一条指令。</li>
+<li>如果已经点亮的方格数小于全部方格数，且进度≤100%，则执行以下操作，随机选择一个未点亮的方格，标志为点亮</li>
+<li><code>unlit_grids = [i for i, lit in enumerate(self.grid_status) if not lit]</code>，解释一下这一段代码：
+<ul>
+<li><code>enumerate(self.grid_status)</code>将会返回一个生成器，生成的是每个元素的索引<code>i</code>和对应的值<code>lit</code>，例如：假设<code>self.grid_status = [True, False, True, Flase]</code>，那么生成器将会返回，<code>(0,True)</code>,<code>(1,False)</code>,<code>(2,True)</code>,<code>(3,False)</code></li>
+<li><code>for i, lit in enumerate(self.grid_status)</code>是一个<code>for</code>循环，用来遍历<code>enumerate(self.grid_status)</code>返回的每一个<code>(i,lit)</code>元组，<code>i</code>是索引，<code>lit</code>是<code>self.grid_status</code>中对应的状态值</li>
+<li><code>if not lit</code>这个条件判断会检查<code>lit</code>是否为<code>False</code>，如果为<code>False</code>，就会被加入到列表<code>unlit_grids</code>中</li>
+<li>总的来说，这是整个列表推导式的语法，它会创建一个包含所有符合条件<code>if not lit</code>的元素索引<code>i</code>的新列表</li>
+</ul>
+</li>
+<li><code>random.choice</code>方法在<code>unlit_grids</code>中随机选择一个方格</li>
+<li>将选择的的方格状态设置为点亮</li>
+<li>增加已点亮的方格数量</li>
+<li>更新进度条绘制</li>
+<li>如果进度条达到100%，则直接退出该函数，不再循环，也不再接收来自其它线程的消息</li>
+<li><code>paintEvent</code>方法是用以绘制进度条的，创建一个在PyQt中可绘制的对象QPainter。</li>
+<li>两层<code>for</code>循环，计算现在的位置，确定这个位置的方格是以点亮还是未点亮，确定颜色，绘制方格。</li>
+<li><code>painter.end</code>方法结束绘制</li>
+</ul>
+<h2 id="总结">总结
+</h2><h3 id="进度条的更新实际上是对控件的重新绘制">进度条的更新实际上是对控件的重新绘制
+</h3><p><code>paintEvent</code>在什么时候被调用？</p>
+<blockquote>
+<p><code>paintEvent</code> 是一个 <strong>Qt</strong> 事件处理函数，它在 <strong>需要重新绘制组件时</strong> 被自动调用。Qt 会在以下几种情况下触发 <code>paintEvent</code>：</p>
+<ol>
+<li><strong>窗口或控件首次显示时</strong>：
+<ul>
+<li>当窗口或控件第一次显示时，<code>paintEvent</code> 会被触发，负责绘制控件的初始状态。</li>
+</ul>
+</li>
+<li><strong>控件大小发生变化时</strong>：
+<ul>
+<li>如果控件的大小发生了变化（例如，窗口调整大小），<code>paintEvent</code> 会被调用来重新绘制控件，以适应新的尺寸。</li>
+</ul>
+</li>
+<li><strong>调用 <code>update()</code> 或 <code>repaint()</code> 时</strong>：
+<ul>
+<li>当你调用 <code>update()</code> 或 <code>repaint()</code> 方法时，Qt 会标记该控件为“需要重绘”，并会在下一个事件循环中触发 <code>paintEvent</code>。</li>
+</ul>
+</li>
+<li><strong>其他因素</strong>：
+<ul>
+<li>如果控件的内容发生了变化，或者某些部分被遮挡并随后暴露出来，Qt 会重新触发 <code>paintEvent</code> 来重新绘制这些区域。例如，当窗口被部分遮挡后再显示出来时，Qt 会调用 <code>paintEvent</code> 来刷新被遮挡的部分。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p>在上面的代码中，每次更新进度条的状态时，调用<code>self.update</code>，重新绘制控件。</p>
+<p>如果不适用<code>self.update</code>，而是直接调用<code>paintEvent</code>绘制进度条可以吗？</p>
+<blockquote>
+<p>直接调用 <code>paintEvent</code> 来重绘进度条并不是一种推荐的做法。原因在于，Qt 的事件机制是自动管理绘制过程的，而直接调用 <code>paintEvent</code> 会绕过事件系统，可能导致一些问题。下面我将详细解释原因和影响。</p>
+<ol>
+<li><strong>Qt 的绘制机制</strong>：</li>
+</ol>
+<ul>
+<li>在 Qt 中，<code>paintEvent</code> 由事件循环自动管理，通常不需要直接调用。当你调用 <code>self.update()</code> 时，Qt 会将控件标记为“需要重绘”，并在合适的时机调用 <code>paintEvent</code>。</li>
+<li><code>self.update()</code> 会触发一个绘制事件，但不会立即调用 <code>paintEvent</code>，而是将重绘请求加入事件队列，稍后由 Qt 的事件循环处理。这样做的好处是，Qt 会合理地合并多个绘制请求，避免频繁的重复重绘，提高性能。</li>
+</ul>
+<ol start="2">
+<li><strong>直接调用 <code>paintEvent</code> 的问题</strong>：</li>
+</ol>
+<ul>
+<li>如果你直接调用 <code>paintEvent</code>，就会绕过 Qt 的事件循环和绘制机制。<code>paintEvent</code> 通常是由系统在适当时机（如控件需要重绘时）自动触发的。</li>
+<li>直接调用<code>paintEvent</code>可能会导致：
+<ul>
+<li><strong>绘制不一致</strong>：因为 Qt 的绘制机制已经负责了缓存和重绘的时机，直接调用 <code>paintEvent</code> 可能会与其他重绘请求冲突，导致绘制不稳定。</li>
+<li><strong>不符合最佳实践</strong>：Qt 推荐使用 <code>update()</code> 来请求重绘，因为它利用了 Qt 内部的绘制优化策略。如果你直接调用 <code>paintEvent</code>，可能会破坏这些优化。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="通过消息队列传递更新消息">通过消息队列传递更新消息
+</h3><p>进度条的更新实际上需要与编解码器的编解码进度相关，因为编解码器吃算力，因此不建议将编解码器放在主线程中运行，所以对编解码器开了子线程运行，消息的互传需要通过消息队列来进行。关于线程问题，我们将在下一期内容时更详细地讲解。</p>
+<p>祝你变得更强！</p>
+<blockquote>
+<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pyqt%E5%AE%9E%E6%88%98/">PyQt实战</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（十）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（十）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（七）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（七）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（六）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（六）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于PyQt开发的脚本集合包（五）"
+                        
+                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于PyQt开发的脚本集合包（五）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
