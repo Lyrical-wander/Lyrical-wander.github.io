@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文将介绍遗传算法的思想，并给出一个python的遗传算法示例代码。">
+<title>遗传算法</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="遗传算法">
+<meta property='og:description' content="本文将介绍遗传算法的思想，并给出一个python的遗传算法示例代码。">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='数学建模' /><meta property='article:tag' content='数学' /><meta property='article:published_time' content='2024-12-21T13:20:00&#43;08:00'/><meta property='article:modified_time' content='2024-12-21T13:20:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image.jpg' />
+<meta name="twitter:title" content="遗传算法">
+<meta name="twitter:description" content="本文将介绍遗传算法的思想，并给出一个python的遗传算法示例代码。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#遗传算法思想">遗传算法思想</a></li>
+    <li><a href="#需要注意的相关概念">需要注意的相关概念</a></li>
+    <li><a href="#算法优点">算法优点</a></li>
+    <li><a href="#算法缺点">算法缺点</a></li>
+    <li><a href="#代码示例">代码示例</a></li>
+    <li><a href="#父代基因适应度高而子代基因适应度降低的原因">父代基因适应度高而子代基因适应度降低的原因</a>
+      <ol>
+        <li><a href="#1-交叉操作引入的不利基因组合">1. <strong>交叉操作引入的不利基因组合</strong></a></li>
+        <li><a href="#2-变异操作对子代的影响">2. <strong>变异操作对子代的影响</strong></a></li>
+        <li><a href="#3-遗传算法的平衡">3. <strong>遗传算法的平衡</strong></a></li>
+        <li><a href="#4-交叉操作的种类">4. <strong>交叉操作的种类</strong></a></li>
+        <li><a href="#5-种群的多样性">5. <strong>种群的多样性</strong></a></li>
+        <li><a href="#6-选择压力">6. <strong>选择压力</strong></a></li>
+        <li><a href="#小结">小结</a></li>
+      </ol>
+    </li>
+    <li><a href="#选择">选择</a>
+      <ol>
+        <li><a href="#选择压力">选择压力</a></li>
+        <li><a href="#选择方式">选择方式</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考文章">参考文章</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
+                <img src="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu14972380581220303523.jpg"
+                        srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu14972380581220303523.jpg 800w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu2516378592447096298.jpg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 遗传算法" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background-color: #2a9d8f; color: #fff;">
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">遗传算法</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文将介绍遗传算法的思想，并给出一个python的遗传算法示例代码。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 21, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 13 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>遗传算法是数学建模中非常重要的一种搜索和优化算法，掌握遗传算法的精髓除了在竞赛中具有优势以外，更主要的是在解决实际问题的时候提供了一种全新的思路，通过将现实中的某种模式转换成算法，并用以解决某种问题的这种思路，或许是算法创新，提高效率的另一条路。</p>
+<p>本文将会介绍遗传算法的思想，优缺点以及提供一个遗传算法的示例代码，此外，还会讲解父代基因的适应度高而产生的子代适应度降低的原因，以及<strong>选择</strong>的重要性。</p>
+<h2 id="遗传算法思想">遗传算法思想
+</h2><p>遗传算法主要的中心思想为“适者生存，优胜劣汰”来找到全局最优解。</p>
+<p>在遗传算法中，首先会诞生一个随机的种群，这个种群的基因库随机生成。</p>
+<p>因为环境(目标)的限制，种群中每个个体适应环境的能力（适应度）不同，因此导致每个个体能够遗传下去的概率不同</p>
+<p>具有更高适应度的个体会享有更高的遗传概率，即能够以自身的基因段繁殖出子代。</p>
+<p>在繁殖过程中，两个个体的基因序列会发生交叉，从而诞生的新的个体拥有两个父代的基因段。</p>
+<p>子代还有概率发生变异，基因序列发生突变。</p>
+<p>在不断地迭代中，个体会发生不断地进化，适应度会提高。</p>
+<h2 id="需要注意的相关概念">需要注意的相关概念
+</h2><ul>
+<li><strong>初始化种群</strong>：是随机选择一组个体，每一个个体都表示一组基因序列，因此实际上是随机选择了几组基因序列</li>
+<li><strong>计算适应度</strong>：适应度是指每一个个体对环境的适应程度，也可以理解为基因的进化方向，基因在一轮一轮迭代中，尝试不断地向这个这个方向进化，以提高自身的适应度。在算法中，表现为对目标的接近程度。在实际应用中，可根据修改适应度函数，来达成自身的目的。</li>
+<li><strong>选择</strong>：选择负责繁殖下一代的个体，在实际应用中，可以调整选择的策略，比如：随机选择，提高优秀个体的选择权重，只选最优个体的等。不同的选择策略会产生不同的遗传效应。一般的选择策略都会提高更具适应性的个体被选中的概率，将遗传物质传递给下一代，但同时允许低适应性的个体也有遗传的几率，这样不会完全摒弃其遗传物质。</li>
+<li><strong>交叉</strong>：将父代的基因序列交叉，以建立新的个体（子代），<strong>交叉</strong>提高了物种进化的速度，在算法中，表现为提升迭代速度。可以有多种不同的交叉策略，主要根据实际情况做调整。</li>
+<li><strong>变异</strong>：目的是更新种群，将新模式引入基因序列中，在算法中，表现为鼓励在解空间的未知领域中探索，帮助算法跳出局部最优解。</li>
+<li><strong>物种多样性</strong>：物种的多样是意味着算法在解空间探索的广度，防止陷入某一局部最优解。增加种群的数量，采取更随机的<strong>选择</strong>策略和<strong>交叉</strong>策略，提高<strong>变异</strong>的概率等手段，皆能提高物种多样性。但过度的物种多样性可能会更容易导致子代丢失父代的优秀基因，导致迭代速度下降，甚至无法满足需求。</li>
+<li><strong>进化速度</strong>：进化速度可以理解为梯度下降时的步长，也可以理解为单次迭代时靠近最优值得速度。通过更加激进的<strong>选择</strong>策略，如：只选最优个体等，会加速进化，但同时会导致，物种多样性的降低，可能会导致陷入局部最优解。</li>
+<li><strong>参数敏感性</strong>：遗传算法对参数是具有较高的敏感度的，即，参数的修改对算法能否找到最优解，是否陷入局部最优解以及迭代速度都有较大影响。<strong>调参是门艺术，可以理解为掌握进化速度与物种多样性之间的平衡</strong>。</li>
+<li><strong>终止条件</strong>：算法的终止条件是达到迭代次数，也可以是达到了预期的值</li>
+</ul>
+<h2 id="算法优点">算法优点
+</h2><ul>
+<li><strong>全局最优</strong>：相较于大多数的传统搜索和优化算法（尤其是基于梯度的搜索和优化算法），遗传算法更有可能找到全局最优解，而不容易陷入局部最优解（这是梯度算法的一大难点）</li>
+<li><strong>处理复杂问题</strong>：遗传算法仅需要依靠每个个体的适应度得分，而不在乎适应度函数其中的运算（即使适应度函数中包含导数等），因此它可以用于解决具有复杂数学表示的问题。</li>
+<li><strong>处理缺乏数学表示的问题</strong>：与上一条同样，遗传算法依靠的是适应度的结果而不在乎如何得出适应度的过程，因此它甚至可以用于缺乏数学表示的问题，只要在适应度函数中将逻辑表现出来，能够比较不同个体的好坏，即可运行遗传算法。</li>
+<li><strong>耐噪音</strong>：一些问题中可能存在噪音现象，这一现象会干扰到大多数的传统搜索算法，但遗传算法对此具有鲁棒性。这要归功于反复交叉和重新评估个体的操作。</li>
+<li><strong>并行处理</strong>：遗传算法非常适合并行化和分布式处理，适应度是针对每个个体独立运算，因此可以同时评估所有个体的适应度。</li>
+<li><strong>持续学习</strong>：遗传算法可以一直持续，随着环境的变化而使种群重新适应它们，但这要求环境的变化速度小于种群的进化速度。</li>
+</ul>
+<h2 id="算法缺点">算法缺点
+</h2><ul>
+<li><strong>超参数调整</strong>：遗传算法的行为由一群超参数控制，这使得研究人员需要手动调整参数，这考验研究人员的经验，在某些问题上，无法给出超参数时，遗传算法效果会大打折扣</li>
+<li><strong>计算密集</strong>：种群规模较大时可能会需要大量的计算，在达到良好结果前非常耗时，可以通过选择超参数，并行处理以及在某些情况下缓存中间值来缓解这个问题</li>
+<li><strong>过早趋同</strong>：如果某一个体的适应能力比种群的其他个体要强得多，那么它的重复性可能足以覆盖整个种群，导致算法过早的进入了局部最优值，而不会去寻找全局最优，为防止这种情况的发生，需要保证物种的多样性。</li>
+<li><strong>无法保证解的质量</strong>：遗传算法的使用并不能保证找到当前问题的全局最大值（但几乎所有的搜索和优化算法都存在此类问题，除非它是针对特定类型问题的解析解）。通常，遗传算法在适当使用时可以在合理的时间内提供良好的解决方案。</li>
+</ul>
+<h2 id="代码示例">代码示例
+</h2><p>下面给出示例代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 初始化种群</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">initialize_population</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="n">gene_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pop_size</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 适应度函数的设计是为了评估一个个体的优劣性</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 通常，适应度函数是优化问题中的目标函数或其变体</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fitness_function</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 选择父代</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">select_parents</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitnesses</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">fitnesses</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 交叉方法：选择特定的交换位置，交换两个个体的基因</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">crossover</span><span class="p">(</span><span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">crossover_point</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parent1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child1</span> <span class="o">=</span> <span class="n">parent1</span><span class="p">[:</span><span class="n">crossover_point</span><span class="p">]</span> <span class="o">+</span> <span class="n">parent2</span><span class="p">[</span><span class="n">crossover_point</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child2</span> <span class="o">=</span> <span class="n">parent2</span><span class="p">[:</span><span class="n">crossover_point</span><span class="p">]</span> <span class="o">+</span> <span class="n">parent1</span><span class="p">[</span><span class="n">crossover_point</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变异方法：当随机数小于变异率时，变异：将基因值翻转</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gene</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">mutation_rate</span> <span class="k">else</span> <span class="n">gene</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">individual</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">genetic_algorithm</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">,</span> <span class="n">generations</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 初始化种群</span>
+</span></span><span class="line"><span class="cl">    <span class="n">population</span> <span class="o">=</span> <span class="n">initialize_population</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">generations</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算适应度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fitnesses</span> <span class="o">=</span> <span class="p">[</span><span class="n">fitness_function</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">population</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">new_population</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pop_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 选择父代</span>
+</span></span><span class="line"><span class="cl">            <span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span> <span class="o">=</span> <span class="n">select_parents</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitnesses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 交叉</span>
+</span></span><span class="line"><span class="cl">            <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span> <span class="o">=</span> <span class="n">crossover</span><span class="p">(</span><span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 变异</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_population</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mutate</span><span class="p">(</span><span class="n">child1</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">),</span> <span class="n">mutate</span><span class="p">(</span><span class="n">child2</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">)])</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 更新种群</span>
+</span></span><span class="line"><span class="cl">        <span class="n">population</span> <span class="o">=</span> <span class="n">new_population</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 选择最优个体</span>
+</span></span><span class="line"><span class="cl">    <span class="n">best_individual</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">fitness_function</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 返回最优个体及其适应度</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">best_individual</span><span class="p">,</span> <span class="n">fitness_function</span><span class="p">(</span><span class="n">best_individual</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用示例</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_solution</span><span class="p">,</span> <span class="n">best_fitness</span> <span class="o">=</span> <span class="n">genetic_algorithm</span><span class="p">(</span><span class="n">pop_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">gene_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">generations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Best solution: </span><span class="si">{</span><span class="n">best_solution</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Best fitness: </span><span class="si">{</span><span class="n">best_fitness</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>各函数解释</p>
+<p><strong>initialize_population</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 初始化种群</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">initialize_population</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="n">gene_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pop_size</span><span class="p">)]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里用了random.choices方法、列表推导式</p>
+<blockquote>
+<ol>
+<li><strong><code>random.choices()</code> 函数</strong></li>
+</ol>
+<p><code>random.choices(population, k)</code> 是 Python 的 <code>random</code> 模块中的一个函数，用于从 <code>population</code> 中随机选取 <code>k</code> 个元素，返回一个包含选定元素的列表。</p>
+<ul>
+<li><code>population</code>: 这是一个序列，可以是列表、元组、字符串等。<code>random.choices()</code> 会从这个序列中随机选取元素。</li>
+<li><code>k</code>: 这是一个整数，指定了要从 <code>population</code> 中选取多少个元素。</li>
+</ul>
+<ol start="2">
+<li><strong><code>for _ in range(pop_size)</code></strong></li>
+</ol>
+<p>这是一个列表推导式的部分。<code>for _ in range(pop_size)</code> 表示我们将执行 <code>pop_size</code> 次循环。</p>
+<ul>
+<li><code>range(pop_size)</code> 生成一个从 0 到 <code>pop_size-1</code> 的序列（不包括 <code>pop_size</code>）。</li>
+<li><code>_</code> 是一个常见的约定，表示这个循环变量我们并不打算使用。所以这里的 <code>_</code> 不代表任何实际的值，纯粹是用来控制循环次数。</li>
+</ul>
+<p>因此，<code>for _ in range(pop_size)</code> 表示循环 <code>pop_size</code> 次。</p>
+<ol start="3">
+<li><strong>结合起来</strong></li>
+</ol>
+<p>这行代码实际上是生成一个列表，列表中包含了 <code>pop_size</code> 个元素，每个元素都是一个长度为 <code>gene_length</code> 的列表。每个长度为 <code>gene_length</code> 的列表是通过 <code>random.choices([0, 1], k=gene_length)</code> 随机生成的，其中每个元素是从 <code>[0, 1]</code> 中选取的。</p>
+</blockquote>
+<p><strong>fitness_function</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 适应度函数的设计是为了评估一个个体的优劣性</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 通常，适应度函数是优化问题中的目标函数或其变体</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fitness_function</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该函数为适应度函数，其目的是计算<code>individual</code>个体的基因序列中为<code>1</code>的个数。也就是说，当一个个体的基因中，<code>1</code>的个数越多，其适应度越高</p>
+<p><strong>select_parents</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 选择父代</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">select_parents</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitnesses</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">fitnesses</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里重复使用了<code>random.choices</code>方法，与上面的大差不差，唯一的区别是增加了<code>weights</code>参数</p>
+<blockquote>
+<p><strong><code>weights</code></strong>：</p>
+<ul>
+<li>这是一个与 <code>population</code> 长度相同的可迭代对象（通常是列表或元组），它表示每个元素被选中的概率权重。</li>
+<li>权重越大的元素被选中的概率越高。注意，权重值的大小并不是选中的概率本身，而是相对的。例如，如果 <code>weights</code> 中的一个值是 2，而另一个是 1，那么前者的选中概率是后者的两倍。</li>
+<li>例如，如果 <code>population = ['A', 'B', 'C', 'D']</code> 且 <code>weights = [0.1, 0.3, 0.5, 0.1]</code>，那么 <code>C</code> 的选中概率最大，<code>A</code> 和 <code>D</code> 的概率最小。</li>
+</ul>
+</blockquote>
+<p><strong>crossover</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 交叉方法：选择特定的交换位置，交换两个个体的基因</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">crossover</span><span class="p">(</span><span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">crossover_point</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parent1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child1</span> <span class="o">=</span> <span class="n">parent1</span><span class="p">[:</span><span class="n">crossover_point</span><span class="p">]</span> <span class="o">+</span> <span class="n">parent2</span><span class="p">[</span><span class="n">crossover_point</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child2</span> <span class="o">=</span> <span class="n">parent2</span><span class="p">[:</span><span class="n">crossover_point</span><span class="p">]</span> <span class="o">+</span> <span class="n">parent1</span><span class="p">[</span><span class="n">crossover_point</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该函数随机选择了一个交叉点，<code>crossover_point</code>，以该点为基础作为切割，将父代分为两端，并两个相互交换一段，形成了两个新的子代。</p>
+<blockquote>
+<p><code>random.randint(1,len(parent1)-1)</code>：</p>
+<ul>
+<li><code>random.randint()</code>会随机生成一个整数，范围从1到<code>len(parent1)-1</code>（<code>parent1</code> 和 <code>parent2</code> 的长度相同）。</li>
+<li>选择 <code>1</code> 到 <code>len(parent1) - 1</code> 范围内的数字是因为交叉点不能选择在序列的两端（即不允许交叉点为 0 或序列的最后一个位置）。这样可以确保父代的两部分都会参与到交叉中。</li>
+</ul>
+</blockquote>
+<p><img src="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover.png"
+	width="919"
+	height="267"
+	srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu13766414356796456878.png 480w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu386559799463611174.png 1024w"
+	loading="lazy"
+	
+		alt="crossover"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="344"
+		data-flex-basis="826px"
+	
+></p>
+<p><strong>mutate</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 变异方法：当随机数小于变异率时，变异：将基因值翻转</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gene</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">mutation_rate</span> <span class="k">else</span> <span class="n">gene</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">individual</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里同样采用了列表表达式，遍历一个个体内的所有基因。</p>
+<p>如果随机数小于变异率，则会导致基因值翻转，否则基因将保持原样。</p>
+<p><strong>genetic_algorithm</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">genetic_algorithm</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">,</span> <span class="n">generations</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 初始化种群</span>
+</span></span><span class="line"><span class="cl">    <span class="n">population</span> <span class="o">=</span> <span class="n">initialize_population</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span> <span class="n">gene_length</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">generations</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算适应度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fitnesses</span> <span class="o">=</span> <span class="p">[</span><span class="n">fitness_function</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">population</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">new_population</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pop_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 选择父代</span>
+</span></span><span class="line"><span class="cl">            <span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span> <span class="o">=</span> <span class="n">select_parents</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitnesses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 交叉</span>
+</span></span><span class="line"><span class="cl">            <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span> <span class="o">=</span> <span class="n">crossover</span><span class="p">(</span><span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 变异</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_population</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mutate</span><span class="p">(</span><span class="n">child1</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">),</span> <span class="n">mutate</span><span class="p">(</span><span class="n">child2</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">)])</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 更新种群</span>
+</span></span><span class="line"><span class="cl">        <span class="n">population</span> <span class="o">=</span> <span class="n">new_population</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 选择最优个体</span>
+</span></span><span class="line"><span class="cl">    <span class="n">best_individual</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">fitness_function</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 返回最优个体及其适应度</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">best_individual</span><span class="p">,</span> <span class="n">fitness_function</span><span class="p">(</span><span class="n">best_individual</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>种群初始化</li>
+<li><code>generations</code>表示世代数，即迭代次数</li>
+<li>计算适应度</li>
+<li><code>pop_size // 2</code>表示更新次数，因为一次更新用到两个父代，并产生两个子代，因此更新次数是种群数的1/2。<code>//</code>表示<code>地板除法</code>，结果是向下取整的商</li>
+<li>选择父代时，采用的是增加优秀个体的权重策略。这样保证优秀基因有更大概率遗传，也保证了其它个体有遗传的概率，不摒弃“劣质基因”</li>
+<li>交叉采用的策略是定点交叉段</li>
+<li>变异率为0.01，即随机数小于0.01时则会发生变异，变异策略为单个基因变异，即每个基因变异都是独立的概率，且每个基因都有概率变异</li>
+<li>待更新结束后，种群更新的策略为：新产生的子代全部替代父代，形成新的种群。不保留优质父代。</li>
+</ul>
+<blockquote>
+<p>从上面我们可以看到，不仅仅是适应度函数会更具不同的常见发生变化，选择函数，交叉函数，变异函数和更新种群都可以采用不同的策略。这需要使用者的智慧根据环境选择最优的策略搭配。</p>
+<p>尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。</p>
+</blockquote>
+<h2 id="父代基因适应度高而子代基因适应度降低的原因">父代基因适应度高而子代基因适应度降低的原因
+</h2><p>在进行交叉时，有可能出现两个父代基因的适应度高而结合后产生的子代基因的适应度反而降低的情况，</p>
+<p>如上面的代码中，当父代1的基因序列为：<code>[1,0,1,1,1]</code>，父代2的基因序列为：<code>[1,1,1,0,1]</code>，此时做交叉，可能诞生的子代基因序列为：<code>[1,0,1,0,1]</code>，基因的适应度反而降低。</p>
+<h3 id="1-交叉操作引入的不利基因组合">1. <strong>交叉操作引入的不利基因组合</strong>
+</h3><p>交叉操作的基本思路是将两个父代基因的部分基因片段交换，从而产生新的子代。虽然这种方法通常能够产生适应度较高的后代，但也存在以下几种可能导致子代适应度降低的情况：</p>
+<ul>
+<li><strong>不良基因组合</strong>：两个适应度较高的父代可能有一些部分基因（如某些基因位的0和1组合）对适应度产生较大影响。交叉操作时，基因片段的交换可能会把这些不良基因组合带到子代中，从而降低子代的适应度。</li>
+<li><strong>局部最优</strong>：即使父代的适应度较高，但它们可能都处于某个局部最优解。如果交叉操作导致子代在搜索空间中“跳出”了父代所在的局部最优区间，可能会产生较低的适应度，甚至带来“坏”基因组合，使得子代的适应度下降。</li>
+</ul>
+<h3 id="2-变异操作对子代的影响">2. <strong>变异操作对子代的影响</strong>
+</h3><p>变异操作在一定概率下会对个体的基因进行随机的改变。虽然变异有时能帮助算法跳出局部最优解，但也有可能导致子代的适应度下降，特别是当变异幅度过大或频率过高时。具体来说：</p>
+<ul>
+<li><strong>过度变异</strong>：如果变异操作过于频繁或变异幅度过大，子代可能会失去父代的优良特性，从而导致适应度下降。</li>
+<li><strong>适应度函数的复杂性</strong>：适应度函数可能会对某些特定基因组合非常敏感，稍微的变异就可能导致适应度的显著下降。</li>
+</ul>
+<h3 id="3-遗传算法的平衡">3. <strong>遗传算法的平衡</strong>
+</h3><p>遗传算法的设计目标是通过交叉和变异操作从父代产生更好的子代，但也不可避免地会出现&quot;适应度降低&quot;的情况。这种现象尤其在遗传算法的初期或未经过多代优化时较为常见。</p>
+<ul>
+<li><strong>探索与开发的平衡</strong>：如果在每一代中都强制选择适应度较高的个体，并进行交叉，可能会导致种群中的多样性下降，从而减缓整体的进化速度。变异和交叉可以在一定程度上提供“探索”的机制，帮助算法避免陷入局部最优解。然而，过度的探索也可能导致适应度下降。</li>
+</ul>
+<h3 id="4-交叉操作的种类">4. <strong>交叉操作的种类</strong>
+</h3><p>交叉操作的具体方式也会影响其效果。不同的交叉方法（例如单点交叉、多点交叉、均匀交叉等）可能会在不同情况下对适应度产生不同的影响。某些交叉方法可能会更容易生成适应度较低的子代，而其他方法则能更好地保持或提高适应度。</p>
+<h3 id="5-种群的多样性">5. <strong>种群的多样性</strong>
+</h3><p>遗传算法中的种群多样性对于防止“过早收敛”至局部最优解至关重要。如果种群的多样性减少（例如，所有个体都开始趋同于相似的基因组合），那么交叉操作可能会限制新解的生成，从而导致适应度的下降。</p>
+<h3 id="6-选择压力">6. <strong>选择压力</strong>
+</h3><p>如果选择操作过于强烈（例如，每代仅选择适应度最高的个体进行交叉），可能会导致种群中的多样性迅速下降，甚至产生“过度优化”的现象。这样，在某些情况下，交叉出来的子代可能并不会比父代更好，反而会出现适应度下降的情况。</p>
+<h3 id="小结">小结
+</h3><p>是的，确实存在父代适应度较高时，交叉和变异操作可能导致子代适应度降低的情况。虽然遗传算法的设计目标是通过交叉和变异产生更适应环境的个体，但这种过程是随机的，并不总是能直接产生更好的解。为了应对这种问题，通常可以通过以下方法进行改进：</p>
+<ul>
+<li><strong>选择策略优化</strong>：适当调整选择压力，避免过早收敛。</li>
+<li><strong>交叉和变异操作调整</strong>：设计合理的交叉和变异策略，保证种群多样性，同时减少不必要的适应度降低。</li>
+<li><strong>引入精英策略</strong>：保留最优个体，确保最好的基因不会丢失。</li>
+</ul>
+<p>通过这些策略，遗传算法可以在进化过程中最大程度地避免出现适应度降低的现象，同时维持算法的多样性和全局搜索能力。</p>
+<h2 id="选择">选择
+</h2><p>选择是门艺术，采取不同的选择策略会给予基因进化以不同的选择压力，不同的选择压力则会影响着基因进化的方向和速度，甚至印象基因是否进化</p>
+<h3 id="选择压力">选择压力
+</h3><p>选择压力是指最佳个体选中的概率与平均选中的概率的比值。</p>
+<p>换句话说：你是否过分在意最佳个体，越提高最佳个体的选中概率，则选择压力越大，反之越小。</p>
+<p>类比：社会中，给予有能力的人的优待越大，则压力越大（大家都拼命内卷，都想做变得比别人更出众，结果演化出有钱人表示有能力，有样貌表示有能力等，以局部能力概括全部能力的现象）。给予有能力的人的优待越小，则压力越小（大家都选择躺平，因为没有动力去成为有能力的人）。</p>
+<p>因此，适合的压力才能更好地让推动大家进步。</p>
+<p>在遗传算法中：</p>
+<ul>
+<li>选择压力小（比如随机选择），会导致群体不进化</li>
+<li>选择压力大（比如只选择最优个体），会导致收敛到局部最优解</li>
+</ul>
+<h3 id="选择方式">选择方式
+</h3><ul>
+<li><strong>轮盘赌选择（随机选择）</strong>：又称比例选择算子，基本思想是：个体被选中的概率与其适应度函数的比值成正比</li>
+<li><strong>确定性选择</strong>：从子代或父代中选择最优的个体</li>
+<li><strong>竞赛选择</strong>：从种群中随机选择<code>t</code>个个体并记下对应适应度，返回<code>t</code>个个体中最好的个体，同时具备随机性和确定性</li>
+</ul>
+<h2 id="参考文章">参考文章
+</h2><p><a class="link" href="https://blog.csdn.net/weixin_56577499/article/details/130213381?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-130213381.142%5ev100%5epc_search_result_base5&amp;spm=1018.2226.3001.4187"  target="_blank" rel="noopener"
+    >遗传算法 (Genetic Algorithm, GA)-CSDN博客</a></p>
+<p><a class="link" href="https://blog.csdn.net/LOVEmy134611/article/details/111639624?ops_request_misc=%7B%22request%5Fid%22%3A%22cbc07f4dc0594243e931d04e2e588e64%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;request_id=cbc07f4dc0594243e931d04e2e588e64&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-2-111639624-null-null.142%5ev100%5epc_search_result_base5&amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;spm=1018.2226.3001.4187"  target="_blank" rel="noopener"
+    >遗传算法与深度学习实战（4）——遗传算法（Genetic Algorithm）详解与实现-CSDN博客</a></p>
+<p><a class="link" href="https://dreamit.blog.csdn.net/article/details/132138174"  target="_blank" rel="noopener"
+    >智能体入门——遗传算法与Qlearning_genetic algorithm和qlearning的区别和关系-CSDN博客</a></p>
+<p><a class="link" href="https://wenku.baidu.com/view/d4fd8ab20129bd64783e0912a216147917117e11.html?_wkts_=1734765555362"  target="_blank" rel="noopener"
+    >选择和适应度函数20160510 - 百度文库</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">数学建模</a>
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
