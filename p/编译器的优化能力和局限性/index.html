@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="理解优化编译器的能力和局限性是很重要的，在本文中，我们将尝试理解编译器的优化能力，并尝试编写出让编译器更容易优化的代码，同时也要理解编译器的优化局限性，并不是程序员看上去很容易优化的代码，编译器也会进行优化，编译器的优化是“安全的优化”。">
+<title>编译器的优化能力和局限性</title>
+
+<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/'>
+
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="编译器的优化能力和局限性">
+<meta property='og:description' content="理解优化编译器的能力和局限性是很重要的，在本文中，我们将尝试理解编译器的优化能力，并尝试编写出让编译器更容易优化的代码，同时也要理解编译器的优化局限性，并不是程序员看上去很容易优化的代码，编译器也会进行优化，编译器的优化是“安全的优化”。">
+<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/'>
+<meta property='og:site_name' content='苏三有春的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='计算机系统' /><meta property='article:published_time' content='2025-08-05T21:14:00&#43;08:00'/><meta property='article:modified_time' content='2025-08-05T21:14:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image.jpg' />
+<meta name="twitter:title" content="编译器的优化能力和局限性">
+<meta name="twitter:description" content="理解优化编译器的能力和局限性是很重要的，在本文中，我们将尝试理解编译器的优化能力，并尝试编写出让编译器更容易优化的代码，同时也要理解编译器的优化局限性，并不是程序员看上去很容易优化的代码，编译器也会进行优化，编译器的优化是“安全的优化”。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+
+        
+        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
+        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
+        <div id="particles-js"></div>
+        <script>
+            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
+                console.log('particles.js loaded - callback');
+            });
+        </script>
+        
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
+            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/28788259'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://blog.csdn.net/whale_cat'
+                        target="_blank"
+                        title="CSDN"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Lyrical-wander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
+                                
+                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#编译器的优化等级">编译器的优化等级</a></li>
+    <li><a href="#编译器的安全优化">编译器的安全优化</a>
+      <ol>
+        <li><a href="#什么是安全优化">什么是安全优化</a></li>
+        <li><a href="#优化等级与安全性的关系">优化等级与安全性的关系</a></li>
+      </ol>
+    </li>
+    <li><a href="#编译器优化的局限性">编译器优化的局限性</a>
+      <ol>
+        <li><a href="#指针未知导致的优化阻碍">指针未知导致的优化阻碍</a></li>
+        <li><a href="#函数调用时产生的优化阻碍">函数调用时产生的优化阻碍</a></li>
+      </ol>
+    </li>
+    <li><a href="#用内联函数替换优化函数的调用">用内联函数替换优化函数的调用</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/">
+                <img src="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image_hu_d1b0188467520b3f.jpg"
+                        srcset="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image_hu_d1b0188467520b3f.jpg 800w, /p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image_hu_7d39c86ebcbfa544.jpg 1600w"
+                        width="800" 
+                        height="531" 
+                        loading="lazy"
+                        alt="Featured image of post 编译器的优化能力和局限性" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%98%85%E8%AF%BB/" style="background-color: #2a9d8f; color: #fff;">
+                阅读
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/">编译器的优化能力和局限性</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            理解优化编译器的能力和局限性是很重要的，在本文中，我们将尝试理解编译器的优化能力，并尝试编写出让编译器更容易优化的代码，同时也要理解编译器的优化局限性，并不是程序员看上去很容易优化的代码，编译器也会进行优化，编译器的优化是“安全的优化”。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 05, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p>今日技术梳理：《深入理解计算机系统》第五章第一节：优化编译器的能力和局限性。这个标题有一些拗口，根据中文的阅读习惯，我们可能会对标题误解为：“程序员对编译器进行优化，这种能力与这种能力的局限性”。其实不然，本节所讨论的是“编译器自身对程序的优化能力与其优化能力的局限性”。我们知道，编译器本身在将我们的C语言代码转换为机器码时，首先会通过自身复杂且精细的算法来对其进行一定程度上的优化，利用一些机会来简化表达式，而本节中，我们则需要了解编译器的这种优化能力及其局限性，它为什么能进行优化，又在什么情况下无法进行优化，以便我们能够写出让编译器更好优化的代码，即：效率更高的代码。</p>
+<h2 id="编译器的优化等级">编译器的优化等级
+</h2><p>在现代大多数编译器中，包括GCC，向用户提供了一些对它们所使用的优化的控制，使得我们可以控制编译器对代码的优化程度，例如：以命令行选项 <strong>&quot;-Og&quot;</strong> 调用GCC会让GCC使用一组基本的优化，以 <strong>-O1</strong>或更高**（-O2，-O3）**，调用会使得GCC使用更大量的优化，可以提高程序的性能，但相应的被编译器优化后的代码不一定与源代码相同，在某些情况下会使得调试更加困难。</p>
+<h2 id="编译器的安全优化">编译器的安全优化
+</h2><p>编译器必须只能对程序使用 <strong>安全的优化</strong> 。</p>
+<h3 id="什么是安全优化">什么是安全优化
+</h3><p>安全优化是指：编译器在保证程序<strong>行为不变</strong>（遵循C/C++标准中的&quot;as-if&quot;规则）的前提下进行的优化，即使优化后的代码逻辑变化（如删除冗余计算，内联函数的等），程序的<strong>可观测行为</strong>必须和未优化版本一致。也就是说，对于程序可能遇到的所有情况下，优化后的程序必须保证和未优化的程序运行结果一样。</p>
+<h3 id="优化等级与安全性的关系">优化等级与安全性的关系
+</h3><p>就本质而言，所有的优化等级都在安全范围内，即符合安全规则，但不同成都的优化等级采取的优化策略激进程度不同。</p>
+<ul>
+<li><strong>默认无优化</strong>：<strong>-O0</strong>，不进行任何优化，代码直接映射到源码，便于调试，安全性最高，行为完全符合源码，但性能最低</li>
+<li><strong>删除未使用的变量</strong>：该策略从 <strong>-O1</strong> 起，更高等级的优化也会使用</li>
+<li><strong>常量折叠</strong>：该策略从 <strong>-O1</strong> 起，更高等级的优化也会使用</li>
+<li><strong>循环展开</strong>： <strong>-O2</strong> 起会采用该策略，较为激进的策略</li>
+<li><strong>内联函数</strong>： <strong>-O2</strong> 起会采用该策略</li>
+<li><strong>向量化，并行化</strong>：<strong>-O3</strong> 会采用的策略，更加激进，但仍在安全范围内，但可能暴露源码中<strong>隐藏的未定义行为</strong>（如越界访问），但这源于代码自身问题，而非优化引入。</li>
+</ul>
+<p>总的而言，虽然GCC可以采取不同程度的优化策略，但都是处于安全范围内，遵循语言规范，如若程序因优化出现异常，需检查源码中未定义的行为。同时这也侧面反映出，优化的一大特性，即：优化等级越高，与源码可能越不相同，越难调试。</p>
+<h2 id="编译器优化的局限性">编译器优化的局限性
+</h2><p>请看下面的例子：</p>
+<h3 id="指针未知导致的优化阻碍">指针未知导致的优化阻碍
+</h3><p>下面给出两个函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">twiddle1</span><span class="p">(</span><span class="kt">long</span> <span class="o">*</span><span class="n">xp</span><span class="p">,</span> <span class="kt">long</span> <span class="o">*</span><span class="n">yp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">twiddle2</span><span class="p">(</span><span class="kt">long</span> <span class="o">*</span><span class="n">xp</span><span class="p">,</span> <span class="kt">long</span> <span class="o">*</span><span class="n">yp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span> <span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这两个函数似乎在完成相同的行为，即将yp指针所指的值两次加到xp指针所指的值。</p>
+<p>但我们从机器运行的角度来考虑这两个代码运行的效率，首先 <code>twiddle1</code>函数会在<code>*xp += *yp;</code>处产生读*xp一次，读*yp一次，写*xp一次，共计3次操作，所以，整个函数将会产生6次对内存的引用操作。而<code>twiddle2</code>仅需要1次读*xp，1次读*yp，1次写*xp，共计3次内存引用操作即可。</p>
+<p>由此我们可以看出，<code>twiddle2</code>函数的效率更高一些。因此，如果编译器要编译<code>twiddle1</code>，我们会认为，将其编译成<code>twiddle2</code>的形式会产生更加高效的代码。</p>
+<p>但是如果我们考虑到，如果*xp与*yp引用的地址是同一个时，如下的情形：</p>
+<p><code>twiddle1</code>函数会执行以下计算：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="o">*</span><span class="n">xp</span><span class="p">;</span>  <span class="c1">// 此时xp指针所指的值会变为原来的2倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="o">*</span><span class="n">xp</span><span class="p">;</span>  <span class="c1">// 此时xp指针所指的值会变为原来的4倍
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>twiddle2</code>函数会执行以下计算：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">*</span><span class="n">xp</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="o">*</span><span class="n">xp</span><span class="p">;</span>  <span class="c1">// 此时xp所指的值会变为原来的3倍
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种两个指针可能指向同一个内存位置的情况被称为 <strong>内存别名使用(memory aliasing)</strong>。</p>
+<p>因此，在某种特殊的情况下，<code>twiddle1</code>与<code>twiddle2</code>可能会产生不同的值，因此，根据我们上面所说：编译器必须只能对程序进行 <strong>安全的优化</strong> ，在只执行安全的优化中，编译器必须假设不同的指针可能会只想内存中的同一位置，	因而编译器不会讲<code>twiddle1</code>优化成<code>twiddle2</code>的形式，即使在大部分情况下，<code>twiddle2</code>的效率要比<code>twiddle1</code>要高。</p>
+<p>我们再来考虑下面一个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">t1</span> <span class="o">=</span> <span class="o">*</span><span class="n">q</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此程序看上去十分明确，但实际上，t1的计算值我们目前是无法直接确定的，t1的计算值依赖于指针p和q是否指向同一块内存区域，如果指针p和指针q<strong>不指向同一块内存</strong>，则显然t1的值就是<strong>3000</strong>，但如果指针p和指针q<strong>指向的内存区域相同</strong>，那么指针q一开始赋值的3000就会被后面指针p的赋值给覆盖掉，因此此时t1的值为<strong>1000</strong>。</p>
+<p>这就造成了一个主要的妨碍优化的因素，这也是可能严重限制编译器产生优化代码机会的程序的一个方面，如果编译器不能确定两个指针是否指向同一个位置，就必须假设它们可能会指向同一个位置，这就限制了可能的优化策略。</p>
+<h3 id="函数调用时产生的优化阻碍">函数调用时产生的优化阻碍
+</h3><p>考虑下面两个函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">long</span> <span class="nf">f</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ling</span> <span class="nf">func1</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">f</span><span class="p">()</span> <span class="o">+</span> <span class="nf">f</span><span class="p">()</span> <span class="o">+</span> <span class="nf">f</span><span class="p">()</span> <span class="o">+</span> <span class="nf">f</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="nf">func2</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="nf">f</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这两个函数看上去计算的都是相同的结果，但是 <strong>func2</strong> 只调用 f 1次，而 <strong>func1</strong> 调用了 f 4次，这显然 <strong>func1</strong> 的开销要大于 <strong>func2</strong> 。如果以 <strong>func1</strong> 作为源代码时，编译器很想产生 <strong>func2</strong>风格的代码，但考虑以下 f 函数的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="nf">f</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>聪明的程序员很快就反应过来了，这个 f 函数修改了一个全局变量 counter，并将其状态返回，改变调用 f 函数的次数会改变程序的行为，即返回值。假设开始时全局变量counter都设置为0，那么对 <strong>func1</strong> 的调用会返回 0+1+2+3=6，而对于 <strong>func2</strong> 的调用会返回 4*0=0。</p>
+<p>大多数编译器都会假设最糟糕的情况，因此不会产生 <strong>func2</strong> 的样子，而是保持函数调用不变。</p>
+<h2 id="用内联函数替换优化函数的调用">用内联函数替换优化函数的调用
+</h2><p>包含函数调用的代码可以用一个称为内联函数替换(inline substitution, 简称为内联)的过程进行优化，此时，将函数调用替换为函数体。</p>
+<p>例如，对上面的例子，我们可以通过替换掉函数 f 的四次调用，展开 <strong>func1</strong> 的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">long</span> <span class="nf">funclin</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">t</span> <span class="o">=</span> <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">+=</span> <span class="n">counter</span><span class="o">++:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">+=</span> <span class="n">counter</span><span class="o">++:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">+=</span> <span class="n">counter</span><span class="o">++:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样的转换减少了函数调用的开销，也允许对展开的代码做进一步优化，比如编译器可以统一 <strong>funclin</strong> 中对全局变量counter的更新，产生这个函数的一个优化版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">long</span> <span class="nf">funclopt</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面的函数 <strong>funclopt</strong> 忠实地重现了 f 的行为。</p>
+<p>在GCC中，如果你使用 <strong>-finline</strong>或者优化等级 <strong>-o1</strong>或更高时，编译器就会尝试进行这种形式的优化。但遗憾的是，GCC只尝试在单个文件中定义的函数进行内联。这就意味着它将无法应用于更常见的情况。</p>
+<p>在某些情况下，最好能阻止编译器执行内联替换。一种情况是用符号调试器来评估代码，比如GDB，如果一个函数被内联优化过了，那么任何对这个调用进行追踪或设置断点的尝试都会失败。还有一种情况是用代码剖析得方式来评估程序性能，用内联替换的函数调用是无法被正确剖析的。</p>
+<h2 id="总结">总结
+</h2><p>在本节中，我们指出了GCC本身具有对程序的优化能力以提升程序效率，但根据安全规定，编译器仅愿意对程序进行“安全的优化”，在考虑各种情况下，若程序的行为因为优化而发生改变，编译器便会放弃优化。就单论优化能力而言，GCC被认为是胜任的，但并不突出，原因是编译器会考虑各种最糟糕的情况而不会进行优化，或采取一些较为“离奇”的手段进行优化，保证提高效率的同时忠实地重现行为，但代价是牺牲了程序的可读性和调试能力。</p>
+<p>因此，在了解编译器的优化局限性后，希望同学们能够注意本文中提到的可能会给编译器带来的“困惑”，在后续的章节中，我们再来讨论如何编写出优秀的高效的代码。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">计算机系统</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/">
+        
+        
+            <div class="article-image">
+                <img src="/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image.03174de64f63a176e6b4d8e6a0f2186b_hu_d339f2e344dd2ff6.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post C语言中关于数据类型带来的陷阱"
+                        
+                        data-hash="md5-AxdN5k9joXbmtNjmoPIYaw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C语言中关于数据类型带来的陷阱</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image.c8edbde31f5ea5807d73d5e34277b43e_hu_362cdfd9056fceb4.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 计算机系统中信息数据的处理"
+                        
+                        data-hash="md5-yO294x9epYB9c9XjQne0Pg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">计算机系统中信息数据的处理</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image.079bf846df566671a5d9387475120432_hu_f396d540b919190a.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 程序在系统中是如何运行的"
+                        
+                        data-hash="md5-B5v4Rt9WZnGl2Th0dRIEMg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">程序在系统中是如何运行的</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Lyrical Wander
+    </section>
+    
+    <section class="powerby">
+        
+            written by LyricalWander <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

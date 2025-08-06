@@ -7,7 +7,198 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Mon, 20 Jan 2025 13:20:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 05 Aug 2025 21:14:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>编译器的优化能力和局限性</title>
+        <link>https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</link>
+        <pubDate>Tue, 05 Aug 2025 21:14:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image.jpg" alt="Featured image of post 编译器的优化能力和局限性" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;今日技术梳理：《深入理解计算机系统》第五章第一节：优化编译器的能力和局限性。这个标题有一些拗口，根据中文的阅读习惯，我们可能会对标题误解为：“程序员对编译器进行优化，这种能力与这种能力的局限性”。其实不然，本节所讨论的是“编译器自身对程序的优化能力与其优化能力的局限性”。我们知道，编译器本身在将我们的C语言代码转换为机器码时，首先会通过自身复杂且精细的算法来对其进行一定程度上的优化，利用一些机会来简化表达式，而本节中，我们则需要了解编译器的这种优化能力及其局限性，它为什么能进行优化，又在什么情况下无法进行优化，以便我们能够写出让编译器更好优化的代码，即：效率更高的代码。&lt;/p&gt;
+&lt;h2 id=&#34;编译器的优化等级&#34;&gt;编译器的优化等级
+&lt;/h2&gt;&lt;p&gt;在现代大多数编译器中，包括GCC，向用户提供了一些对它们所使用的优化的控制，使得我们可以控制编译器对代码的优化程度，例如：以命令行选项 &lt;strong&gt;&amp;quot;-Og&amp;quot;&lt;/strong&gt; 调用GCC会让GCC使用一组基本的优化，以 &lt;strong&gt;-O1&lt;/strong&gt;或更高**（-O2，-O3）**，调用会使得GCC使用更大量的优化，可以提高程序的性能，但相应的被编译器优化后的代码不一定与源代码相同，在某些情况下会使得调试更加困难。&lt;/p&gt;
+&lt;h2 id=&#34;编译器的安全优化&#34;&gt;编译器的安全优化
+&lt;/h2&gt;&lt;p&gt;编译器必须只能对程序使用 &lt;strong&gt;安全的优化&lt;/strong&gt; 。&lt;/p&gt;
+&lt;h3 id=&#34;什么是安全优化&#34;&gt;什么是安全优化
+&lt;/h3&gt;&lt;p&gt;安全优化是指：编译器在保证程序&lt;strong&gt;行为不变&lt;/strong&gt;（遵循C/C++标准中的&amp;quot;as-if&amp;quot;规则）的前提下进行的优化，即使优化后的代码逻辑变化（如删除冗余计算，内联函数的等），程序的&lt;strong&gt;可观测行为&lt;/strong&gt;必须和未优化版本一致。也就是说，对于程序可能遇到的所有情况下，优化后的程序必须保证和未优化的程序运行结果一样。&lt;/p&gt;
+&lt;h3 id=&#34;优化等级与安全性的关系&#34;&gt;优化等级与安全性的关系
+&lt;/h3&gt;&lt;p&gt;就本质而言，所有的优化等级都在安全范围内，即符合安全规则，但不同成都的优化等级采取的优化策略激进程度不同。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;默认无优化&lt;/strong&gt;：&lt;strong&gt;-O0&lt;/strong&gt;，不进行任何优化，代码直接映射到源码，便于调试，安全性最高，行为完全符合源码，但性能最低&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;删除未使用的变量&lt;/strong&gt;：该策略从 &lt;strong&gt;-O1&lt;/strong&gt; 起，更高等级的优化也会使用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;常量折叠&lt;/strong&gt;：该策略从 &lt;strong&gt;-O1&lt;/strong&gt; 起，更高等级的优化也会使用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;循环展开&lt;/strong&gt;： &lt;strong&gt;-O2&lt;/strong&gt; 起会采用该策略，较为激进的策略&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内联函数&lt;/strong&gt;： &lt;strong&gt;-O2&lt;/strong&gt; 起会采用该策略&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;向量化，并行化&lt;/strong&gt;：&lt;strong&gt;-O3&lt;/strong&gt; 会采用的策略，更加激进，但仍在安全范围内，但可能暴露源码中&lt;strong&gt;隐藏的未定义行为&lt;/strong&gt;（如越界访问），但这源于代码自身问题，而非优化引入。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总的而言，虽然GCC可以采取不同程度的优化策略，但都是处于安全范围内，遵循语言规范，如若程序因优化出现异常，需检查源码中未定义的行为。同时这也侧面反映出，优化的一大特性，即：优化等级越高，与源码可能越不相同，越难调试。&lt;/p&gt;
+&lt;h2 id=&#34;编译器优化的局限性&#34;&gt;编译器优化的局限性
+&lt;/h2&gt;&lt;p&gt;请看下面的例子：&lt;/p&gt;
+&lt;h3 id=&#34;指针未知导致的优化阻碍&#34;&gt;指针未知导致的优化阻碍
+&lt;/h3&gt;&lt;p&gt;下面给出两个函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;twiddle1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;twiddle2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这两个函数似乎在完成相同的行为，即将yp指针所指的值两次加到xp指针所指的值。&lt;/p&gt;
+&lt;p&gt;但我们从机器运行的角度来考虑这两个代码运行的效率，首先 &lt;code&gt;twiddle1&lt;/code&gt;函数会在&lt;code&gt;*xp += *yp;&lt;/code&gt;处产生读*xp一次，读*yp一次，写*xp一次，共计3次操作，所以，整个函数将会产生6次对内存的引用操作。而&lt;code&gt;twiddle2&lt;/code&gt;仅需要1次读*xp，1次读*yp，1次写*xp，共计3次内存引用操作即可。&lt;/p&gt;
+&lt;p&gt;由此我们可以看出，&lt;code&gt;twiddle2&lt;/code&gt;函数的效率更高一些。因此，如果编译器要编译&lt;code&gt;twiddle1&lt;/code&gt;，我们会认为，将其编译成&lt;code&gt;twiddle2&lt;/code&gt;的形式会产生更加高效的代码。&lt;/p&gt;
+&lt;p&gt;但是如果我们考虑到，如果*xp与*yp引用的地址是同一个时，如下的情形：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;twiddle1&lt;/code&gt;函数会执行以下计算：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 此时xp指针所指的值会变为原来的2倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 此时xp指针所指的值会变为原来的4倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;twiddle2&lt;/code&gt;函数会执行以下计算：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 此时xp所指的值会变为原来的3倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这种两个指针可能指向同一个内存位置的情况被称为 &lt;strong&gt;内存别名使用(memory aliasing)&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;因此，在某种特殊的情况下，&lt;code&gt;twiddle1&lt;/code&gt;与&lt;code&gt;twiddle2&lt;/code&gt;可能会产生不同的值，因此，根据我们上面所说：编译器必须只能对程序进行 &lt;strong&gt;安全的优化&lt;/strong&gt; ，在只执行安全的优化中，编译器必须假设不同的指针可能会只想内存中的同一位置，	因而编译器不会讲&lt;code&gt;twiddle1&lt;/code&gt;优化成&lt;code&gt;twiddle2&lt;/code&gt;的形式，即使在大部分情况下，&lt;code&gt;twiddle2&lt;/code&gt;的效率要比&lt;code&gt;twiddle1&lt;/code&gt;要高。&lt;/p&gt;
+&lt;p&gt;我们再来考虑下面一个例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;t1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;此程序看上去十分明确，但实际上，t1的计算值我们目前是无法直接确定的，t1的计算值依赖于指针p和q是否指向同一块内存区域，如果指针p和指针q&lt;strong&gt;不指向同一块内存&lt;/strong&gt;，则显然t1的值就是&lt;strong&gt;3000&lt;/strong&gt;，但如果指针p和指针q&lt;strong&gt;指向的内存区域相同&lt;/strong&gt;，那么指针q一开始赋值的3000就会被后面指针p的赋值给覆盖掉，因此此时t1的值为&lt;strong&gt;1000&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这就造成了一个主要的妨碍优化的因素，这也是可能严重限制编译器产生优化代码机会的程序的一个方面，如果编译器不能确定两个指针是否指向同一个位置，就必须假设它们可能会指向同一个位置，这就限制了可能的优化策略。&lt;/p&gt;
+&lt;h3 id=&#34;函数调用时产生的优化阻碍&#34;&gt;函数调用时产生的优化阻碍
+&lt;/h3&gt;&lt;p&gt;考虑下面两个函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ling&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;func1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;func2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这两个函数看上去计算的都是相同的结果，但是 &lt;strong&gt;func2&lt;/strong&gt; 只调用 f 1次，而 &lt;strong&gt;func1&lt;/strong&gt; 调用了 f 4次，这显然 &lt;strong&gt;func1&lt;/strong&gt; 的开销要大于 &lt;strong&gt;func2&lt;/strong&gt; 。如果以 &lt;strong&gt;func1&lt;/strong&gt; 作为源代码时，编译器很想产生 &lt;strong&gt;func2&lt;/strong&gt;风格的代码，但考虑以下 f 函数的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;聪明的程序员很快就反应过来了，这个 f 函数修改了一个全局变量 counter，并将其状态返回，改变调用 f 函数的次数会改变程序的行为，即返回值。假设开始时全局变量counter都设置为0，那么对 &lt;strong&gt;func1&lt;/strong&gt; 的调用会返回 0+1+2+3=6，而对于 &lt;strong&gt;func2&lt;/strong&gt; 的调用会返回 4*0=0。&lt;/p&gt;
+&lt;p&gt;大多数编译器都会假设最糟糕的情况，因此不会产生 &lt;strong&gt;func2&lt;/strong&gt; 的样子，而是保持函数调用不变。&lt;/p&gt;
+&lt;h2 id=&#34;用内联函数替换优化函数的调用&#34;&gt;用内联函数替换优化函数的调用
+&lt;/h2&gt;&lt;p&gt;包含函数调用的代码可以用一个称为内联函数替换(inline substitution, 简称为内联)的过程进行优化，此时，将函数调用替换为函数体。&lt;/p&gt;
+&lt;p&gt;例如，对上面的例子，我们可以通过替换掉函数 f 的四次调用，展开 &lt;strong&gt;func1&lt;/strong&gt; 的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;funclin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样的转换减少了函数调用的开销，也允许对展开的代码做进一步优化，比如编译器可以统一 &lt;strong&gt;funclin&lt;/strong&gt; 中对全局变量counter的更新，产生这个函数的一个优化版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;funclopt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上面的函数 &lt;strong&gt;funclopt&lt;/strong&gt; 忠实地重现了 f 的行为。&lt;/p&gt;
+&lt;p&gt;在GCC中，如果你使用 &lt;strong&gt;-finline&lt;/strong&gt;或者优化等级 &lt;strong&gt;-o1&lt;/strong&gt;或更高时，编译器就会尝试进行这种形式的优化。但遗憾的是，GCC只尝试在单个文件中定义的函数进行内联。这就意味着它将无法应用于更常见的情况。&lt;/p&gt;
+&lt;p&gt;在某些情况下，最好能阻止编译器执行内联替换。一种情况是用符号调试器来评估代码，比如GDB，如果一个函数被内联优化过了，那么任何对这个调用进行追踪或设置断点的尝试都会失败。还有一种情况是用代码剖析得方式来评估程序性能，用内联替换的函数调用是无法被正确剖析的。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;在本节中，我们指出了GCC本身具有对程序的优化能力以提升程序效率，但根据安全规定，编译器仅愿意对程序进行“安全的优化”，在考虑各种情况下，若程序的行为因为优化而发生改变，编译器便会放弃优化。就单论优化能力而言，GCC被认为是胜任的，但并不突出，原因是编译器会考虑各种最糟糕的情况而不会进行优化，或采取一些较为“离奇”的手段进行优化，保证提高效率的同时忠实地重现行为，但代价是牺牲了程序的可读性和调试能力。&lt;/p&gt;
+&lt;p&gt;因此，在了解编译器的优化局限性后，希望同学们能够注意本文中提到的可能会给编译器带来的“困惑”，在后续的章节中，我们再来讨论如何编写出优秀的高效的代码。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Qlearning</title>
         <link>https://Lyrical-wander.github.io/p/qlearning/</link>
         <pubDate>Mon, 20 Jan 2025 13:20:00 +0800</pubDate>
