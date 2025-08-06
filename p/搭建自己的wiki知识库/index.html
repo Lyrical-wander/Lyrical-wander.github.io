@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="搭建自己的Wiki知识库">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="搭建自己的Wiki知识库">
 <meta property='og:description' content="使用docker，在Ubuntu22.04上搭建wikijs，记录一下笔者踩过的坑">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -348,8 +348,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/">
-                <img src="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu9747438344993208454.png"
-                        srcset="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu9747438344993208454.png 800w, /p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu6971816146142272457.png 1600w"
+                <img src="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu_2a192f51b4d065ac.png"
+                        srcset="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu_2a192f51b4d065ac.png 800w, /p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker_hu_3126cb885363df90.png 1600w"
                         width="800" 
                         height="249" 
                         loading="lazy"
@@ -443,13 +443,11 @@
 <p><a class="link" href="https://blog.csdn.net/qq_39034148/article/details/138260898"  target="_blank" rel="noopener"
     >Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))-CSDN博客</a></p>
 <p><a class="link" href="https://blog.csdn.net/jhgj56/article/details/142209517"  target="_blank" rel="noopener"
-    >docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客</a></p>
-</blockquote>
+    >docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客</a></p></blockquote>
 <p>首先，笔者在本地虚拟机以及阿里云服务器（免费试用的）都尝试过部署Wiki.js。本地部署于云服务器部署都相同</p>
 <p>请注意，接下来的内容中，如果是笔者强调注意的地方（笔者踩过坑的地方），都会以下方式呈现，注意：</p>
 <blockquote>
-<p>这里是笔者踩过的坑：&hellip;&hellip;</p>
-</blockquote>
+<p>这里是笔者踩过的坑：&hellip;&hellip;</p></blockquote>
 <h2 id="安装docker">安装Docker
 </h2><p>如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，<a class="link" href="https://cloud.tencent.com/developer/article/2302416"  target="_blank" rel="noopener"
     >【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云</a>，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用<code>IP:端口</code>访问。</p>
@@ -477,7 +475,7 @@
 <p><img src="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282.png"
 	width="990"
 	height="325"
-	srcset="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu2507239735819189536.png 480w, /p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu8616925542204498341.png 1024w"
+	srcset="/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_1887e3a553664aa.png 480w, /p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_c4a590135c27fecc.png 1024w"
 	loading="lazy"
 	
 		alt="apt-key is deprecated"
@@ -652,8 +650,7 @@
 <p><a class="link" href="https://blog.csdn.net/2301_79849395/article/details/142829852"  target="_blank" rel="noopener"
     >彻底解决docker：docker: Get https://registry-1.docker.io/v2/: net/http: request canceled 报错-CSDN博客</a></p>
 <p><a class="link" href="https://blog.csdn.net/jhgj56/article/details/142209517"  target="_blank" rel="noopener"
-    >docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客</a></p>
-</blockquote>
+    >docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客</a></p></blockquote>
 <p>笔者综合了一下他们的镜像源，以下是笔者采用的镜像源，实践可以下载：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -687,8 +684,7 @@
 <p>在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：</p>
 <p>一台<code>台式机</code>，开着<code>虚拟机</code>运行Ubuntu环境下载了Wiki.js，想通过另一台<code>计算机（笔记本）</code>访问这个Wiki.js</p>
 <blockquote>
-<p>笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。</p>
-</blockquote>
+<p>笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。</p></blockquote>
 <h3 id="获取ip地址">获取IP地址
 </h3><p>首先使用以下命令查看虚拟机的IP地址</p>
 <div class="highlight"><div class="chroma">
@@ -733,8 +729,7 @@
 </h3><p>值得注意的是：</p>
 <blockquote>
 <p>笔者踩过的坑：</p>
-<p>通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中</p>
-</blockquote>
+<p>通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中</p></blockquote>
 <h2 id="总结">总结
 </h2><p>在本次搭建的过程中，笔者也学到了很多东西：</p>
 <ul>
@@ -812,7 +807,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.0adad6a9d1e6870376b7f4e78cad2230_hu3705990576745244516.jpg" 
+                <img src="/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.0adad6a9d1e6870376b7f4e78cad2230_hu_b8babdf5278ca4cd.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -836,7 +831,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.c73a3cd190043181fa64790bc0f348a2_hu15472825668118018732.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.c73a3cd190043181fa64790bc0f348a2_hu_d6b509efe0d8278e.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -860,7 +855,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.c73a3cd190043181fa64790bc0f348a2_hu15472825668118018732.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.c73a3cd190043181fa64790bc0f348a2_hu_d6b509efe0d8278e.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -884,7 +879,7 @@
         
         
             <div class="article-image">
-                <img src="/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.a5da78eb07d30b9277eed3729c7abc94_hu14903723194235886028.png" 
+                <img src="/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.a5da78eb07d30b9277eed3729c7abc94_hu_5dea119f3277d128.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -961,7 +956,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">

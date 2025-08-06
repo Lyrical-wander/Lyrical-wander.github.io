@@ -19,7 +19,7 @@
 &lt;img src=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png&#34;
 	width=&#34;760&#34;
 	height=&#34;841&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu5102930148191537069.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu11763498343134490784.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_1d6256a4e255cfde.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_c040777086c5da88.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ADPCM in ffmpeg&#34;
@@ -866,8 +866,7 @@
 &lt;p&gt;为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的&lt;code&gt;len&lt;/code&gt;是输入参数的两倍，这与解码器不同，与adpcm算法内部的&lt;code&gt;len&lt;/code&gt;有关。&lt;/p&gt;
 &lt;p&gt;python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         

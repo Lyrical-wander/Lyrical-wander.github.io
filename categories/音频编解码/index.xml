@@ -161,8 +161,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;frames&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;播放音频示例&lt;/strong&gt;： 以下是一个播放 WAV 文件的简单示例：&lt;/p&gt;
@@ -310,13 +309,12 @@
 &lt;/h3&gt;&lt;p&gt;总的来说，&lt;code&gt;PyAudio&lt;/code&gt; 是一个非常强大的库，适合用于音频处理和实时音频应用，尤其在需要直接与麦克风或扬声器交互时，提供了非常简洁的接口。&lt;/p&gt;
 &lt;h2 id=&#34;stop_stream与start_stream&#34;&gt;stop_stream与start_stream
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;PyAudio&lt;/code&gt; 中的 &lt;code&gt;stream.start_stream()&lt;/code&gt; 和 &lt;code&gt;stream.stop_stream()&lt;/code&gt; 是两个重要的流控制方法，用于控制音频流的开始和停止。&lt;/p&gt;
 &lt;p&gt;在 &lt;code&gt;PyAudio&lt;/code&gt; 的流（&lt;code&gt;Stream&lt;/code&gt;）中，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 方法实际上是可选的，它们的行为是与音频流的实际使用场景有关的。让我们详细解释一下这两个方法，以及为什么在某些情况下，可能看不到显式调用 &lt;code&gt;start_stream()&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;1-streamstart_stream-的作用&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;1-streamstart_&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;start_stream()&lt;/code&gt; 方法用于启动音频流，开始录制或播放音频。它是用来显式告诉程序 &amp;ldquo;现在开始处理音频数据&amp;rdquo;。&lt;/p&gt;
-&lt;h3 id=&#34;2-streamstop_stream-的作用&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;2-streamstop_&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;stop_stream()&lt;/code&gt; 方法用于停止音频流，表示录制或播放过程结束。这对于需要显式控制音频流的结束时机的程序非常有用。&lt;/p&gt;
 &lt;h3 id=&#34;为什么-start_stream-有时没被显式调用&#34;&gt;为什么 &lt;code&gt;start_stream()&lt;/code&gt; 有时没被显式调用
 &lt;/h3&gt;&lt;ol&gt;
@@ -436,8 +434,7 @@
 &lt;p&gt;但是，在一些场景下，尤其是自定义更复杂的音频控制时，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 还是很有用的，特别是当你需要手动控制音频流的启动与停止时。&lt;/p&gt;
 &lt;h2 id=&#34;谁开启的麦克风或扬声器&#34;&gt;谁开启的麦克风或扬声器
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我们以上面的代码为例，究竟是谁调用了麦克风，开启了录音&lt;/p&gt;
 &lt;p&gt;音频的录制是通过 &lt;code&gt;pyaudio&lt;/code&gt; 库来实现的，调用麦克风硬件的部分是由 &lt;code&gt;pyaudio&lt;/code&gt; 库中的 &lt;code&gt;PyAudio&lt;/code&gt; 类和它的 &lt;code&gt;open()&lt;/code&gt; 方法来完成的。具体的过程是这样的：&lt;/p&gt;
 &lt;h3 id=&#34;调用麦克风硬件的关键步骤&#34;&gt;调用麦克风硬件的关键步骤：
@@ -505,7 +502,7 @@
 &lt;img src=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png&#34;
 	width=&#34;760&#34;
 	height=&#34;841&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu5102930148191537069.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu11763498343134490784.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_1d6256a4e255cfde.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_c040777086c5da88.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ADPCM in ffmpeg&#34;
@@ -1352,8 +1349,7 @@
 &lt;p&gt;为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的&lt;code&gt;len&lt;/code&gt;是输入参数的两倍，这与解码器不同，与adpcm算法内部的&lt;code&gt;len&lt;/code&gt;有关。&lt;/p&gt;
 &lt;p&gt;python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         

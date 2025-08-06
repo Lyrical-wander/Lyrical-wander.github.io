@@ -20,8 +20,7 @@
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;是由美国国家安全局研究局创建和维护的软件逆向工程 (SRE) 框架 。该框架包括一套功能齐全的高端软件分析工具，使用户能够在包括 &lt;code&gt;Windows&lt;/code&gt;、&lt;code&gt;macOS&lt;/code&gt; 和 &lt;code&gt;Linux &lt;/code&gt;在内的各种平台上分析编译代码。功能包括反汇编、汇编、反编译、绘图和脚本，以及数百个其他功能。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;由&lt;code&gt;java&lt;/code&gt;编写，因此使用&lt;code&gt;Ghidra&lt;/code&gt;前先配置&lt;code&gt;java&lt;/code&gt;运行环境。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;adpcm_decoder1函数&#34;&gt;adpcm_decoder1函数
 &lt;/h2&gt;&lt;h3 id=&#34;c代码&#34;&gt;C代码
 &lt;/h3&gt;&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
@@ -256,13 +255,11 @@
 &lt;li&gt;&lt;code&gt;bl&lt;/code&gt; 指令表示跳转，即跳转到&lt;code&gt;Decryption&lt;/code&gt;函数的位置去，执行&lt;code&gt;Decryption&lt;/code&gt;函数，并把下一条指令的地址存放到&lt;code&gt;lr&lt;/code&gt;寄存器中，以方便&lt;code&gt;Decryption&lt;/code&gt;函数执行完能回来，相当于压栈，将&lt;code&gt;Decryption&lt;/code&gt;函数压入函数栈。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r4 &lt;/code&gt;加上立即数&lt;code&gt;0x01&lt;/code&gt;，并存放到&lt;code&gt;r4&lt;/code&gt;中，即for循环的++操作。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;小结&#34;&gt;小结
 &lt;/h3&gt;&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;因此，接下来看如何用解密算法还原加密算法&lt;/p&gt;
 &lt;h2 id=&#34;decryption函数&#34;&gt;decryption函数
 &lt;/h2&gt;&lt;h3 id=&#34;c代码-1&#34;&gt;C代码
@@ -456,8 +453,7 @@
 &lt;p&gt;0x0	0xc	0xd	0x3	0x4
 0x9	0xa	0xb	0x10	0x11
 0x12	0x13	0x5	0x6	0xe
-0xf	0x1	0x2	0x7	0x8&lt;/p&gt;
-&lt;/blockquote&gt;
+0xf	0x1	0x2	0x7	0x8&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;刚好是0~19，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
 &lt;h4 id=&#34;local_30pivar1&#34;&gt;local_30[*piVar1]
 &lt;/h4&gt;&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="PyAudio库基本知识详解">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="PyAudio库基本知识详解">
 <meta property='og:description' content="在本文中，我们将主要讲述Python中的PyAudio库,你将会了解PyAudio的录音示例，PyAudio的细节，谁调用的麦克风，从哪里开启的音频流，谁隐式的调用了start_stream等">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -326,8 +326,8 @@
     </li>
     <li><a href="#stop_stream与start_stream">stop_stream与start_stream</a>
       <ol>
-        <li><a href="#1-streamstart_stream-的作用">1. <strong>stream.start_stream() 的作用</strong></a></li>
-        <li><a href="#2-streamstop_stream-的作用">2. <strong>stream.stop_stream() 的作用</strong></a></li>
+        <li><a href="#1-streamstart_">1. <strong>stream.start_stream() 的作用</strong></a></li>
+        <li><a href="#2-streamstop_">2. <strong>stream.stop_stream() 的作用</strong></a></li>
         <li><a href="#为什么-start_stream-有时没被显式调用">为什么 <code>start_stream()</code> 有时没被显式调用</a></li>
         <li><a href="#小结-1">小结</a></li>
       </ol>
@@ -353,8 +353,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/">
-                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu9788261014280261525.jpg"
-                        srcset="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu9788261014280261525.jpg 800w, /p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu9130433895315307672.jpg 1600w"
+                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu_8df6f05efc50e16e.jpg"
+                        srcset="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu_8df6f05efc50e16e.jpg 800w, /p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image_hu_8374d959a28de1ee.jpg 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
@@ -585,8 +585,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这个循环的主要目的是从流中读取数据，并添加到<code>frams</code>列表中，可以看到<code>RATE * RECORD_SECONDS</code>为<code>采样率 * 录音时长</code>，这可以得到在本次录音中一共采样的次数，<code>/ CHUNK</code>表明采样的数据被分块读取并写入<code>frames</code>。这里其实隐式的处理了采样格式，即<code>paInt16</code>。</p>
-</blockquote>
+</div><p>这个循环的主要目的是从流中读取数据，并添加到<code>frams</code>列表中，可以看到<code>RATE * RECORD_SECONDS</code>为<code>采样率 * 录音时长</code>，这可以得到在本次录音中一共采样的次数，<code>/ CHUNK</code>表明采样的数据被分块读取并写入<code>frames</code>。这里其实隐式的处理了采样格式，即<code>paInt16</code>。</p></blockquote>
 </li>
 <li>
 <p><strong>播放音频示例</strong>： 以下是一个播放 WAV 文件的简单示例：</p>
@@ -734,13 +733,12 @@
 </h3><p>总的来说，<code>PyAudio</code> 是一个非常强大的库，适合用于音频处理和实时音频应用，尤其在需要直接与麦克风或扬声器交互时，提供了非常简洁的接口。</p>
 <h2 id="stop_stream与start_stream">stop_stream与start_stream
 </h2><blockquote>
-<p>可能会有同学好奇，在上面的示例代码中，为什么只看见<code>stream.stop_stream</code>而没有看见<code>stream.start_stream</code>呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？</p>
-</blockquote>
+<p>可能会有同学好奇，在上面的示例代码中，为什么只看见<code>stream.stop_stream</code>而没有看见<code>stream.start_stream</code>呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？</p></blockquote>
 <p><code>PyAudio</code> 中的 <code>stream.start_stream()</code> 和 <code>stream.stop_stream()</code> 是两个重要的流控制方法，用于控制音频流的开始和停止。</p>
 <p>在 <code>PyAudio</code> 的流（<code>Stream</code>）中，<code>start_stream()</code> 和 <code>stop_stream()</code> 方法实际上是可选的，它们的行为是与音频流的实际使用场景有关的。让我们详细解释一下这两个方法，以及为什么在某些情况下，可能看不到显式调用 <code>start_stream()</code>。</p>
-<h3 id="1-streamstart_stream-的作用">1. <strong>stream.start_stream() 的作用</strong>
+<h3 id="1-streamstart_">1. <strong>stream.start_stream() 的作用</strong>
 </h3><p><code>start_stream()</code> 方法用于启动音频流，开始录制或播放音频。它是用来显式告诉程序 &ldquo;现在开始处理音频数据&rdquo;。</p>
-<h3 id="2-streamstop_stream-的作用">2. <strong>stream.stop_stream() 的作用</strong>
+<h3 id="2-streamstop_">2. <strong>stream.stop_stream() 的作用</strong>
 </h3><p><code>stop_stream()</code> 方法用于停止音频流，表示录制或播放过程结束。这对于需要显式控制音频流的结束时机的程序非常有用。</p>
 <h3 id="为什么-start_stream-有时没被显式调用">为什么 <code>start_stream()</code> 有时没被显式调用
 </h3><ol>
@@ -860,8 +858,7 @@
 <p>但是，在一些场景下，尤其是自定义更复杂的音频控制时，<code>start_stream()</code> 和 <code>stop_stream()</code> 还是很有用的，特别是当你需要手动控制音频流的启动与停止时。</p>
 <h2 id="谁开启的麦克风或扬声器">谁开启的麦克风或扬声器
 </h2><blockquote>
-<p>在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？</p>
-</blockquote>
+<p>在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？</p></blockquote>
 <p>我们以上面的代码为例，究竟是谁调用了麦克风，开启了录音</p>
 <p>音频的录制是通过 <code>pyaudio</code> 库来实现的，调用麦克风硬件的部分是由 <code>pyaudio</code> 库中的 <code>PyAudio</code> 类和它的 <code>open()</code> 方法来完成的。具体的过程是这样的：</p>
 <h3 id="调用麦克风硬件的关键步骤">调用麦克风硬件的关键步骤：
@@ -985,7 +982,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1009,7 +1006,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1033,7 +1030,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1057,7 +1054,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1081,7 +1078,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1158,7 +1155,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">

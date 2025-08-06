@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（十二）">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（十二）">
 <meta property='og:description' content="在本文中，我们将实现进度条组件与编解码器之间的通信，让进度条能获取编解码器的进度，以更改自身显示；实现编码器的UI。本文涉及到的知识点有：python中的多线程创建，线程间的消息传递，如何让subporcess不反复弹出CMD窗口">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -342,8 +342,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu18299242409021908448.png"
-                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu18299242409021908448.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu2213941626906010426.png 1600w"
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu_a29f03e21c7ce286.png"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu_a29f03e21c7ce286.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt_hu_28d88c20888e4cd6.png 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
@@ -427,7 +427,7 @@
     
     
     <h2 id="前言">前言
-</h2><p>这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。</p>
+</h2><p>这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何不也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。</p>
 <h2 id="python中的线程">Python中的线程
 </h2><p>Python处理线程的模块有两个：<code>thread</code> 和 <code>threading</code>。Python 3已经停用了 <code>thread</code>模块，并改名为<code> _thread</code> 模块。Python 3在 <code>_thread</code> 模块的基础上开发了更高级的 <code>threading</code> 模块，因此我们现在用的线程模块都是 <code>threading</code> 模块。</p>
 <h3 id="创建线程">创建线程
@@ -1226,7 +1226,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004.png"
 	width="521"
 	height="441"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu16936110322661815955.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu17483567161437215341.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_94e9ffb80a19f4c5.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_3ad6ef9eb6a28597.png 1024w"
 	loading="lazy"
 	
 		alt="AudiocodecClass"
@@ -1244,7 +1244,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755.png"
 	width="507"
 	height="434"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu6539725557923321828.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu187096352633717672.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_5676e324b3894e1f.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_16d1bee561c4c906.png 1024w"
 	loading="lazy"
 	
 		alt="adpcm codec Runner"
@@ -1262,7 +1262,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230.png"
 	width="482"
 	height="275"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu9143734324339566444.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu11304473506844748505.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_b3be952c2ff565c4.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_6ce8609845721fbb.png 1024w"
 	loading="lazy"
 	
 		alt="prphressBar"
@@ -1280,7 +1280,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774.png"
 	width="517"
 	height="430"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu1216690107204511031.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu109410861840441875.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_8ebdfb2e40a59fb3.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_62ce4861c4cfdee8.png 1024w"
 	loading="lazy"
 	
 		alt="exe file directory"
@@ -1295,8 +1295,7 @@
 </ul>
 <p>阅读完这三篇文章，加上熟悉本系列前期的基础，即工程布局架构，你可以轻松复制我的代码，实现自己的音频编解码器，快来试试吧！有任何疑问请联系我，祝你变得更强！</p>
 <blockquote>
-<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p>
-</blockquote>
+<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p></blockquote>
 
 </section>
 
@@ -1367,7 +1366,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1391,7 +1390,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1415,7 +1414,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1439,7 +1438,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1463,7 +1462,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1540,7 +1539,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">

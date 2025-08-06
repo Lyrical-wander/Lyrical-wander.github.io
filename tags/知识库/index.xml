@@ -28,13 +28,11 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_39034148/article/details/138260898&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/jhgj56/article/details/142209517&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;首先，笔者在本地虚拟机以及阿里云服务器（免费试用的）都尝试过部署Wiki.js。本地部署于云服务器部署都相同&lt;/p&gt;
 &lt;p&gt;请注意，接下来的内容中，如果是笔者强调注意的地方（笔者踩过坑的地方），都会以下方式呈现，注意：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;安装docker&#34;&gt;安装Docker
 &lt;/h2&gt;&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2302416&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云&lt;/a&gt;，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用&lt;code&gt;IP:端口&lt;/code&gt;访问。&lt;/p&gt;
@@ -62,7 +60,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282.png&#34;
 	width=&#34;990&#34;
 	height=&#34;325&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu2507239735819189536.png 480w, https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu8616925542204498341.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_1887e3a553664aa.png 480w, https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_c4a590135c27fecc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;apt-key is deprecated&#34;
@@ -237,8 +235,7 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/2301_79849395/article/details/142829852&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;彻底解决docker：docker: Get https://registry-1.docker.io/v2/: net/http: request canceled 报错-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/jhgj56/article/details/142209517&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;笔者综合了一下他们的镜像源，以下是笔者采用的镜像源，实践可以下载：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -272,8 +269,7 @@
 &lt;p&gt;在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：&lt;/p&gt;
 &lt;p&gt;一台&lt;code&gt;台式机&lt;/code&gt;，开着&lt;code&gt;虚拟机&lt;/code&gt;运行Ubuntu环境下载了Wiki.js，想通过另一台&lt;code&gt;计算机（笔记本）&lt;/code&gt;访问这个Wiki.js&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;获取ip地址&#34;&gt;获取IP地址
 &lt;/h3&gt;&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -318,8 +314,7 @@
 &lt;/h3&gt;&lt;p&gt;值得注意的是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者踩过的坑：&lt;/p&gt;
-&lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;总结&#34;&gt;总结
 &lt;/h2&gt;&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
 &lt;ul&gt;

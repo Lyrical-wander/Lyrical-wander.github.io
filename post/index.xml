@@ -202,8 +202,7 @@
 &lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;&lt;strong&gt;结合起来&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;这行代码实际上是生成一个列表，列表中包含了 &lt;code&gt;pop_size&lt;/code&gt; 个元素，每个元素都是一个长度为 &lt;code&gt;gene_length&lt;/code&gt; 的列表。每个长度为 &lt;code&gt;gene_length&lt;/code&gt; 的列表是通过 &lt;code&gt;random.choices([0, 1], k=gene_length)&lt;/code&gt; 随机生成的，其中每个元素是从 &lt;code&gt;[0, 1]&lt;/code&gt; 中选取的。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这行代码实际上是生成一个列表，列表中包含了 &lt;code&gt;pop_size&lt;/code&gt; 个元素，每个元素都是一个长度为 &lt;code&gt;gene_length&lt;/code&gt; 的列表。每个长度为 &lt;code&gt;gene_length&lt;/code&gt; 的列表是通过 &lt;code&gt;random.choices([0, 1], k=gene_length)&lt;/code&gt; 随机生成的，其中每个元素是从 &lt;code&gt;[0, 1]&lt;/code&gt; 中选取的。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;fitness_function&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -240,8 +239,7 @@
 &lt;li&gt;这是一个与 &lt;code&gt;population&lt;/code&gt; 长度相同的可迭代对象（通常是列表或元组），它表示每个元素被选中的概率权重。&lt;/li&gt;
 &lt;li&gt;权重越大的元素被选中的概率越高。注意，权重值的大小并不是选中的概率本身，而是相对的。例如，如果 &lt;code&gt;weights&lt;/code&gt; 中的一个值是 2，而另一个是 1，那么前者的选中概率是后者的两倍。&lt;/li&gt;
 &lt;li&gt;例如，如果 &lt;code&gt;population = [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;]&lt;/code&gt; 且 &lt;code&gt;weights = [0.1, 0.3, 0.5, 0.1]&lt;/code&gt;，那么 &lt;code&gt;C&lt;/code&gt; 的选中概率最大，&lt;code&gt;A&lt;/code&gt; 和 &lt;code&gt;D&lt;/code&gt; 的概率最小。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;crossover&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -267,12 +265,11 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;random.randint()&lt;/code&gt;会随机生成一个整数，范围从1到&lt;code&gt;len(parent1)-1&lt;/code&gt;（&lt;code&gt;parent1&lt;/code&gt; 和 &lt;code&gt;parent2&lt;/code&gt; 的长度相同）。&lt;/li&gt;
 &lt;li&gt;选择 &lt;code&gt;1&lt;/code&gt; 到 &lt;code&gt;len(parent1) - 1&lt;/code&gt; 范围内的数字是因为交叉点不能选择在序列的两端（即不允许交叉点为 0 或序列的最后一个位置）。这样可以确保父代的两部分都会参与到交叉中。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover.png&#34;
 	width=&#34;919&#34;
 	height=&#34;267&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu13766414356796456878.png 480w, https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu386559799463611174.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu_4602c2f554268ed6.png 480w, https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu_d4fff85654279537.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;crossover&#34;
@@ -361,8 +358,7 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;从上面我们可以看到，不仅仅是适应度函数会更具不同的常见发生变化，选择函数，交叉函数，变异函数和更新种群都可以采用不同的策略。这需要使用者的智慧根据环境选择最优的策略搭配。&lt;/p&gt;
-&lt;p&gt;尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;父代基因适应度高而子代基因适应度降低的原因&#34;&gt;父代基因适应度高而子代基因适应度降低的原因
 &lt;/h2&gt;&lt;p&gt;在进行交叉时，有可能出现两个父代基因的适应度高而结合后产生的子代基因的适应度反而降低的情况，&lt;/p&gt;
 &lt;p&gt;如上面的代码中，当父代1的基因序列为：&lt;code&gt;[1,0,1,1,1]&lt;/code&gt;，父代2的基因序列为：&lt;code&gt;[1,1,1,0,1]&lt;/code&gt;，此时做交叉，可能诞生的子代基因序列为：&lt;code&gt;[1,0,1,0,1]&lt;/code&gt;，基因的适应度反而降低。&lt;/p&gt;
@@ -439,7 +435,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197.png&#34;
 	width=&#34;1094&#34;
 	height=&#34;696&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu16659833580731131641.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu4283249943932297030.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu_26752c72e953031c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu_a1e822cd369ec9c5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;UI&#34;
@@ -1197,8 +1193,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;frames&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;播放音频示例&lt;/strong&gt;： 以下是一个播放 WAV 文件的简单示例：&lt;/p&gt;
@@ -1346,13 +1341,12 @@
 &lt;/h3&gt;&lt;p&gt;总的来说，&lt;code&gt;PyAudio&lt;/code&gt; 是一个非常强大的库，适合用于音频处理和实时音频应用，尤其在需要直接与麦克风或扬声器交互时，提供了非常简洁的接口。&lt;/p&gt;
 &lt;h2 id=&#34;stop_stream与start_stream&#34;&gt;stop_stream与start_stream
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;PyAudio&lt;/code&gt; 中的 &lt;code&gt;stream.start_stream()&lt;/code&gt; 和 &lt;code&gt;stream.stop_stream()&lt;/code&gt; 是两个重要的流控制方法，用于控制音频流的开始和停止。&lt;/p&gt;
 &lt;p&gt;在 &lt;code&gt;PyAudio&lt;/code&gt; 的流（&lt;code&gt;Stream&lt;/code&gt;）中，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 方法实际上是可选的，它们的行为是与音频流的实际使用场景有关的。让我们详细解释一下这两个方法，以及为什么在某些情况下，可能看不到显式调用 &lt;code&gt;start_stream()&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;1-streamstart_stream-的作用&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;1-streamstart_&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;start_stream()&lt;/code&gt; 方法用于启动音频流，开始录制或播放音频。它是用来显式告诉程序 &amp;ldquo;现在开始处理音频数据&amp;rdquo;。&lt;/p&gt;
-&lt;h3 id=&#34;2-streamstop_stream-的作用&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;2-streamstop_&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;stop_stream()&lt;/code&gt; 方法用于停止音频流，表示录制或播放过程结束。这对于需要显式控制音频流的结束时机的程序非常有用。&lt;/p&gt;
 &lt;h3 id=&#34;为什么-start_stream-有时没被显式调用&#34;&gt;为什么 &lt;code&gt;start_stream()&lt;/code&gt; 有时没被显式调用
 &lt;/h3&gt;&lt;ol&gt;
@@ -1472,8 +1466,7 @@
 &lt;p&gt;但是，在一些场景下，尤其是自定义更复杂的音频控制时，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 还是很有用的，特别是当你需要手动控制音频流的启动与停止时。&lt;/p&gt;
 &lt;h2 id=&#34;谁开启的麦克风或扬声器&#34;&gt;谁开启的麦克风或扬声器
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我们以上面的代码为例，究竟是谁调用了麦克风，开启了录音&lt;/p&gt;
 &lt;p&gt;音频的录制是通过 &lt;code&gt;pyaudio&lt;/code&gt; 库来实现的，调用麦克风硬件的部分是由 &lt;code&gt;pyaudio&lt;/code&gt; 库中的 &lt;code&gt;PyAudio&lt;/code&gt; 类和它的 &lt;code&gt;open()&lt;/code&gt; 方法来完成的。具体的过程是这样的：&lt;/p&gt;
 &lt;h3 id=&#34;调用麦克风硬件的关键步骤&#34;&gt;调用麦克风硬件的关键步骤：
@@ -1536,7 +1529,7 @@
         
         <guid>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</guid>
         <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
-&lt;/h2&gt;&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何不也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
 &lt;h2 id=&#34;python中的线程&#34;&gt;Python中的线程
 &lt;/h2&gt;&lt;p&gt;Python处理线程的模块有两个：&lt;code&gt;thread&lt;/code&gt; 和 &lt;code&gt;threading&lt;/code&gt;。Python 3已经停用了 &lt;code&gt;thread&lt;/code&gt;模块，并改名为&lt;code&gt; _thread&lt;/code&gt; 模块。Python 3在 &lt;code&gt;_thread&lt;/code&gt; 模块的基础上开发了更高级的 &lt;code&gt;threading&lt;/code&gt; 模块，因此我们现在用的线程模块都是 &lt;code&gt;threading&lt;/code&gt; 模块。&lt;/p&gt;
 &lt;h3 id=&#34;创建线程&#34;&gt;创建线程
@@ -2335,7 +2328,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004.png&#34;
 	width=&#34;521&#34;
 	height=&#34;441&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu16936110322661815955.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu17483567161437215341.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_94e9ffb80a19f4c5.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_3ad6ef9eb6a28597.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;AudiocodecClass&#34;
@@ -2353,7 +2346,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755.png&#34;
 	width=&#34;507&#34;
 	height=&#34;434&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu6539725557923321828.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu187096352633717672.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_5676e324b3894e1f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_16d1bee561c4c906.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;adpcm codec Runner&#34;
@@ -2371,7 +2364,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230.png&#34;
 	width=&#34;482&#34;
 	height=&#34;275&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu9143734324339566444.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu11304473506844748505.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_b3be952c2ff565c4.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_6ce8609845721fbb.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;prphressBar&#34;
@@ -2389,7 +2382,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774.png&#34;
 	width=&#34;517&#34;
 	height=&#34;430&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu1216690107204511031.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu109410861840441875.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_8ebdfb2e40a59fb3.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_62ce4861c4cfdee8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;exe file directory&#34;
@@ -2404,8 +2397,7 @@
 &lt;/ul&gt;
 &lt;p&gt;阅读完这三篇文章，加上熟悉本系列前期的基础，即工程布局架构，你可以轻松复制我的代码，实现自己的音频编解码器，快来试试吧！有任何疑问请联系我，祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -2422,7 +2414,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu17251643162458516597.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu10630458649422691579.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu_6ae2c84de2af96da.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu_dd4752a599d0597a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;start&#34;
@@ -2451,7 +2443,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298.png&#34;
 	width=&#34;549&#34;
 	height=&#34;391&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18329291701166208966.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18168692022278040201.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu_f6fae9b8b277cf52.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu_8305659e579242b4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;adpcmData.txt&#34;
@@ -2481,7 +2473,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu2621589240093356188.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu9791393477353833336.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu_b6b5c47568be2ba1.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu_d7f7170518790ac8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;processbar of decoding&#34;
@@ -2496,7 +2488,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu8945448312101488568.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu1529046219813022820.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu_be0f8116929f0a58.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu_fea388ab5c3790b5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;processbar of decode end&#34;
@@ -2682,8 +2674,7 @@
 &lt;li&gt;如果控件的内容发生了变化，或者某些部分被遮挡并随后暴露出来，Qt 会重新触发 &lt;code&gt;paintEvent&lt;/code&gt; 来重新绘制这些区域。例如，当窗口被部分遮挡后再显示出来时，Qt 会调用 &lt;code&gt;paintEvent&lt;/code&gt; 来刷新被遮挡的部分。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;p&gt;在上面的代码中，每次更新进度条的状态时，调用&lt;code&gt;self.update&lt;/code&gt;，重新绘制控件。&lt;/p&gt;
 &lt;p&gt;如果不适用&lt;code&gt;self.update&lt;/code&gt;，而是直接调用&lt;code&gt;paintEvent&lt;/code&gt;绘制进度条可以吗？&lt;/p&gt;
 &lt;blockquote&gt;
@@ -2706,14 +2697,12 @@
 &lt;li&gt;&lt;strong&gt;不符合最佳实践&lt;/strong&gt;：Qt 推荐使用 &lt;code&gt;update()&lt;/code&gt; 来请求重绘，因为它利用了 Qt 内部的绘制优化策略。如果你直接调用 &lt;code&gt;paintEvent&lt;/code&gt;，可能会破坏这些优化。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;通过消息队列传递更新消息&#34;&gt;通过消息队列传递更新消息
 &lt;/h3&gt;&lt;p&gt;进度条的更新实际上需要与编解码器的编解码进度相关，因为编解码器吃算力，因此不建议将编解码器放在主线程中运行，所以对编解码器开了子线程运行，消息的互传需要通过消息队列来进行。关于线程问题，我们将在下一期内容时更详细地讲解。&lt;/p&gt;
 &lt;p&gt;祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -2728,7 +2717,7 @@
 &lt;img src=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png&#34;
 	width=&#34;760&#34;
 	height=&#34;841&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu5102930148191537069.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu11763498343134490784.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_1d6256a4e255cfde.png 480w, https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_c040777086c5da88.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ADPCM in ffmpeg&#34;
@@ -3575,8 +3564,7 @@
 &lt;p&gt;为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的&lt;code&gt;len&lt;/code&gt;是输入参数的两倍，这与解码器不同，与adpcm算法内部的&lt;code&gt;len&lt;/code&gt;有关。&lt;/p&gt;
 &lt;p&gt;python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -3690,7 +3678,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012.png&#34;
 	width=&#34;1124&#34;
 	height=&#34;767&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu11800908548311208436.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu16546038208090371240.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu_a06591a0ab4a614c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu_ed1a7a51c2d14c99.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;JsonProcessUI&#34;
@@ -3708,7 +3696,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490.png&#34;
 	width=&#34;1637&#34;
 	height=&#34;821&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu13577053340987916241.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu144507735475922064.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu_54d650993af45311.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu_f96c1b0fc8a67d34.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;wireshark info&#34;
@@ -3721,12 +3709,11 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;在下面详细信息中可以看到，所选中的这一条数据，是从机通过&lt;code&gt;handle&lt;/code&gt;为&lt;code&gt;0x97&lt;/code&gt;的特征，向主机发送共计&lt;code&gt;120&lt;/code&gt;个字节的&lt;code&gt;value&lt;/code&gt;数据：&lt;code&gt;3b 18 01 ....... 04 d1 1a&lt;/code&gt;，如果手动一条一条数据中蓝色框框的内容复制出来是非常耗时的，可以采用以下方式获取数据：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;文件 → 导出分组解析结果 → As JSON&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;文件 → 导出分组解析结果 → As JSON&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755.png&#34;
 	width=&#34;435&#34;
 	height=&#34;446&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu2230223600654996945.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu7901580446656711177.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu_556f8ad8e4c66ab7.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu_1203273c9f63f9d4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;export data as JSON file&#34;
@@ -3952,8 +3939,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;是这样的一个结构。&lt;/p&gt;
 &lt;p&gt;我们现在来看代码&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4013,8 +3999,7 @@
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;是由美国国家安全局研究局创建和维护的软件逆向工程 (SRE) 框架 。该框架包括一套功能齐全的高端软件分析工具，使用户能够在包括 &lt;code&gt;Windows&lt;/code&gt;、&lt;code&gt;macOS&lt;/code&gt; 和 &lt;code&gt;Linux &lt;/code&gt;在内的各种平台上分析编译代码。功能包括反汇编、汇编、反编译、绘图和脚本，以及数百个其他功能。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;由&lt;code&gt;java&lt;/code&gt;编写，因此使用&lt;code&gt;Ghidra&lt;/code&gt;前先配置&lt;code&gt;java&lt;/code&gt;运行环境。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;adpcm_decoder1函数&#34;&gt;adpcm_decoder1函数
 &lt;/h2&gt;&lt;h3 id=&#34;c代码&#34;&gt;C代码
 &lt;/h3&gt;&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
@@ -4249,13 +4234,11 @@
 &lt;li&gt;&lt;code&gt;bl&lt;/code&gt; 指令表示跳转，即跳转到&lt;code&gt;Decryption&lt;/code&gt;函数的位置去，执行&lt;code&gt;Decryption&lt;/code&gt;函数，并把下一条指令的地址存放到&lt;code&gt;lr&lt;/code&gt;寄存器中，以方便&lt;code&gt;Decryption&lt;/code&gt;函数执行完能回来，相当于压栈，将&lt;code&gt;Decryption&lt;/code&gt;函数压入函数栈。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;adds&lt;/code&gt; 指令表示加法，将&lt;code&gt;r4 &lt;/code&gt;加上立即数&lt;code&gt;0x01&lt;/code&gt;，并存放到&lt;code&gt;r4&lt;/code&gt;中，即for循环的++操作。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;小结&#34;&gt;小结
 &lt;/h3&gt;&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;因此，接下来看如何用解密算法还原加密算法&lt;/p&gt;
 &lt;h2 id=&#34;decryption函数&#34;&gt;decryption函数
 &lt;/h2&gt;&lt;h3 id=&#34;c代码-1&#34;&gt;C代码
@@ -4449,8 +4432,7 @@
 &lt;p&gt;0x0	0xc	0xd	0x3	0x4
 0x9	0xa	0xb	0x10	0x11
 0x12	0x13	0x5	0x6	0xe
-0xf	0x1	0x2	0x7	0x8&lt;/p&gt;
-&lt;/blockquote&gt;
+0xf	0x1	0x2	0x7	0x8&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;刚好是0~19，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
 &lt;h4 id=&#34;local_30pivar1&#34;&gt;local_30[*piVar1]
 &lt;/h4&gt;&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
@@ -4660,14 +4642,12 @@ $$&lt;h3 id=&#34;第0个数据的解码&#34;&gt;第0个数据的解码
 &lt;p&gt;sx = -12345: cf c7&lt;/p&gt;
 &lt;p&gt;usx = 53191: cf c7&lt;/p&gt;
 &lt;p&gt;x = -12345: ff ff cf c7&lt;/p&gt;
-&lt;p&gt;ux = 53191: 00 00 cf c7&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;ux = 53191: 00 00 cf c7&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;尽管-12345的补码表示和53191的无符号表示在16位字长时是相同的，但是在32位字长时却是不同的。前者使用的是符号拓展——最开头加了16位，都是最高有效位1，后者开头使用了16个0来扩展。&lt;/p&gt;
 &lt;p&gt;在书中有&lt;strong&gt;符号扩展，数值不变&lt;/strong&gt;的数学证明过程，不感兴趣的小伙伴可以跳过这一部分。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;$B2T_{w+k}([x_{w-1},&amp;hellip;,x_{w-1},x_{w-1},x_{w-2},&amp;hellip;x_0])$ = $B2T_w([x_{w-1},x_{w-2},&amp;hellip;,x_0])$&lt;/p&gt;
-&lt;p&gt;上面这一条表达式左边增加了K个$x_{w-1}$，下面的证明是对k进行的归纳，即，我们只需证明拓展1次，即可通过数学归纳法证明上式正确&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;上面这一条表达式左边增加了K个$x_{w-1}$，下面的证明是对k进行的归纳，即，我们只需证明拓展1次，即可通过数学归纳法证明上式正确&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;要证明：&lt;/p&gt;
 &lt;p&gt;$B2T_{w+1}([x_{w-1},x_{w-1},x_{w-2},&amp;hellip;,x_0])$ = $B2T_w([x_{w-1},x_{w-2},&amp;hellip;,x_0])$&lt;/p&gt;
 &lt;p&gt;展开左边得到：&lt;/p&gt;
@@ -4691,7 +4671,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123100344653.png&#34;
 	width=&#34;1066&#34;
 	height=&#34;392&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123100344653_hu38522642981466476.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123100344653_hu8197804954467445141.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123100344653_hu_249851a84d35b6c9.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123100344653_hu_88580e66f2a20fa9.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;例题 2.25&#34;
@@ -4707,7 +4687,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101300660.png&#34;
 	width=&#34;1289&#34;
 	height=&#34;675&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101300660_hu12643552522362383987.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101300660_hu7645246173865842255.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101300660_hu_68404649757aa46a.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101300660_hu_672c8958b4a329c.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;例题 2.26&#34;
@@ -4726,7 +4706,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101906044.png&#34;
 	width=&#34;1072&#34;
 	height=&#34;686&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101906044_hu973945777851814119.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101906044_hu11912598302213461647.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101906044_hu_bf1c0d92026573f2.png 480w, https://Lyrical-wander.github.io/p/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%99%B7%E9%98%B1/image-20241123101906044_hu_400f437dc7a4814b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;getpeername&#34;
@@ -4780,7 +4760,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121142443840.png&#34;
 	width=&#34;644&#34;
 	height=&#34;240&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121142443840_hu13314556359488029517.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121142443840_hu2186125020997169307.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121142443840_hu_16ffbfc682d85fce.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121142443840_hu_659905d39a736390.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;size of data&#34;
@@ -4828,8 +4808,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;我们设c = a ^ b = 1010 1110&lt;/p&gt;
 &lt;p&gt;此时再用c ^ a  得到&lt;/p&gt;
 &lt;p&gt;d = c ^ a = 1100 1011&lt;/p&gt;
-&lt;p&gt;你会发现，d = b ，即 a ^ b ^ a = b&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;你会发现，d = b ，即 a ^ b ^ a = b&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;除此之外，还有一个例题非常有意思&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;bis(位设置)：输入一个数据字x和一个掩码字m，生成一个结果z，z是由掩码m的位来修改x得到的，这种修改是在m为1的每个位置上，将z对应的位置设为1&lt;/p&gt;
@@ -4873,8 +4852,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;那么，res = bis(x,y) 则 res = 1110 1111&lt;/p&gt;
 &lt;p&gt;根据bic的说明，m的某一位为1时，则x对应的位被修改为0，其它不变&lt;/p&gt;
 &lt;p&gt;那么， res = bic(x,y) 则 res = 0010 0100&lt;/p&gt;
-&lt;p&gt;那么， res = bic(y,x) 则 res = 1000 1010&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;那么， res = bic(y,x) 则 res = 1000 1010&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;根据上面的演算，我们可以发现，当你使用bis时，则x与m两者都是0的位才为0，否则即为1。当你使用bic时，则仅有m为0时且x为1时，才为1。&lt;/p&gt;
 &lt;p&gt;那么或运算就好办了，因为或运算的规则就是只要有1则为1，逆命题就是两者为0才为0，即bis运算&lt;/p&gt;
 &lt;p&gt;则第一个函数为：&lt;/p&gt;
@@ -4911,14 +4889,12 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h2&gt;&lt;p&gt;在数据处理中的掩码与计算机网络中的掩码概念有所不同，在这里的掩码你可以理解为是一种滤波器，它可以将特定位的数据通过而屏蔽掉其它位的数据，如&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;掩码：0x0000FF 与 a : 0x123456 进行运算，则会得到&lt;/p&gt;
-&lt;p&gt;res = 0x000056&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;res = 0x000056&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;补码编码&#34;&gt;补码编码
 &lt;/h2&gt;&lt;p&gt;跳过了无符号数的编码&lt;/p&gt;
 &lt;p&gt;在计算机中，有符号数的表示方式就是补码，将&lt;strong&gt;字&lt;/strong&gt;中最高有效位定义为&lt;strong&gt;负权&lt;/strong&gt;（negative weight），如&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;1011 = -1*$2^3$+0*$2^2$+1*$2^1$+1*$2^0$ = -8 + 0 + 2 + 1 = -5&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;1011 = -1*$2^3$+0*$2^2$+1*$2^1$+1*$2^0$ = -8 + 0 + 2 + 1 = -5&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;在这种编码下，最高位变成了乘了一个&lt;code&gt;-1&lt;/code&gt;，因此，在这种情况下，我们要考虑在有有符号数补码编码的情况下的几种特殊情况：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;0000 = 0&lt;/p&gt;
@@ -4927,14 +4903,13 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;1000 = -8&lt;/p&gt;
 &lt;p&gt;0111 = 7&lt;/p&gt;
 &lt;p&gt;在字长未4的情况下，有符号数的补码编码中，取值范围为[-8:7]，1111并非最小值，而是-1，1000才是最小值为-8，0111是最大值7&lt;/p&gt;
-&lt;p&gt;在0000，0001，0010，&amp;hellip;，0111，1000，&amp;hellip;，1111以此类推中，实际上的数值变化是，0，1，2，&amp;hellip;，7，-8，-7，&amp;hellip;，-1&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在0000，0001，0010，&amp;hellip;，0111，1000，&amp;hellip;，1111以此类推中，实际上的数值变化是，0，1，2，&amp;hellip;，7，-8，-7，&amp;hellip;，-1&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;由此我们可以看到，补码的范围是不对成的，即最小值没有与之对应的正数。这导致补码运算的某些特殊的属性，并且容易造成程序中细微的错误。&lt;/p&gt;
 &lt;p&gt;以下表格中，*$UMax_w$&lt;em&gt;表示无符号数的最大值，&lt;/em&gt;$TMin_w$&lt;em&gt;表示有符号数的最小值，&lt;/em&gt;$TMax_w$*表示有符号数的最大值&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727.png&#34;
 	width=&#34;1135&#34;
 	height=&#34;389&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727_hu11613495424798126470.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727_hu2132552089884790674.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727_hu_f0d7a66a7627dc92.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727_hu_a40306c4c5482202.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;number&#34;
@@ -4950,7 +4925,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121164052559.png&#34;
 	width=&#34;1141&#34;
 	height=&#34;356&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121164052559_hu12112033972600534773.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121164052559_hu1513152199433405255.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121164052559_hu_b65185eab555ed7d.png 480w, https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121164052559_hu_ca40519b73789a1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -4981,7 +4956,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527.png&#34;
 	width=&#34;995&#34;
 	height=&#34;234&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527_hu4397870825052513052.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527_hu17173372685432114268.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527_hu_33cd92232b080455.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527_hu_f2c8da1d81ebb895.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;repository name should be suername.github.io&#34;
@@ -4992,13 +4967,12 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 		data-flex-basis=&#34;1020px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;这是因为，如果使用这个名字的话，那么在后续使用GitHub pages生成静态网站的域名就直接是你的仓库名，而不需要加其它后缀，可能会导致未知的bug&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这是因为，如果使用这个名字的话，那么在后续使用GitHub pages生成静态网站的域名就直接是你的仓库名，而不需要加其它后缀，可能会导致未知的bug&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;仓库必须公有，只有公有仓库才能部署静态页面&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970.png&#34;
 	width=&#34;732&#34;
 	height=&#34;157&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970_hu7885933516323041115.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970_hu14158974315925890457.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970_hu_496738616ceace90.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970_hu_d41e33f36e1b0081.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;repository should be public&#34;
@@ -5024,7 +4998,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171.png&#34;
 	width=&#34;696&#34;
 	height=&#34;530&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171_hu15610482169820960633.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171_hu17805243720509786152.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171_hu_4a5cea7d4d53b009.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171_hu_f7732f111db23b9f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;public repository&#34;
@@ -5045,15 +5019,14 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo server -D
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这条命令会启动&lt;code&gt;hugo&lt;/code&gt;程序，将源码进行“编译”（当然并不是真正意义上的编译），生成&lt;code&gt;html&lt;/code&gt;，&lt;code&gt;scss&lt;/code&gt;等前端代码，这些代码构成静态网站。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;&lt;p&gt;这条命令会启动&lt;code&gt;hugo&lt;/code&gt;程序，将源码进行“编译”（当然并不是真正意义上的编译），生成&lt;code&gt;html&lt;/code&gt;，&lt;code&gt;scss&lt;/code&gt;等前端代码，这些代码构成静态网站。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如果没有生成&lt;code&gt;public&lt;/code&gt;目录，那么就使用&lt;code&gt;hugo server -D&lt;/code&gt;命令生成一下。&lt;/p&gt;
 &lt;p&gt;值得注意的是，如果你习惯用&lt;code&gt;VScode&lt;/code&gt;中的&lt;code&gt;git&lt;/code&gt;插件，也许会方便很多。但第一次上传代码也需要手敲命令&lt;/p&gt;
 &lt;p&gt;但幸运的是，当你第一次创建仓库，仓库中一无所有时，会提示你如何上传代码&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120202235281.png&#34;
 	width=&#34;1571&#34;
 	height=&#34;539&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120202235281_hu3940582349939391524.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120202235281_hu11074326398828534389.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120202235281_hu_e80a3ba65a4652c0.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120202235281_hu_519d3dcc40a67d8d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;the first push&#34;
@@ -5093,7 +5066,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103.png&#34;
 	width=&#34;1481&#34;
 	height=&#34;797&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103_hu1581734102355981720.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103_hu17399322195603999810.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103_hu_425b131499b9dd88.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103_hu_1030bb4a9c709fc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;set a page&#34;
@@ -5113,8 +5086,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/ul&gt;
 &lt;p&gt;做完以上操作，等待一段时间静态网站部署，可能几分钟，刷新一下出现⑥处，则说明生成成功，访问这个域名即可访问你的博客！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是&lt;code&gt;www.lyrical-wander.cn&lt;/code&gt;，而不是&lt;code&gt;www.lyrical-wander.github.io&lt;/code&gt;，而如果按照上面的步骤走的话，域名应该是：&lt;code&gt;www.usename.github.io&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是&lt;code&gt;www.lyrical-wander.cn&lt;/code&gt;，而不是&lt;code&gt;www.lyrical-wander.github.io&lt;/code&gt;，而如果按照上面的步骤走的话，域名应该是：&lt;code&gt;www.usename.github.io&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;至此，你的博客已经部署好了！可以开始访问你自己的博客啦&lt;/p&gt;
 &lt;h2 id=&#34;小结&#34;&gt;小结
 &lt;/h2&gt;&lt;p&gt;还有需要注意的是：&lt;/p&gt;
@@ -5135,7 +5107,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120205900416.png&#34;
 	width=&#34;296&#34;
 	height=&#34;197&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120205900416_hu3952173391282935884.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120205900416_hu7625881295195739924.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120205900416_hu_8f5c20a970d91c87.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120205900416_hu_ae96deda3a53afd6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;.gitignore&#34;
@@ -5153,7 +5125,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269.png&#34;
 	width=&#34;404&#34;
 	height=&#34;876&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269_hu657007297715810382.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269_hu2368241953475892009.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269_hu_6bc3d03c8c550dc.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269_hu_6bc91d37bf30263b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;settings&#34;
@@ -5168,7 +5140,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211603142.png&#34;
 	width=&#34;426&#34;
 	height=&#34;915&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211603142_hu10818572428812909765.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211603142_hu16585394029741336399.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211603142_hu_217c498dae5a17c5.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211603142_hu_1e0798433b8af658.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Developer settings&#34;
@@ -5183,7 +5155,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211816093.png&#34;
 	width=&#34;1596&#34;
 	height=&#34;489&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211816093_hu965067273094543473.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211816093_hu4979963792162657998.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211816093_hu_5bcf18a9a8ec8f7f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211816093_hu_d973730760d3fde2.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Generate new token&#34;
@@ -5198,14 +5170,13 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;下面&lt;code&gt;Select scopes&lt;/code&gt;（作用范围）选择&lt;code&gt;repo&lt;/code&gt;与&lt;code&gt;workflow&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;后面就生成了&lt;code&gt;token&lt;/code&gt;~&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意！这个token只会出现一次，之后再也不会出现，在你关闭网页前先复制保存！&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注意！这个token只会出现一次，之后再也不会出现，在你关闭网页前先复制保存！&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;回到你刚刚创建的 &lt;strong&gt;第二个仓库&lt;/strong&gt; 上（我们称之为hugo主仓库吧），&lt;strong&gt;不是&lt;code&gt;username.github.io&lt;/code&gt;那个仓库&lt;/strong&gt;！&lt;/p&gt;
 &lt;p&gt;在仓库中打开&lt;code&gt;Settings&lt;/code&gt;→&lt;code&gt;Secrets and Variables&lt;/code&gt;→&lt;code&gt;New repository secret&lt;/code&gt; 来创建一个存储token的变量&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485.png&#34;
 	width=&#34;1714&#34;
 	height=&#34;902&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485_hu12228880818856883443.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485_hu10633654538383474267.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485_hu_ba76f47187255f31.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485_hu_7add72766833eec4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;set valiables&#34;
@@ -5219,7 +5190,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213516279.png&#34;
 	width=&#34;1155&#34;
 	height=&#34;647&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213516279_hu14229389506574336038.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213516279_hu5858090316290606766.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213516279_hu_589cd87281b53544.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213516279_hu_6a0713c6accdbf6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;save the token&#34;
@@ -5232,13 +5203,12 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;为什么要这么做呢，因为token这个东西比较重要，如果后续我们直接将它写到文件中，如果文件被窃取，那么token就会暴露，这样你的仓库就不安全了，尤其我们的token还选择了不过期。&lt;/p&gt;
-&lt;p&gt;因此，我们将token保存在GitHub中，以变量的形式传给我们的文件，这样token的密封性就很好了&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因此，我们将token保存在GitHub中，以变量的形式传给我们的文件，这样token的密封性就很好了&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;回到我们的站点目录下，创建一个&lt;code&gt;.github&lt;/code&gt;目录，在&lt;code&gt;.github&lt;/code&gt;目录下创建一个&lt;code&gt;workflows&lt;/code&gt;目录，在该目录下生成一个&lt;code&gt;xxxxx.yaml&lt;/code&gt;文件，名字随便取&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559.png&#34;
 	width=&#34;787&#34;
 	height=&#34;137&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559_hu5841432870181893562.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559_hu6061563678362086188.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559_hu_4fafa1090e45043e.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559_hu_a37e80e58c0eec10.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;yaml&#34;
@@ -5372,22 +5342,19 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;Hugo根据操作系统的不同有不同的下载方式&lt;/p&gt;
 &lt;p&gt;MacOS&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;brew install hug&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;brew install hug&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;Linux&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;sudo snap install hugo&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;sudo snap install hugo&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;Windows&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;choco install hugo-extended&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;choco install hugo-extended&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;上面的下载方式是官方推荐的，笔者的主要工作环境是Windows，但并不采用上述的下载方式，因为choco是一个包管理器，本身也需要下载（笔者不喜欢因为一个功能而去下载另一个功能，导致整个环境特别臃肿），可以采用以下方法去下载：&lt;/p&gt;
 &lt;p&gt;到Hugo的GitHub仓库中，找到Tags&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811.png&#34;
 	width=&#34;1261&#34;
 	height=&#34;270&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811_hu13895989115162374019.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811_hu10068668281695221516.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811_hu_e1f6a7f519436377.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811_hu_259ff732c56491a7.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;GitHub-Hugo-Tags&#34;
@@ -5402,7 +5369,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150657961.png&#34;
 	width=&#34;702&#34;
 	height=&#34;597&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150657961_hu3291243909865610021.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150657961_hu15351458348586574240.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150657961_hu_7aa77921e682683.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150657961_hu_f3fe652a304859a8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Hugo-v0.138.0&#34;
@@ -5417,7 +5384,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107151111433.png&#34;
 	width=&#34;605&#34;
 	height=&#34;702&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107151111433_hu15375417725961753883.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107151111433_hu12872094499981898605.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107151111433_hu_803115bc49d2c2b3.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107151111433_hu_3c6c6cb514f4bd63.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;must choose version with extended&#34;
@@ -5463,7 +5430,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210528455.png&#34;
 	width=&#34;959&#34;
 	height=&#34;343&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210528455_hu8979302720020494790.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210528455_hu10985925847651465197.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210528455_hu_5d80644a22f4fa2f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210528455_hu_c19c0b7254c3cf56.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;make a new site&#34;
@@ -5479,7 +5446,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210722549.png&#34;
 	width=&#34;795&#34;
 	height=&#34;337&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210722549_hu7396635084168538571.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210722549_hu611898505299127330.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210722549_hu_57855af60704773e.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119210722549_hu_c3f82990dd32f7a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;directory of AHugoBlogSite&#34;
@@ -5506,7 +5473,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256.png&#34;
 	width=&#34;874&#34;
 	height=&#34;830&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256_hu9800345476454800262.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256_hu2556738457393348521.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256_hu_ef20352f4b8ebb1c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256_hu_d6f3039e12c069f8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;stack theme install&#34;
@@ -5523,12 +5490,11 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;将stack主题的源码解压到&lt;code&gt;AHugoBlogSite\themes&lt;/code&gt;目录下（接下来为了方便，&lt;code&gt;AHugoBlogSite&lt;/code&gt;统称为站点目录）。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;将解压的目录名称中的版本号删除，改成像我一样&lt;code&gt;hugo-theme-stack&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将&lt;code&gt;yaml&lt;/code&gt;配置文件中的主题改成对应的主题目录名称即可（后面会提及）&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将&lt;code&gt;yaml&lt;/code&gt;配置文件中的主题改成对应的主题目录名称即可（后面会提及）&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210.png&#34;
 	width=&#34;359&#34;
 	height=&#34;147&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210_hu2544407591043383088.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210_hu1648701993429596387.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210_hu_ee45cea75d9aefd1.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210_hu_ccd75a04857493d5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;unzip in themes&#34;
@@ -5544,7 +5510,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819.png&#34;
 	width=&#34;840&#34;
 	height=&#34;351&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819_hu15107592664229807088.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819_hu17713151763003932227.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819_hu_526f82defdcef186.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819_hu_fb7726e3d86f5a2f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;content and yaml&#34;
@@ -5559,7 +5525,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527.png&#34;
 	width=&#34;796&#34;
 	height=&#34;415&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu10168722238309598266.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu11452570055606293960.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_1a1f4cceee5774df.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_86eccc2437d1aa02.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;copy to directory&#34;
@@ -5572,15 +5538,14 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &gt;&lt;/p&gt;
 &lt;p&gt;将原本的默认配置文件&lt;code&gt;hugo.toml&lt;/code&gt;删除，用我们复制过来的&lt;code&gt;hugo.yaml&lt;/code&gt;做配置文件&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意：在&lt;code&gt;content\post\&lt;/code&gt;目录下，有一个&lt;code&gt;rich-content&lt;/code&gt;的目录==删掉==，post目录下存放的就是你的博客内容，这个&lt;code&gt;rich-content&lt;/code&gt;博客中做了一些引用&lt;code&gt;Youtube&lt;/code&gt;的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注意：在&lt;code&gt;content\post\&lt;/code&gt;目录下，有一个&lt;code&gt;rich-content&lt;/code&gt;的目录==删掉==，post目录下存放的就是你的博客内容，这个&lt;code&gt;rich-content&lt;/code&gt;博客中做了一些引用&lt;code&gt;Youtube&lt;/code&gt;的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;修改配置&#34;&gt;修改配置
 &lt;/h3&gt;&lt;p&gt;打开刚才复制过来的hugo.yaml&lt;/p&gt;
 &lt;h4 id=&#34;更换主题&#34;&gt;更换主题
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910.png&#34;
 	width=&#34;742&#34;
 	height=&#34;272&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu9820618029474462525.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu14252829780285198619.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_d5a220288b4045f4.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_63d70fd83b5d416c.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;theme to hugo-theme-stack&#34;
@@ -5767,13 +5732,12 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;ul&gt;
 &lt;li&gt;必须是在站点目录下使用该命令。（上面我们通过&lt;code&gt;cd AHugoBlogSite&lt;/code&gt;进入了目录）&lt;/li&gt;
 &lt;li&gt;必须是&lt;code&gt;D&lt;/code&gt;而不是&lt;code&gt;d&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;运行命令后会出现以下信息&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177.png&#34;
 	width=&#34;972&#34;
 	height=&#34;357&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177_hu11062647120499016454.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177_hu6994422897430052587.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177_hu_65ba411c8cd8b6b0.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177_hu_eae7058d35a17458.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;browse the site&#34;
@@ -5791,7 +5755,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165.png&#34;
 	width=&#34;815&#34;
 	height=&#34;275&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165_hu11296367007445518922.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165_hu888836543574129129.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165_hu_2abf4a50c6435109.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165_hu_11671cfd4091497c.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;directory of content&#34;
@@ -5806,7 +5770,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215440550.png&#34;
 	width=&#34;1850&#34;
 	height=&#34;661&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215440550_hu1527363669228837854.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215440550_hu12254144834862169471.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215440550_hu_252ded0cea28d585.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215440550_hu_aa5731f225a97519.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -5819,7 +5783,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215756523.png&#34;
 	width=&#34;662&#34;
 	height=&#34;221&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215756523_hu17897404048840539690.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215756523_hu9664776270232385043.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215756523_hu_9fb6ef74d40a474f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215756523_hu_2f87c1fe7a48d22b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;categories directory&#34;
@@ -5836,7 +5800,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220134196.png&#34;
 	width=&#34;1382&#34;
 	height=&#34;645&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220134196_hu16359589017808183122.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220134196_hu10529010030262677858.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220134196_hu_2c5dd61c2241bfa2.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220134196_hu_dbac76760960bead.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;网络爬虫&#34;
@@ -5851,7 +5815,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220200081.png&#34;
 	width=&#34;1110&#34;
 	height=&#34;576&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220200081_hu4336674426358574443.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220200081_hu14309587502274623535.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220200081_hu_1467978f4d76860c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220200081_hu_30fbd2cb50cf56f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241119220200081&#34;
@@ -5861,15 +5825,14 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 		data-flex-grow=&#34;192&#34;
 		data-flex-basis=&#34;462px&#34;
 	
-&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;如何写博文&#34;&gt;如何写博文
 &lt;/h4&gt;&lt;p&gt;我写博文采用的是&lt;code&gt;markdown&lt;/code&gt;格式，这个格式我非常熟悉，写起来也特别舒服，使用&lt;code&gt;Typora&lt;/code&gt;工具，写&lt;code&gt;markdown&lt;/code&gt;手感特别好。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;makrdown&lt;/code&gt;格式没什么好说的，学起来也很快，在写博文的时候需要注意的是开头携带的信息，如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601.png&#34;
 	width=&#34;645&#34;
 	height=&#34;234&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601_hu9819667807275023369.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601_hu3479599583869797396.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601_hu_3c6f5fe07d2b3ed6.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601_hu_bd4ddfd6d4a85fb8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;blog head info(source code)&#34;
@@ -5880,11 +5843,11 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 		data-flex-basis=&#34;661px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;这是文章开头的内容，这里我打开了&lt;code&gt;typora&lt;/code&gt;的源码模式。如果是普通的编写模式，则是下面这个样子的：&lt;/p&gt;
+&lt;p&gt;这是文章开头的内容，上面我打开了&lt;code&gt;typora&lt;/code&gt;的源码模式。如果是普通的编写模式，则是下面这个样子的：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220929017.png&#34;
 	width=&#34;1211&#34;
 	height=&#34;184&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220929017_hu7024578320550575270.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220929017_hu5292042864735056041.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220929017_hu_6f0c2b2a31b092f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220929017_hu_e04c3a73d9e6f060.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;blog info normal&#34;
@@ -5907,13 +5870,12 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;tags：标签&lt;/li&gt;
 &lt;li&gt;分类和标签的内容可以是中文，可以多个，但需要采用[&amp;ldquo;xx&amp;rdquo;,&amp;ldquo;xx&amp;rdquo;]的格式&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;:&lt;/code&gt;后需要加一个空格，再输入内容&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;后面的就按照正常&lt;code&gt;markdown&lt;/code&gt;创作即可&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687.png&#34;
 	width=&#34;639&#34;
 	height=&#34;302&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687_hu13575102394066474096.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687_hu16204089378229190751.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687_hu_39cda9688399a7a.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687_hu_5442fdc24275c740.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;blog directory&#34;
@@ -5926,8 +5888,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &gt;&lt;/p&gt;
 &lt;p&gt;值得注意的是：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;博文采用markdown格式，命名规则为：&lt;code&gt;index.语言.md&lt;/code&gt;，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为&lt;code&gt;index.md&lt;/code&gt;即可。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;博文采用markdown格式，命名规则为：&lt;code&gt;index.语言.md&lt;/code&gt;，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为&lt;code&gt;index.md&lt;/code&gt;即可。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;总结&#34;&gt;总结
 &lt;/h2&gt;&lt;p&gt;至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Stack | Card-style Hugo theme designed for bloggers&lt;/a&gt;&lt;/p&gt;
@@ -5955,13 +5916,11 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_39034148/article/details/138260898&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/jhgj56/article/details/142209517&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;首先，笔者在本地虚拟机以及阿里云服务器（免费试用的）都尝试过部署Wiki.js。本地部署于云服务器部署都相同&lt;/p&gt;
 &lt;p&gt;请注意，接下来的内容中，如果是笔者强调注意的地方（笔者踩过坑的地方），都会以下方式呈现，注意：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;安装docker&#34;&gt;安装Docker
 &lt;/h2&gt;&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2302416&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云&lt;/a&gt;，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用&lt;code&gt;IP:端口&lt;/code&gt;访问。&lt;/p&gt;
@@ -5989,7 +5948,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282.png&#34;
 	width=&#34;990&#34;
 	height=&#34;325&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu2507239735819189536.png 480w, https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu8616925542204498341.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_1887e3a553664aa.png 480w, https://Lyrical-wander.github.io/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/image-20241118203925282_hu_c4a590135c27fecc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;apt-key is deprecated&#34;
@@ -6164,8 +6123,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/2301_79849395/article/details/142829852&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;彻底解决docker：docker: Get https://registry-1.docker.io/v2/: net/http: request canceled 报错-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/jhgj56/article/details/142209517&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;docker pull 报错Get “https://registry-1.docker.io/v2/“: net/http: request canceled while waiting for c-CSDN博客&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;笔者综合了一下他们的镜像源，以下是笔者采用的镜像源，实践可以下载：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -6199,8 +6157,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：&lt;/p&gt;
 &lt;p&gt;一台&lt;code&gt;台式机&lt;/code&gt;，开着&lt;code&gt;虚拟机&lt;/code&gt;运行Ubuntu环境下载了Wiki.js，想通过另一台&lt;code&gt;计算机（笔记本）&lt;/code&gt;访问这个Wiki.js&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;获取ip地址&#34;&gt;获取IP地址
 &lt;/h3&gt;&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -6245,8 +6202,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;值得注意的是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者踩过的坑：&lt;/p&gt;
-&lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;总结&#34;&gt;总结
 &lt;/h2&gt;&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
 &lt;ul&gt;
@@ -6313,7 +6269,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112145538969.png&#34;
 	width=&#34;1195&#34;
 	height=&#34;217&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112145538969_hu9009618650486643391.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112145538969_hu15494123019757201839.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112145538969_hu_a7e41996c702f9fd.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112145538969_hu_4c5a98220eae5e03.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241112145538969&#34;
@@ -6335,7 +6291,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112150918278.png&#34;
 	width=&#34;906&#34;
 	height=&#34;710&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112150918278_hu13531273123902221481.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112150918278_hu4546960448157431652.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112150918278_hu_545d498f18246a0f.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112150918278_hu_74cac899088d07f1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241112150918278&#34;
@@ -6359,7 +6315,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152309541.png&#34;
 	width=&#34;879&#34;
 	height=&#34;693&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152309541_hu14006213712898302646.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152309541_hu2284346706245320758.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152309541_hu_84f36450eee6ee28.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152309541_hu_bb8f4500c160cf7c.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241112152309541&#34;
@@ -6376,7 +6332,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152615817.png&#34;
 	width=&#34;993&#34;
 	height=&#34;627&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152615817_hu9115018381985411687.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152615817_hu18273750287742572589.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152615817_hu_4c802e337c7844a6.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152615817_hu_1e9f7773dae4d845.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241112152615817&#34;
@@ -6393,7 +6349,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152854683.png&#34;
 	width=&#34;970&#34;
 	height=&#34;605&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152854683_hu1288193769926298457.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152854683_hu8311163830351436508.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152854683_hu_6476472ad7a42cff.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241112152854683_hu_9b0417280230d69a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241112152854683&#34;
@@ -6437,7 +6393,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121093737248.png&#34;
 	width=&#34;902&#34;
 	height=&#34;411&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121093737248_hu909269087921400346.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121093737248_hu14927670115716684451.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121093737248_hu_a32710871d4b7c14.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121093737248_hu_7cf32870c66f54cf.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;cache&#34;
@@ -6451,8 +6407,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;首先了解什么叫&lt;code&gt;局部性原理&lt;/code&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;局部性原理的概念：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;局部性原理&lt;/strong&gt;是计算机科学中的一个重要概念，它描述了一个现象：==在一段时间内，程序倾向于仅使用一部分代码或数据。==这种倾向性分为两类：&lt;strong&gt;时间局部性&lt;/strong&gt;和&lt;strong&gt;空间局部性&lt;/strong&gt;。时间局部性指的是如果某个数据项被访问，那么它不久后可能会被再次访问。空间局部性则是指如果访问了某个存储单元，那么其附近的存储单元也很可能不久后会被访问&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;局部性原理&lt;/strong&gt;是计算机科学中的一个重要概念，它描述了一个现象：==在一段时间内，程序倾向于仅使用一部分代码或数据。==这种倾向性分为两类：&lt;strong&gt;时间局部性&lt;/strong&gt;和&lt;strong&gt;空间局部性&lt;/strong&gt;。时间局部性指的是如果某个数据项被访问，那么它不久后可能会被再次访问。空间局部性则是指如果访问了某个存储单元，那么其附近的存储单元也很可能不久后会被访问&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;利用局部性原理，可能经常访问的数据提前调入高速缓存中，如此CPU在访问下一次访问时，大概率可以直接从高速缓存中进行访问，这样运行速度将大大提升。&lt;/p&gt;
 &lt;p&gt;在编程实践中，理解局部性原理可以帮助开发者优化代码性能。例如，在处理数组或循环结构时，考虑数据的存储和访问模式可以显著影响程序的执行效率。数组通常在内存中顺序存储，因此按行访问数组元素通常比按列访问更高效，因为这符合空间局部性原理。&lt;/p&gt;
 &lt;h2 id=&#34;存储设备的层次模型&#34;&gt;存储设备的层次模型
@@ -6460,7 +6415,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103500510.png&#34;
 	width=&#34;1105&#34;
 	height=&#34;636&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103500510_hu1124464544156120861.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103500510_hu17086403763119732841.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103500510_hu_19088500195f77ac.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103500510_hu_d5be0c1e03f89c30.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;存储设备层次模型&#34;
@@ -6476,7 +6431,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095442355.png&#34;
 	width=&#34;691&#34;
 	height=&#34;160&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095442355_hu13362350238916849448.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095442355_hu7360224987241142023.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095442355_hu_e856f28621b4d3a3.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095442355_hu_6eaaa68e57a260be.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;operation system level&#34;
@@ -6496,7 +6451,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;​	&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095521662.png&#34;
 	width=&#34;650&#34;
 	height=&#34;290&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095521662_hu3089440392170514341.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095521662_hu4399891173632755230.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095521662_hu_5cee7b0c3bad1219.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121095521662_hu_5442a1085579f45d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;abstract hardware interface&#34;
@@ -6515,7 +6470,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121101023478.png&#34;
 	width=&#34;811&#34;
 	height=&#34;672&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121101023478_hu4728874329475386930.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121101023478_hu5072091190605098632.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121101023478_hu_a24bf0336ee5da9c.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121101023478_hu_e2c38cc3d4d88b23.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;virtual address space&#34;
@@ -6542,7 +6497,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103135969.png&#34;
 	width=&#34;890&#34;
 	height=&#34;335&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103135969_hu4952525147669511349.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103135969_hu3267215066040265433.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103135969_hu_ee9df820e33e46a0.png 480w, https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/image-20241121103135969_hu_c7b0df3f77248937.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;content switch&#34;
@@ -6572,14 +6527,13 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
     &gt;基于PyQt开发的脚本集合包（八）&lt;/a&gt;的又不一致&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;笔者借助开发者工具自带的搜索框进行搜索，看看我们需要的数据在哪里出现过&lt;/p&gt;
 &lt;p&gt;除了上一篇文章中提到的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;两个数据外，我们还需要找到&lt;code&gt;token&lt;/code&gt;和&lt;code&gt;key&lt;/code&gt;两个数据，在&lt;code&gt;ttranslatev3&lt;/code&gt;响应请求中，可以看到我们发送请求时，请求表单除了携带需要翻译的文本，翻译前的语种，翻译后的语种外，还需携带两个特殊的信息&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118.png&#34;
 	width=&#34;322&#34;
 	height=&#34;174&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu9851347081149025152.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu16388646473418647113.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_3cbc4e7a3b728ec2.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_99a3543fdb73372a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request list&#34;
@@ -6597,7 +6551,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432.png&#34;
 	width=&#34;387&#34;
 	height=&#34;634&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9165630363063930749.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9305493525008999594.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_c8f20fdbe54b04b0.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_999c4b6ebe2f0758.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;searching&#34;
@@ -6612,7 +6566,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941.png&#34;
 	width=&#34;401&#34;
 	height=&#34;461&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu12878956511446258891.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu1059263542813323643.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_c1e5c3b19eb531f3.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_bb45c91259b23af3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -6627,7 +6581,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667.png&#34;
 	width=&#34;862&#34;
 	height=&#34;630&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu8001555851389192672.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu7315487879193392417.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_f326f3365941344b.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_daabb9e2cddad242.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translator&#34;
@@ -6642,7 +6596,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949.png&#34;
 	width=&#34;1009&#34;
 	height=&#34;574&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu8231190507602377846.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu14244907251486001173.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_534e2d67831e5870.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_2cc9324a5aa71e3a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;IG data is in there&#34;
@@ -6661,7 +6615,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376.png&#34;
 	width=&#34;884&#34;
 	height=&#34;344&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu9151868427904931343.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu2190679783552978969.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_7d94b1b7e1823f72.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_9e9d5f411193aa38.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;URLandUser-Agent&#34;
@@ -6677,7 +6631,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192.png&#34;
 	width=&#34;1232&#34;
 	height=&#34;443&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu13733232557763499983.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu3220224752537030270.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_272d0679af647a96.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_538136176ffeef41.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;website page&#34;
@@ -6700,8 +6654,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;&lt;strong&gt;避免被识别为爬虫&lt;/strong&gt;： 网站可能会根据 &lt;code&gt;User-Agent&lt;/code&gt; 来识别是否是爬虫程序。很多爬虫程序没有设置真实的 &lt;code&gt;User-Agent&lt;/code&gt;，或者 &lt;code&gt;User-Agent&lt;/code&gt; 字符串看起来像是一个自动化脚本（比如 Python 的 &lt;code&gt;requests&lt;/code&gt; 库默认 &lt;code&gt;User-Agent&lt;/code&gt; 是一个简单的字符串）。一些网站会使用这一点来检测并阻止爬虫请求。因此，为了模拟浏览器，爬虫通常会伪装成浏览器的 &lt;code&gt;User-Agent&lt;/code&gt;，避免被网站识别为爬虫。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;返回适配的内容&lt;/strong&gt;： 根据 &lt;code&gt;User-Agent&lt;/code&gt;，服务器可以返回特定格式的内容。比如，移动设备和桌面设备通常会看到不同版本的网页，甚至不同的图片大小和样式。通过查看 &lt;code&gt;User-Agent&lt;/code&gt;，服务器可以判断请求来自于手机、平板、桌面或其他设备，并返回不同的页面样式或功能。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;分辨设备和浏览器版本&lt;/strong&gt;： &lt;code&gt;User-Agent&lt;/code&gt; 可以帮助服务器确定访问者的设备类型、操作系统及浏览器版本，从而优化响应内容。比如，某些页面可能会针对不同的操作系统（如 Windows、macOS、Linux）或不同版本的浏览器提供特定的网页布局或 JavaScript 功能。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;p&gt;可以看出，一些服务器会根据&lt;code&gt;User-Agent&lt;/code&gt;来判断访问请求是不是来自人类或自动化脚本，可做一些反爬虫操作。我们从浏览器获取的请求信息中包含的&lt;code&gt;User-Agent&lt;/code&gt;，表明了这段请求时来自浏览器，而非自动化脚本，因此，我们可以回答上面的问题：1.&lt;code&gt;User-Agent&lt;/code&gt;一样是因为我们今天与昨天用的都是同一个浏览器访问，它代表了“该请求来自Edge浏览器”。2.无需担心它会发生变化，除非浏览器更新会更改这项数据，而这大概率是不会发生的。&lt;/p&gt;
 &lt;h4 id=&#34;代码实现&#34;&gt;代码实现
 &lt;/h4&gt;&lt;p&gt;首先，先获取整个response的html数据，把它写在一个单独的文件里，（数据量太大，操作台无法查找相应的数据），有些导入的模块会在后面的代码中用到，这仅是完整代码的一部分&lt;/p&gt;
@@ -6741,7 +6694,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478.png&#34;
 	width=&#34;1098&#34;
 	height=&#34;376&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu17473337719940462838.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu15782744654142325814.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_6a9cbc0f6477107d.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_65061488e2956bbe.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;HTML file&#34;
@@ -6767,7 +6720,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702.png&#34;
 	width=&#34;1269&#34;
 	height=&#34;527&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu883526710802730092.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu11751580963507639102.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_93dcca977d819c25.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_6215bd9ff75f7d3f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -6782,7 +6735,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171.png&#34;
 	width=&#34;688&#34;
 	height=&#34;322&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu6081373334625807712.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu4282398594250579819.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_3b534f0f22931768.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_a390e2566ef02870.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;data-iid&#34;
@@ -6816,7 +6769,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;BeautifulSoup&lt;/code&gt; 是一个 Python 库，主要用于从 HTML 或 XML 文档中提取数据。它提供了许多方法来帮助你遍历、搜索和修改 HTML/XML 文档的内容。&lt;/p&gt;
 &lt;h3 id=&#34;2-html&#34;&gt;2. &lt;strong&gt;html&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;html&lt;/code&gt; 是传入 &lt;code&gt;BeautifulSoup&lt;/code&gt; 构造函数的参数，通常是一个包含 HTML 内容的字符串。它代表了待解析的 HTML 文档。可以是从文件读取的内容，或者是通过网络请求获取的 HTML 页面。&lt;/p&gt;
-&lt;h3 id=&#34;3-htmlparser&#34;&gt;3. &lt;strong&gt;&amp;ldquo;html.parser&amp;rdquo;&lt;/strong&gt;
+&lt;h3 id=&#34;3-&#34;&gt;3. &lt;strong&gt;&amp;ldquo;html.parser&amp;rdquo;&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;&amp;quot;html.parser&amp;quot;&lt;/code&gt; 是 &lt;code&gt;BeautifulSoup&lt;/code&gt; 的一个解析器（parser）。它告诉 &lt;code&gt;BeautifulSoup&lt;/code&gt; 使用 Python 内建的 HTML 解析器来解析传入的 HTML 文档。这个解析器是一个快速且有效的解析工具，但对于一些特殊的 HTML，可能处理得不如其他第三方解析器（如 &lt;code&gt;lxml&lt;/code&gt; 或 &lt;code&gt;html5lib&lt;/code&gt;）精准。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;&amp;quot;html.parser&amp;quot;&lt;/code&gt; 选项是 Python 默认的解析器，但如果你安装了 &lt;code&gt;lxml&lt;/code&gt; 或 &lt;code&gt;html5lib&lt;/code&gt; 等库，也可以指定其他解析器。例如：&lt;/p&gt;
 &lt;ul&gt;
@@ -6824,8 +6777,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;&lt;code&gt;&amp;quot;html5lib&amp;quot;&lt;/code&gt;：使用 &lt;code&gt;html5lib&lt;/code&gt; 库，它更宽容于不规范的 HTML 代码。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;4-最终效果&#34;&gt;4. &lt;strong&gt;最终效果&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;这行代码的作用是：通过 &lt;code&gt;BeautifulSoup&lt;/code&gt; 库，将传入的 HTML 字符串 &lt;code&gt;html&lt;/code&gt; 解析成一个 &lt;code&gt;BeautifulSoup&lt;/code&gt; 对象，并指定使用内建的 &lt;code&gt;html.parser&lt;/code&gt; 解析器。解析后的 &lt;code&gt;soup&lt;/code&gt; 对象可以用来方便地操作和提取 HTML 内容。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/h3&gt;&lt;p&gt;这行代码的作用是：通过 &lt;code&gt;BeautifulSoup&lt;/code&gt; 库，将传入的 HTML 字符串 &lt;code&gt;html&lt;/code&gt; 解析成一个 &lt;code&gt;BeautifulSoup&lt;/code&gt; 对象，并指定使用内建的 &lt;code&gt;html.parser&lt;/code&gt; 解析器。解析后的 &lt;code&gt;soup&lt;/code&gt; 对象可以用来方便地操作和提取 HTML 内容。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;剩下的代码看方法名称也很好理解它是做什么的&lt;/p&gt;
 &lt;h3 id=&#34;token与key&#34;&gt;token与key
 &lt;/h3&gt;&lt;h4 id=&#34;找到token与key的所在&#34;&gt;找到&lt;code&gt;token&lt;/code&gt;与&lt;code&gt;key&lt;/code&gt;的所在
@@ -6833,7 +6785,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258.png&#34;
 	width=&#34;852&#34;
 	height=&#34;501&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu9333308804830249905.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu16166716761625340822.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_c8af884a7da6a108.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_ed90877965477480.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -7107,7 +7059,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549.png&#34;
 	width=&#34;1152&#34;
 	height=&#34;580&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu6691820176331615924.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu5740964339205335993.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu_395765edf20669be.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu_16eb747e9da3312f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;network searching&#34;
@@ -7123,7 +7075,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984.png&#34;
 	width=&#34;678&#34;
 	height=&#34;199&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu9421665414626696627.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu17216807519245443259.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu_8592434c796eb13d.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu_1b80a2ef14830445.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translations&#34;
@@ -7143,7 +7095,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216.png&#34;
 	width=&#34;409&#34;
 	height=&#34;457&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4459737528598064534.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4367045138561470661.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu_59aee6fb0fae2d43.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu_28c7a8c877970ad7.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;response&#34;
@@ -7159,17 +7111,15 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;因此根据爬虫的流程，笔者先获取了&lt;code&gt;ttranslate&lt;/code&gt;的请求URL，即：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;再获取了请求标头中的&lt;code&gt;User-Agent&lt;/code&gt;，即：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950.png&#34;
 	width=&#34;723&#34;
 	height=&#34;525&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu15595943230810178636.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu10759054228420497974.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu_27ac1546a1d54220.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu_e46cf839d477a4d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request info&#34;
@@ -7185,7 +7135,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728.png&#34;
 	width=&#34;499&#34;
 	height=&#34;416&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu9498056735675901140.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu234058426219559170.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu_ca87e7329725a4ff.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu_a12db5e7dc3fbffc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request-info&#34;
@@ -7239,8 +7189,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;笔者开始整理，经过多次请求尝试和实验，发现url存在一些端倪：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我们再来看一下这个URL，可以发现，这URL本身就携带了一些信息，&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;，这两个数据在每次会话结束后，都会发生变化，也就是说，当一个会话结束后，笔者所记录的&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;就失效了，无法访问，因此，这一次爬虫并不成功，还需要继续改进，获取每次访问微软翻译时的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;数据。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语
 &lt;/h2&gt;&lt;p&gt;总的来说，本文只是笔者在爬虫方向上的一次探索与学习，这是一次失败的尝试，不过可以看出，笔者在学习上的思路，笔者在学习时，喜欢在实践中发现问题并解决问题，因为理论与实践总是存在一定的差距，现实世界总是复杂且多变的。在实践中，你总会发现一些与理论有偏差或者相悖的地方，让你陷入迷茫，但是在实践中，你不会没有一点头绪，相反，在实践中，你有太多太多的方向去验证问题的本质，有时候往往是方向太多，你无法确定哪条路才能通向正确，你害怕做了无用功，害怕走错了方向，因此迟迟不敢动手，才导致了自己的踌躇不前。在现实世界中抽丝剥茧，也是一种学习，虽然笔者在这里也走错了路，离成功还有一段距离，但是走到这里，让笔者学会了如何看网络包，分析请求和响应，学会调用request库，以及最重要的找到了正确的道路，即：接下来，我们要想办法找到每一次&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;这两个数据如何变，在哪里变，如何获取到那个存放这两个数据的包。致敬技术，希望你变得更强！&lt;/p&gt;
@@ -7259,7 +7208,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692.png&#34;
 	width=&#34;708&#34;
 	height=&#34;738&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu12612883408098425675.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu13195618120501701307.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu_9290aa76eb4b7058.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu_bb3f80865dd45aad.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translator-UIlayout&#34;
@@ -7360,7 +7309,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284.png&#34;
 	width=&#34;200&#34;
 	height=&#34;84&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu6269650132027120636.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu9595666156847587778.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu_df649f520e1fb547.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu_7c3bd58f4c2a0d3b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ComboBox&#34;
@@ -7387,7 +7336,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564.png&#34;
 	width=&#34;197&#34;
 	height=&#34;69&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu10739282547161097641.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu13502898684981347801.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu_5f557b05e8678568.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu_e180d5b930b2a6e3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Tooltip&#34;
@@ -7485,8 +7434,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;&lt;strong&gt;基于项的模型&lt;/strong&gt;：它使用 &lt;code&gt;QStandardItem&lt;/code&gt; 来表示数据的每一项，&lt;code&gt;QStandardItem&lt;/code&gt; 是存储数据和管理项状态的对象。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;支持树形和表格数据&lt;/strong&gt;：通过 &lt;code&gt;QStandardItemModel&lt;/code&gt; 可以管理数据，支持表格和树形结构。它可以通过层次结构来组织数据。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;与视图（View）绑定&lt;/strong&gt;：&lt;code&gt;QStandardItemModel&lt;/code&gt; 与 PyQt 中的视图类（如 &lt;code&gt;QListView&lt;/code&gt;、&lt;code&gt;QTreeView&lt;/code&gt;、&lt;code&gt;QTableView&lt;/code&gt;）一起使用，模型控制数据，而视图负责数据的显示和交互。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;QListView控件与QComboBox功能相似，但是用途，行为和样式差别较大，直接问大模型会给你长长的一条差别，但在这里，使用QListView的原因是它&lt;strong&gt;好看&lt;/strong&gt;，可自定义样式，且不会收束成一个单个元素，而是完整地展示所有元素。&lt;/p&gt;
@@ -7590,7 +7538,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408.png&#34;
 	width=&#34;594&#34;
 	height=&#34;276&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu1751319344734010631.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu17231952748570868241.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu_3fbef9ba34770894.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu_a661a6b9a3a2b6b1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104210652408&#34;
@@ -7677,7 +7625,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566.png&#34;
 	width=&#34;821&#34;
 	height=&#34;630&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu4425503121006394369.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu8731655619142660462.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu_2bcc5d8e6c4cf594.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu_962255c0bdd6d78d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104193829566&#34;
@@ -7700,7 +7648,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266.png&#34;
 	width=&#34;317&#34;
 	height=&#34;568&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu2089451074045063758.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu18082369996912683307.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu_ccbf0350415f4d99.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu_e8a2bc2d9b63b380.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104205913266&#34;
@@ -7715,7 +7663,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631.png&#34;
 	width=&#34;578&#34;
 	height=&#34;571&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu7586436318989138660.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu12632185332846545057.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu_c3f2baa13e5a4aad.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu_245a8626c1c6f57e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104210010631&#34;
@@ -7896,7 +7844,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963.png&#34;
 	width=&#34;501&#34;
 	height=&#34;303&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu3299072808937954804.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu1312488146243212494.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu_567a1310722f528.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963_hu_8b33cbd95746a4e4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104101906963&#34;
@@ -7917,7 +7865,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825.png&#34;
 	width=&#34;381&#34;
 	height=&#34;357&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu15788003540213273265.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu10132448298365792822.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu_5722bbcc464582cc.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825_hu_77b3b5f4de3393b8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104103228825&#34;
@@ -7938,7 +7886,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931.png&#34;
 	width=&#34;600&#34;
 	height=&#34;317&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu16254094868969890119.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu5160087606884622162.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu_963e29963b9f0998.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104005931_hu_44916279ae827584.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104104005931&#34;
@@ -7953,12 +7901,11 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;配置图标&lt;/strong&gt;：右键刚才新建的VisualCode项，在VisualCode中新建一个&lt;code&gt;可扩充字符串值&lt;/code&gt;，双击该数据，将数值名称改为&lt;code&gt;Icon&lt;/code&gt;，将数值数据修改为：Code.exe执行文件的地址，如我的地址为：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;C:\Users\86153\AppData\Local\Programs\Microsoft VS Code_\Code.exe&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;C:\Users\86153\AppData\Local\Programs\Microsoft VS Code_\Code.exe&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280.png&#34;
 	width=&#34;707&#34;
 	height=&#34;276&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu16629371489639553308.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu1650627882931876073.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu_2779dac407a4f97a.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104104711280_hu_6a3fde56b0e861e0.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104104711280&#34;
@@ -7975,7 +7922,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934.png&#34;
 	width=&#34;1185&#34;
 	height=&#34;383&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu17824744985564027553.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu12600755054536125379.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu_47a4b76c33141fde.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104105531934_hu_6fe2f990bb24fa43.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104105531934&#34;
@@ -8000,7 +7947,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375.png&#34;
 	width=&#34;1123&#34;
 	height=&#34;427&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu7281386191722519328.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu14869815443115981233.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu_68d890255fb2dc62.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104110104375_hu_ca3baec0d93e11b6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104110104375&#34;
@@ -8020,7 +7967,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593.png&#34;
 	width=&#34;1018&#34;
 	height=&#34;350&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu15325921557374164745.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu12526577052122247765.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu_85761ca3bb933a87.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104112003593_hu_445f0e6a78778bd1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104112003593&#34;
@@ -8036,7 +7983,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png&#34;
 	width=&#34;225&#34;
 	height=&#34;61&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu746695615025887818.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu891048134147510453.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu_39eb5de2cbcc5172.png 480w, https://Lyrical-wander.github.io/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo_hu_fd8c4b1f76fc0b68.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -8163,8 +8110,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/ul&gt;
 &lt;h2 id=&#34;43-stacklayout-切换功能&#34;&gt;4.3 stackLayout 切换功能
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在PyQt中，&lt;code&gt;QStackLayout&lt;/code&gt;是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在PyQt中，&lt;code&gt;QStackLayout&lt;/code&gt;是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -8432,13 +8378,13 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/div&gt;&lt;p&gt;最开始进入的地方是：if__name__ == &amp;ldquo;_&lt;em&gt;main&lt;/em&gt;_&amp;rdquo;:&lt;/p&gt;
 &lt;p&gt;app = QApplication(sys.argv)初始化应用程序对象&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;h3 id=&#34;1-qapplication-类&#34;&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;
+&lt;h3 id=&#34;1-qapplication&#34;&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 是 Qt 应用程序的主类，负责管理应用程序的控制流和主要设置。&lt;/li&gt;
 &lt;li&gt;它处理应用程序的主事件循环，并为 GUI 元素提供必要的支持。&lt;/li&gt;
 &lt;li&gt;每个使用 Qt 的应用程序通常需要一个 &lt;code&gt;QApplication&lt;/code&gt; 实例。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;2-sysargv-的作用&#34;&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;2-sysargv&#34;&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;sys.argv&lt;/code&gt; 是一个列表，包含命令行参数。这些参数是在运行 Python 脚本时传递的。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 可以使用这些参数来配置应用程序的行为，例如窗口大小、样式等。&lt;/li&gt;
@@ -8449,8 +8395,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;li&gt;&lt;strong&gt;创建应用程序对象&lt;/strong&gt;：这行代码创建了一个 &lt;code&gt;QApplication&lt;/code&gt; 的实例，并将命令行参数传递给它。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;设置事件循环&lt;/strong&gt;：这个实例负责管理 GUI 的事件循环，使得应用程序能够响应用户输入和事件（例如鼠标点击、键盘输入等）。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;为应用程序提供上下文&lt;/strong&gt;：&lt;code&gt;QApplication&lt;/code&gt; 提供了关于应用程序的信息，例如样式、主题、字体等。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;创建MainWindow对象，即运行上面的class中的代码&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;def __init__&lt;/code&gt;中，设置窗口的标题，设置窗口的图标，在这里可以看到，设置图标的路径是：&lt;strong&gt;_internal/res/icon/icon.ico&lt;/strong&gt;，但我们并没有创建这个__internal的目录，回顾环境配置中pyinstaller部分的讲解：“pyinstaller在v6.0版本以后，数据将被移动到&lt;code&gt;__internal&lt;/code&gt;目录下”，也就是说，如果我们打包程序形成exe文件后，想要文件能够正确找到icon的地址，则必须在你写的地址前加上&lt;code&gt;__internal&lt;/code&gt;目录，配合上打包时的参数,&lt;code&gt;-add-data &amp;quot;icon.ico;__internal/res/icon/icon.ico&amp;quot;&lt;/code&gt;，就可以在打包后显示正常的图标。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -8466,7 +8411,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct.png&#34;
 	width=&#34;712&#34;
 	height=&#34;147&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu7294286202204780821.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu3715101181839059963.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu_9a5c07d70cc02689.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu_a32d0eae048708bf.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;BTStruct&#34;
@@ -8514,7 +8459,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270.png&#34;
 	width=&#34;1028&#34;
 	height=&#34;751&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu8529311416081065748.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu10465735808105034215.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu_e1a69ed7ac5fabd7.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu_18c3af42bacf883e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022151802270&#34;
@@ -8530,7 +8475,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894.png&#34;
 	width=&#34;732&#34;
 	height=&#34;168&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu13899577704865691566.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu356904238070531585.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu_30829bc0f4781b50.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu_9e983466e8ba9a0e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022152330894&#34;
@@ -8548,7 +8493,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861.png&#34;
 	width=&#34;398&#34;
 	height=&#34;274&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu17273046052108306178.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu664184986934851878.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_d6eb940d60ce7af1.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_49da79c5abc895e7.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022153614861&#34;
@@ -8569,7 +8514,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660.png&#34;
 	width=&#34;478&#34;
 	height=&#34;557&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu7097564622186956650.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu13604145229733644675.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_970be1414d339013.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_6313a2f618c6729b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022161315660&#34;
@@ -8610,8 +8555,7 @@ $$&lt;h2 id=&#34;不同大小的有无符号转变&#34;&gt;不同大小的有无
 &lt;/h1&gt;&lt;p&gt;作者因为工作需要，用python写了一些脚本用于数据处理，UTF-8转换，以及一些我的工作专属脚本，又因为想要偷懒，用爬虫爬取了微软翻译的页面做了一个自己的翻译器，近来突发奇想，想要把各种python写的脚本整合到一起，并写一个GUI应用程序，因此PyQt进入了我的视野。想着用业余时间一点一点摸索，到目前为止算是做的有模有样，现写博客记录下来。&lt;/p&gt;
 &lt;p&gt;这个GUI程序会分成一个系列更新，把我的UI框架，布局，工程整理，功能编写等等都写出来，包括：利用爬虫爬取微软翻译来做自己的翻译器，图像处理等。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;本脚本工具包还在持续更新（部分功能我也还没有完成），目前还没有做完的功能有：做音频数据处理（抓取BLE音频数据包，自动去包头去CRC校验，获取raw data的功能），音频编解码（利用市面上常见开源编解码器对音频数据进行编码或解码，ADPCM，SBC等），后续根据需要和精力，看能不能做音频数据的时域频域转换器等等。都是美好幻想，敬请期待！&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;本脚本工具包还在持续更新（部分功能我也还没有完成），目前还没有做完的功能有：做音频数据处理（抓取BLE音频数据包，自动去包头去CRC校验，获取raw data的功能），音频编解码（利用市面上常见开源编解码器对音频数据进行编码或解码，ADPCM，SBC等），后续根据需要和精力，看能不能做音频数据的时域频域转换器等等。都是美好幻想，敬请期待！&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;因为程序还在不断地完善更新，所以到系列结束时，代码应该就已经更新完成了，到时候我会将代码开源到我的GitHub仓库上，有兴趣的小伙伴可以下载使用或交流学习。本系列文章也会同步更新到我的CSDN博客中，如果小伙伴们觉得本系列对你有帮助，麻烦点个赞与收藏，感激不敬！&lt;/p&gt;
 &lt;h1 id=&#34;环境配置&#34;&gt;环境配置
 &lt;/h1&gt;&lt;h2 id=&#34;11-python环境&#34;&gt;1.1 Python环境

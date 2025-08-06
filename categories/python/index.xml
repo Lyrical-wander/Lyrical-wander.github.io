@@ -20,7 +20,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197.png&#34;
 	width=&#34;1094&#34;
 	height=&#34;696&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu16659833580731131641.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu4283249943932297030.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu_26752c72e953031c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197_hu_a1e822cd369ec9c5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;UI&#34;
@@ -778,8 +778,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;frames&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;&lt;p&gt;这个循环的主要目的是从流中读取数据，并添加到&lt;code&gt;frams&lt;/code&gt;列表中，可以看到&lt;code&gt;RATE * RECORD_SECONDS&lt;/code&gt;为&lt;code&gt;采样率 * 录音时长&lt;/code&gt;，这可以得到在本次录音中一共采样的次数，&lt;code&gt;/ CHUNK&lt;/code&gt;表明采样的数据被分块读取并写入&lt;code&gt;frames&lt;/code&gt;。这里其实隐式的处理了采样格式，即&lt;code&gt;paInt16&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;播放音频示例&lt;/strong&gt;： 以下是一个播放 WAV 文件的简单示例：&lt;/p&gt;
@@ -927,13 +926,12 @@
 &lt;/h3&gt;&lt;p&gt;总的来说，&lt;code&gt;PyAudio&lt;/code&gt; 是一个非常强大的库，适合用于音频处理和实时音频应用，尤其在需要直接与麦克风或扬声器交互时，提供了非常简洁的接口。&lt;/p&gt;
 &lt;h2 id=&#34;stop_stream与start_stream&#34;&gt;stop_stream与start_stream
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;可能会有同学好奇，在上面的示例代码中，为什么只看见&lt;code&gt;stream.stop_stream&lt;/code&gt;而没有看见&lt;code&gt;stream.start_stream&lt;/code&gt;呢，如果只有停止流的操作，为什么没有开启流的操作，流在哪里被开启了呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;PyAudio&lt;/code&gt; 中的 &lt;code&gt;stream.start_stream()&lt;/code&gt; 和 &lt;code&gt;stream.stop_stream()&lt;/code&gt; 是两个重要的流控制方法，用于控制音频流的开始和停止。&lt;/p&gt;
 &lt;p&gt;在 &lt;code&gt;PyAudio&lt;/code&gt; 的流（&lt;code&gt;Stream&lt;/code&gt;）中，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 方法实际上是可选的，它们的行为是与音频流的实际使用场景有关的。让我们详细解释一下这两个方法，以及为什么在某些情况下，可能看不到显式调用 &lt;code&gt;start_stream()&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;1-streamstart_stream-的作用&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;1-streamstart_&#34;&gt;1. &lt;strong&gt;stream.start_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;start_stream()&lt;/code&gt; 方法用于启动音频流，开始录制或播放音频。它是用来显式告诉程序 &amp;ldquo;现在开始处理音频数据&amp;rdquo;。&lt;/p&gt;
-&lt;h3 id=&#34;2-streamstop_stream-的作用&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;2-streamstop_&#34;&gt;2. &lt;strong&gt;stream.stop_stream() 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;stop_stream()&lt;/code&gt; 方法用于停止音频流，表示录制或播放过程结束。这对于需要显式控制音频流的结束时机的程序非常有用。&lt;/p&gt;
 &lt;h3 id=&#34;为什么-start_stream-有时没被显式调用&#34;&gt;为什么 &lt;code&gt;start_stream()&lt;/code&gt; 有时没被显式调用
 &lt;/h3&gt;&lt;ol&gt;
@@ -1053,8 +1051,7 @@
 &lt;p&gt;但是，在一些场景下，尤其是自定义更复杂的音频控制时，&lt;code&gt;start_stream()&lt;/code&gt; 和 &lt;code&gt;stop_stream()&lt;/code&gt; 还是很有用的，特别是当你需要手动控制音频流的启动与停止时。&lt;/p&gt;
 &lt;h2 id=&#34;谁开启的麦克风或扬声器&#34;&gt;谁开启的麦克风或扬声器
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在上面的示例代码中，敏锐的读者可能会发现，似乎没有发现那里调用了麦克风或扬声器，合理猜测，直接告诉我们，应该是PyAudio库调用了硬件设备，但真是如此吗，如果是，那么又是怎么调用的呢？&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我们以上面的代码为例，究竟是谁调用了麦克风，开启了录音&lt;/p&gt;
 &lt;p&gt;音频的录制是通过 &lt;code&gt;pyaudio&lt;/code&gt; 库来实现的，调用麦克风硬件的部分是由 &lt;code&gt;pyaudio&lt;/code&gt; 库中的 &lt;code&gt;PyAudio&lt;/code&gt; 类和它的 &lt;code&gt;open()&lt;/code&gt; 方法来完成的。具体的过程是这样的：&lt;/p&gt;
 &lt;h3 id=&#34;调用麦克风硬件的关键步骤&#34;&gt;调用麦克风硬件的关键步骤：
@@ -1117,7 +1114,7 @@
         
         <guid>https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</guid>
         <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
-&lt;/h2&gt;&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何不也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
 &lt;h2 id=&#34;python中的线程&#34;&gt;Python中的线程
 &lt;/h2&gt;&lt;p&gt;Python处理线程的模块有两个：&lt;code&gt;thread&lt;/code&gt; 和 &lt;code&gt;threading&lt;/code&gt;。Python 3已经停用了 &lt;code&gt;thread&lt;/code&gt;模块，并改名为&lt;code&gt; _thread&lt;/code&gt; 模块。Python 3在 &lt;code&gt;_thread&lt;/code&gt; 模块的基础上开发了更高级的 &lt;code&gt;threading&lt;/code&gt; 模块，因此我们现在用的线程模块都是 &lt;code&gt;threading&lt;/code&gt; 模块。&lt;/p&gt;
 &lt;h3 id=&#34;创建线程&#34;&gt;创建线程
@@ -1916,7 +1913,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004.png&#34;
 	width=&#34;521&#34;
 	height=&#34;441&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu16936110322661815955.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu17483567161437215341.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_94e9ffb80a19f4c5.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215010004_hu_3ad6ef9eb6a28597.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;AudiocodecClass&#34;
@@ -1934,7 +1931,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755.png&#34;
 	width=&#34;507&#34;
 	height=&#34;434&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu6539725557923321828.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu187096352633717672.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_5676e324b3894e1f.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215251755_hu_16d1bee561c4c906.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;adpcm codec Runner&#34;
@@ -1952,7 +1949,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230.png&#34;
 	width=&#34;482&#34;
 	height=&#34;275&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu9143734324339566444.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu11304473506844748505.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_b3be952c2ff565c4.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215202230_hu_6ce8609845721fbb.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;prphressBar&#34;
@@ -1970,7 +1967,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774.png&#34;
 	width=&#34;517&#34;
 	height=&#34;430&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu1216690107204511031.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu109410861840441875.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_8ebdfb2e40a59fb3.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/image-20241214215110774_hu_62ce4861c4cfdee8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;exe file directory&#34;
@@ -1985,8 +1982,7 @@
 &lt;/ul&gt;
 &lt;p&gt;阅读完这三篇文章，加上熟悉本系列前期的基础，即工程布局架构，你可以轻松复制我的代码，实现自己的音频编解码器，快来试试吧！有任何疑问请联系我，祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -2003,7 +1999,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu17251643162458516597.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu10630458649422691579.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu_6ae2c84de2af96da.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188_hu_dd4752a599d0597a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;start&#34;
@@ -2032,7 +2028,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298.png&#34;
 	width=&#34;549&#34;
 	height=&#34;391&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18329291701166208966.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu18168692022278040201.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu_f6fae9b8b277cf52.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213141313298_hu_8305659e579242b4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;adpcmData.txt&#34;
@@ -2062,7 +2058,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu2621589240093356188.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu9791393477353833336.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu_b6b5c47568be2ba1.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122_hu_d7f7170518790ac8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;processbar of decoding&#34;
@@ -2077,7 +2073,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816.png&#34;
 	width=&#34;1122&#34;
 	height=&#34;766&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu8945448312101488568.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu1529046219813022820.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu_be0f8116929f0a58.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120907816_hu_fea388ab5c3790b5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;processbar of decode end&#34;
@@ -2263,8 +2259,7 @@
 &lt;li&gt;如果控件的内容发生了变化，或者某些部分被遮挡并随后暴露出来，Qt 会重新触发 &lt;code&gt;paintEvent&lt;/code&gt; 来重新绘制这些区域。例如，当窗口被部分遮挡后再显示出来时，Qt 会调用 &lt;code&gt;paintEvent&lt;/code&gt; 来刷新被遮挡的部分。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;p&gt;在上面的代码中，每次更新进度条的状态时，调用&lt;code&gt;self.update&lt;/code&gt;，重新绘制控件。&lt;/p&gt;
 &lt;p&gt;如果不适用&lt;code&gt;self.update&lt;/code&gt;，而是直接调用&lt;code&gt;paintEvent&lt;/code&gt;绘制进度条可以吗？&lt;/p&gt;
 &lt;blockquote&gt;
@@ -2287,14 +2282,12 @@
 &lt;li&gt;&lt;strong&gt;不符合最佳实践&lt;/strong&gt;：Qt 推荐使用 &lt;code&gt;update()&lt;/code&gt; 来请求重绘，因为它利用了 Qt 内部的绘制优化策略。如果你直接调用 &lt;code&gt;paintEvent&lt;/code&gt;，可能会破坏这些优化。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;通过消息队列传递更新消息&#34;&gt;通过消息队列传递更新消息
 &lt;/h3&gt;&lt;p&gt;进度条的更新实际上需要与编解码器的编解码进度相关，因为编解码器吃算力，因此不建议将编解码器放在主线程中运行，所以对编解码器开了子线程运行，消息的互传需要通过消息队列来进行。关于线程问题，我们将在下一期内容时更详细地讲解。&lt;/p&gt;
 &lt;p&gt;祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -2408,7 +2401,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012.png&#34;
 	width=&#34;1124&#34;
 	height=&#34;767&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu11800908548311208436.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu16546038208090371240.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu_a06591a0ab4a614c.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212194249012_hu_ed1a7a51c2d14c99.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;JsonProcessUI&#34;
@@ -2426,7 +2419,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490.png&#34;
 	width=&#34;1637&#34;
 	height=&#34;821&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu13577053340987916241.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu144507735475922064.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu_54d650993af45311.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490_hu_f96c1b0fc8a67d34.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;wireshark info&#34;
@@ -2439,12 +2432,11 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;在下面详细信息中可以看到，所选中的这一条数据，是从机通过&lt;code&gt;handle&lt;/code&gt;为&lt;code&gt;0x97&lt;/code&gt;的特征，向主机发送共计&lt;code&gt;120&lt;/code&gt;个字节的&lt;code&gt;value&lt;/code&gt;数据：&lt;code&gt;3b 18 01 ....... 04 d1 1a&lt;/code&gt;，如果手动一条一条数据中蓝色框框的内容复制出来是非常耗时的，可以采用以下方式获取数据：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;文件 → 导出分组解析结果 → As JSON&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;文件 → 导出分组解析结果 → As JSON&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755.png&#34;
 	width=&#34;435&#34;
 	height=&#34;446&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu2230223600654996945.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu7901580446656711177.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu_556f8ad8e4c66ab7.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212200032755_hu_1203273c9f63f9d4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;export data as JSON file&#34;
@@ -2670,8 +2662,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;是这样的一个结构。&lt;/p&gt;
 &lt;p&gt;我们现在来看代码&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2731,14 +2722,13 @@
     &gt;基于PyQt开发的脚本集合包（八）&lt;/a&gt;的又不一致&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;笔者借助开发者工具自带的搜索框进行搜索，看看我们需要的数据在哪里出现过&lt;/p&gt;
 &lt;p&gt;除了上一篇文章中提到的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;两个数据外，我们还需要找到&lt;code&gt;token&lt;/code&gt;和&lt;code&gt;key&lt;/code&gt;两个数据，在&lt;code&gt;ttranslatev3&lt;/code&gt;响应请求中，可以看到我们发送请求时，请求表单除了携带需要翻译的文本，翻译前的语种，翻译后的语种外，还需携带两个特殊的信息&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118.png&#34;
 	width=&#34;322&#34;
 	height=&#34;174&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu9851347081149025152.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu16388646473418647113.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_3cbc4e7a3b728ec2.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_99a3543fdb73372a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request list&#34;
@@ -2756,7 +2746,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432.png&#34;
 	width=&#34;387&#34;
 	height=&#34;634&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9165630363063930749.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9305493525008999594.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_c8f20fdbe54b04b0.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_999c4b6ebe2f0758.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;searching&#34;
@@ -2771,7 +2761,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941.png&#34;
 	width=&#34;401&#34;
 	height=&#34;461&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu12878956511446258891.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu1059263542813323643.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_c1e5c3b19eb531f3.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_bb45c91259b23af3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -2786,7 +2776,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667.png&#34;
 	width=&#34;862&#34;
 	height=&#34;630&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu8001555851389192672.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu7315487879193392417.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_f326f3365941344b.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_daabb9e2cddad242.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translator&#34;
@@ -2801,7 +2791,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949.png&#34;
 	width=&#34;1009&#34;
 	height=&#34;574&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu8231190507602377846.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu14244907251486001173.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_534e2d67831e5870.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_2cc9324a5aa71e3a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;IG data is in there&#34;
@@ -2820,7 +2810,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376.png&#34;
 	width=&#34;884&#34;
 	height=&#34;344&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu9151868427904931343.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu2190679783552978969.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_7d94b1b7e1823f72.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_9e9d5f411193aa38.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;URLandUser-Agent&#34;
@@ -2836,7 +2826,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192.png&#34;
 	width=&#34;1232&#34;
 	height=&#34;443&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu13733232557763499983.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu3220224752537030270.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_272d0679af647a96.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_538136176ffeef41.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;website page&#34;
@@ -2859,8 +2849,7 @@
 &lt;li&gt;&lt;strong&gt;避免被识别为爬虫&lt;/strong&gt;： 网站可能会根据 &lt;code&gt;User-Agent&lt;/code&gt; 来识别是否是爬虫程序。很多爬虫程序没有设置真实的 &lt;code&gt;User-Agent&lt;/code&gt;，或者 &lt;code&gt;User-Agent&lt;/code&gt; 字符串看起来像是一个自动化脚本（比如 Python 的 &lt;code&gt;requests&lt;/code&gt; 库默认 &lt;code&gt;User-Agent&lt;/code&gt; 是一个简单的字符串）。一些网站会使用这一点来检测并阻止爬虫请求。因此，为了模拟浏览器，爬虫通常会伪装成浏览器的 &lt;code&gt;User-Agent&lt;/code&gt;，避免被网站识别为爬虫。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;返回适配的内容&lt;/strong&gt;： 根据 &lt;code&gt;User-Agent&lt;/code&gt;，服务器可以返回特定格式的内容。比如，移动设备和桌面设备通常会看到不同版本的网页，甚至不同的图片大小和样式。通过查看 &lt;code&gt;User-Agent&lt;/code&gt;，服务器可以判断请求来自于手机、平板、桌面或其他设备，并返回不同的页面样式或功能。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;分辨设备和浏览器版本&lt;/strong&gt;： &lt;code&gt;User-Agent&lt;/code&gt; 可以帮助服务器确定访问者的设备类型、操作系统及浏览器版本，从而优化响应内容。比如，某些页面可能会针对不同的操作系统（如 Windows、macOS、Linux）或不同版本的浏览器提供特定的网页布局或 JavaScript 功能。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;p&gt;可以看出，一些服务器会根据&lt;code&gt;User-Agent&lt;/code&gt;来判断访问请求是不是来自人类或自动化脚本，可做一些反爬虫操作。我们从浏览器获取的请求信息中包含的&lt;code&gt;User-Agent&lt;/code&gt;，表明了这段请求时来自浏览器，而非自动化脚本，因此，我们可以回答上面的问题：1.&lt;code&gt;User-Agent&lt;/code&gt;一样是因为我们今天与昨天用的都是同一个浏览器访问，它代表了“该请求来自Edge浏览器”。2.无需担心它会发生变化，除非浏览器更新会更改这项数据，而这大概率是不会发生的。&lt;/p&gt;
 &lt;h4 id=&#34;代码实现&#34;&gt;代码实现
 &lt;/h4&gt;&lt;p&gt;首先，先获取整个response的html数据，把它写在一个单独的文件里，（数据量太大，操作台无法查找相应的数据），有些导入的模块会在后面的代码中用到，这仅是完整代码的一部分&lt;/p&gt;
@@ -2900,7 +2889,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478.png&#34;
 	width=&#34;1098&#34;
 	height=&#34;376&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu17473337719940462838.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu15782744654142325814.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_6a9cbc0f6477107d.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_65061488e2956bbe.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;HTML file&#34;
@@ -2926,7 +2915,7 @@
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702.png&#34;
 	width=&#34;1269&#34;
 	height=&#34;527&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu883526710802730092.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu11751580963507639102.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_93dcca977d819c25.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_6215bd9ff75f7d3f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -2941,7 +2930,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171.png&#34;
 	width=&#34;688&#34;
 	height=&#34;322&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu6081373334625807712.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu4282398594250579819.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_3b534f0f22931768.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_a390e2566ef02870.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;data-iid&#34;
@@ -2975,7 +2964,7 @@
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;BeautifulSoup&lt;/code&gt; 是一个 Python 库，主要用于从 HTML 或 XML 文档中提取数据。它提供了许多方法来帮助你遍历、搜索和修改 HTML/XML 文档的内容。&lt;/p&gt;
 &lt;h3 id=&#34;2-html&#34;&gt;2. &lt;strong&gt;html&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;html&lt;/code&gt; 是传入 &lt;code&gt;BeautifulSoup&lt;/code&gt; 构造函数的参数，通常是一个包含 HTML 内容的字符串。它代表了待解析的 HTML 文档。可以是从文件读取的内容，或者是通过网络请求获取的 HTML 页面。&lt;/p&gt;
-&lt;h3 id=&#34;3-htmlparser&#34;&gt;3. &lt;strong&gt;&amp;ldquo;html.parser&amp;rdquo;&lt;/strong&gt;
+&lt;h3 id=&#34;3-&#34;&gt;3. &lt;strong&gt;&amp;ldquo;html.parser&amp;rdquo;&lt;/strong&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;&amp;quot;html.parser&amp;quot;&lt;/code&gt; 是 &lt;code&gt;BeautifulSoup&lt;/code&gt; 的一个解析器（parser）。它告诉 &lt;code&gt;BeautifulSoup&lt;/code&gt; 使用 Python 内建的 HTML 解析器来解析传入的 HTML 文档。这个解析器是一个快速且有效的解析工具，但对于一些特殊的 HTML，可能处理得不如其他第三方解析器（如 &lt;code&gt;lxml&lt;/code&gt; 或 &lt;code&gt;html5lib&lt;/code&gt;）精准。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;&amp;quot;html.parser&amp;quot;&lt;/code&gt; 选项是 Python 默认的解析器，但如果你安装了 &lt;code&gt;lxml&lt;/code&gt; 或 &lt;code&gt;html5lib&lt;/code&gt; 等库，也可以指定其他解析器。例如：&lt;/p&gt;
 &lt;ul&gt;
@@ -2983,8 +2972,7 @@
 &lt;li&gt;&lt;code&gt;&amp;quot;html5lib&amp;quot;&lt;/code&gt;：使用 &lt;code&gt;html5lib&lt;/code&gt; 库，它更宽容于不规范的 HTML 代码。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;4-最终效果&#34;&gt;4. &lt;strong&gt;最终效果&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;这行代码的作用是：通过 &lt;code&gt;BeautifulSoup&lt;/code&gt; 库，将传入的 HTML 字符串 &lt;code&gt;html&lt;/code&gt; 解析成一个 &lt;code&gt;BeautifulSoup&lt;/code&gt; 对象，并指定使用内建的 &lt;code&gt;html.parser&lt;/code&gt; 解析器。解析后的 &lt;code&gt;soup&lt;/code&gt; 对象可以用来方便地操作和提取 HTML 内容。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/h3&gt;&lt;p&gt;这行代码的作用是：通过 &lt;code&gt;BeautifulSoup&lt;/code&gt; 库，将传入的 HTML 字符串 &lt;code&gt;html&lt;/code&gt; 解析成一个 &lt;code&gt;BeautifulSoup&lt;/code&gt; 对象，并指定使用内建的 &lt;code&gt;html.parser&lt;/code&gt; 解析器。解析后的 &lt;code&gt;soup&lt;/code&gt; 对象可以用来方便地操作和提取 HTML 内容。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;剩下的代码看方法名称也很好理解它是做什么的&lt;/p&gt;
 &lt;h3 id=&#34;token与key&#34;&gt;token与key
 &lt;/h3&gt;&lt;h4 id=&#34;找到token与key的所在&#34;&gt;找到&lt;code&gt;token&lt;/code&gt;与&lt;code&gt;key&lt;/code&gt;的所在
@@ -2992,7 +2980,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258.png&#34;
 	width=&#34;852&#34;
 	height=&#34;501&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu9333308804830249905.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu16166716761625340822.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_c8af884a7da6a108.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_ed90877965477480.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;find it&#34;
@@ -3266,7 +3254,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549.png&#34;
 	width=&#34;1152&#34;
 	height=&#34;580&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu6691820176331615924.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu5740964339205335993.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu_395765edf20669be.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193229549_hu_16eb747e9da3312f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;network searching&#34;
@@ -3282,7 +3270,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984.png&#34;
 	width=&#34;678&#34;
 	height=&#34;199&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu9421665414626696627.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu17216807519245443259.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu_8592434c796eb13d.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107193521984_hu_1b80a2ef14830445.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translations&#34;
@@ -3302,7 +3290,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216.png&#34;
 	width=&#34;409&#34;
 	height=&#34;457&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4459737528598064534.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu4367045138561470661.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu_59aee6fb0fae2d43.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107194353216_hu_28c7a8c877970ad7.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;response&#34;
@@ -3318,17 +3306,15 @@
 &lt;/h3&gt;&lt;p&gt;因此根据爬虫的流程，笔者先获取了&lt;code&gt;ttranslate&lt;/code&gt;的请求URL，即：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;再获取了请求标头中的&lt;code&gt;User-Agent&lt;/code&gt;，即：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950.png&#34;
 	width=&#34;723&#34;
 	height=&#34;525&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu15595943230810178636.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu10759054228420497974.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu_27ac1546a1d54220.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950_hu_e46cf839d477a4d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request info&#34;
@@ -3344,7 +3330,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728.png&#34;
 	width=&#34;499&#34;
 	height=&#34;416&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu9498056735675901140.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu234058426219559170.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu_ca87e7329725a4ff.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107200045728_hu_a12db5e7dc3fbffc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;request-info&#34;
@@ -3398,8 +3384,7 @@
 &lt;p&gt;笔者开始整理，经过多次请求尝试和实验，发现url存在一些端倪：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/ttranslatev3?isVertical=1&amp;amp;&amp;amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;amp;IID=translator.5025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我们再来看一下这个URL，可以发现，这URL本身就携带了一些信息，&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;，这两个数据在每次会话结束后，都会发生变化，也就是说，当一个会话结束后，笔者所记录的&lt;code&gt;IG&lt;/code&gt;与&lt;code&gt;IID&lt;/code&gt;就失效了，无法访问，因此，这一次爬虫并不成功，还需要继续改进，获取每次访问微软翻译时的&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;数据。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语
 &lt;/h2&gt;&lt;p&gt;总的来说，本文只是笔者在爬虫方向上的一次探索与学习，这是一次失败的尝试，不过可以看出，笔者在学习上的思路，笔者在学习时，喜欢在实践中发现问题并解决问题，因为理论与实践总是存在一定的差距，现实世界总是复杂且多变的。在实践中，你总会发现一些与理论有偏差或者相悖的地方，让你陷入迷茫，但是在实践中，你不会没有一点头绪，相反，在实践中，你有太多太多的方向去验证问题的本质，有时候往往是方向太多，你无法确定哪条路才能通向正确，你害怕做了无用功，害怕走错了方向，因此迟迟不敢动手，才导致了自己的踌躇不前。在现实世界中抽丝剥茧，也是一种学习，虽然笔者在这里也走错了路，离成功还有一段距离，但是走到这里，让笔者学会了如何看网络包，分析请求和响应，学会调用request库，以及最重要的找到了正确的道路，即：接下来，我们要想办法找到每一次&lt;code&gt;IG&lt;/code&gt;和&lt;code&gt;IID&lt;/code&gt;这两个数据如何变，在哪里变，如何获取到那个存放这两个数据的包。致敬技术，希望你变得更强！&lt;/p&gt;
@@ -3418,7 +3403,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692.png&#34;
 	width=&#34;708&#34;
 	height=&#34;738&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu12612883408098425675.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu13195618120501701307.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu_9290aa76eb4b7058.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692_hu_bb3f80865dd45aad.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;translator-UIlayout&#34;
@@ -3519,7 +3504,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284.png&#34;
 	width=&#34;200&#34;
 	height=&#34;84&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu6269650132027120636.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu9595666156847587778.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu_df649f520e1fb547.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107161902284_hu_7c3bd58f4c2a0d3b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ComboBox&#34;
@@ -3546,7 +3531,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564.png&#34;
 	width=&#34;197&#34;
 	height=&#34;69&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu10739282547161097641.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu13502898684981347801.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu_5f557b05e8678568.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107162803564_hu_e180d5b930b2a6e3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Tooltip&#34;
@@ -3644,8 +3629,7 @@
 &lt;li&gt;&lt;strong&gt;基于项的模型&lt;/strong&gt;：它使用 &lt;code&gt;QStandardItem&lt;/code&gt; 来表示数据的每一项，&lt;code&gt;QStandardItem&lt;/code&gt; 是存储数据和管理项状态的对象。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;支持树形和表格数据&lt;/strong&gt;：通过 &lt;code&gt;QStandardItemModel&lt;/code&gt; 可以管理数据，支持表格和树形结构。它可以通过层次结构来组织数据。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;与视图（View）绑定&lt;/strong&gt;：&lt;code&gt;QStandardItemModel&lt;/code&gt; 与 PyQt 中的视图类（如 &lt;code&gt;QListView&lt;/code&gt;、&lt;code&gt;QTreeView&lt;/code&gt;、&lt;code&gt;QTableView&lt;/code&gt;）一起使用，模型控制数据，而视图负责数据的显示和交互。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;QListView控件与QComboBox功能相似，但是用途，行为和样式差别较大，直接问大模型会给你长长的一条差别，但在这里，使用QListView的原因是它&lt;strong&gt;好看&lt;/strong&gt;，可自定义样式，且不会收束成一个单个元素，而是完整地展示所有元素。&lt;/p&gt;
@@ -3749,7 +3733,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408.png&#34;
 	width=&#34;594&#34;
 	height=&#34;276&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu1751319344734010631.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu17231952748570868241.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu_3fbef9ba34770894.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408_hu_a661a6b9a3a2b6b1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104210652408&#34;
@@ -3836,7 +3820,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566.png&#34;
 	width=&#34;821&#34;
 	height=&#34;630&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu4425503121006394369.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu8731655619142660462.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu_2bcc5d8e6c4cf594.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566_hu_962255c0bdd6d78d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104193829566&#34;
@@ -3859,7 +3843,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266.png&#34;
 	width=&#34;317&#34;
 	height=&#34;568&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu2089451074045063758.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu18082369996912683307.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu_ccbf0350415f4d99.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266_hu_e8a2bc2d9b63b380.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104205913266&#34;
@@ -3874,7 +3858,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631.png&#34;
 	width=&#34;578&#34;
 	height=&#34;571&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu7586436318989138660.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu12632185332846545057.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu_c3f2baa13e5a4aad.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104210010631_hu_245a8626c1c6f57e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241104210010631&#34;
@@ -4150,8 +4134,7 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;43-stacklayout-切换功能&#34;&gt;4.3 stackLayout 切换功能
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在PyQt中，&lt;code&gt;QStackLayout&lt;/code&gt;是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在PyQt中，&lt;code&gt;QStackLayout&lt;/code&gt;是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -4419,13 +4402,13 @@
 &lt;/div&gt;&lt;p&gt;最开始进入的地方是：if__name__ == &amp;ldquo;_&lt;em&gt;main&lt;/em&gt;_&amp;rdquo;:&lt;/p&gt;
 &lt;p&gt;app = QApplication(sys.argv)初始化应用程序对象&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;h3 id=&#34;1-qapplication-类&#34;&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;
+&lt;h3 id=&#34;1-qapplication&#34;&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 是 Qt 应用程序的主类，负责管理应用程序的控制流和主要设置。&lt;/li&gt;
 &lt;li&gt;它处理应用程序的主事件循环，并为 GUI 元素提供必要的支持。&lt;/li&gt;
 &lt;li&gt;每个使用 Qt 的应用程序通常需要一个 &lt;code&gt;QApplication&lt;/code&gt; 实例。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;2-sysargv-的作用&#34;&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;
+&lt;h3 id=&#34;2-sysargv&#34;&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;sys.argv&lt;/code&gt; 是一个列表，包含命令行参数。这些参数是在运行 Python 脚本时传递的。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 可以使用这些参数来配置应用程序的行为，例如窗口大小、样式等。&lt;/li&gt;
@@ -4436,8 +4419,7 @@
 &lt;li&gt;&lt;strong&gt;创建应用程序对象&lt;/strong&gt;：这行代码创建了一个 &lt;code&gt;QApplication&lt;/code&gt; 的实例，并将命令行参数传递给它。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;设置事件循环&lt;/strong&gt;：这个实例负责管理 GUI 的事件循环，使得应用程序能够响应用户输入和事件（例如鼠标点击、键盘输入等）。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;为应用程序提供上下文&lt;/strong&gt;：&lt;code&gt;QApplication&lt;/code&gt; 提供了关于应用程序的信息，例如样式、主题、字体等。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;创建MainWindow对象，即运行上面的class中的代码&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;def __init__&lt;/code&gt;中，设置窗口的标题，设置窗口的图标，在这里可以看到，设置图标的路径是：&lt;strong&gt;_internal/res/icon/icon.ico&lt;/strong&gt;，但我们并没有创建这个__internal的目录，回顾环境配置中pyinstaller部分的讲解：“pyinstaller在v6.0版本以后，数据将被移动到&lt;code&gt;__internal&lt;/code&gt;目录下”，也就是说，如果我们打包程序形成exe文件后，想要文件能够正确找到icon的地址，则必须在你写的地址前加上&lt;code&gt;__internal&lt;/code&gt;目录，配合上打包时的参数,&lt;code&gt;-add-data &amp;quot;icon.ico;__internal/res/icon/icon.ico&amp;quot;&lt;/code&gt;，就可以在打包后显示正常的图标。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4453,7 +4435,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct.png&#34;
 	width=&#34;712&#34;
 	height=&#34;147&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu7294286202204780821.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu3715101181839059963.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu_9a5c07d70cc02689.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/BTStruct_hu_a32d0eae048708bf.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;BTStruct&#34;
@@ -4501,7 +4483,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270.png&#34;
 	width=&#34;1028&#34;
 	height=&#34;751&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu8529311416081065748.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu10465735808105034215.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu_e1a69ed7ac5fabd7.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022151802270_hu_18c3af42bacf883e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022151802270&#34;
@@ -4517,7 +4499,7 @@
 &lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894.png&#34;
 	width=&#34;732&#34;
 	height=&#34;168&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu13899577704865691566.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu356904238070531585.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu_30829bc0f4781b50.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022152330894_hu_9e983466e8ba9a0e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022152330894&#34;
@@ -4535,7 +4517,7 @@
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861.png&#34;
 	width=&#34;398&#34;
 	height=&#34;274&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu17273046052108306178.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu664184986934851878.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_d6eb940d60ce7af1.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_49da79c5abc895e7.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022153614861&#34;
@@ -4556,7 +4538,7 @@
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660.png&#34;
 	width=&#34;478&#34;
 	height=&#34;557&#34;
-	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu7097564622186956650.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu13604145229733644675.png 1024w&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_970be1414d339013.png 480w, https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_6313a2f618c6729b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;image-20241022161315660&#34;
@@ -4597,8 +4579,7 @@
 &lt;/h1&gt;&lt;p&gt;作者因为工作需要，用python写了一些脚本用于数据处理，UTF-8转换，以及一些我的工作专属脚本，又因为想要偷懒，用爬虫爬取了微软翻译的页面做了一个自己的翻译器，近来突发奇想，想要把各种python写的脚本整合到一起，并写一个GUI应用程序，因此PyQt进入了我的视野。想着用业余时间一点一点摸索，到目前为止算是做的有模有样，现写博客记录下来。&lt;/p&gt;
 &lt;p&gt;这个GUI程序会分成一个系列更新，把我的UI框架，布局，工程整理，功能编写等等都写出来，包括：利用爬虫爬取微软翻译来做自己的翻译器，图像处理等。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;本脚本工具包还在持续更新（部分功能我也还没有完成），目前还没有做完的功能有：做音频数据处理（抓取BLE音频数据包，自动去包头去CRC校验，获取raw data的功能），音频编解码（利用市面上常见开源编解码器对音频数据进行编码或解码，ADPCM，SBC等），后续根据需要和精力，看能不能做音频数据的时域频域转换器等等。都是美好幻想，敬请期待！&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;本脚本工具包还在持续更新（部分功能我也还没有完成），目前还没有做完的功能有：做音频数据处理（抓取BLE音频数据包，自动去包头去CRC校验，获取raw data的功能），音频编解码（利用市面上常见开源编解码器对音频数据进行编码或解码，ADPCM，SBC等），后续根据需要和精力，看能不能做音频数据的时域频域转换器等等。都是美好幻想，敬请期待！&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;因为程序还在不断地完善更新，所以到系列结束时，代码应该就已经更新完成了，到时候我会将代码开源到我的GitHub仓库上，有兴趣的小伙伴可以下载使用或交流学习。本系列文章也会同步更新到我的CSDN博客中，如果小伙伴们觉得本系列对你有帮助，麻烦点个赞与收藏，感激不敬！&lt;/p&gt;
 &lt;h1 id=&#34;环境配置&#34;&gt;环境配置
 &lt;/h1&gt;&lt;h2 id=&#34;11-python环境&#34;&gt;1.1 Python环境

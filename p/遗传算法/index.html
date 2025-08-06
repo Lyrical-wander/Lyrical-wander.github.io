@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="遗传算法">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="遗传算法">
 <meta property='og:description' content="本文将介绍遗传算法的思想，并给出一个python的遗传算法示例代码。">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -349,8 +349,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
-                <img src="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu14972380581220303523.jpg"
-                        srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu14972380581220303523.jpg 800w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu2516378592447096298.jpg 1600w"
+                <img src="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu_5434f05c23c9d98f.jpg"
+                        srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu_5434f05c23c9d98f.jpg 800w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image_hu_53444884829e908e.jpg 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
@@ -618,8 +618,7 @@
 <ol start="3">
 <li><strong>结合起来</strong></li>
 </ol>
-<p>这行代码实际上是生成一个列表，列表中包含了 <code>pop_size</code> 个元素，每个元素都是一个长度为 <code>gene_length</code> 的列表。每个长度为 <code>gene_length</code> 的列表是通过 <code>random.choices([0, 1], k=gene_length)</code> 随机生成的，其中每个元素是从 <code>[0, 1]</code> 中选取的。</p>
-</blockquote>
+<p>这行代码实际上是生成一个列表，列表中包含了 <code>pop_size</code> 个元素，每个元素都是一个长度为 <code>gene_length</code> 的列表。每个长度为 <code>gene_length</code> 的列表是通过 <code>random.choices([0, 1], k=gene_length)</code> 随机生成的，其中每个元素是从 <code>[0, 1]</code> 中选取的。</p></blockquote>
 <p><strong>fitness_function</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -656,8 +655,7 @@
 <li>这是一个与 <code>population</code> 长度相同的可迭代对象（通常是列表或元组），它表示每个元素被选中的概率权重。</li>
 <li>权重越大的元素被选中的概率越高。注意，权重值的大小并不是选中的概率本身，而是相对的。例如，如果 <code>weights</code> 中的一个值是 2，而另一个是 1，那么前者的选中概率是后者的两倍。</li>
 <li>例如，如果 <code>population = ['A', 'B', 'C', 'D']</code> 且 <code>weights = [0.1, 0.3, 0.5, 0.1]</code>，那么 <code>C</code> 的选中概率最大，<code>A</code> 和 <code>D</code> 的概率最小。</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p><strong>crossover</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -683,12 +681,11 @@
 <ul>
 <li><code>random.randint()</code>会随机生成一个整数，范围从1到<code>len(parent1)-1</code>（<code>parent1</code> 和 <code>parent2</code> 的长度相同）。</li>
 <li>选择 <code>1</code> 到 <code>len(parent1) - 1</code> 范围内的数字是因为交叉点不能选择在序列的两端（即不允许交叉点为 0 或序列的最后一个位置）。这样可以确保父代的两部分都会参与到交叉中。</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p><img src="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover.png"
 	width="919"
 	height="267"
-	srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu13766414356796456878.png 480w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu386559799463611174.png 1024w"
+	srcset="/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu_4602c2f554268ed6.png 480w, /p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/crossover_hu_d4fff85654279537.png 1024w"
 	loading="lazy"
 	
 		alt="crossover"
@@ -777,8 +774,7 @@
 </ul>
 <blockquote>
 <p>从上面我们可以看到，不仅仅是适应度函数会更具不同的常见发生变化，选择函数，交叉函数，变异函数和更新种群都可以采用不同的策略。这需要使用者的智慧根据环境选择最优的策略搭配。</p>
-<p>尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。</p>
-</blockquote>
+<p>尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。</p></blockquote>
 <h2 id="父代基因适应度高而子代基因适应度降低的原因">父代基因适应度高而子代基因适应度降低的原因
 </h2><p>在进行交叉时，有可能出现两个父代基因的适应度高而结合后产生的子代基因的适应度反而降低的情况，</p>
 <p>如上面的代码中，当父代1的基因序列为：<code>[1,0,1,1,1]</code>，父代2的基因序列为：<code>[1,1,1,0,1]</code>，此时做交叉，可能诞生的子代基因序列为：<code>[1,0,1,0,1]</code>，基因的适应度反而降低。</p>
@@ -956,7 +952,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">

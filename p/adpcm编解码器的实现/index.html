@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="ADPCM编解码器的实现">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="ADPCM编解码器的实现">
 <meta property='og:description' content="接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器。本文涉及到的知识点有：ADPCM的算法思想，ADPCM编解码算法实现，ADPCM主函数调用，以及GCC多文件编译">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -337,8 +337,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">
-                <img src="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu18441471226944700505.jpg"
-                        srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu18441471226944700505.jpg 800w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu14646642207657149465.jpg 1600w"
+                <img src="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu_a4349018894a8a50.jpg"
+                        srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu_a4349018894a8a50.jpg 800w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave_hu_8220f7b550e53293.jpg 1600w"
                         width="800" 
                         height="293" 
                         loading="lazy"
@@ -427,7 +427,7 @@
 <img src="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png"
 	width="760"
 	height="841"
-	srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu5102930148191537069.png 480w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu11763498343134490784.png 1024w"
+	srcset="/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_1d6256a4e255cfde.png 480w, /p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919_hu_c040777086c5da88.png 1024w"
 	loading="lazy"
 	
 		alt="ADPCM in ffmpeg"
@@ -1274,8 +1274,7 @@
 <p>为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的<code>len</code>是输入参数的两倍，这与解码器不同，与adpcm算法内部的<code>len</code>有关。</p>
 <p>python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！</p>
 <blockquote>
-<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p>
-</blockquote>
+<p>因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。</p></blockquote>
 
 </section>
 
@@ -1346,7 +1345,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1370,7 +1369,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1394,7 +1393,7 @@
         
         
             <div class="article-image">
-                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image.4be2616eda25dbad3afd4850949df5b4_hu15254712787296920385.jpg" 
+                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image.4be2616eda25dbad3afd4850949df5b4_hu_3b9c9bd30408f511.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1418,7 +1417,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1442,7 +1441,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1519,7 +1518,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">

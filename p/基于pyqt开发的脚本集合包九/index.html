@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/'>
 
-<link rel="stylesheet" href="/scss/style.min.d8b0805f21948043bc52103cb59dffa531fa5a09897fa169846b3f5dd1d4689f.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（九）">
+<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（九）">
 <meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述吸取第一次爬取微软翻译时的失败经验，解决会话结束URL动态变化的问题，获取必要的数据，实现完整的翻译功能">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -70,7 +70,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu10748775344943910984.png" width="300"
+                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -332,7 +332,7 @@
         </li>
         <li><a href="#1-beautifulsoup">1. <strong>BeautifulSoup</strong></a></li>
         <li><a href="#2-html">2. <strong>html</strong></a></li>
-        <li><a href="#3-htmlparser">3. <strong>&ldquo;html.parser&rdquo;</strong></a></li>
+        <li><a href="#3-">3. <strong>&ldquo;html.parser&rdquo;</strong></a></li>
         <li><a href="#4-最终效果">4. <strong>最终效果</strong></a></li>
         <li><a href="#token与key">token与key</a>
           <ol>
@@ -365,8 +365,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu5760086456296998886.jpg"
-                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu5760086456296998886.jpg 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu4359260201796012837.jpg 1600w"
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu_f8ef7de8f15e7e0b.jpg"
+                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu_f8ef7de8f15e7e0b.jpg 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/webspider_hu_b3f259ae57d3adfe.jpg 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
@@ -456,14 +456,13 @@
     >基于PyQt开发的脚本集合包（八）</a>的又不一致</p>
 <blockquote>
 <p><a class="link" href="https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025"  target="_blank" rel="noopener"
-    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=DFFF2F46AAE0482491F67EEEB26C249C&IID=translator.5025</a></p>
-</blockquote>
+    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=DFFF2F46AAE0482491F67EEEB26C249C&IID=translator.5025</a></p></blockquote>
 <p>笔者借助开发者工具自带的搜索框进行搜索，看看我们需要的数据在哪里出现过</p>
 <p>除了上一篇文章中提到的<code>IG</code>和<code>IID</code>两个数据外，我们还需要找到<code>token</code>和<code>key</code>两个数据，在<code>ttranslatev3</code>响应请求中，可以看到我们发送请求时，请求表单除了携带需要翻译的文本，翻译前的语种，翻译后的语种外，还需携带两个特殊的信息</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118.png"
 	width="322"
 	height="174"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu9851347081149025152.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu16388646473418647113.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_3cbc4e7a3b728ec2.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118_hu_99a3543fdb73372a.png 1024w"
 	loading="lazy"
 	
 		alt="request list"
@@ -481,7 +480,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432.png"
 	width="387"
 	height="634"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9165630363063930749.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu9305493525008999594.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_c8f20fdbe54b04b0.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093139432_hu_999c4b6ebe2f0758.png 1024w"
 	loading="lazy"
 	
 		alt="searching"
@@ -496,7 +495,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941.png"
 	width="401"
 	height="461"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu12878956511446258891.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu1059263542813323643.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_c1e5c3b19eb531f3.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093400941_hu_bb45c91259b23af3.png 1024w"
 	loading="lazy"
 	
 		alt="find it"
@@ -511,7 +510,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667.png"
 	width="862"
 	height="630"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu8001555851389192672.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu7315487879193392417.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_f326f3365941344b.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108093550667_hu_daabb9e2cddad242.png 1024w"
 	loading="lazy"
 	
 		alt="translator"
@@ -526,7 +525,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949.png"
 	width="1009"
 	height="574"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu8231190507602377846.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu14244907251486001173.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_534e2d67831e5870.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108094202949_hu_2cc9324a5aa71e3a.png 1024w"
 	loading="lazy"
 	
 		alt="IG data is in there"
@@ -545,7 +544,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376.png"
 	width="884"
 	height="344"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu9151868427904931343.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu2190679783552978969.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_7d94b1b7e1823f72.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108095026376_hu_9e9d5f411193aa38.png 1024w"
 	loading="lazy"
 	
 		alt="URLandUser-Agent"
@@ -561,7 +560,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192.png"
 	width="1232"
 	height="443"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu13733232557763499983.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu3220224752537030270.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_272d0679af647a96.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108102050192_hu_538136176ffeef41.png 1024w"
 	loading="lazy"
 	
 		alt="website page"
@@ -584,8 +583,7 @@
 <li><strong>避免被识别为爬虫</strong>： 网站可能会根据 <code>User-Agent</code> 来识别是否是爬虫程序。很多爬虫程序没有设置真实的 <code>User-Agent</code>，或者 <code>User-Agent</code> 字符串看起来像是一个自动化脚本（比如 Python 的 <code>requests</code> 库默认 <code>User-Agent</code> 是一个简单的字符串）。一些网站会使用这一点来检测并阻止爬虫请求。因此，为了模拟浏览器，爬虫通常会伪装成浏览器的 <code>User-Agent</code>，避免被网站识别为爬虫。</li>
 <li><strong>返回适配的内容</strong>： 根据 <code>User-Agent</code>，服务器可以返回特定格式的内容。比如，移动设备和桌面设备通常会看到不同版本的网页，甚至不同的图片大小和样式。通过查看 <code>User-Agent</code>，服务器可以判断请求来自于手机、平板、桌面或其他设备，并返回不同的页面样式或功能。</li>
 <li><strong>分辨设备和浏览器版本</strong>： <code>User-Agent</code> 可以帮助服务器确定访问者的设备类型、操作系统及浏览器版本，从而优化响应内容。比如，某些页面可能会针对不同的操作系统（如 Windows、macOS、Linux）或不同版本的浏览器提供特定的网页布局或 JavaScript 功能。</li>
-</ol>
-</blockquote>
+</ol></blockquote>
 <p>可以看出，一些服务器会根据<code>User-Agent</code>来判断访问请求是不是来自人类或自动化脚本，可做一些反爬虫操作。我们从浏览器获取的请求信息中包含的<code>User-Agent</code>，表明了这段请求时来自浏览器，而非自动化脚本，因此，我们可以回答上面的问题：1.<code>User-Agent</code>一样是因为我们今天与昨天用的都是同一个浏览器访问，它代表了“该请求来自Edge浏览器”。2.无需担心它会发生变化，除非浏览器更新会更改这项数据，而这大概率是不会发生的。</p>
 <h4 id="代码实现">代码实现
 </h4><p>首先，先获取整个response的html数据，把它写在一个单独的文件里，（数据量太大，操作台无法查找相应的数据），有些导入的模块会在后面的代码中用到，这仅是完整代码的一部分</p>
@@ -625,7 +623,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478.png"
 	width="1098"
 	height="376"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu17473337719940462838.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu15782744654142325814.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_6a9cbc0f6477107d.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108103742478_hu_65061488e2956bbe.png 1024w"
 	loading="lazy"
 	
 		alt="HTML file"
@@ -651,7 +649,7 @@
 </h4><p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702.png"
 	width="1269"
 	height="527"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu883526710802730092.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu11751580963507639102.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_93dcca977d819c25.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108104419702_hu_6215bd9ff75f7d3f.png 1024w"
 	loading="lazy"
 	
 		alt="find it"
@@ -666,7 +664,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171.png"
 	width="688"
 	height="322"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu6081373334625807712.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu4282398594250579819.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_3b534f0f22931768.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108105828171_hu_a390e2566ef02870.png 1024w"
 	loading="lazy"
 	
 		alt="data-iid"
@@ -700,7 +698,7 @@
 </h3><p><code>BeautifulSoup</code> 是一个 Python 库，主要用于从 HTML 或 XML 文档中提取数据。它提供了许多方法来帮助你遍历、搜索和修改 HTML/XML 文档的内容。</p>
 <h3 id="2-html">2. <strong>html</strong>
 </h3><p><code>html</code> 是传入 <code>BeautifulSoup</code> 构造函数的参数，通常是一个包含 HTML 内容的字符串。它代表了待解析的 HTML 文档。可以是从文件读取的内容，或者是通过网络请求获取的 HTML 页面。</p>
-<h3 id="3-htmlparser">3. <strong>&ldquo;html.parser&rdquo;</strong>
+<h3 id="3-">3. <strong>&ldquo;html.parser&rdquo;</strong>
 </h3><p><code>&quot;html.parser&quot;</code> 是 <code>BeautifulSoup</code> 的一个解析器（parser）。它告诉 <code>BeautifulSoup</code> 使用 Python 内建的 HTML 解析器来解析传入的 HTML 文档。这个解析器是一个快速且有效的解析工具，但对于一些特殊的 HTML，可能处理得不如其他第三方解析器（如 <code>lxml</code> 或 <code>html5lib</code>）精准。</p>
 <p><code>&quot;html.parser&quot;</code> 选项是 Python 默认的解析器，但如果你安装了 <code>lxml</code> 或 <code>html5lib</code> 等库，也可以指定其他解析器。例如：</p>
 <ul>
@@ -708,8 +706,7 @@
 <li><code>&quot;html5lib&quot;</code>：使用 <code>html5lib</code> 库，它更宽容于不规范的 HTML 代码。</li>
 </ul>
 <h3 id="4-最终效果">4. <strong>最终效果</strong>
-</h3><p>这行代码的作用是：通过 <code>BeautifulSoup</code> 库，将传入的 HTML 字符串 <code>html</code> 解析成一个 <code>BeautifulSoup</code> 对象，并指定使用内建的 <code>html.parser</code> 解析器。解析后的 <code>soup</code> 对象可以用来方便地操作和提取 HTML 内容。</p>
-</blockquote>
+</h3><p>这行代码的作用是：通过 <code>BeautifulSoup</code> 库，将传入的 HTML 字符串 <code>html</code> 解析成一个 <code>BeautifulSoup</code> 对象，并指定使用内建的 <code>html.parser</code> 解析器。解析后的 <code>soup</code> 对象可以用来方便地操作和提取 HTML 内容。</p></blockquote>
 <p>剩下的代码看方法名称也很好理解它是做什么的</p>
 <h3 id="token与key">token与key
 </h3><h4 id="找到token与key的所在">找到<code>token</code>与<code>key</code>的所在
@@ -717,7 +714,7 @@
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258.png"
 	width="852"
 	height="501"
-	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu9333308804830249905.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu16166716761625340822.png 1024w"
+	srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_c8af884a7da6a108.png 480w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113803258_hu_ed90877965477480.png 1024w"
 	loading="lazy"
 	
 		alt="find it"
@@ -1043,7 +1040,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/webspider.5fc14dd434ea07294e10a1642733aea5_hu2629514491450819449.jpg" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/webspider.5fc14dd434ea07294e10a1642733aea5_hu_8629564e3a656b9f.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1067,7 +1064,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1091,7 +1088,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1115,7 +1112,7 @@
         
         
             <div class="article-image">
-                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image.4be2616eda25dbad3afd4850949df5b4_hu15254712787296920385.jpg" 
+                <img src="/p/pyaudio%E5%BA%93%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E8%AF%A6%E8%A7%A3/image.4be2616eda25dbad3afd4850949df5b4_hu_3b9c9bd30408f511.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1139,7 +1136,7 @@
         
         
             <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu895122163317743492.png" 
+                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1216,7 +1213,9 @@
     <section class="copyright">
         &copy; 
         
-        2024 Lyrical Wander
+            2024 - 
+        
+        2025 Lyrical Wander
     </section>
     
     <section class="powerby">
