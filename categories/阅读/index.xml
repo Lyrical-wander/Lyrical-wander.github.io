@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
         <lastBuildDate>Tue, 05 Aug 2025 21:14:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/categories/%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>编译器的优化能力和局限性</title>
-        <link>https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</link>
+        <title>如何写出高效的代码——编译器的优化能力和局限性</title>
+        <link>https://Lyrical-wander.github.io/p/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E9%AB%98%E6%95%88%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</link>
         <pubDate>Tue, 05 Aug 2025 21:14:00 +0800</pubDate>
         
-        <guid>https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</guid>
-        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image.jpg" alt="Featured image of post 编译器的优化能力和局限性" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <guid>https://Lyrical-wander.github.io/p/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E9%AB%98%E6%95%88%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E9%AB%98%E6%95%88%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%83%BD%E5%8A%9B%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7/image.jpg" alt="Featured image of post 如何写出高效的代码——编译器的优化能力和局限性" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;今日技术梳理：《深入理解计算机系统》第五章第一节：优化编译器的能力和局限性。这个标题有一些拗口，根据中文的阅读习惯，我们可能会对标题误解为：“程序员对编译器进行优化，这种能力与这种能力的局限性”。其实不然，本节所讨论的是“编译器自身对程序的优化能力与其优化能力的局限性”。我们知道，编译器本身在将我们的C语言代码转换为机器码时，首先会通过自身复杂且精细的算法来对其进行一定程度上的优化，利用一些机会来简化表达式，而本节中，我们则需要了解编译器的这种优化能力及其局限性，它为什么能进行优化，又在什么情况下无法进行优化，以便我们能够写出让编译器更好优化的代码，即：效率更高的代码。&lt;/p&gt;
 &lt;h2 id=&#34;编译器的优化等级&#34;&gt;编译器的优化等级
 &lt;/h2&gt;&lt;p&gt;在现代大多数编译器中，包括GCC，向用户提供了一些对它们所使用的优化的控制，使得我们可以控制编译器对代码的优化程度，例如：以命令行选项 &lt;strong&gt;&amp;quot;-Og&amp;quot;&lt;/strong&gt; 调用GCC会让GCC使用一组基本的优化，以 &lt;strong&gt;-O1&lt;/strong&gt;或更高**（-O2，-O3）**，调用会使得GCC使用更大量的优化，可以提高程序的性能，但相应的被编译器优化后的代码不一定与源代码相同，在某些情况下会使得调试更加困难。&lt;/p&gt;
