@@ -7,7 +7,99 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Sat, 21 Dec 2024 13:20:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 20 Jan 2025 13:20:00 +0800</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Qlearning</title>
+        <link>https://Lyrical-wander.github.io/p/qlearning/</link>
+        <pubDate>Mon, 20 Jan 2025 13:20:00 +0800</pubDate>
+        
+        <guid>https://Lyrical-wander.github.io/p/qlearning/</guid>
+        <description>&lt;img src="https://Lyrical-wander.github.io/p/qlearning/image.jpg" alt="Featured image of post Qlearning" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;Hi,everyone，相信现在看到这篇文章的程序员或者未来的程序员们，或多或少在曾经某个懵懂的青春岁月里都想过“我以后要做一款属于自己的游戏！”这样美好的念头。当然，时过境迁，有的忘记了曾经的誓言，有的当一个笑话，不管怎么说，今天我们来聊聊，但不是说我们要开始制作出LOL那样的MOBA类游戏，也不是CS那样的FPS游戏，甚至不是一款游戏，而是游戏的一部分——游戏AI。&lt;/p&gt;
+&lt;p&gt;当然，游戏AI也有多种多样的，有与人进行博弈的，有伪装成玩家的解决游戏问题的，甚至，在大语言模型盛行的今天，也有进行文字情感交流的。但归根结底，笔者认为它们都有一些共通点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;能够获取环境输入&lt;/li&gt;
+&lt;li&gt;能够识别并处理环境&lt;/li&gt;
+&lt;li&gt;输出一个行为&lt;/li&gt;
+&lt;li&gt;行为改变环境并获得一些反馈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如三国志（顺便一提，笔者非常喜欢玩三国志13和14），总而言之呢，我们的目标，就是设计一个智能体，它能获得环境（游戏内的场景战况等whatever）的输入，能处理环境，并输出一个行为（上下左右跳跑等whatever），这个行为会导致环境发生变化，环境的变化会给予智能体一个反馈，让它能够计算自己距离目标（广义上的距离，不一定是位置的移动，也可能是击中数击杀数最终胜利等whatever），来判断和抉择下一步行为。&lt;/p&gt;
+&lt;p&gt;要设计这样一个智能体，我们理所当然地想到&lt;strong&gt;强化学习&lt;/strong&gt;，至此引出本文的第一个重点概念：&lt;strong&gt;什么是强化学习&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;强化学习&#34;&gt;强化学习
+&lt;/h2&gt;&lt;h2 id=&#34;q表更新&#34;&gt;Q表更新
+&lt;/h2&gt;$$
+Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[R_{t+1} + \gamma max_{a&#39;}(s_{t+1},a&#39;) - Q(s_t,a_t)]
+$$&lt;p&gt;Q表的更新误区：&lt;/p&gt;
+&lt;p&gt;笔者一开始没有搞清楚Q表的更新逻辑，智能体的奖励逻辑是，根据下一状态中4个动作中的最大奖励值，来计算出当前的这个状态所执行的这个动作的奖励值。&lt;/p&gt;
+&lt;p&gt;我们来看下面这个例子，先看&lt;code&gt;Frozen Lake&lt;/code&gt;的4*4地图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/qlearning/image-20250120164749605.png&#34;
+	width=&#34;409&#34;
+	height=&#34;445&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/qlearning/image-20250120164749605_hu_960039d7a132a4eb.png 480w, https://Lyrical-wander.github.io/p/qlearning/image-20250120164749605_hu_14fe7c79fe4a9156.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Frozen Lake&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;91&#34;
+		data-flex-basis=&#34;220px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在这个地图中，智能体出发点为左上角的格子，即第1行第1列处，此处对应Q表的第1行。终点在右下角的格子，即第4行第4列处，此处对应Q表的第16行。Q表将4*4的地图划为一个16个数据的一维数组。每个格子表示一个状态，所以我们可以说：状态即智能体所在的位置。在每个状态中，智能体可以执行4个操作，即：向左，向下，向右，向上移动，移动后，智能体会获得相应的奖励，如下所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Lyrical-wander.github.io/p/qlearning/image-20250120164631144.png&#34;
+	width=&#34;757&#34;
+	height=&#34;504&#34;
+	srcset=&#34;https://Lyrical-wander.github.io/p/qlearning/image-20250120164631144_hu_f1bb48b45d2890a1.png 480w, https://Lyrical-wander.github.io/p/qlearning/image-20250120164631144_hu_23309071f0f9e87c.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Q_table&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;150&#34;
+		data-flex-basis=&#34;360px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在上述Q表中可以看到，第16行，即最下方的[0,0,0,0]，是终点，到了此处，显然就不需要再移动了，因此此处的向左，向下，向右，向上移动的奖励值都为0。&lt;/p&gt;
+&lt;p&gt;我们以第15行的数据来举例说明，第15行的数据为[0, -1, 0.8, 0]，此处是第4行，第3列的位置，即&lt;code&gt;Forzen Lake&lt;/code&gt;地图中终点左边的格子。因此可以看到，在这个格子中，如果智能体向右走一步，即可达到终点，因此当智能体在这个状态下尝试向右走，那么根据Q表的更新运算规则：
+&lt;/p&gt;
+$$
+Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[R_{t+1} + \gamma max_{a&#39;}(s_{t+1},a&#39;) - Q(s_t,a_t)]
+$$&lt;p&gt;
+不要嫌我啰嗦，我们再复习一下这条运算规则中每个值的含义：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$Q(s_t,a_t)$：表示当前状态$s_t$下，行为$a_t$的奖励值&lt;/li&gt;
+&lt;li&gt;$\alpha$：表示学习率，属于超参数，由程序员自拟定&lt;/li&gt;
+&lt;li&gt;$R_{t+1}$：表示下一步状态的可获得奖励值&lt;/li&gt;
+&lt;li&gt;$\gamma$：表示奖励衰减因子&lt;/li&gt;
+&lt;li&gt;$max_{a&amp;rsquo;}(s_{t+1},a&amp;rsquo;)$：表示下一步状态$s_{t+1}$下，4个行为中，最大的奖励值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;显然，从初始化开始时，智能体是没有在这个位置（状态）下向右（行为）行走过的，在茫茫多次选择后，某一次，智能体恰好来到这个位置（状态），它打算向右（行为）行走试试。确定要向右走后，它开始计算自己想向右走的这一个行为会获得多少奖励。&lt;/p&gt;
+&lt;p&gt;我们开始算一下：&lt;/p&gt;
+&lt;p&gt;在此时，$Q(s_t,a_t)$为0，因为自初始化伊始，智能体还没有达到过终点，而我们定下的规则，只有达到终点，才有一个奖励“1”，其它的状态都没有奖励“0”。因此还没有尝试过在此处向右走的智能体原本的该状态该动作奖励值为&lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;学习率$\alpha$我们定为&lt;code&gt;0.8&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;智能体很惊喜地发现，下一步就是终点，因此下一步可获得的奖励$R_{t+1}$为&lt;code&gt;1&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;奖励衰减因子$\gamma$我们定为&lt;code&gt;0.99&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;因为下一个状态就是终点，此前智能体从未到达，即使到达，它也无需在此处做多余的动作，也无需再走下一状态，因此下一个状态的所有动作的奖励值都为0，因此$max_{a&amp;rsquo;}(s_{t+1},a&amp;rsquo;)$为&lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我们可以得到算式：$Q(s_t,a_t) = 0 + 0.8\times(1 + 0.99\times0 - 0)=0.8$&lt;/p&gt;
+&lt;p&gt;回头再看看Q表，是不是发现，在第15行的第3个元素的数据为0.8。没错，这个Q表就是在智能体第一次访问终点时得到的Q表。&lt;/p&gt;
+&lt;p&gt;你可能会感到奇怪，为什么明明智能体已经到达了终点，为什么这一趟旅程仅仅只是让Q表更新了一个有用的元素。&lt;/p&gt;
+&lt;p&gt;对，第一次到达终点，仅仅会让智能体的&lt;strong&gt;上一个状态的动作&lt;/strong&gt;获得奖励，而非整条路线都获得奖励。但我们从宏观上来看，原本仅仅在终点才有&lt;code&gt;1&lt;/code&gt;的奖励值，现在在终点旁的一个位置$S_{t-1}$，也有&lt;code&gt;0.8&lt;/code&gt;的奖励值了，这多出来的具有正向奖励值的点会有什么作用呢？&lt;/p&gt;
+&lt;p&gt;如果我们把整个地图看作是一个海洋，终点是密度最大的地方，在一开始，除终点外，每个地方的密度都是一样的，智能体不知道该往哪个地方移动，只能随机尝试，只有当智能体非常靠近密度最大的终点时，智能体才会意识到，旁边有个疑似终点的地方。而当智能体到达终点$S_{t}$一次后，它会尝试记录下之前的动作，但肯定不是整条路线都记下来（指不定它绕了几次弯，走了几次胡同），因此它只记录最后一个步骤。怎么记录呢，就改变最后一个步骤的地区$S_{t-1}$的密度，当然不能改成和终点一样，那么下次就无法分辨哪个是终点了。因此，现在又多了一个地方的密度变大了，智能体下一次从起始点触发，就有更大的概率碰到密度不一样的地方，当重新来到$S_{t-1}$时那智能体就知道了，这个地方它留下过痕迹，那它就更愿意往这个地方走，同时嘞，它会重复上面的操作，基于这个地方，改变上一个地区$S_{t-2}$的密度，然后再检查这个地区$S_{t-1}$，当它开始检查这个地方$S_{t-1}$，嘿，您猜怎么着，它又发现了一个密度更大的地方（终点$S_{t}$）。这样，基于终点，慢慢地往外其它地方的密度都发生了变化，发生变化是基于曾经智能体来过这个区域，且它曾成功地通过该区域进入过终点的。&lt;/p&gt;
+&lt;p&gt;慢慢地，智能体进入终点$S_{t}$的次数越来越多，修改$S_{t-1}$的次数也越来越多，$S_{t-1}$的密度慢慢变得越来越大，也越来越接近终点$S_{t}$的密度了，同时呢，可能$S_{t-2}$与$S_{t-3}$都可以进入$S_{t-1}$，但如果$S_{t-2}$比$S_{t-3}$更容易进入$S_{t-1}$：（$P(S_{t-2}|S_{t-1})&amp;gt;P(S_{t-3}|S_{t-1})$），那么$S_{t-2}$密度上升的速度就会比$S_{t-3}$快，对于智能体来说，这个$S_{t-2}$比$S_{t-3}$更像终点（或者更接近终点），因此形成一个正反馈，越来越多地走$S_{t-2}$ →$S_{t-1}$→$S_{t}$这条路线。&lt;/p&gt;
+&lt;p&gt;一个离终点两格远，但距离$S_{t-1}$仅一格远的位置$S_{t-2}$，&lt;/p&gt;
+&lt;h2 id=&#34;参考文章&#34;&gt;参考文章
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/universsky2015/article/details/132138174?ops_request_misc=%7B%22request%5Fid%22%3A%220aaa40bf6ecabd8c95b05e8445c140b6%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fblog.%22%7D&amp;amp;request_id=0aaa40bf6ecabd8c95b05e8445c140b6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-7-132138174-null-null.nonecase&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;spm=1018.2226.3001.4450&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;智能体入门——遗传算法与Qlearning_genetic algorithm和qlearning的区别和关系-CSDN博客&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/shoppingend/article/details/124291112?ops_request_misc=%7B%22request%5Fid%22%3A%221dd02de3faea5040794f77b39343d4c6%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;amp;request_id=1dd02de3faea5040794f77b39343d4c6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-124291112-null-null.142%5ev101%5epc_search_result_base5&amp;amp;utm_term=Qlearning&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;【强化学习】Q-Learning算法详解-CSDN博客&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_43774332/article/details/131083767?ops_request_misc=%7B%22request%5Fid%22%3A%221dd02de3faea5040794f77b39343d4c6%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;amp;request_id=1dd02de3faea5040794f77b39343d4c6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-131083767-null-null.142%5ev101%5epc_search_result_base5&amp;amp;utm_term=Qlearning&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;【机器学习】Q-Learning详细介绍-CSDN博客&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/343668723&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;强化学习之迷宫Q-Learning实践笔记——入门篇 - 知乎&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>遗传算法</title>
         <link>https://Lyrical-wander.github.io/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
         <pubDate>Sat, 21 Dec 2024 13:20:00 +0800</pubDate>
