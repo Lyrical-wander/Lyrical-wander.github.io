@@ -495,7 +495,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这种两个指针可能指向同一个内存位置的情况被称为 <strong>内存别名使用(memory aliasing)</strong>。</p>
-<p>因此，在某种特殊的情况下，<code>twiddle1</code>与<code>twiddle2</code>可能会产生不同的值，因此，根据我们上面所说：编译器必须只能对程序进行 <strong>安全的优化</strong> ，在只执行安全的优化中，编译器必须假设不同的指针可能会只想内存中的同一位置，	因而编译器不会讲<code>twiddle1</code>优化成<code>twiddle2</code>的形式，即使在大部分情况下，<code>twiddle2</code>的效率要比<code>twiddle1</code>要高。</p>
+<p>因此，在某种特殊的情况下，<code>twiddle1</code>与<code>twiddle2</code>可能会产生不同的值，因此，根据我们上面所说：编译器必须只能对程序进行 <strong>安全的优化</strong> ，在只执行安全的优化中，编译器必须假设不同的指针可能会只想内存中的同一位置，因而编译器不会将<code>twiddle1</code>优化成<code>twiddle2</code>的形式，即使在大部分情况下，<code>twiddle2</code>的效率要比<code>twiddle1</code>要高。</p>
 <p>我们再来考虑下面一个例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
