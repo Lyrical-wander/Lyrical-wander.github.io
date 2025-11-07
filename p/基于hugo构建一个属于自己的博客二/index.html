@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于Hugo构建一个属于自己的博客（二）">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="基于Hugo构建一个属于自己的博客（二）">
 <meta property='og:description' content="将博客push到GitHub上并生成page，且实现自动化部署">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -448,7 +448,8 @@
 		data-flex-basis="1020px"
 	
 ></p>
-<p>这是因为，如果使用这个名字的话，那么在后续使用GitHub pages生成静态网站的域名就直接是你的仓库名，而不需要加其它后缀，可能会导致未知的bug</p></blockquote>
+<p>这是因为，如果使用这个名字的话，那么在后续使用GitHub pages生成静态网站的域名就直接是你的仓库名，而不需要加其它后缀，可能会导致未知的bug</p>
+</blockquote>
 <p>仓库必须公有，只有公有仓库才能部署静态页面</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120200249970.png"
 	width="732"
@@ -500,7 +501,8 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server -D
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这条命令会启动<code>hugo</code>程序，将源码进行“编译”（当然并不是真正意义上的编译），生成<code>html</code>，<code>scss</code>等前端代码，这些代码构成静态网站。</p></blockquote>
+</div><p>这条命令会启动<code>hugo</code>程序，将源码进行“编译”（当然并不是真正意义上的编译），生成<code>html</code>，<code>scss</code>等前端代码，这些代码构成静态网站。</p>
+</blockquote>
 <p>如果没有生成<code>public</code>目录，那么就使用<code>hugo server -D</code>命令生成一下。</p>
 <p>值得注意的是，如果你习惯用<code>VScode</code>中的<code>git</code>插件，也许会方便很多。但第一次上传代码也需要手敲命令</p>
 <p>但幸运的是，当你第一次创建仓库，仓库中一无所有时，会提示你如何上传代码</p>
@@ -567,7 +569,8 @@
 </ul>
 <p>做完以上操作，等待一段时间静态网站部署，可能几分钟，刷新一下出现⑥处，则说明生成成功，访问这个域名即可访问你的博客！</p>
 <blockquote>
-<p>值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是<code>www.lyrical-wander.cn</code>，而不是<code>www.lyrical-wander.github.io</code>，而如果按照上面的步骤走的话，域名应该是：<code>www.usename.github.io</code></p></blockquote>
+<p>值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是<code>www.lyrical-wander.cn</code>，而不是<code>www.lyrical-wander.github.io</code>，而如果按照上面的步骤走的话，域名应该是：<code>www.usename.github.io</code></p>
+</blockquote>
 <p>至此，你的博客已经部署好了！可以开始访问你自己的博客啦</p>
 <h2 id="小结">小结
 </h2><p>还有需要注意的是：</p>
@@ -651,7 +654,8 @@
 <p>下面<code>Select scopes</code>（作用范围）选择<code>repo</code>与<code>workflow</code></p>
 <p>后面就生成了<code>token</code>~</p>
 <blockquote>
-<p>注意！这个token只会出现一次，之后再也不会出现，在你关闭网页前先复制保存！</p></blockquote>
+<p>注意！这个token只会出现一次，之后再也不会出现，在你关闭网页前先复制保存！</p>
+</blockquote>
 <p>回到你刚刚创建的 <strong>第二个仓库</strong> 上（我们称之为hugo主仓库吧），<strong>不是<code>username.github.io</code>那个仓库</strong>！</p>
 <p>在仓库中打开<code>Settings</code>→<code>Secrets and Variables</code>→<code>New repository secret</code> 来创建一个存储token的变量</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213159485.png"
@@ -684,7 +688,8 @@
 ></p>
 <blockquote>
 <p>为什么要这么做呢，因为token这个东西比较重要，如果后续我们直接将它写到文件中，如果文件被窃取，那么token就会暴露，这样你的仓库就不安全了，尤其我们的token还选择了不过期。</p>
-<p>因此，我们将token保存在GitHub中，以变量的形式传给我们的文件，这样token的密封性就很好了</p></blockquote>
+<p>因此，我们将token保存在GitHub中，以变量的形式传给我们的文件，这样token的密封性就很好了</p>
+</blockquote>
 <p>回到我们的站点目录下，创建一个<code>.github</code>目录，在<code>.github</code>目录下创建一个<code>workflows</code>目录，在该目录下生成一个<code>xxxxx.yaml</code>文件，名字随便取</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120213834559.png"
 	width="787"

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于Hugo构建一个属于自己的博客（一）">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="基于Hugo构建一个属于自己的博客（一）">
 <meta property='og:description' content="使用Hugo框架快速搭建一个属于自己的个人博客（stack主题）">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -451,13 +451,16 @@
 <p>Hugo根据操作系统的不同有不同的下载方式</p>
 <p>MacOS</p>
 <blockquote>
-<p>brew install hug</p></blockquote>
+<p>brew install hug</p>
+</blockquote>
 <p>Linux</p>
 <blockquote>
-<p>sudo snap install hugo</p></blockquote>
+<p>sudo snap install hugo</p>
+</blockquote>
 <p>Windows</p>
 <blockquote>
-<p>choco install hugo-extended</p></blockquote>
+<p>choco install hugo-extended</p>
+</blockquote>
 <p>上面的下载方式是官方推荐的，笔者的主要工作环境是Windows，但并不采用上述的下载方式，因为choco是一个包管理器，本身也需要下载（笔者不喜欢因为一个功能而去下载另一个功能，导致整个环境特别臃肿），可以采用以下方法去下载：</p>
 <p>到Hugo的GitHub仓库中，找到Tags</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241107150535811.png"
@@ -599,7 +602,8 @@
 </h3><p>将stack主题的源码解压到<code>AHugoBlogSite\themes</code>目录下（接下来为了方便，<code>AHugoBlogSite</code>统称为站点目录）。</p>
 <blockquote>
 <p>将解压的目录名称中的版本号删除，改成像我一样<code>hugo-theme-stack</code></p>
-<p>值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将<code>yaml</code>配置文件中的主题改成对应的主题目录名称即可（后面会提及）</p></blockquote>
+<p>值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将<code>yaml</code>配置文件中的主题改成对应的主题目录名称即可（后面会提及）</p>
+</blockquote>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211612210.png"
 	width="359"
 	height="147"
@@ -647,7 +651,8 @@
 ></p>
 <p>将原本的默认配置文件<code>hugo.toml</code>删除，用我们复制过来的<code>hugo.yaml</code>做配置文件</p>
 <blockquote>
-<p>注意：在<code>content\post\</code>目录下，有一个<code>rich-content</code>的目录==删掉==，post目录下存放的就是你的博客内容，这个<code>rich-content</code>博客中做了一些引用<code>Youtube</code>的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时</p></blockquote>
+<p>注意：在<code>content\post\</code>目录下，有一个<code>rich-content</code>的目录==删掉==，post目录下存放的就是你的博客内容，这个<code>rich-content</code>博客中做了一些引用<code>Youtube</code>的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时</p>
+</blockquote>
 <h3 id="修改配置">修改配置
 </h3><p>打开刚才复制过来的hugo.yaml</p>
 <h4 id="更换主题">更换主题
@@ -841,7 +846,8 @@
 <ul>
 <li>必须是在站点目录下使用该命令。（上面我们通过<code>cd AHugoBlogSite</code>进入了目录）</li>
 <li>必须是<code>D</code>而不是<code>d</code></li>
-</ul></blockquote>
+</ul>
+</blockquote>
 <p>运行命令后会出现以下信息</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119214605177.png"
 	width="972"
@@ -934,7 +940,8 @@
 		data-flex-grow="192"
 		data-flex-basis="462px"
 	
-></p></blockquote>
+></p>
+</blockquote>
 <h4 id="如何写博文">如何写博文
 </h4><p>我写博文采用的是<code>markdown</code>格式，这个格式我非常熟悉，写起来也特别舒服，使用<code>Typora</code>工具，写<code>markdown</code>手感特别好。</p>
 <p><code>makrdown</code>格式没什么好说的，学起来也很快，在写博文的时候需要注意的是开头携带的信息，如下图所示：</p>
@@ -979,7 +986,8 @@
 <li>tags：标签</li>
 <li>分类和标签的内容可以是中文，可以多个，但需要采用[&ldquo;xx&rdquo;,&ldquo;xx&rdquo;]的格式</li>
 <li><code>:</code>后需要加一个空格，再输入内容</li>
-</ul></blockquote>
+</ul>
+</blockquote>
 <p>后面的就按照正常<code>markdown</code>创作即可</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119221432687.png"
 	width="639"
@@ -997,7 +1005,8 @@
 ></p>
 <p>值得注意的是：</p>
 <blockquote>
-<p>博文采用markdown格式，命名规则为：<code>index.语言.md</code>，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为<code>index.md</code>即可。</p></blockquote>
+<p>博文采用markdown格式，命名规则为：<code>index.语言.md</code>，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为<code>index.md</code>即可。</p>
+</blockquote>
 <h2 id="总结">总结
 </h2><p>至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档<a class="link" href="https://stack.jimmycai.com/"  target="_blank" rel="noopener"
     >Stack | Card-style Hugo theme designed for bloggers</a></p>

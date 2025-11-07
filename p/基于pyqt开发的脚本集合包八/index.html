@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（八）">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（八）">
 <meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述实现爬取微软翻译时的准备与分析">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -480,10 +480,12 @@
 </h3><p>因此根据爬虫的流程，笔者先获取了<code>ttranslate</code>的请求URL，即：</p>
 <blockquote>
 <p><a class="link" href="https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025"  target="_blank" rel="noopener"
-    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&IID=translator.5025</a></p></blockquote>
+    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&IID=translator.5025</a></p>
+</blockquote>
 <p>再获取了请求标头中的<code>User-Agent</code>，即：</p>
 <blockquote>
-<p>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0</p></blockquote>
+<p>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0</p>
+</blockquote>
 <p>如下图所示：</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AB/image-20241107195055950.png"
 	width="723"
@@ -558,7 +560,8 @@
 <p>笔者开始整理，经过多次请求尝试和实验，发现url存在一些端倪：</p>
 <blockquote>
 <p><a class="link" href="https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&amp;IID=translator.5025"  target="_blank" rel="noopener"
-    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&IID=translator.5025</a></p></blockquote>
+    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=94BF74DDDBA34ECB8B2CFB8D7960E4F9&IID=translator.5025</a></p>
+</blockquote>
 <p>我们再来看一下这个URL，可以发现，这URL本身就携带了一些信息，<code>IG</code>与<code>IID</code>，这两个数据在每次会话结束后，都会发生变化，也就是说，当一个会话结束后，笔者所记录的<code>IG</code>与<code>IID</code>就失效了，无法访问，因此，这一次爬虫并不成功，还需要继续改进，获取每次访问微软翻译时的<code>IG</code>和<code>IID</code>数据。</p>
 <h2 id="结语">结语
 </h2><p>总的来说，本文只是笔者在爬虫方向上的一次探索与学习，这是一次失败的尝试，不过可以看出，笔者在学习上的思路，笔者在学习时，喜欢在实践中发现问题并解决问题，因为理论与实践总是存在一定的差距，现实世界总是复杂且多变的。在实践中，你总会发现一些与理论有偏差或者相悖的地方，让你陷入迷茫，但是在实践中，你不会没有一点头绪，相反，在实践中，你有太多太多的方向去验证问题的本质，有时候往往是方向太多，你无法确定哪条路才能通向正确，你害怕做了无用功，害怕走错了方向，因此迟迟不敢动手，才导致了自己的踌躇不前。在现实世界中抽丝剥茧，也是一种学习，虽然笔者在这里也走错了路，离成功还有一段距离，但是走到这里，让笔者学会了如何看网络包，分析请求和响应，学会调用request库，以及最重要的找到了正确的道路，即：接下来，我们要想办法找到每一次<code>IG</code>和<code>IID</code>这两个数据如何变，在哪里变，如何获取到那个存放这两个数据的包。致敬技术，希望你变得更强！</p>
@@ -652,6 +655,30 @@
             
                 
 <article class="has-image">
+    <a href="/p/%E5%A6%82%E4%BD%95%E5%9C%A8windows%E4%B8%AD%E4%BD%BF%E7%94%A8opuslib%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%A6%82%E4%BD%95%E5%9C%A8windows%E4%B8%AD%E4%BD%BF%E7%94%A8opuslib%E5%BA%93/image.48779f30aca57f829ab3f02d0a2d19b0_hu_c1d76da6286a1c67.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 如何在Windows中使用opuslib库"
+                        
+                        data-hash="md5-SHefMKylf4Kas/AtCi0ZsA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">如何在Windows中使用opuslib库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/">
         
         
@@ -717,30 +744,6 @@
 
         <div class="article-details">
             <h2 class="article-title">PyAudio库基本知识详解</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
         </div>
     </a>
 </article>

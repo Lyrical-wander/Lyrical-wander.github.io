@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="程序在系统中是如何运行的">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="程序在系统中是如何运行的">
 <meta property='og:description' content="读书笔记：《深入理解计算机系统》">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E7%A8%8B%E5%BA%8F%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E7%9A%84/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -618,7 +618,8 @@
 <p>首先了解什么叫<code>局部性原理</code></p>
 <blockquote>
 <p>局部性原理的概念：</p>
-<p><strong>局部性原理</strong>是计算机科学中的一个重要概念，它描述了一个现象：==在一段时间内，程序倾向于仅使用一部分代码或数据。==这种倾向性分为两类：<strong>时间局部性</strong>和<strong>空间局部性</strong>。时间局部性指的是如果某个数据项被访问，那么它不久后可能会被再次访问。空间局部性则是指如果访问了某个存储单元，那么其附近的存储单元也很可能不久后会被访问</p></blockquote>
+<p><strong>局部性原理</strong>是计算机科学中的一个重要概念，它描述了一个现象：==在一段时间内，程序倾向于仅使用一部分代码或数据。==这种倾向性分为两类：<strong>时间局部性</strong>和<strong>空间局部性</strong>。时间局部性指的是如果某个数据项被访问，那么它不久后可能会被再次访问。空间局部性则是指如果访问了某个存储单元，那么其附近的存储单元也很可能不久后会被访问</p>
+</blockquote>
 <p>利用局部性原理，可能经常访问的数据提前调入高速缓存中，如此CPU在访问下一次访问时，大概率可以直接从高速缓存中进行访问，这样运行速度将大大提升。</p>
 <p>在编程实践中，理解局部性原理可以帮助开发者优化代码性能。例如，在处理数组或循环结构时，考虑数据的存储和访问模式可以显著影响程序的执行效率。数组通常在内存中顺序存储，因此按行访问数组元素通常比按列访问更高效，因为这符合空间局部性原理。</p>
 <h2 id="存储设备的层次模型">存储设备的层次模型

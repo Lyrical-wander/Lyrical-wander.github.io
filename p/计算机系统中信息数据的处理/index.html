@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="计算机系统中信息数据的处理">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="计算机系统中信息数据的处理">
 <meta property='og:description' content="读书笔记：《深入理解计算机系统》">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -475,7 +475,8 @@
 <p>我们设c = a ^ b = 1010 1110</p>
 <p>此时再用c ^ a  得到</p>
 <p>d = c ^ a = 1100 1011</p>
-<p>你会发现，d = b ，即 a ^ b ^ a = b</p></blockquote>
+<p>你会发现，d = b ，即 a ^ b ^ a = b</p>
+</blockquote>
 <p>除此之外，还有一个例题非常有意思</p>
 <blockquote>
 <p>bis(位设置)：输入一个数据字x和一个掩码字m，生成一个结果z，z是由掩码m的位来修改x得到的，这种修改是在m为1的每个位置上，将z对应的位置设为1</p>
@@ -519,7 +520,8 @@
 <p>那么，res = bis(x,y) 则 res = 1110 1111</p>
 <p>根据bic的说明，m的某一位为1时，则x对应的位被修改为0，其它不变</p>
 <p>那么， res = bic(x,y) 则 res = 0010 0100</p>
-<p>那么， res = bic(y,x) 则 res = 1000 1010</p></blockquote>
+<p>那么， res = bic(y,x) 则 res = 1000 1010</p>
+</blockquote>
 <p>根据上面的演算，我们可以发现，当你使用bis时，则x与m两者都是0的位才为0，否则即为1。当你使用bic时，则仅有m为0时且x为1时，才为1。</p>
 <p>那么或运算就好办了，因为或运算的规则就是只要有1则为1，逆命题就是两者为0才为0，即bis运算</p>
 <p>则第一个函数为：</p>
@@ -556,12 +558,14 @@
 </h2><p>在数据处理中的掩码与计算机网络中的掩码概念有所不同，在这里的掩码你可以理解为是一种滤波器，它可以将特定位的数据通过而屏蔽掉其它位的数据，如</p>
 <blockquote>
 <p>掩码：0x0000FF 与 a : 0x123456 进行运算，则会得到</p>
-<p>res = 0x000056</p></blockquote>
+<p>res = 0x000056</p>
+</blockquote>
 <h2 id="补码编码">补码编码
 </h2><p>跳过了无符号数的编码</p>
 <p>在计算机中，有符号数的表示方式就是补码，将<strong>字</strong>中最高有效位定义为<strong>负权</strong>（negative weight），如</p>
 <blockquote>
-<p>1011 = -1*$2^3$+0*$2^2$+1*$2^1$+1*$2^0$ = -8 + 0 + 2 + 1 = -5</p></blockquote>
+<p>1011 = -1*$2^3$+0*$2^2$+1*$2^1$+1*$2^0$ = -8 + 0 + 2 + 1 = -5</p>
+</blockquote>
 <p>在这种编码下，最高位变成了乘了一个<code>-1</code>，因此，在这种情况下，我们要考虑在有有符号数补码编码的情况下的几种特殊情况：</p>
 <blockquote>
 <p>0000 = 0</p>
@@ -570,7 +574,8 @@
 <p>1000 = -8</p>
 <p>0111 = 7</p>
 <p>在字长未4的情况下，有符号数的补码编码中，取值范围为[-8:7]，1111并非最小值，而是-1，1000才是最小值为-8，0111是最大值7</p>
-<p>在0000，0001，0010，&hellip;，0111，1000，&hellip;，1111以此类推中，实际上的数值变化是，0，1，2，&hellip;，7，-8，-7，&hellip;，-1</p></blockquote>
+<p>在0000，0001，0010，&hellip;，0111，1000，&hellip;，1111以此类推中，实际上的数值变化是，0，1，2，&hellip;，7，-8，-7，&hellip;，-1</p>
+</blockquote>
 <p>由此我们可以看到，补码的范围是不对成的，即最小值没有与之对应的正数。这导致补码运算的某些特殊的属性，并且容易造成程序中细微的错误。</p>
 <p>以下表格中，*$UMax_w$<em>表示无符号数的最大值，</em>$TMin_w$<em>表示有符号数的最小值，</em>$TMax_w$*表示有符号数的最大值</p>
 <p><img src="/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86/image-20241121162922727.png"

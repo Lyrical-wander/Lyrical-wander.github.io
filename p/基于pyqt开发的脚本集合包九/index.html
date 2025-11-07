@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/'>
 
-<link rel="stylesheet" href="/scss/style.min.10c2e3027d0e756379cc4e5e449541d162ac1c243be22aabefdaa0fc257af76e.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（九）">
+<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（九）">
 <meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述吸取第一次爬取微软翻译时的失败经验，解决会话结束URL动态变化的问题，获取必要的数据，实现完整的翻译功能">
 <meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/'>
 <meta property='og:site_name' content='苏三有春的博客'>
@@ -332,7 +332,7 @@
         </li>
         <li><a href="#1-beautifulsoup">1. <strong>BeautifulSoup</strong></a></li>
         <li><a href="#2-html">2. <strong>html</strong></a></li>
-        <li><a href="#3-">3. <strong>&ldquo;html.parser&rdquo;</strong></a></li>
+        <li><a href="#3-">3. <strong>“html.parser”</strong></a></li>
         <li><a href="#4-最终效果">4. <strong>最终效果</strong></a></li>
         <li><a href="#token与key">token与key</a>
           <ol>
@@ -456,7 +456,8 @@
     >基于PyQt开发的脚本集合包（八）</a>的又不一致</p>
 <blockquote>
 <p><a class="link" href="https://cn.bing.com/ttranslatev3?isVertical=1&amp;&amp;IG=DFFF2F46AAE0482491F67EEEB26C249C&amp;IID=translator.5025"  target="_blank" rel="noopener"
-    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=DFFF2F46AAE0482491F67EEEB26C249C&IID=translator.5025</a></p></blockquote>
+    >https://cn.bing.com/ttranslatev3?isVertical=1&&IG=DFFF2F46AAE0482491F67EEEB26C249C&IID=translator.5025</a></p>
+</blockquote>
 <p>笔者借助开发者工具自带的搜索框进行搜索，看看我们需要的数据在哪里出现过</p>
 <p>除了上一篇文章中提到的<code>IG</code>和<code>IID</code>两个数据外，我们还需要找到<code>token</code>和<code>key</code>两个数据，在<code>ttranslatev3</code>响应请求中，可以看到我们发送请求时，请求表单除了携带需要翻译的文本，翻译前的语种，翻译后的语种外，还需携带两个特殊的信息</p>
 <p><img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B9%9D/image-20241108113428118.png"
@@ -583,7 +584,8 @@
 <li><strong>避免被识别为爬虫</strong>： 网站可能会根据 <code>User-Agent</code> 来识别是否是爬虫程序。很多爬虫程序没有设置真实的 <code>User-Agent</code>，或者 <code>User-Agent</code> 字符串看起来像是一个自动化脚本（比如 Python 的 <code>requests</code> 库默认 <code>User-Agent</code> 是一个简单的字符串）。一些网站会使用这一点来检测并阻止爬虫请求。因此，为了模拟浏览器，爬虫通常会伪装成浏览器的 <code>User-Agent</code>，避免被网站识别为爬虫。</li>
 <li><strong>返回适配的内容</strong>： 根据 <code>User-Agent</code>，服务器可以返回特定格式的内容。比如，移动设备和桌面设备通常会看到不同版本的网页，甚至不同的图片大小和样式。通过查看 <code>User-Agent</code>，服务器可以判断请求来自于手机、平板、桌面或其他设备，并返回不同的页面样式或功能。</li>
 <li><strong>分辨设备和浏览器版本</strong>： <code>User-Agent</code> 可以帮助服务器确定访问者的设备类型、操作系统及浏览器版本，从而优化响应内容。比如，某些页面可能会针对不同的操作系统（如 Windows、macOS、Linux）或不同版本的浏览器提供特定的网页布局或 JavaScript 功能。</li>
-</ol></blockquote>
+</ol>
+</blockquote>
 <p>可以看出，一些服务器会根据<code>User-Agent</code>来判断访问请求是不是来自人类或自动化脚本，可做一些反爬虫操作。我们从浏览器获取的请求信息中包含的<code>User-Agent</code>，表明了这段请求时来自浏览器，而非自动化脚本，因此，我们可以回答上面的问题：1.<code>User-Agent</code>一样是因为我们今天与昨天用的都是同一个浏览器访问，它代表了“该请求来自Edge浏览器”。2.无需担心它会发生变化，除非浏览器更新会更改这项数据，而这大概率是不会发生的。</p>
 <h4 id="代码实现">代码实现
 </h4><p>首先，先获取整个response的html数据，把它写在一个单独的文件里，（数据量太大，操作台无法查找相应的数据），有些导入的模块会在后面的代码中用到，这仅是完整代码的一部分</p>
@@ -706,7 +708,8 @@
 <li><code>&quot;html5lib&quot;</code>：使用 <code>html5lib</code> 库，它更宽容于不规范的 HTML 代码。</li>
 </ul>
 <h3 id="4-最终效果">4. <strong>最终效果</strong>
-</h3><p>这行代码的作用是：通过 <code>BeautifulSoup</code> 库，将传入的 HTML 字符串 <code>html</code> 解析成一个 <code>BeautifulSoup</code> 对象，并指定使用内建的 <code>html.parser</code> 解析器。解析后的 <code>soup</code> 对象可以用来方便地操作和提取 HTML 内容。</p></blockquote>
+</h3><p>这行代码的作用是：通过 <code>BeautifulSoup</code> 库，将传入的 HTML 字符串 <code>html</code> 解析成一个 <code>BeautifulSoup</code> 对象，并指定使用内建的 <code>html.parser</code> 解析器。解析后的 <code>soup</code> 对象可以用来方便地操作和提取 HTML 内容。</p>
+</blockquote>
 <p>剩下的代码看方法名称也很好理解它是做什么的</p>
 <h3 id="token与key">token与key
 </h3><h4 id="找到token与key的所在">找到<code>token</code>与<code>key</code>的所在
@@ -1060,6 +1063,30 @@
             
                 
 <article class="has-image">
+    <a href="/p/%E5%A6%82%E4%BD%95%E5%9C%A8windows%E4%B8%AD%E4%BD%BF%E7%94%A8opuslib%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E5%A6%82%E4%BD%95%E5%9C%A8windows%E4%B8%AD%E4%BD%BF%E7%94%A8opuslib%E5%BA%93/image.48779f30aca57f829ab3f02d0a2d19b0_hu_c1d76da6286a1c67.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 如何在Windows中使用opuslib库"
+                        
+                        data-hash="md5-SHefMKylf4Kas/AtCi0ZsA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">如何在Windows中使用opuslib库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/">
         
         
@@ -1125,30 +1152,6 @@
 
         <div class="article-details">
             <h2 class="article-title">PyAudio库基本知识详解</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
         </div>
     </a>
 </article>
