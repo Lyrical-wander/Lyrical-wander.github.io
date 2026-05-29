@@ -1,1042 +1,196 @@
-<!DOCTYPE html>
-<html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用">
-<title>基于PyQt开发的脚本集合包（四）</title>
-
-<link rel='canonical' href='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/'>
-
-<link rel="stylesheet" href="/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css"><meta property='og:title' content="基于PyQt开发的脚本集合包（四）">
-<meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用">
-<meta property='og:url' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/'>
-<meta property='og:site_name' content='苏三有春的博客'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PyQt实战' /><meta property='article:published_time' content='2024-11-01T10:43:00&#43;08:00'/><meta property='article:modified_time' content='2024-11-01T10:43:00&#43;08:00'/><meta property='og:image' content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png' />
-<meta name="twitter:title" content="基于PyQt开发的脚本集合包（四）">
-<meta name="twitter:description" content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://Lyrical-wander.github.io/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png' />
-    <link rel="shortcut icon" href="/favicon.ico" />
-
-    </head>
-    <body class="
-    article-page
-    ">
-
-        
-        <script src="https://www.lyrical-wander.cn/background/particles.js"></script>
-        <link rel="stylesheet" href="https://www.lyrical-wander.cn/background/style.css">
-        <div id="particles-js"></div>
-        <script>
-            particlesJS.load('particles-js', "https://www.lyrical-wander.cn/background/particles_config.json", function() {
-                console.log('particles.js loaded - callback');
-            });
-        </script>
-        
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/avatar_hu_ed3f2992e333f57f.png" width="300"
-                            height="300" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-                    <span class="emoji">🧐</span>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">苏三有春的博客</a></h1>
-            <h2 class="site-description">人生茫茫，唯死亡与爱而已</h2>
-        </div>
-    </header><ol class="menu-social">
-            
-                <li>
-                    <a 
-                        href='https://space.bilibili.com/28788259'
-                        target="_blank"
-                        title="Bilibili"
-                        rel="me"
-                    >
-                        
-                        
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://blog.csdn.net/whale_cat'
-                        target="_blank"
-                        title="CSDN"
-                        rel="me"
-                    >
-                        
-                        
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503 0 -8.445 -3.04 -9.61 -7.413c-1.165 -4.373 .737 -8.988 4.638 -11.25a9.906 9.906 0 0 1 12.008 1.598l-3.335 3.367a5.185 5.185 0 0 0 -7.354 .013a5.252 5.252 0 0 0 0 7.393a5.185 5.185 0 0 0 7.354 .013l3.349 3.367a9.887 9.887 0 0 1 -7.05 2.912z" /></svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://github.com/Lyrical-wander'
-                        target="_blank"
-                        title="GitHub"
-                        rel="me"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-        <li >
-            <a href='/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
-
-
-
-                
-                <span>主页</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
-
-
-
-                
-                <span>关于我</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
-
-
-
-                
-                <span>归档</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-                
-                <span>搜索</span>
-            </a>
-        </li>
-        
-        
-        <li >
-            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
-
-
-
-                
-                <span>友情链接</span>
-            </a>
-        </li>
-        
-        <li class="menu-bottom-section">
-            <ol class="menu">
-                    
-                        <li id="i18n-switch">  
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
-
-
-
-                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
-                                
-                                    <option value="https://Lyrical-wander.github.io/en/" >English</option>
-                                
-                                    <option value="https://Lyrical-wander.github.io/" selected>中文</option>
-                                
-                            </select>
-                        </li>
-                    
-                
-
-                
-                    <li id="dark-mode-toggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
-
-
-
-                        <span>暗色模式</span>
-                    </li>
-                
-            </ol>
-        </li>
-    </ol>
-</aside>
-
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#41-import部分">4.1 import部分</a></li>
-    <li><a href="#42-重定向操作台输出">4.2 重定向操作台输出</a></li>
-    <li><a href="#43-stacklayout-切换功能">4.3 stackLayout 切换功能</a></li>
-    <li><a href="#44-ui初始化">4.4 UI初始化</a></li>
-    <li><a href="#45-结语">4.5 结语</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
-            <main class="main full-width">
-    <article class="has-image main-article">
-    <header class="article-header">
-        <div class="article-image">
-            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_a29f03e21c7ce286.png"
-                        srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_a29f03e21c7ce286.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_28d88c20888e4cd6.png 1600w"
-                        width="800" 
-                        height="450" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（四）" />
-                
-            </a>
-        </div>
-    
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/python/" style="background-color: #2a9d8f; color: #fff;">
-                Python
-            </a>
-        
-            <a href="/categories/pyqt5/" style="background-color: #2a9d8f; color: #fff;">
-                PyQt5
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/">基于PyQt开发的脚本集合包（四）</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用
-        </h3>
-        
-    </div>
-
-    
-    
-    
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Nov 01, 2024</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    阅读时长: 8 分钟
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-
-</header>
-
-    <section class="article-content">
-    
-    
-    <h1 id="pyqt主窗口框架设计qwidget">PyQt主窗口框架设计(QWidget)
-</h1><p>PrimeWindow.py的主要作用是绘制主窗口，在主窗口中：</p>
-<ul>
-<li>最左边是各种功能组件的入口，比如：翻译器，UTF-8转换，图像处理等。</li>
-<li>按下左边的按键，则会切换功能区，切换功能并非重新开一个窗口，而是切换中间部分，这里主要是采用stack的原理</li>
-<li>最右边是日志打印区，通过重定向的方法，把打印在操作台的内容打印到这个窗口上，这样方便开发人员debug</li>
-</ul>
-<h2 id="41-import部分">4.1 import部分
-</h2><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.TranslatorClass</span> <span class="k">as</span> <span class="nn">TranslatorClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.ConvertorClass</span> <span class="k">as</span> <span class="nn">ConvertorClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.AudioProcessClass</span> <span class="k">as</span> <span class="nn">AudioProcessClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.AudiocodecClass</span> <span class="k">as</span> <span class="nn">AudiocodecClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.AudioPlayerClass</span> <span class="k">as</span> <span class="nn">AudioPlayerClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">Classes.ImgProcessClass</span> <span class="k">as</span> <span class="nn">ImgProcessClass</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.btnStyle</span> <span class="kn">import</span> <span class="o">*</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">component.editStyle</span> <span class="kn">import</span> <span class="o">*</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>这些引用均来自作者自己的代码，分别保存在Classes目录下和component目录下，从这些目录下import不同的类或方法供PrimeWindow调用。</p>
-<p>Classes中的各种类，如TranslatorClass，保存着翻译功能的功能区UI结构：翻译按钮，翻译内容输入框以及翻译结果展示框等，以及各组件的摆放位置。</p>
-<p>component中的各种方法，如btnStyle，该文件中有按钮按下的样式，按钮抬起的样式等，只需在点击按钮时调用该方法即可改变按钮样式。</p>
-<h2 id="42-重定向操作台输出">4.2 重定向操作台输出
-</h2><p>重定向操作台输出需要调用一些系统方法</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="n">current_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="c1"># 获取当前工作目录，并将其存储在current_directory中。</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="c1"># 将当前的标准输出（操作台）保存到self.original_stdout中，这样可以在将来恢复标准输出</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">output_stream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span> <span class="c1"># 创建一个StringIO对象，这个对象像一个文件，可以在内存中操作字符串，之后的标准输入输出将写入这个对象</span>
-</span></span><span class="line"><span class="cl">        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_stream</span> <span class="c1"># 将标准输出重定向到刚才创建的StringIO对象self.output_stream。这样，所有通过print语句输出的信息都将储存在output_stream中，而不是打印到操作台</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">QTimer</span><span class="p">()</span> <span class="c1"># 创建一个定时器对象，用于定期触发某些事件</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutput</span><span class="p">)</span> <span class="c1"># 将定时器的信号连接到self.updateOutput方法上，当定时器达到超时时间时则会调用该方法</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># 设置定时器的超时时间为1000ms即1s</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>以上实现的是：重定向操作台的输出，开启定时器，每1s后，将原本pirnt方法打印到操作台的字符串储存起来，并调用updateOutput方法</p>
-<p>以下是代码逐行分析：</p>
-<ul>
-<li>获取当前工作目录，并将其存储在current_directory中</li>
-<li>将当前的标准输出（操作台）保存到self.original_stdout中，这样可以在将来恢复标准输出</li>
-<li>创建一个StringIO对象，这个对象像一个文件，可以在内存中操作字符串，之后的标准输入输出将写入这个对象</li>
-<li>将标准输出重定向到刚才创建的StringIO对象self.output_stream。这样，所有通过print语句输出的信息都将储存在output_stream中，而不是打印到操作台</li>
-<li>创建一个定时器对象，用于定期触发某些事件</li>
-<li>将定时器的信号连接到self.updateOutput方法上，当定时器达到超时时间时则会调用该方法</li>
-<li>设置定时器的超时时间为1000ms即1s</li>
-</ul>
-<p>updateOutput方法：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">updateOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_stream</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span> <span class="c1"># 从output_stream中获取字符串</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">output</span><span class="p">:</span> <span class="c1"># 如果其中有字符串的话</span>
-</span></span><span class="line"><span class="cl">            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="o">.</span><span class="n">textCursor</span><span class="p">()</span> <span class="c1"># 获取日志打印文本编辑控件的当前光标，方便在特定的位置插入文本</span>
-</span></span><span class="line"><span class="cl">            <span class="n">cursor</span><span class="o">.</span><span class="n">movePosition</span><span class="p">(</span><span class="n">QTextCursor</span><span class="o">.</span><span class="n">End</span><span class="p">)</span> <span class="c1"># 将光标移动至结尾，以便现有文本插入新的输出内容</span>
-</span></span><span class="line"><span class="cl">            <span class="n">cursor</span><span class="o">.</span><span class="n">insertText</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="c1"># 将内容添加到日志打印文本编辑控件中</span>
-</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="o">.</span><span class="n">setTextCursor</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="c1"># 更新光标位置为刚刚移动的光标，这确保了后续的输入或操作将从正确的位置开始</span>
-</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="o">.</span><span class="n">ensureCursorVisible</span><span class="p">()</span> <span class="c1"># 确保光标在文本编辑器中可见，特别是光标在底部时，防止用户无法看到最新的插入内容，尤其是文本框不够大时</span>
-</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">output_stream</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 清空output_stream中的内容，将其内容截断为0，使得下一轮输出时不会将之前的内容重复添加</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>通过这个方法，即可将打印的内容输出到日志打印区中。并每1秒就检查一次是否有新的内容需要输出</p>
-<ul>
-<li>因为是利用定时器每1秒检查一次是否有新的输出内容，所以输出并不是实时进行的，如你需要更精确的日志打印，则调小定时器的超时时间，但请注意，定时器的超时时间越短，定时器就会越频繁地调用updateOutput方法，即使什么新内容也没有。如果你需要做一些复杂且精密的操作，则可能需要考虑时间与空间开销的问题。</li>
-</ul>
-<p>以下是代码逐行分析：</p>
-<ul>
-<li>从output_stream中获取字符串</li>
-<li>如果其中有字符串的话</li>
-<li>获取日志打印文本编辑控件的当前光标，方便在特定的位置插入文本</li>
-<li>将光标移动至结尾，以便现有文本插入新的输出内容</li>
-<li>将内容添加到日志打印文本编辑控件中</li>
-<li>更新光标位置为刚刚移动的光标，这确保了后续的输入或操作将从正确的位置开始</li>
-<li>确保光标在文本编辑器中可见，特别是光标在底部时，防止用户无法看到最新的插入内容，尤其是文本框不够大时</li>
-<li>清空output_stream中的内容，将其内容截断为0，使得下一轮输出时不会将之前的内容重复添加</li>
-</ul>
-<h2 id="43-stacklayout-切换功能">4.3 stackLayout 切换功能
-</h2><blockquote>
-<p>在PyQt中，<code>QStackLayout</code>是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">create_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1"># create a stack layout</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">stacklayout</span> <span class="o">=</span> <span class="n">QStackedLayout</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="n">convertor</span> <span class="o">=</span> <span class="n">ConvertorClass</span><span class="o">.</span><span class="n">Wconvertor</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">stacklayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">convertor</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>创建stacklayout</li>
-<li>把功能UI实现的对象添加在stacklayout中</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># set the convertor buttons</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;UTF-8 转换&#34;</span><span class="p">)</span> <span class="c1"># 创建按钮对象</span>
-</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 修改按钮样式，该方法为作者创建，并非第三方库调用</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Cbtn_press_clicked</span><span class="p">)</span> <span class="c1"># 为按钮连接触发事件，该事件会切换stack</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># add the buttons to the layout</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">btnlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 将按钮添加到功能按钮区布局</span>
-</span></span><span class="line"><span class="cl">        <span class="n">updateButtonStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 更新按钮样式，该方法为作者创建，并非第三方库调用</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>UTF8ConvertorBtn</code>按钮连接上了Cbtn_press_clicked方法，表示当该按钮被按下时，则调用<code>Cbtn_press_clicked</code>方法。同时我对按钮的样式做了修改，使用方法<code>btnReleaseStyleA</code>，因为要对按钮做批量相同的修改，因此集成到一个方法中去调用是常见的编程思想。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">  	<span class="k">def</span> <span class="nf">Cbtn_press_clicked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="n">updateButtonStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 更新按钮样式，该方法为作者创建，非第三方库调用</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">stacklayout</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 将当前stack布局设置为第一个抽屉</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>setCurrentIndex</code>方法的意思是，stacklayout所占据的这一片区域，可以随意切换成被它add了的widget，它就像一个抽屉一样，抽屉的大小固定，但是这个固定的大小所展示的内容是由你抽出第几层决定。就比如参数为<code>0</code>，则抽出的是第1个抽屉，这个抽屉是一个widget，这个widget可以套一个layout，其中放各种各样的组件。同理，参数为<code>1</code>,则表示抽出第2个抽屉，则stacklayout所占据的这一片区域就会切换成第2个抽屉的样子。</p>
-<h2 id="44-ui初始化">4.4 UI初始化
-</h2><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">initUI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------- create Layout we needed ----------------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span> <span class="o">=</span> <span class="n">QHBoxLayout</span><span class="p">()</span> <span class="c1"># 主窗口</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Primarylayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span> <span class="c1"># 功能区布局</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">btnlayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span> <span class="c1"># 功能按钮区布局</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------- create Layout we needed ----------------------------</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------- there has more btn but unshowing -------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># set the convertor buttons</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span> <span class="o">=</span> <span class="n">QPushButton</span><span class="p">(</span><span class="s2">&#34;UTF-8 转换&#34;</span><span class="p">)</span> <span class="c1"># 创建按钮对象</span>
-</span></span><span class="line"><span class="cl">        <span class="n">btnReleaseStyleA</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 修改按钮样式，该方法为作者创建，并非第三方库调用</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Cbtn_press_clicked</span><span class="p">)</span> <span class="c1"># 为按钮连接触发事件，该事件会切换stack</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># add the buttons to the layout</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">btnlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 将按钮添加到功能按钮区布局</span>
-</span></span><span class="line"><span class="cl">        <span class="n">updateButtonStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">UTF8ConvertorBtn</span><span class="p">)</span> <span class="c1"># 更新按钮样式，该方法为作者创建，并非第三方库调用</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------- there has more btn but unshowing -------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">btnlayout</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignTop</span><span class="p">)</span> <span class="c1"># 调整按钮区的各组件对齐方式为向上对齐，而非均匀分布</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1">#----------------- put the stack in function area --------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="n">widget</span> <span class="o">=</span> <span class="n">QWidget</span><span class="p">()</span> <span class="c1"># 创建一个widget，用于存放stack布局</span>
-</span></span><span class="line"><span class="cl">        <span class="n">widget</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stacklayout</span><span class="p">)</span> <span class="c1"># 将stack布局放到widget中</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Primarylayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span> <span class="c1"># 将widget放到功能区布局中，至此stack在功能区中进行切换</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#----------------- put the stack in function area --------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------------- create log area ------------------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Consolelayout</span> <span class="o">=</span> <span class="n">QVBoxLayout</span><span class="p">()</span> <span class="c1"># 创建日志区布局</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span> <span class="o">=</span> <span class="n">QTextEdit</span><span class="p">()</span> <span class="c1"># 创建日志编辑文本框</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="o">.</span><span class="n">setReadOnly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># 文本框设置为只读</span>
-</span></span><span class="line"><span class="cl">        <span class="n">TextEditStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="p">)</span> <span class="c1"># 修改文本框样式， 该方法为作者创建，并非第三方库调用</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="o">.</span><span class="n">verticalScrollBar</span><span class="p">()</span><span class="o">.</span><span class="n">setPageStep</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># 修改滚动条步长</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Consolelayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">consoleedit</span><span class="p">)</span> <span class="c1"># 添加文本框到日志区布局中</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#---------------------- create log area ------------------------------</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="c1">#------------------ put the layouts in main layout -------------------</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">btnlayout</span><span class="p">,</span><span class="n">stretch</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 将按钮布局添加到主布局中</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Vline</span> <span class="o">=</span> <span class="n">QFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># 添加细线 将按钮区与功能区分隔开</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Vline</span><span class="o">.</span><span class="n">setFrameShape</span><span class="p">(</span><span class="n">QFrame</span><span class="o">.</span><span class="n">VLine</span><span class="p">)</span> <span class="c1"># 优化细线</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Vline</span><span class="o">.</span><span class="n">setFrameShadow</span><span class="p">(</span><span class="n">QFrame</span><span class="o">.</span><span class="n">Raised</span><span class="p">)</span> <span class="c1"># 使细线具有凸起的立体感</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Vline</span><span class="o">.</span><span class="n">setLineWidth</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># 设置细线外部粗细</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Vline</span><span class="o">.</span><span class="n">setMidLineWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 设置细线内部粗细</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vline</span><span class="p">)</span> <span class="c1"># 将细线添加至主布局</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Primarylayout</span><span class="p">,</span><span class="n">stretch</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># 将功能区添加至主布局中</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Consolelayout</span><span class="p">,</span><span class="n">stretch</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># 将日志区添加至主布局中</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># add the layout to the window</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mainlayout</span><span class="p">)</span> <span class="c1"># 将主窗口的布局设置为主布局</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">#------------------ put the layouts in main layout -------------------</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="45-结语">4.5 结语
-</h2><p>到目前为止，我们脚本工具集合包已经具备了初步的大致框架，三大区块已经被划分出来了，接下来的工作将重点放在要开发哪些功能，如何实现这些功能，以及这些功能的UI页面布局。这个系列将会==持续更新==，动手能力强的小伙伴可以根据路线自己实操一遍，后续我也会将完整代码开源带GitHub上（等系类差不多结束的时候），同时系列文章也会同步更新到我的CSDN博客中，如果本系列真的帮助到你，请关注本频道，并给我的CSDN==点赞收藏==QAQ，感激不尽！</p>
-<p>如有任何疑问，欢迎私信我的CSDN或发邮件到707973090@qq.com，在我看到时会第一时间回复！</p>
-
-</section>
-
-
-    <footer class="article-footer">
-    
-    <section class="article-tags">
-        
-            <a href="/tags/pyqt%E5%AE%9E%E6%88%98/">PyQt实战</a>
-        
-    </section>
-
-
-    
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
-
-
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.body, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });})
-</script>
-    
-</article>
-
-    
-
-    
-
-<aside class="related-content--wrapper">
-    <h2 class="section-title">相关文章</h2>
-    <div class="related-content">
-        <div class="flex article-list--tile">
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十四）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十四）</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十三）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十三）</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十二）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十二）</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十一）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十一）</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于PyQt开发的脚本集合包（十）"
-                        
-                        data-hash="md5-uFf5KVk7Q&#43;juUvgU9XVPAQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于PyQt开发的脚本集合包（十）</h2>
-        </div>
-    </a>
-</article>
-
-            
-        </div>
-    </div>
-</aside>
-
-     
-    
-        
-    <script src="https://utteranc.es/client.js" 
-        repo=""
-        issue-term="pathname"
-        
-        crossorigin="anonymous"
-        async
-        >
-</script>
-
-<style>
-    .utterances {
-        max-width: unset;
-    }
-</style>
-
-<script>
-    let utterancesLoaded = false;
-
-    function setUtterancesTheme(theme) {
-        let utterances = document.querySelector('.utterances iframe');
-        if (utterances) {
-            utterances.contentWindow.postMessage(
-                {
-                    type: 'set-theme',
-                    theme: `github-${theme}`
-                },
-                'https://utteranc.es'
-            );
-        }
-    }
-
-    addEventListener('message', event => {
-        if (event.origin !== 'https://utteranc.es') return;
-
-        
-        utterancesLoaded = true;
-        setUtterancesTheme(document.documentElement.dataset.scheme)
-    });
-
-    window.addEventListener('onColorSchemeChange', (e) => {
-        if (!utterancesLoaded) return;
-        setUtterancesTheme(e.detail)
-    })
-</script>
-
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-            2024 - 
-        
-        2025 Lyrical Wander
-    </section>
-    
-    <section class="powerby">
-        
-            written by LyricalWander <br/>
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
-    </section>
-</footer>
-
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
-
-            </main>
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-
-    </body>
-</html>
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用"><title>基于PyQt开发的脚本集合包（四）</title><link rel=canonical href=https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/><link rel=stylesheet href=/scss/style.min.120848200a64c5323cb9a3861cf44338f313185168dc3bfb7d1d61d88f008c8c.css><meta property='og:title' content="基于PyQt开发的脚本集合包（四）"><meta property='og:description' content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用"><meta property='og:url' content='https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/'><meta property='og:site_name' content='苏三有春的博客'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='PyQt实战'><meta property='article:published_time' content='2024-11-01T10:43:00+08:00'><meta property='article:modified_time' content='2024-11-01T10:43:00+08:00'><meta property='og:image' content='https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png'><meta name=twitter:title content="基于PyQt开发的脚本集合包（四）"><meta name=twitter:description content="基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png'><link rel="shortcut icon" href=/favicon.ico></head><body class=article-page><script src=https://www.lyrical-wander.cn/background/particles.js></script><link rel=stylesheet href=https://www.lyrical-wander.cn/background/style.css><div id=particles-js></div><script>particlesJS.load("particles-js","https://www.lyrical-wander.cn/background/particles_config.json",function(){console.log("particles.js loaded - callback")})</script><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_ed3f2992e333f57f.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🧐</span></figure><div class=site-meta><h1 class=site-name><a href=/>苏三有春的博客</a></h1><h2 class=site-description>人生茫茫，唯死亡与爱而已</h2></div></header><ol class=menu-social><li><a href=https://space.bilibili.com/28788259 target=_blank title=Bilibili rel=me><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 014-4h10a4 4 0 014 4v6a4 4 0 01-4 4H7a4 4 0 01-4-4v-6z"/><path d="M8 3l2 3"/><path d="M16 3l-2 3"/><path d="M9 13v-2"/><path d="M15 11v2"/></svg></a></li><li><a href=https://blog.csdn.net/whale_cat target=_blank title=CSDN rel=me><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-coinbase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.95 22c-4.503.0-8.445-3.04-9.61-7.413-1.165-4.373.737-8.988 4.638-11.25a9.906 9.906.0 0112.008 1.598l-3.335 3.367a5.185 5.185.0 00-7.354.013 5.252 5.252.0 000 7.393 5.185 5.185.0 007.354.013L20 19.088A9.887 9.887.0 0112.95 22z"/></svg></a></li><li><a href=https://github.com/Lyrical-wander target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/%E5%85%B3%E4%BA%8E%E6%88%91/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>关于我</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>友情链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://www.lyrical-wander.cn/en/>English</option><option value=https://www.lyrical-wander.cn/ selected>中文</option></select></li><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#41-import部分>4.1 import部分</a></li><li><a href=#42-重定向操作台输出>4.2 重定向操作台输出</a></li><li><a href=#43-stacklayout-切换功能>4.3 stackLayout 切换功能</a></li><li><a href=#44-ui初始化>4.4 UI初始化</a></li><li><a href=#45-结语>4.5 结语</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_a29f03e21c7ce286.png srcset="/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_a29f03e21c7ce286.png 800w, /p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt_hu_28d88c20888e4cd6.png 1600w" width=800 height=450 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（四）"></a></div><div class=article-details><header class=article-category><a href=/categories/python/ style=background-color:#2a9d8f;color:#fff>Python
+</a><a href=/categories/pyqt5/ style=background-color:#2a9d8f;color:#fff>PyQt5</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/>基于PyQt开发的脚本集合包（四）</a></h2><h3 class=article-subtitle>基于PyQt开发的脚本集合包，本文主要讲述UI主界面的UI布局，操作台打印的重定向以及stacklayout的使用</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Nov 01, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 8 分钟</time></div></footer></div></header><section class=article-content><h1 id=pyqt主窗口框架设计qwidget>PyQt主窗口框架设计(QWidget)</h1><p>PrimeWindow.py的主要作用是绘制主窗口，在主窗口中：</p><ul><li>最左边是各种功能组件的入口，比如：翻译器，UTF-8转换，图像处理等。</li><li>按下左边的按键，则会切换功能区，切换功能并非重新开一个窗口，而是切换中间部分，这里主要是采用stack的原理</li><li>最右边是日志打印区，通过重定向的方法，把打印在操作台的内容打印到这个窗口上，这样方便开发人员debug</li></ul><h2 id=41-import部分>4.1 import部分</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.TranslatorClass</span> <span class=k>as</span> <span class=nn>TranslatorClass</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.ConvertorClass</span> <span class=k>as</span> <span class=nn>ConvertorClass</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.AudioProcessClass</span> <span class=k>as</span> <span class=nn>AudioProcessClass</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.AudiocodecClass</span> <span class=k>as</span> <span class=nn>AudiocodecClass</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.AudioPlayerClass</span> <span class=k>as</span> <span class=nn>AudioPlayerClass</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>Classes.ImgProcessClass</span> <span class=k>as</span> <span class=nn>ImgProcessClass</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>component.btnStyle</span> <span class=kn>import</span> <span class=o>*</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>component.editStyle</span> <span class=kn>import</span> <span class=o>*</span>
+</span></span></code></pre></td></tr></table></div></div><p>这些引用均来自作者自己的代码，分别保存在Classes目录下和component目录下，从这些目录下import不同的类或方法供PrimeWindow调用。</p><p>Classes中的各种类，如TranslatorClass，保存着翻译功能的功能区UI结构：翻译按钮，翻译内容输入框以及翻译结果展示框等，以及各组件的摆放位置。</p><p>component中的各种方法，如btnStyle，该文件中有按钮按下的样式，按钮抬起的样式等，只需在点击按钮时调用该方法即可改变按钮样式。</p><h2 id=42-重定向操作台输出>4.2 重定向操作台输出</h2><p>重定向操作台输出需要调用一些系统方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>        <span class=n>current_directory</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>getcwd</span><span class=p>()</span> <span class=c1># 获取当前工作目录，并将其存储在current_directory中。</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>original_stdout</span> <span class=o>=</span> <span class=n>sys</span><span class=o>.</span><span class=n>stdout</span> <span class=c1># 将当前的标准输出（操作台）保存到self.original_stdout中，这样可以在将来恢复标准输出</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>output_stream</span> <span class=o>=</span> <span class=n>io</span><span class=o>.</span><span class=n>StringIO</span><span class=p>()</span> <span class=c1># 创建一个StringIO对象，这个对象像一个文件，可以在内存中操作字符串，之后的标准输入输出将写入这个对象</span>
+</span></span><span class=line><span class=cl>        <span class=n>sys</span><span class=o>.</span><span class=n>stdout</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>output_stream</span> <span class=c1># 将标准输出重定向到刚才创建的StringIO对象self.output_stream。这样，所有通过print语句输出的信息都将储存在output_stream中，而不是打印到操作台</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>timer</span> <span class=o>=</span> <span class=n>QTimer</span><span class=p>()</span> <span class=c1># 创建一个定时器对象，用于定期触发某些事件</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>timer</span><span class=o>.</span><span class=n>timeout</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>updateOutput</span><span class=p>)</span> <span class=c1># 将定时器的信号连接到self.updateOutput方法上，当定时器达到超时时间时则会调用该方法</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>timer</span><span class=o>.</span><span class=n>start</span><span class=p>(</span><span class=mi>1000</span><span class=p>)</span> <span class=c1># 设置定时器的超时时间为1000ms即1s</span>
+</span></span></code></pre></td></tr></table></div></div><p>以上实现的是：重定向操作台的输出，开启定时器，每1s后，将原本pirnt方法打印到操作台的字符串储存起来，并调用updateOutput方法</p><p>以下是代码逐行分析：</p><ul><li>获取当前工作目录，并将其存储在current_directory中</li><li>将当前的标准输出（操作台）保存到self.original_stdout中，这样可以在将来恢复标准输出</li><li>创建一个StringIO对象，这个对象像一个文件，可以在内存中操作字符串，之后的标准输入输出将写入这个对象</li><li>将标准输出重定向到刚才创建的StringIO对象self.output_stream。这样，所有通过print语句输出的信息都将储存在output_stream中，而不是打印到操作台</li><li>创建一个定时器对象，用于定期触发某些事件</li><li>将定时器的信号连接到self.updateOutput方法上，当定时器达到超时时间时则会调用该方法</li><li>设置定时器的超时时间为1000ms即1s</li></ul><p>updateOutput方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>updateOutput</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>output</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>output_stream</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span> <span class=c1># 从output_stream中获取字符串</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>output</span><span class=p>:</span> <span class=c1># 如果其中有字符串的话</span>
+</span></span><span class=line><span class=cl>            <span class=n>cursor</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=o>.</span><span class=n>textCursor</span><span class=p>()</span> <span class=c1># 获取日志打印文本编辑控件的当前光标，方便在特定的位置插入文本</span>
+</span></span><span class=line><span class=cl>            <span class=n>cursor</span><span class=o>.</span><span class=n>movePosition</span><span class=p>(</span><span class=n>QTextCursor</span><span class=o>.</span><span class=n>End</span><span class=p>)</span> <span class=c1># 将光标移动至结尾，以便现有文本插入新的输出内容</span>
+</span></span><span class=line><span class=cl>            <span class=n>cursor</span><span class=o>.</span><span class=n>insertText</span><span class=p>(</span><span class=n>output</span><span class=p>)</span> <span class=c1># 将内容添加到日志打印文本编辑控件中</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=o>.</span><span class=n>setTextCursor</span><span class=p>(</span><span class=n>cursor</span><span class=p>)</span> <span class=c1># 更新光标位置为刚刚移动的光标，这确保了后续的输入或操作将从正确的位置开始</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=o>.</span><span class=n>ensureCursorVisible</span><span class=p>()</span> <span class=c1># 确保光标在文本编辑器中可见，特别是光标在底部时，防止用户无法看到最新的插入内容，尤其是文本框不够大时</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>output_stream</span><span class=o>.</span><span class=n>truncate</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=c1># 清空output_stream中的内容，将其内容截断为0，使得下一轮输出时不会将之前的内容重复添加</span>
+</span></span></code></pre></td></tr></table></div></div><p>通过这个方法，即可将打印的内容输出到日志打印区中。并每1秒就检查一次是否有新的内容需要输出</p><ul><li>因为是利用定时器每1秒检查一次是否有新的输出内容，所以输出并不是实时进行的，如你需要更精确的日志打印，则调小定时器的超时时间，但请注意，定时器的超时时间越短，定时器就会越频繁地调用updateOutput方法，即使什么新内容也没有。如果你需要做一些复杂且精密的操作，则可能需要考虑时间与空间开销的问题。</li></ul><p>以下是代码逐行分析：</p><ul><li>从output_stream中获取字符串</li><li>如果其中有字符串的话</li><li>获取日志打印文本编辑控件的当前光标，方便在特定的位置插入文本</li><li>将光标移动至结尾，以便现有文本插入新的输出内容</li><li>将内容添加到日志打印文本编辑控件中</li><li>更新光标位置为刚刚移动的光标，这确保了后续的输入或操作将从正确的位置开始</li><li>确保光标在文本编辑器中可见，特别是光标在底部时，防止用户无法看到最新的插入内容，尤其是文本框不够大时</li><li>清空output_stream中的内容，将其内容截断为0，使得下一轮输出时不会将之前的内容重复添加</li></ul><h2 id=43-stacklayout-切换功能>4.3 stackLayout 切换功能</h2><blockquote><p>在PyQt中，<code>QStackLayout</code>是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>create_stack</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># create a stack layout</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>stacklayout</span> <span class=o>=</span> <span class=n>QStackedLayout</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>convertor</span> <span class=o>=</span> <span class=n>ConvertorClass</span><span class=o>.</span><span class=n>Wconvertor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>stacklayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=n>convertor</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>创建stacklayout</li><li>把功能UI实现的对象添加在stacklayout中</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>        <span class=c1># set the convertor buttons</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span> <span class=o>=</span> <span class=n>QPushButton</span><span class=p>(</span><span class=s2>&#34;UTF-8 转换&#34;</span><span class=p>)</span> <span class=c1># 创建按钮对象</span>
+</span></span><span class=line><span class=cl>        <span class=n>btnReleaseStyleA</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 修改按钮样式，该方法为作者创建，并非第三方库调用</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=o>.</span><span class=n>clicked</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Cbtn_press_clicked</span><span class=p>)</span> <span class=c1># 为按钮连接触发事件，该事件会切换stack</span>
+</span></span><span class=line><span class=cl>        <span class=c1># add the buttons to the layout</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>btnlayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 将按钮添加到功能按钮区布局</span>
+</span></span><span class=line><span class=cl>        <span class=n>updateButtonStyle</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 更新按钮样式，该方法为作者创建，并非第三方库调用</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>UTF8ConvertorBtn</code>按钮连接上了Cbtn_press_clicked方法，表示当该按钮被按下时，则调用<code>Cbtn_press_clicked</code>方法。同时我对按钮的样式做了修改，使用方法<code>btnReleaseStyleA</code>，因为要对按钮做批量相同的修改，因此集成到一个方法中去调用是常见的编程思想。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>  	<span class=k>def</span> <span class=nf>Cbtn_press_clicked</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>updateButtonStyle</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 更新按钮样式，该方法为作者创建，非第三方库调用</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>stacklayout</span><span class=o>.</span><span class=n>setCurrentIndex</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=c1># 将当前stack布局设置为第一个抽屉</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>setCurrentIndex</code>方法的意思是，stacklayout所占据的这一片区域，可以随意切换成被它add了的widget，它就像一个抽屉一样，抽屉的大小固定，但是这个固定的大小所展示的内容是由你抽出第几层决定。就比如参数为<code>0</code>，则抽出的是第1个抽屉，这个抽屉是一个widget，这个widget可以套一个layout，其中放各种各样的组件。同理，参数为<code>1</code>,则表示抽出第2个抽屉，则stacklayout所占据的这一片区域就会切换成第2个抽屉的样子。</p><h2 id=44-ui初始化>4.4 UI初始化</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>initUI</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------- create Layout we needed ----------------------------</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span> <span class=o>=</span> <span class=n>QHBoxLayout</span><span class=p>()</span> <span class=c1># 主窗口</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Primarylayout</span> <span class=o>=</span> <span class=n>QVBoxLayout</span><span class=p>()</span> <span class=c1># 功能区布局</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>btnlayout</span> <span class=o>=</span> <span class=n>QVBoxLayout</span><span class=p>()</span> <span class=c1># 功能按钮区布局</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------- create Layout we needed ----------------------------</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------- there has more btn but unshowing -------------------</span>
+</span></span><span class=line><span class=cl>        <span class=c1># set the convertor buttons</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span> <span class=o>=</span> <span class=n>QPushButton</span><span class=p>(</span><span class=s2>&#34;UTF-8 转换&#34;</span><span class=p>)</span> <span class=c1># 创建按钮对象</span>
+</span></span><span class=line><span class=cl>        <span class=n>btnReleaseStyleA</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 修改按钮样式，该方法为作者创建，并非第三方库调用</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=o>.</span><span class=n>clicked</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Cbtn_press_clicked</span><span class=p>)</span> <span class=c1># 为按钮连接触发事件，该事件会切换stack</span>
+</span></span><span class=line><span class=cl>        <span class=c1># add the buttons to the layout</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>btnlayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 将按钮添加到功能按钮区布局</span>
+</span></span><span class=line><span class=cl>        <span class=n>updateButtonStyle</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span><span class=bp>self</span><span class=o>.</span><span class=n>UTF8ConvertorBtn</span><span class=p>)</span> <span class=c1># 更新按钮样式，该方法为作者创建，并非第三方库调用</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------- there has more btn but unshowing -------------------</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>btnlayout</span><span class=o>.</span><span class=n>setAlignment</span><span class=p>(</span><span class=n>Qt</span><span class=o>.</span><span class=n>AlignTop</span><span class=p>)</span> <span class=c1># 调整按钮区的各组件对齐方式为向上对齐，而非均匀分布</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1>#----------------- put the stack in function area --------------------</span>
+</span></span><span class=line><span class=cl>        <span class=n>widget</span> <span class=o>=</span> <span class=n>QWidget</span><span class=p>()</span> <span class=c1># 创建一个widget，用于存放stack布局</span>
+</span></span><span class=line><span class=cl>        <span class=n>widget</span><span class=o>.</span><span class=n>setLayout</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>stacklayout</span><span class=p>)</span> <span class=c1># 将stack布局放到widget中</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Primarylayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=n>widget</span><span class=p>)</span> <span class=c1># 将widget放到功能区布局中，至此stack在功能区中进行切换</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#----------------- put the stack in function area --------------------</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------------- create log area ------------------------------</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Consolelayout</span> <span class=o>=</span> <span class=n>QVBoxLayout</span><span class=p>()</span> <span class=c1># 创建日志区布局</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span> <span class=o>=</span> <span class=n>QTextEdit</span><span class=p>()</span> <span class=c1># 创建日志编辑文本框</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=o>.</span><span class=n>setReadOnly</span><span class=p>(</span><span class=kc>True</span><span class=p>)</span> <span class=c1># 文本框设置为只读</span>
+</span></span><span class=line><span class=cl>        <span class=n>TextEditStyle</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=p>)</span> <span class=c1># 修改文本框样式， 该方法为作者创建，并非第三方库调用</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=o>.</span><span class=n>verticalScrollBar</span><span class=p>()</span><span class=o>.</span><span class=n>setPageStep</span><span class=p>(</span><span class=mi>100</span><span class=p>)</span> <span class=c1># 修改滚动条步长</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Consolelayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>consoleedit</span><span class=p>)</span> <span class=c1># 添加文本框到日志区布局中</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#---------------------- create log area ------------------------------</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1>#------------------ put the layouts in main layout -------------------</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span><span class=o>.</span><span class=n>addLayout</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>btnlayout</span><span class=p>,</span><span class=n>stretch</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span> <span class=c1># 将按钮布局添加到主布局中</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Vline</span> <span class=o>=</span> <span class=n>QFrame</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span> <span class=c1># 添加细线 将按钮区与功能区分隔开</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Vline</span><span class=o>.</span><span class=n>setFrameShape</span><span class=p>(</span><span class=n>QFrame</span><span class=o>.</span><span class=n>VLine</span><span class=p>)</span> <span class=c1># 优化细线</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Vline</span><span class=o>.</span><span class=n>setFrameShadow</span><span class=p>(</span><span class=n>QFrame</span><span class=o>.</span><span class=n>Raised</span><span class=p>)</span> <span class=c1># 使细线具有凸起的立体感</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Vline</span><span class=o>.</span><span class=n>setLineWidth</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 设置细线外部粗细</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Vline</span><span class=o>.</span><span class=n>setMidLineWidth</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=c1># 设置细线内部粗细</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span><span class=o>.</span><span class=n>addWidget</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Vline</span><span class=p>)</span> <span class=c1># 将细线添加至主布局</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span><span class=o>.</span><span class=n>addLayout</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Primarylayout</span><span class=p>,</span><span class=n>stretch</span><span class=o>=</span><span class=mi>4</span><span class=p>)</span> <span class=c1># 将功能区添加至主布局中</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span><span class=o>.</span><span class=n>addLayout</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Consolelayout</span><span class=p>,</span><span class=n>stretch</span><span class=o>=</span><span class=mi>2</span><span class=p>)</span> <span class=c1># 将日志区添加至主布局中</span>
+</span></span><span class=line><span class=cl>        <span class=c1># add the layout to the window</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>setLayout</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>Mainlayout</span><span class=p>)</span> <span class=c1># 将主窗口的布局设置为主布局</span>
+</span></span><span class=line><span class=cl>        <span class=c1>#------------------ put the layouts in main layout -------------------</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=45-结语>4.5 结语</h2><p>到目前为止，我们脚本工具集合包已经具备了初步的大致框架，三大区块已经被划分出来了，接下来的工作将重点放在要开发哪些功能，如何实现这些功能，以及这些功能的UI页面布局。这个系列将会==持续更新==，动手能力强的小伙伴可以根据路线自己实操一遍，后续我也会将完整代码开源带GitHub上（等系类差不多结束的时候），同时系列文章也会同步更新到我的CSDN博客中，如果本系列真的帮助到你，请关注本频道，并给我的CSDN==点赞收藏==QAQ，感激不尽！</p><p>如有任何疑问，欢迎私信我的CSDN或发邮件到707973090@qq.com，在我看到时会第一时间回复！</p></section><footer class=article-footer><section class=article-tags><a href=/tags/pyqt%E5%AE%9E%E6%88%98/>PyQt实战</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png width=250 height=150 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（十四）" data-hash="md5-uFf5KVk7Q+juUvgU9XVPAQ=="></div><div class=article-details><h2 class=article-title>基于PyQt开发的脚本集合包（十四）</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png width=250 height=150 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（十三）" data-hash="md5-uFf5KVk7Q+juUvgU9XVPAQ=="></div><div class=article-details><h2 class=article-title>基于PyQt开发的脚本集合包（十三）</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png width=250 height=150 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" data-hash="md5-uFf5KVk7Q+juUvgU9XVPAQ=="></div><div class=article-details><h2 class=article-title>基于PyQt开发的脚本集合包（十二）</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png width=250 height=150 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（十一）" data-hash="md5-uFf5KVk7Q+juUvgU9XVPAQ=="></div><div class=article-details><h2 class=article-title>基于PyQt开发的脚本集合包（十一）</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.b857f929593b43e8ee52f814f5754f01_hu_95b79f13c74eed57.png width=250 height=150 loading=lazy alt="Featured image of post 基于PyQt开发的脚本集合包（十）" data-hash="md5-uFf5KVk7Q+juUvgU9XVPAQ=="></div><div class=article-details><h2 class=article-title>基于PyQt开发的脚本集合包（十）</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2024 -
+2026 Lyrical Wander</section><section class=powerby>written by LyricalWander<br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.29.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

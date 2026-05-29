@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Pages on 苏三有春的博客</title>
-        <link>https://Lyrical-wander.github.io/page/</link>
-        <description>Recent content in Pages on 苏三有春的博客</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <copyright>Lyrical Wander</copyright>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://Lyrical-wander.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>归档</title>
-        <link>https://Lyrical-wander.github.io/archives/</link>
-        <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/archives/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>关于我</title>
-        <link>https://Lyrical-wander.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</guid>
-        <description>&lt;h2 id=&#34;这是一条关于我的简介&#34;&gt;这是一条关于我的简介
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/page/</link><description>Recent content in Pages on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/page/index.xml" rel="self" type="application/rss+xml"/><item><title>归档</title><link>https://www.lyrical-wander.cn/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://www.lyrical-wander.cn/archives/</guid><description/></item><item><title>关于我</title><link>https://www.lyrical-wander.cn/%E5%85%B3%E4%BA%8E%E6%88%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.lyrical-wander.cn/%E5%85%B3%E4%BA%8E%E6%88%91/</guid><description>&lt;h2 id="这是一条关于我的简介"&gt;这是一条关于我的简介
 &lt;/h2&gt;&lt;p&gt;一个普通的数字工作者，科技至上主义者，马克思主义的信仰者。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;邮箱：707973090@qq.com&lt;/li&gt;
@@ -36,26 +13,4 @@
 &lt;blockquote&gt;
 &lt;p&gt;凡心所向，素履所往，生如逆旅，一苇以航。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;作为一个有些喜爱文学的计算数学学生，总想胡思乱想并写写东西，只可惜天不遂我愿，文学素养有限，总不能很好地表达。于是开始走上写博客的道路，分享分享技术，写写“日隙随笔”，希望让你看到。&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>搜索</title>
-        <link>https://Lyrical-wander.github.io/search/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/search/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>友情链接</title>
-        <link>https://Lyrical-wander.github.io/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://Lyrical-wander.github.io/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</guid>
-        <description>&lt;p&gt;下面是一些强大的人&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+&lt;p&gt;作为一个有些喜爱文学的计算数学学生，总想胡思乱想并写写东西，只可惜天不遂我愿，文学素养有限，总不能很好地表达。于是开始走上写博客的道路，分享分享技术，写写“日隙随笔”，希望让你看到。&lt;/p&gt;</description></item><item><title>搜索</title><link>https://www.lyrical-wander.cn/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.lyrical-wander.cn/search/</guid><description/></item><item><title>友情链接</title><link>https://www.lyrical-wander.cn/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.lyrical-wander.cn/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</guid><description>&lt;p&gt;下面是一些强大的人&lt;/p&gt;</description></item></channel></rss>
