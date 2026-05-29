@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PyQt5 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/categories/pyqt5/</link><description>Recent content in PyQt5 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Fri, 20 Dec 2024 17:28:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/categories/pyqt5/index.xml" rel="self" type="application/rss+xml"/><item><title>基于PyQt开发的脚本集合包（十四）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/</link><pubDate>Fri, 20 Dec 2024 17:28:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十四）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;在我们上两个功能模块中，音频编解码模块与音频播放模块，都在操作音频数据，在音频数据解码后生成的pcm数据以文本格式保存，无法直接给音频播放模块播放，因此在本文中，我们将实现pcm二进制文件生成模块，将pcm数据文本转换成.pcm格式的二进制文件&lt;/p&gt;
-&lt;h2 id="ui布局展示"&gt;UI布局展示
-&lt;/h2&gt;&lt;p&gt;非常简单，仅一个文件选择区以及一个处理按钮，选择相应的pcm数据文本，开始执行即可转换为.pcm格式二进制文件&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PyQt5 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/categories/pyqt5/</link><description>Recent content in PyQt5 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Fri, 20 Dec 2024 17:28:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/categories/pyqt5/index.xml" rel="self" type="application/rss+xml"/><item><title>基于PyQt开发的脚本集合包（十四）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/</link><pubDate>Fri, 20 Dec 2024 17:28:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十四）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;在我们上两个功能模块中，音频编解码模块与音频播放模块，都在操作音频数据，在音频数据解码后生成的pcm数据以文本格式保存，无法直接给音频播放模块播放，因此在本文中，我们将实现pcm二进制文件生成模块，将pcm数据文本转换成.pcm格式的二进制文件&lt;/p&gt;
+&lt;h2 id="ui布局展示"&gt;UI布局展示&lt;/h2&gt;
+&lt;p&gt;非常简单，仅一个文件选择区以及一个处理按钮，选择相应的pcm数据文本，开始执行即可转换为.pcm格式二进制文件&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E5%9B%9B/image-20241220173900197.png"
 width="1094"
 height="696"
@@ -12,9 +12,9 @@ class="gallery-image"
 data-flex-grow="157"
 data-flex-basis="377px"
 &gt;&lt;/p&gt;
-&lt;h2 id="代码展示"&gt;代码展示
-&lt;/h2&gt;&lt;h3 id="pcmbuilderclasspy"&gt;PcmBUilderClass.py
-&lt;/h3&gt;&lt;p&gt;下面给出UI界面代码&lt;/p&gt;
+&lt;h2 id="代码展示"&gt;代码展示&lt;/h2&gt;
+&lt;h3 id="pcmbuilderclasspy"&gt;PcmBUilderClass.py&lt;/h3&gt;
+&lt;p&gt;下面给出UI界面代码&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -115,8 +115,8 @@ data-flex-basis="377px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;pcmBuilder&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filePaths&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="pcmbuilderpy"&gt;pcmBuilder.py
-&lt;/h3&gt;&lt;p&gt;下面给出pcm格式转换脚本&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="pcmbuilderpy"&gt;pcmBuilder.py&lt;/h3&gt;
+&lt;p&gt;下面给出pcm格式转换脚本&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -170,8 +170,8 @@ data-flex-basis="377px"
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;&lt;code&gt;samples = samples + [...]&lt;/code&gt;&lt;/strong&gt;: 这表示将处理后的结果（即这行数据的整数列表）添加到现有的 &lt;code&gt;samples&lt;/code&gt; 列表中。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="示例"&gt;示例
-&lt;/h4&gt;&lt;p&gt;假设 &lt;code&gt;line&lt;/code&gt; 是如下的内容：&lt;/p&gt;
+&lt;h4 id="示例"&gt;示例&lt;/h4&gt;
+&lt;p&gt;假设 &lt;code&gt;line&lt;/code&gt; 是如下的内容：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -180,8 +180,8 @@ data-flex-basis="377px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pythonCopy Codeline = &amp;#34;7FFF 8000 0001&amp;#34;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id="逐步处理"&gt;逐步处理
-&lt;/h4&gt;&lt;ol&gt;
+&lt;/div&gt;&lt;h4 id="逐步处理"&gt;逐步处理&lt;/h4&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;第一个元素：&lt;code&gt;'7FFF'&lt;/code&gt;&lt;/strong&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;data.strip()&lt;/code&gt; -&amp;gt; &lt;code&gt;'7FFF'&lt;/code&gt;&lt;/li&gt;
@@ -208,8 +208,8 @@ data-flex-basis="377px"
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id="最终列表"&gt;最终列表
-&lt;/h4&gt;&lt;p&gt;经过处理后，&lt;code&gt;samples&lt;/code&gt; 列表将会是：&lt;/p&gt;
+&lt;h4 id="最终列表"&gt;最终列表&lt;/h4&gt;
+&lt;p&gt;经过处理后，&lt;code&gt;samples&lt;/code&gt; 列表将会是：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -218,10 +218,10 @@ data-flex-basis="377px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;samples&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;32767&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;32768&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这段代码的作用是读取十六进制数字，并根据需要将其转换为有符号的 16 位整数（如果需要的话）。如果十六进制数大于或等于 &lt;code&gt;0x8000&lt;/code&gt;，它会被视为一个负数（通过二进制补码表示）。然后，这些处理后的数字会被添加到 &lt;code&gt;samples&lt;/code&gt; 列表中。&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十三）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/</link><pubDate>Fri, 20 Dec 2024 13:03:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十三）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;通过上一篇文章，我们已经大概了解了PyAudio是一个什么样的库以及给出了相应的示例代码，那么在本文中，我们就要使用PyAudio库，来实现音频的播放，同时呢我们将加上matplotlib库，来绘制音频的波形。通过阅读本文，你将了解到：如何使用PyAudio，将音频文件传入PyAudio，如何绘制音频波形，以及音频波形与音频播放的同步，如何避免音频卡顿问题。&lt;/p&gt;
-&lt;h2 id="播放器思想"&gt;播放器思想
-&lt;/h2&gt;&lt;ul&gt;
+&lt;/div&gt;&lt;p&gt;这段代码的作用是读取十六进制数字，并根据需要将其转换为有符号的 16 位整数（如果需要的话）。如果十六进制数大于或等于 &lt;code&gt;0x8000&lt;/code&gt;，它会被视为一个负数（通过二进制补码表示）。然后，这些处理后的数字会被添加到 &lt;code&gt;samples&lt;/code&gt; 列表中。&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十三）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/</link><pubDate>Fri, 20 Dec 2024 13:03:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%89/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十三）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;通过上一篇文章，我们已经大概了解了PyAudio是一个什么样的库以及给出了相应的示例代码，那么在本文中，我们就要使用PyAudio库，来实现音频的播放，同时呢我们将加上matplotlib库，来绘制音频的波形。通过阅读本文，你将了解到：如何使用PyAudio，将音频文件传入PyAudio，如何绘制音频波形，以及音频波形与音频播放的同步，如何避免音频卡顿问题。&lt;/p&gt;
+&lt;h2 id="播放器思想"&gt;播放器思想&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;首先，我们要通过&lt;code&gt;PyAudio&lt;/code&gt;来实现音频的播放功能，通过读取PCM文件，将音频输出给外设（耳机，扬声器等）。&lt;/li&gt;
 &lt;li&gt;此外，在音频输出的过程中，同时绘制当前读取数据块的折线图。&lt;/li&gt;
 &lt;li&gt;在当前数据块被读取时，折线图将绘制完成，当数据块被读取完时，数据块所表示的音频将被播放完。&lt;/li&gt;
@@ -233,8 +233,8 @@ data-flex-basis="377px"
 &lt;li&gt;&lt;code&gt;update_parameters&lt;/code&gt;：更新播放器的参数，如采样率，声道等&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;closeEvent&lt;/code&gt;：关闭音频流，释放系统资源&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="代码展示"&gt;代码展示
-&lt;/h2&gt;&lt;p&gt;下面是 音频播放器的代码，而非播放器UI的代码：&lt;/p&gt;
+&lt;h2 id="代码展示"&gt;代码展示&lt;/h2&gt;
+&lt;p&gt;下面是 音频播放器的代码，而非播放器UI的代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -549,8 +549,8 @@ data-flex-basis="377px"
 &lt;/ul&gt;
 &lt;p&gt;值得注意的是，&lt;code&gt;closeEvent&lt;/code&gt;方法通常是在&lt;strong&gt;窗口关闭事件&lt;/strong&gt;发生时自动被调用的，它是与窗口或界面关闭相关联的事件处理函数。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;event.accept&lt;/code&gt;方法是用来标记事件已被处理，表示允许窗口关闭（即立即销毁窗口并退出程序）。如果你不调用&lt;code&gt;event.accept&lt;/code&gt;窗口，窗口的关闭可能会被组织或无效。&lt;/p&gt;
-&lt;h2 id="音频波形与音频播放的同步"&gt;音频波形与音频播放的同步
-&lt;/h2&gt;&lt;p&gt;如果要实现音频的可视化，音频播放与波形绘制的同步时必不可少的操作，在这里，我们通过&lt;code&gt;PyAudio&lt;/code&gt;的流式操作，将音频数据分成数据块来读取并播放，这样的操作思想为实现波形绘制与音频播放的同步奠定了基础。&lt;/p&gt;
+&lt;h2 id="音频波形与音频播放的同步"&gt;音频波形与音频播放的同步&lt;/h2&gt;
+&lt;p&gt;如果要实现音频的可视化，音频播放与波形绘制的同步时必不可少的操作，在这里，我们通过&lt;code&gt;PyAudio&lt;/code&gt;的流式操作，将音频数据分成数据块来读取并播放，这样的操作思想为实现波形绘制与音频播放的同步奠定了基础。&lt;/p&gt;
 &lt;p&gt;在每一个音频数据块被读取时，我们将数据块交给&lt;code&gt;PyAudio&lt;/code&gt;播放的同时，也制作数据进行波形绘制。这样确保了绘制与播放操作的是一个数据块，不会出现速度不一的情况。&lt;/p&gt;
 &lt;p&gt;主要的实现在&lt;code&gt;play_audio&lt;/code&gt;方法中：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -583,22 +583,22 @@ data-flex-basis="377px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="如何避免音频卡顿"&gt;如何避免音频卡顿
-&lt;/h2&gt;&lt;p&gt;在笔者第一次使用&lt;code&gt;PyAudio&lt;/code&gt;的功能时，为了实现播放功能，而没有深入了解&lt;code&gt;PyAudio&lt;/code&gt;的运行原理，导致在第一次播放时正常，再重复播放几次后会出现卡顿情况，播放次数越多卡顿越厉害，到最后，音频的波形只有几帧了，随后笔者开始对如何实现&lt;code&gt;PyAudio&lt;/code&gt;展开了优化，上面是优化后的代码，下面给出优化的心路历程。&lt;/p&gt;
-&lt;h3 id="ui线程与音频线程的阻塞问题"&gt;UI线程与音频线程的阻塞问题
-&lt;/h3&gt;&lt;p&gt;音频播放是一个需要实时更新的过程，可能会造成UI线程和音频线程的冲突。特别是音频播放涉及IO操作，如果UI更新阻塞了音频播放，可能会导致卡顿。&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="如何避免音频卡顿"&gt;如何避免音频卡顿&lt;/h2&gt;
+&lt;p&gt;在笔者第一次使用&lt;code&gt;PyAudio&lt;/code&gt;的功能时，为了实现播放功能，而没有深入了解&lt;code&gt;PyAudio&lt;/code&gt;的运行原理，导致在第一次播放时正常，再重复播放几次后会出现卡顿情况，播放次数越多卡顿越厉害，到最后，音频的波形只有几帧了，随后笔者开始对如何实现&lt;code&gt;PyAudio&lt;/code&gt;展开了优化，上面是优化后的代码，下面给出优化的心路历程。&lt;/p&gt;
+&lt;h3 id="ui线程与音频线程的阻塞问题"&gt;UI线程与音频线程的阻塞问题&lt;/h3&gt;
+&lt;p&gt;音频播放是一个需要实时更新的过程，可能会造成UI线程和音频线程的冲突。特别是音频播放涉及IO操作，如果UI更新阻塞了音频播放，可能会导致卡顿。&lt;/p&gt;
 &lt;p&gt;修改后，通过开子线程的方式，将UI线程与音频线程区分开，使音频播放独立于UI线程执行。&lt;/p&gt;
-&lt;h3 id="内存管理问题"&gt;内存管理问题
-&lt;/h3&gt;&lt;p&gt;在之前的代码中，每一次点击播放，都会重新调用一次&lt;code&gt;load_pcm_audio&lt;/code&gt;，会重新将整个PCM文件保存在&lt;code&gt;self.audio_data&lt;/code&gt;中，如果文件较大，这会消耗大量的内存，尤其是当多次播放时，音频数据会反复加载，可能会导致内存积累，引起卡顿。&lt;/p&gt;
+&lt;h3 id="内存管理问题"&gt;内存管理问题&lt;/h3&gt;
+&lt;p&gt;在之前的代码中，每一次点击播放，都会重新调用一次&lt;code&gt;load_pcm_audio&lt;/code&gt;，会重新将整个PCM文件保存在&lt;code&gt;self.audio_data&lt;/code&gt;中，如果文件较大，这会消耗大量的内存，尤其是当多次播放时，音频数据会反复加载，可能会导致内存积累，引起卡顿。&lt;/p&gt;
 &lt;p&gt;修改后，仅有当检测读取文件与上一次读取文件不一致时，才会调用&lt;code&gt;load_pcm_audio&lt;/code&gt;，否则将不重新加载PCM文件，直接使用已有数据，使用&lt;code&gt;self.index&lt;/code&gt;来控制播放进度。&lt;/p&gt;
-&lt;h3 id="pyaudio流的管理问题"&gt;PyAudio流的管理问题
-&lt;/h3&gt;&lt;p&gt;在之前的代码中，初始化&lt;code&gt;self.p = pyaudio.PyAudio()&lt;/code&gt;是放在&lt;code&gt;play&lt;/code&gt;方法中，这会导致，每次按键调用&lt;code&gt;play&lt;/code&gt;方法时，&lt;code&gt;stream&lt;/code&gt;对象就会被重复创建且播放时没有正确地停止和清理，导致音频流的资源没有得到释放，影响性能。&lt;/p&gt;
-&lt;p&gt;修改后，&lt;code&gt;stream&lt;/code&gt;对象在初始化时便被创建，往后在&lt;code&gt;play&lt;/code&gt;方法时不重复创建，在结束时被释放。&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</link><pubDate>Sat, 14 Dec 2024 18:03:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何不也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
-&lt;h2 id="python中的线程"&gt;Python中的线程
-&lt;/h2&gt;&lt;p&gt;Python处理线程的模块有两个：&lt;code&gt;thread&lt;/code&gt; 和 &lt;code&gt;threading&lt;/code&gt;。Python 3已经停用了 &lt;code&gt;thread&lt;/code&gt;模块，并改名为&lt;code&gt; _thread&lt;/code&gt; 模块。Python 3在 &lt;code&gt;_thread&lt;/code&gt; 模块的基础上开发了更高级的 &lt;code&gt;threading&lt;/code&gt; 模块，因此我们现在用的线程模块都是 &lt;code&gt;threading&lt;/code&gt; 模块。&lt;/p&gt;
-&lt;h3 id="创建线程"&gt;创建线程
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="pyaudio流的管理问题"&gt;PyAudio流的管理问题&lt;/h3&gt;
+&lt;p&gt;在之前的代码中，初始化&lt;code&gt;self.p = pyaudio.PyAudio()&lt;/code&gt;是放在&lt;code&gt;play&lt;/code&gt;方法中，这会导致，每次按键调用&lt;code&gt;play&lt;/code&gt;方法时，&lt;code&gt;stream&lt;/code&gt;对象就会被重复创建且播放时没有正确地停止和清理，导致音频流的资源没有得到释放，影响性能。&lt;/p&gt;
+&lt;p&gt;修改后，&lt;code&gt;stream&lt;/code&gt;对象在初始化时便被创建，往后在&lt;code&gt;play&lt;/code&gt;方法时不重复创建，在结束时被释放。&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</link><pubDate>Sat, 14 Dec 2024 18:03:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十二）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;这是音频编解码器的第三篇文章，也是收官文章，上一篇文章中，我们讲了如何制作一个自定义的特色进度条，现在，我们需要将进度条的刷新与编解码器的进度绑定起来，如此进度条才有意义，因为编解码器比较吃算力（虽然看起来ADPCM的算法非常的简单，但是奈何笔者采用的是python脚本通过循环调用C编译的exe可执行文件来实现的编码，因此算上python本身的性能，加上反复调用exe可执行文件的系统操作开销，导致ADPCM的计算时间也是不可忽视的，尤其在大数据量时），因此我们需要对编解码器单独开一个子线程跑，这样，在编解码器运行时，QT界面也能正常使用不受影响。既然编解码器是由子线程跑，那么为何不也为进度条开一个子线程，两个之间沟通消息，这样编码器与进度条的运行都不会影响QT界面的运行，而且也给进度条的使用提供了一个范式，以后再有其它功能需要使用进度条时复制粘贴即可。&lt;/p&gt;
+&lt;h2 id="python中的线程"&gt;Python中的线程&lt;/h2&gt;
+&lt;p&gt;Python处理线程的模块有两个：&lt;code&gt;thread&lt;/code&gt; 和 &lt;code&gt;threading&lt;/code&gt;。Python 3已经停用了 &lt;code&gt;thread&lt;/code&gt;模块，并改名为&lt;code&gt; _thread&lt;/code&gt; 模块。Python 3在 &lt;code&gt;_thread&lt;/code&gt; 模块的基础上开发了更高级的 &lt;code&gt;threading&lt;/code&gt; 模块，因此我们现在用的线程模块都是 &lt;code&gt;threading&lt;/code&gt; 模块。&lt;/p&gt;
+&lt;h3 id="创建线程"&gt;创建线程&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -607,10 +607,10 @@ data-flex-basis="377px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;target&lt;/code&gt; 指要创建的线程的方法名，&lt;code&gt;name&lt;/code&gt; 指给此线程命名，命名后可以调用 &lt;code&gt;threading.current_thread().name&lt;/code&gt; 方法输出该线程的名字， &lt;code&gt;args/kwargs&lt;/code&gt; 指 &lt;code&gt;target&lt;/code&gt; 指向的方法需要传递的参数，必须是元组形式，如果只有一个参数，需要以添加逗号。&lt;/p&gt;
-&lt;h3 id="线程之间的消息传递"&gt;线程之间的消息传递
-&lt;/h3&gt;&lt;p&gt;线程与线程之间的通信是一个常见的需求。Python提供了几种方法来实现进程与进程之间的通信，常见的方式包括：&lt;code&gt;queue.Queue&lt;/code&gt;、&lt;code&gt;threading.Event&lt;/code&gt;、&lt;code&gt;threading.Lock&lt;/code&gt;等同步原语。&lt;/p&gt;
-&lt;h4 id="使用-queuequeue-进行线程通信"&gt;使用 &lt;code&gt;queue.Queue&lt;/code&gt; 进行线程通信
-&lt;/h4&gt;&lt;p&gt;&lt;code&gt;queue.Queue&lt;/code&gt; 是线程安全的队列，适合用于线程之间的数据传递。你可以在子线程中将数据放入队列，然后在主线程中读取。&lt;/p&gt;
+&lt;h3 id="线程之间的消息传递"&gt;线程之间的消息传递&lt;/h3&gt;
+&lt;p&gt;线程与线程之间的通信是一个常见的需求。Python提供了几种方法来实现进程与进程之间的通信，常见的方式包括：&lt;code&gt;queue.Queue&lt;/code&gt;、&lt;code&gt;threading.Event&lt;/code&gt;、&lt;code&gt;threading.Lock&lt;/code&gt;等同步原语。&lt;/p&gt;
+&lt;h4 id="使用-queuequeue-进行线程通信"&gt;使用 &lt;code&gt;queue.Queue&lt;/code&gt; 进行线程通信&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;queue.Queue&lt;/code&gt; 是线程安全的队列，适合用于线程之间的数据传递。你可以在子线程中将数据放入队列，然后在主线程中读取。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;示例代码：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -682,8 +682,8 @@ data-flex-basis="377px"
 &lt;li&gt;主线程从队列中获取消息并打印。&lt;code&gt;queue.get()&lt;/code&gt; 是阻塞的，直到队列中有新的数据。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;q.put()&lt;/code&gt; 和 &lt;code&gt;q.get()&lt;/code&gt; 是线程安全的，可以在多个线程之间安全地交换数据。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="使用-threadingevent-进行线程通信"&gt;使用 &lt;code&gt;threading.Event&lt;/code&gt; 进行线程通信
-&lt;/h4&gt;&lt;p&gt;&lt;code&gt;threading.Event&lt;/code&gt; 是一个简单的同步原语，允许线程在等待某个条件发生时进行通信。例如，主线程可以等待子线程完成某些操作，或者子线程可以通知主线程某个事件已经发生。&lt;/p&gt;
+&lt;h4 id="使用-threadingevent-进行线程通信"&gt;使用 &lt;code&gt;threading.Event&lt;/code&gt; 进行线程通信&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;threading.Event&lt;/code&gt; 是一个简单的同步原语，允许线程在等待某个条件发生时进行通信。例如，主线程可以等待子线程完成某些操作，或者子线程可以通知主线程某个事件已经发生。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;示例代码：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -748,8 +748,8 @@ data-flex-basis="377px"
 &lt;li&gt;子线程在执行完某些任务后调用 &lt;code&gt;event.set()&lt;/code&gt; 来通知主线程。&lt;/li&gt;
 &lt;li&gt;主线程使用 &lt;code&gt;event.wait()&lt;/code&gt; 来等待事件的发生，&lt;code&gt;wait()&lt;/code&gt; 会阻塞直到事件被设置。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="使用-threadinglock-和共享变量"&gt;使用 &lt;code&gt;threading.Lock&lt;/code&gt; 和共享变量
-&lt;/h4&gt;&lt;p&gt;如果需要在多个线程之间共享一些资源（如变量），可以使用 &lt;code&gt;threading.Lock&lt;/code&gt; 来避免竞争条件（race condition），确保数据的一致性。&lt;/p&gt;
+&lt;h4 id="使用-threadinglock-和共享变量"&gt;使用 &lt;code&gt;threading.Lock&lt;/code&gt; 和共享变量&lt;/h4&gt;
+&lt;p&gt;如果需要在多个线程之间共享一些资源（如变量），可以使用 &lt;code&gt;threading.Lock&lt;/code&gt; 来避免竞争条件（race condition），确保数据的一致性。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;示例代码：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -822,8 +822,8 @@ data-flex-basis="377px"
 &lt;li&gt;&lt;code&gt;shared_data&lt;/code&gt; 是一个主线程和子线程共享的变量。&lt;/li&gt;
 &lt;li&gt;使用 &lt;code&gt;threading.Lock()&lt;/code&gt; 来确保只有一个线程能够访问和修改共享数据，从而避免了数据的竞争。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="使用-threadingcondition-进行更复杂的通信"&gt;使用 &lt;code&gt;threading.Condition&lt;/code&gt; 进行更复杂的通信
-&lt;/h4&gt;&lt;p&gt;&lt;code&gt;threading.Condition&lt;/code&gt; 是一种更复杂的同步机制，允许线程在某个条件发生时进行等待和通知。它结合了 &lt;code&gt;Lock&lt;/code&gt; 和 &lt;code&gt;Event&lt;/code&gt; 的特性，适用于更复杂的线程间协调问题。&lt;/p&gt;
+&lt;h4 id="使用-threadingcondition-进行更复杂的通信"&gt;使用 &lt;code&gt;threading.Condition&lt;/code&gt; 进行更复杂的通信&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;threading.Condition&lt;/code&gt; 是一种更复杂的同步机制，允许线程在某个条件发生时进行等待和通知。它结合了 &lt;code&gt;Lock&lt;/code&gt; 和 &lt;code&gt;Event&lt;/code&gt; 的特性，适用于更复杂的线程间协调问题。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;示例代码：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -899,8 +899,8 @@ data-flex-basis="377px"
 &lt;li&gt;主线程通过 &lt;code&gt;condition.wait()&lt;/code&gt; 等待子线程通知，直到条件满足才继续执行。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;接下来我们看一下编解码器UI是如何调用编解码器以及编解码器如何与进度条进行消息传递的&lt;/p&gt;
-&lt;h2 id="编码器ui设计"&gt;编码器UI设计
-&lt;/h2&gt;&lt;p&gt;编码器的UI布局在上一篇文章中已经阐述过，在这里就不做过多的赘述，直接放上代码：&lt;/p&gt;
+&lt;h2 id="编码器ui设计"&gt;编码器UI设计&lt;/h2&gt;
+&lt;p&gt;编码器的UI布局在上一篇文章中已经阐述过，在这里就不做过多的赘述，直接放上代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -1095,8 +1095,8 @@ data-flex-basis="377px"
 &lt;li&gt;使用&lt;code&gt;threading.Thread&lt;/code&gt;函数创建线程，&lt;code&gt;target&lt;/code&gt;传入线程需要调用的方法，即&lt;code&gt;ADPCMdecodeRun&lt;/code&gt;，解码启动脚本，&lt;code&gt;args&lt;/code&gt;向&lt;code&gt;ADPCMdecodeRun&lt;/code&gt;方法传入参数，文件路径与队列对象，队列对象用于保存和传输消息，&lt;code&gt;daemon&lt;/code&gt;表示该线程是否为守护线程，如果是，则它会在主线程结束时自动终止，哪怕它的任务没有结束，如果不是，则如果它的任务没有结束，程序会等待它执行完毕才会结束&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;.start&lt;/code&gt;表示启动该线程&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="解码器启动脚本"&gt;解码器启动脚本
-&lt;/h2&gt;&lt;p&gt;介绍完如何开启线程与线程之间如何进行通信，那么我们接下来就实现解码器的启动脚本，并在解码器的启动脚本中做一些小小的设计：&lt;/p&gt;
+&lt;h2 id="解码器启动脚本"&gt;解码器启动脚本&lt;/h2&gt;
+&lt;p&gt;介绍完如何开启线程与线程之间如何进行通信，那么我们接下来就实现解码器的启动脚本，并在解码器的启动脚本中做一些小小的设计：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;设置一个&lt;code&gt;percent&lt;/code&gt;，来记录当前已解码的进度，&lt;code&gt;percent&lt;/code&gt;记录的是 &lt;code&gt;已解码行数/总行数&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;因为进度条共有100个格子来表示&lt;code&gt;0%,1%,...,100%&lt;/code&gt;，因此进度条应接收整数的&lt;code&gt;1，2，3，4，...&lt;/code&gt;，进而&lt;code&gt;percent&lt;/code&gt;应该是整数，且&lt;code&gt;+1&lt;/code&gt;后通过&lt;code&gt;put&lt;/code&gt;方法，向进度条传递消息&lt;/li&gt;
@@ -1378,8 +1378,8 @@ data-flex-basis="377px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;ADPCM encode done&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;这是一个简单的实现线程之间消息传递的模式，在我的实践中是可行的，至此，我们实现了音频编解码器的功能模块，并实现了一个新的组件，即进度条。当然，这个功能模块尚不完美，后续还会持续地检查并优化（如果有优化方法的小伙伴也欢迎私信我）。在这里我整理了几点不足：&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;这是一个简单的实现线程之间消息传递的模式，在我的实践中是可行的，至此，我们实现了音频编解码器的功能模块，并实现了一个新的组件，即进度条。当然，这个功能模块尚不完美，后续还会持续地检查并优化（如果有优化方法的小伙伴也欢迎私信我）。在这里我整理了几点不足：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;首先，ADPCM的编解码器通过&lt;code&gt;subprocess&lt;/code&gt;的方法循环调用确实有些笨拙，也比较吃性能，在频繁地启动编码器过程中，往往会损失大量的时间&lt;/li&gt;
 &lt;li&gt;其次，在实际测试过程中ADPCM的编解码速度时好时坏，同一份数据，有时候会非常慢，有时候又会非常快，我通过观察脚本的硬件调度，发现内存占用比没有发生很大的变化，但是GPU的调度会有明显变化，当GPU持续被分配给脚本时，编解码的速度会非常快，当GPU没有被分配给脚本时，编码速度会变得异常慢。为什么会产生GPU分配的差异原因笔者还没查出来，在代码中，Python也没有显式地说明在什么环节会调用GPU，笔者也没有刻意地去调用GPU，如果直到原因的同学可以私信我。&lt;/li&gt;
@@ -1447,11 +1447,11 @@ data-flex-basis="288px"
 &lt;p&gt;阅读完这三篇文章，加上熟悉本系列前期的基础，即工程布局架构，你可以轻松复制我的代码，实现自己的音频编解码器，快来试试吧！有任何疑问请联系我，祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/</link><pubDate>Fri, 13 Dec 2024 13:26:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十一）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;这是实现音频编解码器功能模块的第二篇文章，在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文主要实现特色进度条，在本文中，我们会涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制。本文仅介绍编解码器UI的布局，因为实现UI时会用到开线程的部分，因此本文先不展示。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/</link><pubDate>Fri, 13 Dec 2024 13:26:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十一）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;这是实现音频编解码器功能模块的第二篇文章，在本文中，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，本文主要实现特色进度条，在本文中，我们会涉及到的知识点有：特色进度条的实现原理，一个python生成器的用法，PyQt的控件绘制机制。本文仅介绍编解码器UI的布局，因为实现UI时会用到开线程的部分，因此本文先不展示。&lt;/p&gt;
 &lt;p&gt;本次笔者设计的特色进度条，是涂格子形式的进度条，当进度增加时，进度条内的方格会被随机涂上颜色，供大家参考。&lt;/p&gt;
-&lt;h2 id="ui框架"&gt;UI框架
-&lt;/h2&gt;&lt;p&gt;如下图所示：&lt;/p&gt;
+&lt;h2 id="ui框架"&gt;UI框架&lt;/h2&gt;
+&lt;p&gt;如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120744188.png"
 width="1122"
 height="766"
@@ -1501,8 +1501,8 @@ data-flex-basis="336px"
 &lt;p&gt;当重新开始编码或解码时，格子会重新初始化，全部被重新涂成灰色。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="进度条展示"&gt;进度条展示
-&lt;/h2&gt;&lt;p&gt;下面是正在解码过程中的进度条展示，在右边的日志展示区中可以看到，正在进行ADPCM解码，在功能区中，下方进度条在随机选择格子涂蓝，将这些以显示当前进度&lt;/p&gt;
+&lt;h2 id="进度条展示"&gt;进度条展示&lt;/h2&gt;
+&lt;p&gt;下面是正在解码过程中的进度条展示，在右边的日志展示区中可以看到，正在进行ADPCM解码，在功能区中，下方进度条在随机选择格子涂蓝，将这些以显示当前进度&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81%E4%B8%80/image-20241213120831122.png"
 width="1122"
 height="766"
@@ -1524,8 +1524,8 @@ class="gallery-image"
 data-flex-grow="146"
 data-flex-basis="351px"
 &gt;&lt;/p&gt;
-&lt;h2 id="代码详解"&gt;代码详解
-&lt;/h2&gt;&lt;p&gt;下面给出进度条的代码：&lt;/p&gt;
+&lt;h2 id="代码详解"&gt;代码详解&lt;/h2&gt;
+&lt;p&gt;下面给出进度条的代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -1673,9 +1673,9 @@ data-flex-basis="351px"
 &lt;li&gt;两层&lt;code&gt;for&lt;/code&gt;循环，计算现在的位置，确定这个位置的方格是以点亮还是未点亮，确定颜色，绘制方格。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;painter.end&lt;/code&gt;方法结束绘制&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;h3 id="进度条的更新实际上是对控件的重新绘制"&gt;进度条的更新实际上是对控件的重新绘制
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;paintEvent&lt;/code&gt;在什么时候被调用？&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;h3 id="进度条的更新实际上是对控件的重新绘制"&gt;进度条的更新实际上是对控件的重新绘制&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;paintEvent&lt;/code&gt;在什么时候被调用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;paintEvent&lt;/code&gt; 是一个 &lt;strong&gt;Qt&lt;/strong&gt; 事件处理函数，它在 &lt;strong&gt;需要重新绘制组件时&lt;/strong&gt; 被自动调用。Qt 会在以下几种情况下触发 &lt;code&gt;paintEvent&lt;/code&gt;：&lt;/p&gt;
 &lt;ol&gt;
@@ -1725,13 +1725,13 @@ data-flex-basis="351px"
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="通过消息队列传递更新消息"&gt;通过消息队列传递更新消息
-&lt;/h3&gt;&lt;p&gt;进度条的更新实际上需要与编解码器的编解码进度相关，因为编解码器吃算力，因此不建议将编解码器放在主线程中运行，所以对编解码器开了子线程运行，消息的互传需要通过消息队列来进行。关于线程问题，我们将在下一期内容时更详细地讲解。&lt;/p&gt;
+&lt;h3 id="通过消息队列传递更新消息"&gt;通过消息队列传递更新消息&lt;/h3&gt;
+&lt;p&gt;进度条的更新实际上需要与编解码器的编解码进度相关，因为编解码器吃算力，因此不建议将编解码器放在主线程中运行，所以对编解码器开了子线程运行，消息的互传需要通过消息队列来进行。关于线程问题，我们将在下一期内容时更详细地讲解。&lt;/p&gt;
 &lt;p&gt;祝你变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;</description></item><item><title>ADPCM编解码器的实现</title><link>https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/</link><pubDate>Thu, 12 Dec 2024 22:23:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave.jpg" alt="Featured image of post ADPCM编解码器的实现" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;从本篇文章开始，接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器，第二篇文章，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，在第三篇文章中 ，我们将实现编解码器的UI以及进度条与编解码器的消息传递。这三篇文章涉及到的知识点较多，比如ADPCM编解码的实现算法，python脚本使用subprocess调用C编译的exe可执行文件，python的多线程功能应用，线程之间的消息传递，还有特色进度条的实现等等。知识点很多，也是笔者自己一点一点摸索出来的，有许多不足的地方，还请多多指正批评。同时，模块的代码分布在三篇文章中，在第三篇文章的结尾，笔者会给出代码的存放的工程目录，这样大家就可以理解代码中的&lt;code&gt;import&lt;/code&gt;模块导入。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>ADPCM编解码器的实现</title><link>https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/</link><pubDate>Thu, 12 Dec 2024 22:23:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/AudioWave.jpg" alt="Featured image of post ADPCM编解码器的实现" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;从本篇文章开始，接下来的三篇文章，我们将实现音频编解码器功能模块，第一篇文章，也就是本文，我们将实现基于开源的IMA-ADPCM算法的音频编解码器，第二篇文章，我们将实现自定义的特色进度条以及简单介绍编码器的UI布局，在第三篇文章中 ，我们将实现编解码器的UI以及进度条与编解码器的消息传递。这三篇文章涉及到的知识点较多，比如ADPCM编解码的实现算法，python脚本使用subprocess调用C编译的exe可执行文件，python的多线程功能应用，线程之间的消息传递，还有特色进度条的实现等等。知识点很多，也是笔者自己一点一点摸索出来的，有许多不足的地方，还请多多指正批评。同时，模块的代码分布在三篇文章中，在第三篇文章的结尾，笔者会给出代码的存放的工程目录，这样大家就可以理解代码中的&lt;code&gt;import&lt;/code&gt;模块导入。&lt;/p&gt;
 &lt;p&gt;本文开始讲述实现音频的编解码，目前笔者只写了一个算法，APDCM，产生笔者自写ADPCM的原因是笔者当初使用&lt;code&gt;ffmpeg&lt;/code&gt;解一些经过ADPCM压缩后的数据，发现非常困难，不是因为&lt;code&gt;ffmpeg&lt;/code&gt;没有ADPCM解码算法，而是它拥有太多ADPCM算法了，如果你安装了&lt;code&gt;ffmpeg&lt;/code&gt;的话，使用命令&lt;code&gt;ffmpeg -codecs&lt;/code&gt;可以查询&lt;code&gt;ffmpeg&lt;/code&gt;内置的编解码库，关于ADPCM的就有如下：
 &lt;img src="https://www.lyrical-wander.cn/p/adpcm%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/image-20241212204621919.png"
 width="760"
@@ -1744,11 +1744,11 @@ data-flex-grow="90"
 data-flex-basis="216px"
 &gt;&lt;/p&gt;
 &lt;p&gt;我并没有完全看完这些ADPCM算法各有哪些不同，笔者只对比过一些变种，如微软的ADPCM，&lt;code&gt;adpcm_ms&lt;/code&gt;，它生成的二进制文件前会增加一些头部信息，指明其是由&lt;code&gt;adpcm_ms&lt;/code&gt;编码的，其编码算法究竟和开源的ADPCM究竟有何不同，本文没有做详细的对比，但就其加的头部信息，就让其无法解码经过经典开源ADPCM算法编码的音频数据。因此笔者就根据开源的ADPCM算法，自行编写编解码器。&lt;/p&gt;
-&lt;h2 id="adpcm算法原理"&gt;ADPCM算法原理
-&lt;/h2&gt;&lt;p&gt;本文不对ADPCM算法做非常详细的数学推导，只介绍大概思想原理，如想了解更详细的原理，可以推荐可以去看看&lt;a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668" target="_blank" rel="noopener"
+&lt;h2 id="adpcm算法原理"&gt;ADPCM算法原理&lt;/h2&gt;
+&lt;p&gt;本文不对ADPCM算法做非常详细的数学推导，只介绍大概思想原理，如想了解更详细的原理，可以推荐可以去看看&lt;a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668" target="_blank" rel="noopener"
 &gt;ADPCM(自适应差分脉冲编码调制)的原理和计算_单片机使用adpcm音频编解码算法-CSDN博客&lt;/a&gt;这篇文章。关于原理部分，笔者对这篇文章做一些简单地整理。&lt;/p&gt;
-&lt;h3 id="adpcmadaptive-differential-pulse-code-modulation自适应差分脉冲编码调制"&gt;ADPCM(Adaptive Differential Pulse Code Modulation)自适应差分脉冲编码调制
-&lt;/h3&gt;&lt;p&gt;ADPCM是DPCM的进阶版本，而DPCM是改良PCM而来的，我们先介绍PCM&lt;/p&gt;
+&lt;h3 id="adpcmadaptive-differential-pulse-code-modulation自适应差分脉冲编码调制"&gt;ADPCM(Adaptive Differential Pulse Code Modulation)自适应差分脉冲编码调制&lt;/h3&gt;
+&lt;p&gt;ADPCM是DPCM的进阶版本，而DPCM是改良PCM而来的，我们先介绍PCM&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;PCM，脉冲编码调制&lt;/strong&gt;，是声音模拟信号数字化的一种基础技术，本质上是将时间连续取值的模拟信号转换成离散的数字信号，即模数转换，事实上，“连续”这个词在机器上是非常难以实现的，现在大多数的“连续”，实际上都是快速且频繁的“离散”组成的，包括音频，视频等。过程就是采样，量化和编码。首先由硬件机器采样，将采样得到的信号幅度转换成数字（ADC）。PCM实际上就是一个大数组，数组中的每个值，代表了当前时间点上的模拟量强度。&lt;/p&gt;
 &lt;p&gt;在量化过程中会产生误差，一般而言，ADC的精度越高，失真越小，常见的量化数位8比特，16比特，32比特。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;DPCM，差分脉冲编码调制&lt;/strong&gt;，PCM是原始采样数据，即不对数据做压缩，保存的是最原始采样结果，这样的是数据量是比较大的，尤其在嵌入式设备中，硬件规格较低，在存储空间以及功耗方面都有比较严格的要求，传输PCM数据显然是不合适的。因此，我们需要对PCM数据进行压缩。&lt;/p&gt;
@@ -1761,8 +1761,8 @@ data-flex-basis="216px"
 &lt;p&gt;差值步长码表: 下标从0到88, 共89个值, 从小到大, 非均匀分布, 下标越大, 值之间的间隔越大, 这个码表的具体计算方式不清楚, 通过多次项拟合需要至少4次方到5次方才能拟合。
 差值步长下标变化量码表: 下标从-7到7, ADPCM 队列中每个值可以通过这个直接查表得到下一个值的差值步长的下标变化量, 进而得到下一个值的差值步长. 值在 [-3, 3] 之间的, 变化都是-1, 也就是差值步长变小, 在[-4,-7]和[4,7]的, 变化是2,4,6,8, 可以看到对于-7和7, 差值步长会快速增大。&lt;/p&gt;
 &lt;p&gt;下面给出ADPCM解码和编码C程序&lt;/p&gt;
-&lt;h2 id="adpcm解码代码"&gt;ADPCM解码代码
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h2 id="adpcm解码代码"&gt;ADPCM解码代码&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -1962,8 +1962,8 @@ data-flex-basis="216px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="adpcm编码代码"&gt;ADPCM编码代码
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;/div&gt;&lt;h2 id="adpcm编码代码"&gt;ADPCM编码代码&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -2248,8 +2248,8 @@ data-flex-basis="216px"
 &lt;p&gt;上面是ADPCM的编码与解码算法，注意，上面的算法并不能直接构成一个可执行文件，因为没有main函数入口&lt;/p&gt;
 &lt;p&gt;因为我们的数据是通过python来进行读写的，因此我们要通过python将数据传入ADPCM编码器与解码器的入口，由入口对数据稍作处理，再传入ADPCM算法中进行运算，输出的结果由入口打印出来，打印的结果被python捕获并写入相应的文件中。&lt;/p&gt;
 &lt;p&gt;下面给出ADPCM编解码器的入口&lt;/p&gt;
-&lt;h2 id="adpcmdecmain"&gt;AdpcmDecMain
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h2 id="adpcmdecmain"&gt;AdpcmDecMain&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -2410,8 +2410,8 @@ data-flex-basis="216px"
 &lt;li&gt;在这里敏锐的同学可能会注意到，我们在输入时，&lt;code&gt;valprev&lt;/code&gt;和&lt;code&gt;index&lt;/code&gt;参数是放在数据前面的，而在输出时，则是放在数据后面的，使用的同学需注意这一点，并没有什么特殊含义，只是笔者当初脚本先传的&lt;code&gt;valprev&lt;/code&gt;和&lt;code&gt;index&lt;/code&gt;，而编解码器后给出这两个值，笔者没改过来而已。&lt;/li&gt;
 &lt;li&gt;在此轮解码结束后，编码器将结束生命周期，此时内存将全部释放，&lt;code&gt;valprev&lt;/code&gt;与&lt;code&gt;index&lt;/code&gt;将会丢失，因此必须抛出给python脚本，以供下一次解码时使用&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="adpcmencmain"&gt;AdpcmEncMain
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h2 id="adpcmencmain"&gt;AdpcmEncMain&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -2560,8 +2560,8 @@ data-flex-basis="216px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;编码器入口与解码器入口大差不差，大家仔细阅读即可&lt;/p&gt;
-&lt;h2 id="编译"&gt;编译
-&lt;/h2&gt;&lt;p&gt;在本文中可以看到，我们采用了一个头文件，一个c文件存放编码算法，一个c文件存放程序入口这种形式来组织代码，这样的好处是方便整理代码，可读性更高，但同时呢，无法直接运行，因为编码算法的c文件与程序入口的c文件并没有链接到一起，因此程序入口无法找到&lt;code&gt;adpcm_encoder&lt;/code&gt;和&lt;code&gt;adpcm_decoder&lt;/code&gt;的函数实现，我们需要使用GCC命令来对文件进行手动编译。命令如下：&lt;/p&gt;
+&lt;h2 id="编译"&gt;编译&lt;/h2&gt;
+&lt;p&gt;在本文中可以看到，我们采用了一个头文件，一个c文件存放编码算法，一个c文件存放程序入口这种形式来组织代码，这样的好处是方便整理代码，可读性更高，但同时呢，无法直接运行，因为编码算法的c文件与程序入口的c文件并没有链接到一起，因此程序入口无法找到&lt;code&gt;adpcm_encoder&lt;/code&gt;和&lt;code&gt;adpcm_decoder&lt;/code&gt;的函数实现，我们需要使用GCC命令来对文件进行手动编译。命令如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -2572,19 +2572,19 @@ data-flex-basis="216px"
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这条命令的作用是：&lt;/p&gt;
 &lt;p&gt;将&lt;code&gt;AdpcmDecMain.c&lt;/code&gt;文件与&lt;code&gt;AdpcmDec.c&lt;/code&gt;文件编译并链接在一起，生成一个名为&lt;code&gt;AdpcmDecoder.exe&lt;/code&gt;的可执行文件&lt;/p&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;这篇文章总的来说笔者不是很满意，因为并没有仔细解释ADPCM的原理，笔者认为&lt;a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668" target="_blank" rel="noopener"
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;这篇文章总的来说笔者不是很满意，因为并没有仔细解释ADPCM的原理，笔者认为&lt;a class="link" href="https://blog.csdn.net/michaelchain/article/details/127989668" target="_blank" rel="noopener"
 &gt;ADPCM(自适应差分脉冲编码调制)的原理和计算_单片机使用adpcm音频编解码算法-CSDN博客&lt;/a&gt;这篇文章已经给出的非常详细，笔者解释只是锦上添花，而笔者也没有想到更好的理解方法，如果笔者后续对这些音频算法有更深的理解时，笔者会做出整理。&lt;/p&gt;
 &lt;p&gt;现在给出上面的问题的解释，为什么循环打印&lt;code&gt;outdata&lt;/code&gt;要乘以2，这是因为，我们解码前的数据存储的是前一个数据与后一个数据的差分，仅用4bit存储，而解码后的单个PCM数据就有16bit，但在C语言中，最小存储单位为&lt;code&gt;uint8_t&lt;/code&gt;，即8个比特，在本程序中，解码前的数据用&lt;code&gt;char&lt;/code&gt;存储，也是8个比特，也就是说，一个&lt;code&gt;indata&lt;/code&gt;能存储两个差分数据，即两个解码前的数据，&lt;code&gt;outdata&lt;/code&gt;数组的数据类型是&lt;code&gt;short&lt;/code&gt;即16个比特，一个解码的&lt;code&gt;indata&lt;/code&gt;，解码后需要两个&lt;code&gt;outdata&lt;/code&gt;来存储才行，这样，&lt;code&gt;outdata&lt;/code&gt;的长度就是&lt;code&gt;indata&lt;/code&gt;的2倍&lt;/p&gt;
 &lt;p&gt;为什么编码器的循环要除以4呢，同理，ADPCM的压缩比为4：1，至于为什么是4倍而不是两倍，主要是因为编码器的&lt;code&gt;len&lt;/code&gt;是输入参数的两倍，这与解码器不同，与adpcm算法内部的&lt;code&gt;len&lt;/code&gt;有关。&lt;/p&gt;
 &lt;p&gt;python脚本将在下一篇文章中展现，本文到这里就结束啦，祝大家变得更强！&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;因为语音编解码器功能模块的实现较为复杂，而且也增加了一些新的UI设计，因此知识点与代码都无法在一篇文章中全部呈现，但将代码分散在不同的文章里又让一些基础比较薄弱的同学难以快速上手，因此，如若对此模块感兴趣的人比较多，笔者将在这三篇文章的基础上，单独开一篇新的博文，梳理代码的布局以及如何在自己的机器上跑起来，让新手小白也能复制即用。&lt;/p&gt;
-&lt;/blockquote&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/</link><pubDate>Thu, 12 Dec 2024 19:26:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;距离上次更新PyQt实战系列隔了好久，因为现实中比较忙，而且确实是存货已经用完，现在对脚本集合包更新了一些新的内容，包括：JSON数据的处理，ADPCM音频编解码，PCM二进制文件构建以及PCMM音频播放功能，此外，还有一个数据加密解密算法，与笔者之前的文章&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e9%80%86%e5%90%91%e5%b7%a5%e7%a8%8b%e5%ae%9e%e6%88%98%e5%9c%a8%e5%8f%8d%e6%b1%87%e7%bc%96%e4%b8%ad%e5%8f%91%e7%94%9f%e7%9a%84%e4%ba%8b/" target="_blank" rel="noopener"
+&lt;/blockquote&gt;</description></item><item><title>基于PyQt开发的脚本集合包（十）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/</link><pubDate>Thu, 12 Dec 2024 19:26:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（十）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;距离上次更新PyQt实战系列隔了好久，因为现实中比较忙，而且确实是存货已经用完，现在对脚本集合包更新了一些新的内容，包括：JSON数据的处理，ADPCM音频编解码，PCM二进制文件构建以及PCMM音频播放功能，此外，还有一个数据加密解密算法，与笔者之前的文章&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e9%80%86%e5%90%91%e5%b7%a5%e7%a8%8b%e5%ae%9e%e6%88%98%e5%9c%a8%e5%8f%8d%e6%b1%87%e7%bc%96%e4%b8%ad%e5%8f%91%e7%94%9f%e7%9a%84%e4%ba%8b/" target="_blank" rel="noopener"
 &gt;《逆向工程实战，在反汇编中发生的事》&lt;/a&gt;中的算法一致，是笔者在反汇编的学习中无意间发现的一种数据加密算法，简单且有效，当初逆向该算法时花了不少时间，总之，这些内容后续都会讲到！&lt;/p&gt;
-&lt;h2 id="json数据处理ui"&gt;JSON数据处理UI
-&lt;/h2&gt;&lt;p&gt;本功能的UI设计十分简单，用到的全是PyQt5实战系列提及过的内容，因此本文将不再重复讲解UI界面的代码，但是代码依然会贴出来，如下：&lt;/p&gt;
+&lt;h2 id="json数据处理ui"&gt;JSON数据处理UI&lt;/h2&gt;
+&lt;p&gt;本功能的UI设计十分简单，用到的全是PyQt5实战系列提及过的内容，因此本文将不再重复讲解UI界面的代码，但是代码依然会贴出来，如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -2693,8 +2693,8 @@ data-flex-grow="146"
 data-flex-basis="351px"
 &gt;&lt;/p&gt;
 &lt;p&gt;可以看到，在这个页面下仅有一个文件选择的组件加上一个处理的按钮。非常简单的一个页面设计，本文的重点并不在这个UI设计上，而是在wireshark的抓包数据转换成JSON格式以及python提取JSON数据。&lt;/p&gt;
-&lt;h2 id="json数据的来源"&gt;JSON数据的来源
-&lt;/h2&gt;&lt;p&gt;本文所使用的JSON数据来源于wireshark抓包，wireshark是一个网络封包分析工具，可以截取各种网络数据包，并显示数据包中的各种详细信息，常用于开发测试过程中的问题定位。但笔者并不是用wireshark来处理网络封包，而是处理低功耗蓝牙(BLE)的封包。wireshark本身并没有捕获BLE数据包的能力，但是结合特殊的dongle可以，使用&lt;code&gt;NRF52832 BLE Sniffer&lt;/code&gt;低功耗蓝牙抓包器可以捕捉到到低功耗蓝牙的空中数据，非常实用，感兴趣的同学可以在网上查询相关信息，本文不做赘述。&lt;/p&gt;
+&lt;h2 id="json数据的来源"&gt;JSON数据的来源&lt;/h2&gt;
+&lt;p&gt;本文所使用的JSON数据来源于wireshark抓包，wireshark是一个网络封包分析工具，可以截取各种网络数据包，并显示数据包中的各种详细信息，常用于开发测试过程中的问题定位。但笔者并不是用wireshark来处理网络封包，而是处理低功耗蓝牙(BLE)的封包。wireshark本身并没有捕获BLE数据包的能力，但是结合特殊的dongle可以，使用&lt;code&gt;NRF52832 BLE Sniffer&lt;/code&gt;低功耗蓝牙抓包器可以捕捉到到低功耗蓝牙的空中数据，非常实用，感兴趣的同学可以在网上查询相关信息，本文不做赘述。&lt;/p&gt;
 &lt;p&gt;这里笔者对一个数据包做了筛选，如下图所示，从机通过&lt;code&gt;notify&lt;/code&gt;的形式向主机传递消息，消息通过&lt;code&gt;handle&lt;/code&gt;值为&lt;code&gt;0x97&lt;/code&gt;的特征传递给主机，这里不了解蓝牙的同学可以不用理会，以后笔者会单独出一个蓝牙系列，分享笔者的蓝牙知识。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%8D%81/image-20241212195608490.png"
 width="1637"
@@ -2921,8 +2921,8 @@ data-flex-basis="234px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;而敏锐的同学可以发现，此JSON文件的开头，是&lt;code&gt;[&lt;/code&gt;，也就是说，此JSON文件的框架是&lt;code&gt;[{第一条数据},{第二条数据}....{第n条数据}...]&lt;/code&gt;，这种格式非常适合&lt;code&gt;python&lt;/code&gt;通过&lt;code&gt;list&lt;/code&gt;数据结构进行处理。&lt;/p&gt;
-&lt;h2 id="json数据提取"&gt;JSON数据提取
-&lt;/h2&gt;&lt;p&gt;先来观察我们需要的目标数据，&lt;code&gt;btatt.value&lt;/code&gt;，这是由多层字典嵌套在其中的，因此要依次往上查找不同层级的字典，可以发现：&lt;/p&gt;
+&lt;h2 id="json数据提取"&gt;JSON数据提取&lt;/h2&gt;
+&lt;p&gt;先来观察我们需要的目标数据，&lt;code&gt;btatt.value&lt;/code&gt;，这是由多层字典嵌套在其中的，因此要依次往上查找不同层级的字典，可以发现：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;__source&lt;/li&gt;
@@ -2979,11 +2979,11 @@ data-flex-basis="234px"
 &lt;li&gt;当将所有的内容都写完时，返回每条数据的数据量以及数据总量&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;该方法被单独写在&lt;code&gt;wiresharckJsonProcess.py&lt;/code&gt;文件中，存放在&lt;code&gt;tools&lt;/code&gt;目录下，被UI页面通过&lt;code&gt;import&lt;/code&gt;以模块导入的形式使用。&lt;/p&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;本文的内容并不复杂，主要是如何从&lt;code&gt;wireshark&lt;/code&gt;中导出&lt;code&gt;JSON&lt;/code&gt;数据，以及如何使用&lt;code&gt;python&lt;/code&gt;对数据进行过滤和处理，JSON是非常常用的数据传输和保存格式尤其在网络中非常常用，因此熟练的掌握看懂和处理对程序员来说是值得的，而且并不难不是吗，祝你变得更强！&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（七）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/</link><pubDate>Thu, 07 Nov 2024 15:33:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（七）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;上期文章我们讲了如何去实现一个UTF-8编码的转换器的构造以及代码实现。本期我们实现脚本集合包的第二个脚本（功能）：翻译器。目前，该翻译一起支持中译英，英译中，或自动检测翻译。翻译功能的实现本质上是通过爬虫技术去爬取网页实现的翻译功能，因此翻译功能需要联网才可进行。因此，在设计之初需要注意的是（虽然笔者并不是在设计之初就意识到会有这么多问题）：如何爬取一个网站，如何将需要翻译的内容上传给网站，是否需要判断当前状态是否联网，如何判断是否联网。如果处于断网状态如何处理&amp;hellip;&amp;hellip;接下来两到三篇文章会详细讲述这些问题如何解决。&lt;/p&gt;
-&lt;h2 id="翻译器的ui布局"&gt;翻译器的UI布局
-&lt;/h2&gt;&lt;p&gt;首先先看翻译器的UI布局&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;本文的内容并不复杂，主要是如何从&lt;code&gt;wireshark&lt;/code&gt;中导出&lt;code&gt;JSON&lt;/code&gt;数据，以及如何使用&lt;code&gt;python&lt;/code&gt;对数据进行过滤和处理，JSON是非常常用的数据传输和保存格式尤其在网络中非常常用，因此熟练的掌握看懂和处理对程序员来说是值得的，而且并不难不是吗，祝你变得更强！&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（七）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/</link><pubDate>Thu, 07 Nov 2024 15:33:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（七）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;上期文章我们讲了如何去实现一个UTF-8编码的转换器的构造以及代码实现。本期我们实现脚本集合包的第二个脚本（功能）：翻译器。目前，该翻译一起支持中译英，英译中，或自动检测翻译。翻译功能的实现本质上是通过爬虫技术去爬取网页实现的翻译功能，因此翻译功能需要联网才可进行。因此，在设计之初需要注意的是（虽然笔者并不是在设计之初就意识到会有这么多问题）：如何爬取一个网站，如何将需要翻译的内容上传给网站，是否需要判断当前状态是否联网，如何判断是否联网。如果处于断网状态如何处理&amp;hellip;&amp;hellip;接下来两到三篇文章会详细讲述这些问题如何解决。&lt;/p&gt;
+&lt;h2 id="翻译器的ui布局"&gt;翻译器的UI布局&lt;/h2&gt;
+&lt;p&gt;首先先看翻译器的UI布局&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%83/image-20241107154647692.png"
 width="708"
 height="738"
@@ -3000,9 +3000,9 @@ data-flex-basis="230px"
 &lt;li&gt;&lt;strong&gt;翻译文本框&lt;/strong&gt;：该部分由从左到右三个部分组成，水平布局，第一个文本框是可读写文本框，可输入待翻译的内容，中间是一个按钮，点击按钮则开始翻译，右边文本框是一个只读文本框，在点击翻译按钮后，若翻译成功则会在该文本框中显示翻译后的内容。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;快速翻译&lt;/strong&gt;：快速翻译一个ListView，列表组件，其中存储了一个字典，显示对应的key，点击后会自动访问对应key的value，将value显示出来，无需联网，用于快速反应一些常用常翻译的内容。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="代码解释"&gt;代码解释
-&lt;/h2&gt;&lt;h3 id="创建布局对象"&gt;创建布局对象
-&lt;/h3&gt;&lt;p&gt;根据上述UI的设计，我们可以创建对应的layout对象，并将子布局一次添加进主布局，主布局设置为widget的布局&lt;/p&gt;
+&lt;h2 id="代码解释"&gt;代码解释&lt;/h2&gt;
+&lt;h3 id="创建布局对象"&gt;创建布局对象&lt;/h3&gt;
+&lt;p&gt;根据上述UI的设计，我们可以创建对应的layout对象，并将子布局一次添加进主布局，主布局设置为widget的布局&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -3027,8 +3027,8 @@ data-flex-basis="230px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setLayout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;layout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# 将layout设置为该翻译器widget的布局&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="翻译语言的选择与切换ui设计"&gt;翻译语言的选择与切换UI设计
-&lt;/h3&gt;&lt;p&gt;该部分由两个comboBox（下拉列表）和一个PushButton（按钮）组成&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="翻译语言的选择与切换ui设计"&gt;翻译语言的选择与切换UI设计&lt;/h3&gt;
+&lt;p&gt;该部分由两个comboBox（下拉列表）和一个PushButton（按钮）组成&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -3116,8 +3116,8 @@ data-flex-basis="685px"
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="翻译文本框的ui设计"&gt;翻译文本框的UI设计
-&lt;/h3&gt;&lt;p&gt;该部分是由两个文本框与一个按键组成&lt;/p&gt;
+&lt;h3 id="翻译文本框的ui设计"&gt;翻译文本框的UI设计&lt;/h3&gt;
+&lt;p&gt;该部分是由两个文本框与一个按键组成&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -3159,8 +3159,8 @@ data-flex-basis="685px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这段代码并没有什么需要特殊注意的地方，在之前的文章中我们已经用过多次了&lt;/p&gt;
-&lt;h3 id="快速翻译列表ui设计"&gt;快速翻译列表UI设计
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="快速翻译列表ui设计"&gt;快速翻译列表UI设计&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -3209,8 +3209,8 @@ data-flex-basis="685px"
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;布局代码解释完了，接下来我们看一下实现交互功能的代码：&lt;/p&gt;
-&lt;h3 id="tranasexchange"&gt;tranasexchange
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="tranasexchange"&gt;tranasexchange&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -3231,8 +3231,8 @@ data-flex-basis="685px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这个代码逻辑很简单实际上就是一个获取两个QComboBox的当前选择内容，然后交换它，因为&lt;code&gt;langto&lt;/code&gt;并没有&lt;code&gt;自动检测&lt;/code&gt;这一选项，所以当&lt;code&gt;langfrom&lt;/code&gt;选择的是&lt;code&gt;自动检测&lt;/code&gt;，则切换成&lt;code&gt;English&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id="translating"&gt;translating
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="translating"&gt;translating&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -3263,8 +3263,8 @@ data-flex-basis="685px"
 &lt;li&gt;如果网络没有问题，则不会将获取的文本输出到输出文本框中&lt;/li&gt;
 &lt;li&gt;当然这个网络异常逻辑设计并不完美，因为有可能翻译的内容恰恰是&lt;code&gt;website is not reachable&lt;/code&gt;，这样也会导致UI这一部分误以为是网络异常，从而弹窗警告。更优解时返回两个变量，一个变量是翻译内容，一个变量是网站访问情况。&lt;code&gt;if&lt;/code&gt;检测网站访问情况，如果非200，如404，则抛出弹窗警告。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="modelselected"&gt;modelselected
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="modelselected"&gt;modelselected&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -3284,15 +3284,15 @@ data-flex-basis="685px"
 &lt;li&gt;将元素设置为输入文本框的内容&lt;/li&gt;
 &lt;li&gt;将元素对应的value设置为输出文本框的内容&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="本文要点"&gt;本文要点
-&lt;/h2&gt;&lt;ul&gt;
+&lt;h2 id="本文要点"&gt;本文要点&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;翻译器的主要UI布局其实是模仿目前市面上大多数的翻译器设计的，主要是模仿&lt;strong&gt;微软翻译&lt;/strong&gt;，即：&lt;a class="link" href="https://cn.bing.com/translator?ref=TThis&amp;amp;text=&amp;amp;from=en&amp;amp;to=zh-Hans" target="_blank" rel="noopener"
 &gt;搜索 Microsoft Translator - 从英语翻译到中文 (简体)&lt;/a&gt;。其实，该翻译器的实现，主要也是爬取了微软翻译，翻译器模仿成用户，向微软翻译发送翻译文本，并获取返回的response，拿到翻译后的结果。之所以不爬取有道翻译，是因为有道翻译对爬虫限制很高，现在甚至无法打开开发者工具（如果在有道翻译页面强行打开开发者工具，会导致闪退该页面）。&lt;/li&gt;
 &lt;li&gt;在这个页面的UI设计中，我们加入了许多新玩意儿，比如&lt;code&gt;ListView&lt;/code&gt;，模型类&lt;code&gt;QStandardItemModel&lt;/code&gt;，&lt;code&gt;QComboBox&lt;/code&gt;，等等有趣的东西，想使用但却没有实际例子模仿的小伙伴可以借鉴参考。&lt;/li&gt;
 &lt;li&gt;在本文中我们回答了开头的五个问题中的两个，“是否需要判断当前状态是否联网”答案是：需要判断当前状态是否联网，如果不加以判断，当处于断网时，爬虫无法正常爬取网页，会抛出Error或Exception，如果处理，则会导致程序闪退。&lt;/li&gt;
 &lt;li&gt;“如果处于断网状态如何处理”，答案是，当判断出断网状态时，会抛出弹窗警告，弹窗警告的设计是笔者自做，后续系列更新会介绍。&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（六）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/</link><pubDate>Mon, 04 Nov 2024 21:36:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（六）" /&gt;&lt;h1 id="方法在工程中的位置"&gt;方法在工程中的位置
-&lt;/h1&gt;&lt;p&gt;这一小节需要结合前面的&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%ba%8c/" target="_blank" rel="noopener"
+&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（六）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/</link><pubDate>Mon, 04 Nov 2024 21:36:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（六）" /&gt;&lt;h1 id="方法在工程中的位置"&gt;方法在工程中的位置&lt;/h1&gt;
+&lt;p&gt;这一小节需要结合前面的&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%ba%8c/" target="_blank" rel="noopener"
 &gt;基于PyQt开发的脚本集合包（二）&lt;/a&gt;内容来看，在那一篇文章中，我们讲到，我们讲主界面，功能UI界面，以及实现功能本身的方法分别放在了不同的地方以方便我们维护，此方法属于功能的实现，因此与其它脚本功能一同放在了&lt;code&gt;tools&lt;/code&gt;目录下，如果要调用该功能，则需要使用&lt;code&gt;import&lt;/code&gt;导入模块。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%85%AD/image-20241104210652408.png"
 width="594"
@@ -3304,8 +3304,8 @@ class="gallery-image"
 data-flex-grow="215"
 data-flex-basis="516px"
 &gt;&lt;/p&gt;
-&lt;h1 id="代码解释"&gt;代码解释
-&lt;/h1&gt;&lt;p&gt;convertor模块中并没有类，只有一个方法，即&lt;code&gt;convertor&lt;/code&gt;方法，它接受一个字符串参数，并将字符串进行编码，处理成UTF-8格式，输出十六进制数以及十六进制数的个数&lt;/p&gt;
+&lt;h1 id="代码解释"&gt;代码解释&lt;/h1&gt;
+&lt;p&gt;convertor模块中并没有类，只有一个方法，即&lt;code&gt;convertor&lt;/code&gt;方法，它接受一个字符串参数，并将字符串进行编码，处理成UTF-8格式，输出十六进制数以及十六进制数的个数&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -3358,16 +3358,16 @@ data-flex-basis="516px"
 &lt;li&gt;打印&lt;code&gt;res&lt;/code&gt;结果&lt;/li&gt;
 &lt;li&gt;返回结果以及&lt;code&gt;0x&lt;/code&gt;的计数（通过计算&lt;code&gt;0x&lt;/code&gt;来计算有多少个十六进制数）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id="本文要点"&gt;本文要点
-&lt;/h1&gt;&lt;ul&gt;
+&lt;h1 id="本文要点"&gt;本文要点&lt;/h1&gt;
+&lt;ul&gt;
 &lt;li&gt;本文中展示了，方法在工程中的位置，以及如何在工作区UI对象中导入该模块&lt;/li&gt;
 &lt;li&gt;详细解释了convertor方法如何实现字符串转UTF-8格式&lt;/li&gt;
 &lt;li&gt;其中有许多用法值得我们详细学习，比如&lt;code&gt;join&lt;/code&gt;方法的使用，&lt;code&gt;f'{byte:02x}'&lt;/code&gt;将每个字节转换成十六进制数，&lt;code&gt;upper&lt;/code&gt;方法的使用，&lt;code&gt;[]&lt;/code&gt;的读取范围的规则等&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（五）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/</link><pubDate>Mon, 04 Nov 2024 19:29:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（五）" /&gt;&lt;h1 id="utf-8编码器"&gt;UTF-8编码器
-&lt;/h1&gt;&lt;p&gt;UTF-8（8位元，Universal Character Set/Unicode Transformation Format）是针对Unicode的一种可变长度字符编码。它可以用来表示Unicode标准中的任何字符，而且其编码中的第一个字节仍与ASCII相容，使得原来处理ASCII字符的软件无需或只进行少部分修改后，便可继续使用。&lt;/p&gt;
+&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（五）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/</link><pubDate>Mon, 04 Nov 2024 19:29:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（五）" /&gt;&lt;h1 id="utf-8编码器"&gt;UTF-8编码器&lt;/h1&gt;
+&lt;p&gt;UTF-8（8位元，Universal Character Set/Unicode Transformation Format）是针对Unicode的一种可变长度字符编码。它可以用来表示Unicode标准中的任何字符，而且其编码中的第一个字节仍与ASCII相容，使得原来处理ASCII字符的软件无需或只进行少部分修改后，便可继续使用。&lt;/p&gt;
 &lt;p&gt;比如：在蓝牙领域中，主机与从机自身携带的一些信息如蓝牙名称等，就是由UTF-8编码成十六进制字符串后进行传输，在进行蓝牙开发时，就会经常用到UTF-8编码，因此作者也是自做了一个UTF-8编码器集成到自己的脚本工具包中方便使用。&lt;/p&gt;
-&lt;h1 id="ui设计"&gt;UI设计
-&lt;/h1&gt;&lt;p&gt;首先看成品，这个UTF-8编码器的工作区一共有几个部分组成：&lt;/p&gt;
+&lt;h1 id="ui设计"&gt;UI设计&lt;/h1&gt;
+&lt;p&gt;首先看成品，这个UTF-8编码器的工作区一共有几个部分组成：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104193829566.png"
 width="821"
 height="630"
@@ -3384,8 +3384,8 @@ data-flex-basis="312px"
 &lt;li&gt;&lt;strong&gt;字符数&lt;/strong&gt;：也是只读文本框，在此文本框中，会显示编码结果的字符数，例如：&lt;code&gt;PyQt5&lt;/code&gt;编码后，编码结果为&lt;code&gt;5&lt;/code&gt;个十六进制数，字符数就为5，值得注意的是，&lt;code&gt;字符数&lt;/code&gt;并不是与&lt;code&gt;编码内容&lt;/code&gt;的字符串的长度一定相等，如果你的编码内容中含有中文，1个中文则会有3个十六进制数表示。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;按钮&lt;/strong&gt;：按钮连接了一个方法，在按钮被点击时触发方法，读取&lt;code&gt;编码内容&lt;/code&gt;中的字符串，进行处理，然后再将结果输出再&lt;code&gt;编码结果&lt;/code&gt;与&lt;code&gt;字符数&lt;/code&gt;中。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id="功能ui的存放目录"&gt;功能UI的存放目录
-&lt;/h1&gt;&lt;p&gt;在PyQt的第二篇文章（&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%ba%8c/" target="_blank" rel="noopener"
+&lt;h1 id="功能ui的存放目录"&gt;功能UI的存放目录&lt;/h1&gt;
+&lt;p&gt;在PyQt的第二篇文章（&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e4%ba%8c/" target="_blank" rel="noopener"
 &gt;基于PyQt开发的脚本集合包（二）&lt;/a&gt;）中我们讲到，实现不同功能的UI类是存放在一个相同的目录下，这样方便我们维护，也正是因为功能区的UI放在一个名为Classes的目录下，PrimeWindow不在该目录下。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%94/image-20241104205913266.png"
 width="317"
@@ -3411,9 +3411,9 @@ data-flex-basis="242px"
 &lt;p&gt;这表示：导入&lt;code&gt;Classes&lt;/code&gt;目录下的&lt;code&gt;ConvertorClass&lt;/code&gt;模块，并重命名为&lt;code&gt;ConvertorClass&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;可以回到第四篇文章&lt;a class="link" href="https://www.lyrical-wander.cn/p/%e5%9f%ba%e4%ba%8epyqt%e5%bc%80%e5%8f%91%e7%9a%84%e8%84%9a%e6%9c%ac%e9%9b%86%e5%90%88%e5%8c%85%e5%9b%9b/" target="_blank" rel="noopener"
 &gt;基于PyQt开发的脚本集合包（四）&lt;/a&gt;查看PrimeWindow如何使用这个模块的（在create_stack方法中）。&lt;/p&gt;
-&lt;h1 id="代码解释"&gt;代码解释
-&lt;/h1&gt;&lt;h2 id="def-__init__"&gt;def __init__
-&lt;/h2&gt;&lt;p&gt;先看初始化代码，也是这个UTF-8对象的入口（这个UTF-8编码器是写在另一个目录下的一个类，上一篇文章中讲到的PrimeWindow就是调用了这个UTF-8编码器类，创建了一个编码器对象，这个类继承于Qwidget，因此这个编码器对象可以被看作是一个Qwidget来使用。）&lt;/p&gt;
+&lt;h1 id="代码解释"&gt;代码解释&lt;/h1&gt;
+&lt;h2 id="def-__init__"&gt;def __init__&lt;/h2&gt;
+&lt;p&gt;先看初始化代码，也是这个UTF-8对象的入口（这个UTF-8编码器是写在另一个目录下的一个类，上一篇文章中讲到的PrimeWindow就是调用了这个UTF-8编码器类，创建了一个编码器对象，这个类继承于Qwidget，因此这个编码器对象可以被看作是一个Qwidget来使用。）&lt;/p&gt;
 &lt;p&gt;PS：如果对Qwidget这个概念有些模糊的话请看这里（如果熟悉了PyQt的基本知识请继续往下看），Qwidget本质上是一个组件，和按钮，文本框一样，只不过这个组件中可以放其它的组件，你可以把Qwidget想象成一个容器，这个容器装了许多东西，打包起来，然后再放到另一个容器中，像套娃一样。我们这里就是将上面说的三个文本框与按钮排列好放在一个名为Convertor的Qwidget容器中，然后打包成一个类，可供其它更大的Qwidget（比如PrimeWindow）调用。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -3507,8 +3507,8 @@ data-flex-basis="242px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setLayout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;layout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# 将主布局设置为Qwidget的布局&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="def-converting"&gt;def converting
-&lt;/h2&gt;&lt;p&gt;converting方法是主要实现UTF-8编码的方法的入口，它并不直接完成该任务，而是获取输入文本框的数据，然后传参给真正的编码方法。&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="def-converting"&gt;def converting&lt;/h2&gt;
+&lt;p&gt;converting方法是主要实现UTF-8编码的方法的入口，它并不直接完成该任务，而是获取输入文本框的数据，然后传参给真正的编码方法。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -3530,8 +3530,8 @@ data-flex-basis="242px"
 &lt;li&gt;将结果设置为输出框的文本。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;值得注意的是，这里count变量被形容为self，这也就是说，在同一实例（对象）中，实例中的各个方法（被传入self），都可以调用这个count变量。&lt;/p&gt;
-&lt;h2 id="def-counting"&gt;def counting
-&lt;/h2&gt;&lt;p&gt;counting方法的作用就是将上面得到的count设置为计数文本框中的内容。&lt;/p&gt;
+&lt;h2 id="def-counting"&gt;def counting&lt;/h2&gt;
+&lt;p&gt;counting方法的作用就是将上面得到的count设置为计数文本框中的内容。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -3548,23 +3548,23 @@ data-flex-basis="242px"
 &lt;li&gt;使用&lt;code&gt;setText&lt;/code&gt;方法对某一文本框填入数据时，参数必须为字符串，如果非字符串的参数，必须使用&lt;code&gt;str()&lt;/code&gt;方法转为字符串。&lt;/li&gt;
 &lt;li&gt;更深入了解&lt;code&gt;self&lt;/code&gt;，可支持某一变量在其它方法间共用。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id="本文要点"&gt;本文要点
-&lt;/h1&gt;&lt;ul&gt;
+&lt;h1 id="本文要点"&gt;本文要点&lt;/h1&gt;
+&lt;ul&gt;
 &lt;li&gt;本文中展示了，之前文章中铺垫的，功能区的用法。本质上就是功能区是PrimeWindow这个大的容器（Qwidget）专门空出来的一块地方，可以用来放其它的小的容器（Qwidget），其它的小的容器以对象（实例）的方式被创建，然后存放在抽屉（stack）中，这样我们在切换抽屉时，就是在切换小的容器，实现了大容器不变的情况下，大容器中的某一块区域可以灵活变化。&lt;/li&gt;
 &lt;li&gt;__init__方法是这个对象的入口（创建时被首先调用的函数），当对象被创建时，则会自动地进行初始化，完成整个编译器UI的创建和布局。初始化方法的代码解释写在了代码块中，因为代码较长，如果写出来的话篇幅太大，但是不写的话在CSDN和个人博客中都比较难阅读（无法自动换行），因此建议大家复制下来，贴在VScode中或自己的Typora中看，这样方便一点。&lt;/li&gt;
 &lt;li&gt;按钮连接的方法是使用&lt;code&gt;xxxbtn.clicked.connect(xxxfunction)&lt;/code&gt;，该方法旨在某按键被click（点击）时，调用xxxfunction方法，且可以连接多个方法。&lt;/li&gt;
 &lt;li&gt;converting方法实际上是一个处理API的方法，负责传参与接收结果，convertor方法在下一篇文章中会介绍。&lt;/li&gt;
 &lt;li&gt;counting方法可以被整合到converting方法中，不过整个项目是作者的一个学习过程与心得，这样写是为了方便展示一些特性。&lt;/li&gt;
 &lt;li&gt;如果本文对你有所帮助，请记得给作者的CSDN&lt;strong&gt;点赞收藏&lt;/strong&gt;QAQ，多多逛逛和订阅作者的个人博客，有什么问题或错误请联系作者的CSDN或发送到邮件中，祝大家生活愉快，变得更强！&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（四）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/</link><pubDate>Fri, 01 Nov 2024 10:43:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（四）" /&gt;&lt;h1 id="pyqt主窗口框架设计qwidget"&gt;PyQt主窗口框架设计(QWidget)
-&lt;/h1&gt;&lt;p&gt;PrimeWindow.py的主要作用是绘制主窗口，在主窗口中：&lt;/p&gt;
+&lt;/ul&gt;</description></item><item><title>基于PyQt开发的脚本集合包（四）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/</link><pubDate>Fri, 01 Nov 2024 10:43:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E5%9B%9B/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（四）" /&gt;&lt;h1 id="pyqt主窗口框架设计qwidget"&gt;PyQt主窗口框架设计(QWidget)&lt;/h1&gt;
+&lt;p&gt;PrimeWindow.py的主要作用是绘制主窗口，在主窗口中：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;最左边是各种功能组件的入口，比如：翻译器，UTF-8转换，图像处理等。&lt;/li&gt;
 &lt;li&gt;按下左边的按键，则会切换功能区，切换功能并非重新开一个窗口，而是切换中间部分，这里主要是采用stack的原理&lt;/li&gt;
 &lt;li&gt;最右边是日志打印区，通过重定向的方法，把打印在操作台的内容打印到这个窗口上，这样方便开发人员debug&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="41-import部分"&gt;4.1 import部分
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h2 id="41-import部分"&gt;4.1 import部分&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -3589,8 +3589,8 @@ data-flex-basis="242px"
 &lt;/div&gt;&lt;p&gt;这些引用均来自作者自己的代码，分别保存在Classes目录下和component目录下，从这些目录下import不同的类或方法供PrimeWindow调用。&lt;/p&gt;
 &lt;p&gt;Classes中的各种类，如TranslatorClass，保存着翻译功能的功能区UI结构：翻译按钮，翻译内容输入框以及翻译结果展示框等，以及各组件的摆放位置。&lt;/p&gt;
 &lt;p&gt;component中的各种方法，如btnStyle，该文件中有按钮按下的样式，按钮抬起的样式等，只需在点击按钮时调用该方法即可改变按钮样式。&lt;/p&gt;
-&lt;h2 id="42-重定向操作台输出"&gt;4.2 重定向操作台输出
-&lt;/h2&gt;&lt;p&gt;重定向操作台输出需要调用一些系统方法&lt;/p&gt;
+&lt;h2 id="42-重定向操作台输出"&gt;4.2 重定向操作台输出&lt;/h2&gt;
+&lt;p&gt;重定向操作台输出需要调用一些系统方法&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -3662,8 +3662,8 @@ data-flex-basis="242px"
 &lt;li&gt;确保光标在文本编辑器中可见，特别是光标在底部时，防止用户无法看到最新的插入内容，尤其是文本框不够大时&lt;/li&gt;
 &lt;li&gt;清空output_stream中的内容，将其内容截断为0，使得下一轮输出时不会将之前的内容重复添加&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="43-stacklayout-切换功能"&gt;4.3 stackLayout 切换功能
-&lt;/h2&gt;&lt;blockquote&gt;
+&lt;h2 id="43-stacklayout-切换功能"&gt;4.3 stackLayout 切换功能&lt;/h2&gt;
+&lt;blockquote&gt;
 &lt;p&gt;在PyQt中，&lt;code&gt;QStackLayout&lt;/code&gt;是用于在同一位置上堆叠多个小组件的布局管理器，允许根据需要在它们之间进行切换，这对实现标签页或动态内容展示非常有用&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -3722,8 +3722,8 @@ data-flex-basis="242px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;setCurrentIndex&lt;/code&gt;方法的意思是，stacklayout所占据的这一片区域，可以随意切换成被它add了的widget，它就像一个抽屉一样，抽屉的大小固定，但是这个固定的大小所展示的内容是由你抽出第几层决定。就比如参数为&lt;code&gt;0&lt;/code&gt;，则抽出的是第1个抽屉，这个抽屉是一个widget，这个widget可以套一个layout，其中放各种各样的组件。同理，参数为&lt;code&gt;1&lt;/code&gt;,则表示抽出第2个抽屉，则stacklayout所占据的这一片区域就会切换成第2个抽屉的样子。&lt;/p&gt;
-&lt;h2 id="44-ui初始化"&gt;4.4 UI初始化
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h2 id="44-ui初始化"&gt;4.4 UI初始化&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
 &lt;/span&gt;&lt;span class="lnt"&gt; 2
@@ -3823,10 +3823,10 @@ data-flex-basis="242px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;#------------------ put the layouts in main layout -------------------&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="45-结语"&gt;4.5 结语
-&lt;/h2&gt;&lt;p&gt;到目前为止，我们脚本工具集合包已经具备了初步的大致框架，三大区块已经被划分出来了，接下来的工作将重点放在要开发哪些功能，如何实现这些功能，以及这些功能的UI页面布局。这个系列将会==持续更新==，动手能力强的小伙伴可以根据路线自己实操一遍，后续我也会将完整代码开源带GitHub上（等系类差不多结束的时候），同时系列文章也会同步更新到我的CSDN博客中，如果本系列真的帮助到你，请关注本频道，并给我的CSDN==点赞收藏==QAQ，感激不尽！&lt;/p&gt;
-&lt;p&gt;如有任何疑问，欢迎私信我的CSDN或发邮件到707973090@qq.com，在我看到时会第一时间回复！&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（三）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/</link><pubDate>Fri, 01 Nov 2024 10:40:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（三）" /&gt;&lt;h1 id="pyqt程序入口qmainwindow"&gt;PyQt程序入口（QMainWindow）
-&lt;/h1&gt;&lt;p&gt;main.py是程序的入口，程序最开始运行的文件，在这个文件中，需要完成以下几件事：&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="45-结语"&gt;4.5 结语&lt;/h2&gt;
+&lt;p&gt;到目前为止，我们脚本工具集合包已经具备了初步的大致框架，三大区块已经被划分出来了，接下来的工作将重点放在要开发哪些功能，如何实现这些功能，以及这些功能的UI页面布局。这个系列将会==持续更新==，动手能力强的小伙伴可以根据路线自己实操一遍，后续我也会将完整代码开源带GitHub上（等系类差不多结束的时候），同时系列文章也会同步更新到我的CSDN博客中，如果本系列真的帮助到你，请关注本频道，并给我的CSDN==点赞收藏==QAQ，感激不尽！&lt;/p&gt;
+&lt;p&gt;如有任何疑问，欢迎私信我的CSDN或发邮件到707973090@qq.com，在我看到时会第一时间回复！&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（三）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/</link><pubDate>Fri, 01 Nov 2024 10:40:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%89/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（三）" /&gt;&lt;h1 id="pyqt程序入口qmainwindow"&gt;PyQt程序入口（QMainWindow）&lt;/h1&gt;
+&lt;p&gt;main.py是程序的入口，程序最开始运行的文件，在这个文件中，需要完成以下几件事：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;创建一个MainWindow（主窗口）&lt;/li&gt;
 &lt;li&gt;设置主窗口的标题，图标&lt;/li&gt;
@@ -3924,19 +3924,19 @@ data-flex-basis="242px"
 &lt;/div&gt;&lt;p&gt;最开始进入的地方是：if__name__ == &amp;ldquo;_&lt;em&gt;main&lt;/em&gt;_&amp;rdquo;:&lt;/p&gt;
 &lt;p&gt;app = QApplication(sys.argv)初始化应用程序对象&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;h3 id="1-qapplication"&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;
-&lt;/h3&gt;&lt;ul&gt;
+&lt;h3 id="1-qapplication"&gt;1. &lt;strong&gt;&lt;code&gt;QApplication&lt;/code&gt; 类&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 是 Qt 应用程序的主类，负责管理应用程序的控制流和主要设置。&lt;/li&gt;
 &lt;li&gt;它处理应用程序的主事件循环，并为 GUI 元素提供必要的支持。&lt;/li&gt;
 &lt;li&gt;每个使用 Qt 的应用程序通常需要一个 &lt;code&gt;QApplication&lt;/code&gt; 实例。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="2-sysargv"&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;
-&lt;/h3&gt;&lt;ul&gt;
+&lt;h3 id="2-sysargv"&gt;2. &lt;strong&gt;&lt;code&gt;sys.argv&lt;/code&gt; 的作用&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;sys.argv&lt;/code&gt; 是一个列表，包含命令行参数。这些参数是在运行 Python 脚本时传递的。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;QApplication&lt;/code&gt; 可以使用这些参数来配置应用程序的行为，例如窗口大小、样式等。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="3-初始化应用程序"&gt;3. &lt;strong&gt;初始化应用程序&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;通过 &lt;code&gt;app = QApplication(sys.argv)&lt;/code&gt;，你完成了以下几个步骤：&lt;/p&gt;
+&lt;h3 id="3-初始化应用程序"&gt;3. &lt;strong&gt;初始化应用程序&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;通过 &lt;code&gt;app = QApplication(sys.argv)&lt;/code&gt;，你完成了以下几个步骤：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;创建应用程序对象&lt;/strong&gt;：这行代码创建了一个 &lt;code&gt;QApplication&lt;/code&gt; 的实例，并将命令行参数传递给它。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;设置事件循环&lt;/strong&gt;：这个实例负责管理 GUI 的事件循环，使得应用程序能够响应用户输入和事件（例如鼠标点击、键盘输入等）。&lt;/li&gt;
@@ -3974,9 +3974,9 @@ data-flex-basis="1162px"
 &lt;li&gt;python模块的导入实际上是通过&lt;code&gt;import&lt;/code&gt;来进行导入的，一个模块一旦被导入，后续的导入操作则直接从缓存中读出，而不会重复导入，这就说明，在初次操作时，需要加载导入内容，如果使用“*”，初次导入的时间开销会更多一些，但后续的性能差别并不明显。&lt;/li&gt;
 &lt;li&gt;由于&lt;code&gt;import *&lt;/code&gt;会导入所有的公共成员，因此它可能会占用更多的内存，因此空间开销会更大。&lt;/li&gt;
 &lt;li&gt;使用更明确的导入方式，会有助于代码的可读性，避免不必要的模块加载，减少潜在的时间和空间开销，同时较少命名冲突的风险，这种情况在大型项目中更为明显。&lt;/li&gt;
-&lt;/ol&gt;</description></item><item><title>基于PyQt开发的脚本集合包（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/</link><pubDate>Fri, 01 Nov 2024 10:36:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（二）" /&gt;&lt;h1 id="布局"&gt;布局
-&lt;/h1&gt;&lt;h2 id="21-ui页面布局"&gt;2.1 UI页面布局
-&lt;/h2&gt;&lt;p&gt;整体框架分为分为三个部分，垂直分布。&lt;/p&gt;
+&lt;/ol&gt;</description></item><item><title>基于PyQt开发的脚本集合包（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/</link><pubDate>Fri, 01 Nov 2024 10:36:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（二）" /&gt;&lt;h1 id="布局"&gt;布局&lt;/h1&gt;
+&lt;h2 id="21-ui页面布局"&gt;2.1 UI页面布局&lt;/h2&gt;
+&lt;p&gt;整体框架分为分为三个部分，垂直分布。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;第一个部分为功能选择按钮（如UTF-8转换，翻译器等）&lt;/p&gt;
@@ -4012,11 +4012,11 @@ class="gallery-image"
 data-flex-grow="435"
 data-flex-basis="1045px"
 &gt;&lt;/p&gt;
-&lt;h2 id="22-工程布局"&gt;2.2 工程布局
-&lt;/h2&gt;&lt;p&gt;在创作自己的程序前（如果是较大的程序），最好需要规划一下自己的工程结构，用多个不同的目录保存不同的资源，如图像，文本，代码等，而代码中，实现不同功能的subprograms（子程序）也可以再细分在不同的目录中，尤其是可以多个subprogram（子程序）反复调用的subprograms（子程序）或scripts（脚本）。&lt;/p&gt;
+&lt;h2 id="22-工程布局"&gt;2.2 工程布局&lt;/h2&gt;
+&lt;p&gt;在创作自己的程序前（如果是较大的程序），最好需要规划一下自己的工程结构，用多个不同的目录保存不同的资源，如图像，文本，代码等，而代码中，实现不同功能的subprograms（子程序）也可以再细分在不同的目录中，尤其是可以多个subprogram（子程序）反复调用的subprograms（子程序）或scripts（脚本）。&lt;/p&gt;
 &lt;p&gt;我的工程布局意识也是在这个项目中不断完善的，还有一些不足和错误的地方也在不断更新中。&lt;/p&gt;
-&lt;h3 id="一级目录"&gt;一级目录
-&lt;/h3&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861.png"
+&lt;h3 id="一级目录"&gt;一级目录&lt;/h3&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861.png"
 width="398"
 height="274"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_d6eb940d60ce7af1.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022153614861_hu_49da79c5abc895e7.png 1024w"
@@ -4032,8 +4032,8 @@ data-flex-basis="348px"
 &lt;li&gt;workspaces目录是运行时创建的保存文件目录，因为我的项目中，有一些功能或脚本会产生新的文件，我希望它们被保存在一个统一的空间，看起来不会太过混乱，因此专门设计了这一个功能：在程序运行时，创建一个workspaces目录，以后若产生新的文件，统一保存在workspaces目录下&lt;/li&gt;
 &lt;li&gt;BingTranslator.py与test.py是两个测试脚本，目前已经失去了作用&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="src目录"&gt;src目录
-&lt;/h3&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660.png"
+&lt;h3 id="src目录"&gt;src目录&lt;/h3&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660.png"
 width="478"
 height="557"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_970be1414d339013.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%BA%8C/image-20241022161315660_hu_6313a2f618c6729b.png 1024w"
@@ -4054,25 +4054,25 @@ data-flex-basis="205px"
 &lt;li&gt;main.py：该文件时程序的入口，与C程序的main相同。打包时需要指定程序入口，即该文件&lt;/li&gt;
 &lt;li&gt;PrimeWindow.py：主UI框架，即主窗口，上面Classes中的UI仅为功能区UI，属于主窗口的三部分之一&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="23-布局思想"&gt;2.3 布局思想
-&lt;/h2&gt;&lt;p&gt;我的布局思想是在不断碰壁的过程中自己摸索出来的，在开发这个程序之初并没有想把它做成一个完整的具有UI界面的功能集合包，因此一开始并没有工程布局的概念，需要做什么便在src下新建一个文件开始编码，这种习惯的弊端在随着程序愈发庞大而变得愈发清晰，使程序越来越难管理且开发难度增大。之后抽时间将程序整理了一遍，便形成了这种布局。&lt;strong&gt;个人观念，仅供参考。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="23-布局思想"&gt;2.3 布局思想&lt;/h2&gt;
+&lt;p&gt;我的布局思想是在不断碰壁的过程中自己摸索出来的，在开发这个程序之初并没有想把它做成一个完整的具有UI界面的功能集合包，因此一开始并没有工程布局的概念，需要做什么便在src下新建一个文件开始编码，这种习惯的弊端在随着程序愈发庞大而变得愈发清晰，使程序越来越难管理且开发难度增大。之后抽时间将程序整理了一遍，便形成了这种布局。&lt;strong&gt;个人观念，仅供参考。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;我的工程布局思想主要遵循两个原则：&lt;/p&gt;
-&lt;h3 id="归类"&gt;归类
-&lt;/h3&gt;&lt;p&gt;相同属性或相同功能或本质相同的文件放在一个目录下，如：图片，文本等文件属于输入文件，只可被调用，因此放在同一目录res下，当然，res下可再做区分，img，icon，txt等。不同的功能区UI可放在同一目录下，这样可以将primeWindow与功能UI区分开来，且方便primeWindow调用功能UI，来实现功能的切换。功能的实现放在tools目录下，classes可以调用tools下相应的功能。tools目录下，部分功能过于复杂无法用一个文件完成也可以再建立子目录。&lt;/p&gt;
-&lt;h3 id="重复调用"&gt;重复调用
-&lt;/h3&gt;&lt;p&gt;如果遇到需要反复调用的功能，可集成出来单独形成一个方法单独存放，方便不同文件的调用，而不需要重复实现，如文本框，单行文本框，按钮等样式，实现选择文件等功能&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/</link><pubDate>Fri, 01 Nov 2024 10:30:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（一）" /&gt;&lt;h1 id="前言"&gt;前言
-&lt;/h1&gt;&lt;p&gt;作者因为工作需要，用python写了一些脚本用于数据处理，UTF-8转换，以及一些我的工作专属脚本，又因为想要偷懒，用爬虫爬取了微软翻译的页面做了一个自己的翻译器，近来突发奇想，想要把各种python写的脚本整合到一起，并写一个GUI应用程序，因此PyQt进入了我的视野。想着用业余时间一点一点摸索，到目前为止算是做的有模有样，现写博客记录下来。&lt;/p&gt;
+&lt;h3 id="归类"&gt;归类&lt;/h3&gt;
+&lt;p&gt;相同属性或相同功能或本质相同的文件放在一个目录下，如：图片，文本等文件属于输入文件，只可被调用，因此放在同一目录res下，当然，res下可再做区分，img，icon，txt等。不同的功能区UI可放在同一目录下，这样可以将primeWindow与功能UI区分开来，且方便primeWindow调用功能UI，来实现功能的切换。功能的实现放在tools目录下，classes可以调用tools下相应的功能。tools目录下，部分功能过于复杂无法用一个文件完成也可以再建立子目录。&lt;/p&gt;
+&lt;h3 id="重复调用"&gt;重复调用&lt;/h3&gt;
+&lt;p&gt;如果遇到需要反复调用的功能，可集成出来单独形成一个方法单独存放，方便不同文件的调用，而不需要重复实现，如文本框，单行文本框，按钮等样式，实现选择文件等功能&lt;/p&gt;</description></item><item><title>基于PyQt开发的脚本集合包（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/</link><pubDate>Fri, 01 Nov 2024 10:30:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Epyqt%E5%BC%80%E5%8F%91%E7%9A%84%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88%E5%8C%85%E4%B8%80/PythonForQt.png" alt="Featured image of post 基于PyQt开发的脚本集合包（一）" /&gt;&lt;h1 id="前言"&gt;前言&lt;/h1&gt;
+&lt;p&gt;作者因为工作需要，用python写了一些脚本用于数据处理，UTF-8转换，以及一些我的工作专属脚本，又因为想要偷懒，用爬虫爬取了微软翻译的页面做了一个自己的翻译器，近来突发奇想，想要把各种python写的脚本整合到一起，并写一个GUI应用程序，因此PyQt进入了我的视野。想着用业余时间一点一点摸索，到目前为止算是做的有模有样，现写博客记录下来。&lt;/p&gt;
 &lt;p&gt;这个GUI程序会分成一个系列更新，把我的UI框架，布局，工程整理，功能编写等等都写出来，包括：利用爬虫爬取微软翻译来做自己的翻译器，图像处理等。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本脚本工具包还在持续更新（部分功能我也还没有完成），目前还没有做完的功能有：做音频数据处理（抓取BLE音频数据包，自动去包头去CRC校验，获取raw data的功能），音频编解码（利用市面上常见开源编解码器对音频数据进行编码或解码，ADPCM，SBC等），后续根据需要和精力，看能不能做音频数据的时域频域转换器等等。都是美好幻想，敬请期待！&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;因为程序还在不断地完善更新，所以到系列结束时，代码应该就已经更新完成了，到时候我会将代码开源到我的GitHub仓库上，有兴趣的小伙伴可以下载使用或交流学习。本系列文章也会同步更新到我的CSDN博客中，如果小伙伴们觉得本系列对你有帮助，麻烦点个赞与收藏，感激不敬！&lt;/p&gt;
-&lt;h1 id="环境配置"&gt;环境配置
-&lt;/h1&gt;&lt;h2 id="11-python环境"&gt;1.1 Python环境
-&lt;/h2&gt;&lt;h3 id="python下载"&gt;python下载
-&lt;/h3&gt;&lt;p&gt;python下载网上有许多教程，这里不赘述了，我的编程环境是vscode，创建虚拟环境，&lt;/p&gt;
-&lt;h3 id="创建虚拟环境"&gt;创建虚拟环境
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h1 id="环境配置"&gt;环境配置&lt;/h1&gt;
+&lt;h2 id="11-python环境"&gt;1.1 Python环境&lt;/h2&gt;
+&lt;h3 id="python下载"&gt;python下载&lt;/h3&gt;
+&lt;p&gt;python下载网上有许多教程，这里不赘述了，我的编程环境是vscode，创建虚拟环境，&lt;/p&gt;
+&lt;h3 id="创建虚拟环境"&gt;创建虚拟环境&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -4091,8 +4091,8 @@ data-flex-basis="205px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 看列表中是否有PyQt5相关的包&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="12-pyqt5安装"&gt;1.2 PyQt5安装
-&lt;/h2&gt;&lt;p&gt;创建好虚拟环境后先进入虚拟环境，然后在该虚拟环境中下载PyQt5&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="12-pyqt5安装"&gt;1.2 PyQt5安装&lt;/h2&gt;
+&lt;p&gt;创建好虚拟环境后先进入虚拟环境，然后在该虚拟环境中下载PyQt5&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -4114,8 +4114,8 @@ data-flex-basis="205px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 如果没有报错，则说明安装成功&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="13-pyinstaller"&gt;1.3 Pyinstaller
-&lt;/h2&gt;&lt;p&gt;打包命令：&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="13-pyinstaller"&gt;1.3 Pyinstaller&lt;/h2&gt;
+&lt;p&gt;打包命令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1

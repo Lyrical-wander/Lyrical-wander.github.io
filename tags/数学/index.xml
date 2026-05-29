@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>数学 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/%E6%95%B0%E5%AD%A6/</link><description>Recent content in 数学 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Mon, 20 Jan 2025 13:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>Q-learning强化算法详解</title><link>https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/</link><pubDate>Mon, 20 Jan 2025 13:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/image.jpg" alt="Featured image of post Q-learning强化算法详解" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;Hi,everyone，相信现在看到这篇文章的程序员或者未来的程序员们，或多或少在曾经某个懵懂的青春岁月里都想过“我以后要做一款属于自己的游戏！”这样美好的念头。当然，时过境迁，有的忘记了曾经的誓言，有的当一个笑话，不管怎么说，今天我们来聊聊，但不是说我们要开始制作出LOL那样的MOBA类游戏，也不是CS那样的FPS游戏，甚至不是一款游戏，而是游戏的一部分——游戏AI。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>数学 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/%E6%95%B0%E5%AD%A6/</link><description>Recent content in 数学 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Mon, 20 Jan 2025 13:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>Q-learning强化算法详解</title><link>https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/</link><pubDate>Mon, 20 Jan 2025 13:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/image.jpg" alt="Featured image of post Q-learning强化算法详解" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;Hi,everyone，相信现在看到这篇文章的程序员或者未来的程序员们，或多或少在曾经某个懵懂的青春岁月里都想过“我以后要做一款属于自己的游戏！”这样美好的念头。当然，时过境迁，有的忘记了曾经的誓言，有的当一个笑话，不管怎么说，今天我们来聊聊，但不是说我们要开始制作出LOL那样的MOBA类游戏，也不是CS那样的FPS游戏，甚至不是一款游戏，而是游戏的一部分——游戏AI。&lt;/p&gt;
 &lt;p&gt;当然，游戏AI也有多种多样的，有与人进行博弈的，有伪装成玩家的解决游戏问题的，甚至，在大语言模型盛行的今天，也有进行文字情感交流的。但归根结底，笔者认为它们都有一些共通点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;能够获取环境输入&lt;/li&gt;
@@ -10,30 +10,30 @@
 &lt;p&gt;如三国志（顺便一提，笔者非常喜欢玩三国志13和14），总而言之呢，我们的目标，就是设计一个智能体，它能获得环境（游戏内的场景战况等whatever）的输入，能处理环境，并输出一个行为（上下左右跳跑等whatever），这个行为会导致环境发生变化，环境的变化会给予智能体一个反馈，让它能够计算自己距离目标（广义上的距离，不一定是位置的移动，也可能是击中数击杀数最终胜利等whatever），来判断和抉择下一步行为。&lt;/p&gt;
 &lt;p&gt;要设计这样一个智能体，我们理所当然地想到&lt;strong&gt;强化学习&lt;/strong&gt;，至此引出本文的第一个重点概念：&lt;strong&gt;什么是强化学习&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;本文将近万字，制作不易，请各位读者老爷不吝赏一个赞吧！这对我来说真的很重要，感谢感谢！&lt;/p&gt;
-&lt;h2 id="强化学习"&gt;强化学习
-&lt;/h2&gt;&lt;h3 id="什么是强化学习"&gt;什么是强化学习
-&lt;/h3&gt;&lt;p&gt;强化学习方法起源于动物心理学的相关原理，模仿人类和动物学习的试错机制，是通过与环境交互，学习状态到行为的映射关系，以获得最大累计期望回报的方法。状态到行为的映射关系也即策略，表示在各个状态下，智能体采取的行为或行为概率。&lt;/p&gt;
+&lt;h2 id="强化学习"&gt;强化学习&lt;/h2&gt;
+&lt;h3 id="什么是强化学习"&gt;什么是强化学习&lt;/h3&gt;
+&lt;p&gt;强化学习方法起源于动物心理学的相关原理，模仿人类和动物学习的试错机制，是通过与环境交互，学习状态到行为的映射关系，以获得最大累计期望回报的方法。状态到行为的映射关系也即策略，表示在各个状态下，智能体采取的行为或行为概率。&lt;/p&gt;
 &lt;p&gt;强化学习就像是人类的学习，本质上是通过与环境交互进行学习，智能体会从与环境交互的过程中获得反馈，可能是正反馈也可能是负反馈，这种反馈经验刺激智能体去拟合出一条奖励更多或者损失更小的路线。从交互中学习就是强化学习的理论基础概念。&lt;/p&gt;
 &lt;p&gt;强化学习是通过智能体与环境的交互，学习状态到行为之间的映射关系，因此，它包括&lt;strong&gt;智能体&lt;/strong&gt;和&lt;strong&gt;环境&lt;/strong&gt;两大对象。同时，还需要注意的是，强化学习是与时间序列有关的。&lt;/p&gt;
-&lt;h3 id="智能体"&gt;智能体
-&lt;/h3&gt;&lt;p&gt;智能体，指的是要完成某项任务的对象，强化学习的最终目的，是让智能体通过大量的学习，能够在环境中完成某个目的。在一个离散的时间序列t=0,1,2&amp;hellip;.中，智能体会在每一个时间$t_n$内，从环境中接收一个状态$s_t$和回报$r_t$，并通过$r_t$和当前自身所处的状态$s_t$，以及已产生的经验教训判断，产生下一步$a_{t+1}$，以期望获得最大的回报。&lt;/p&gt;
-&lt;h3 id="环境"&gt;环境
-&lt;/h3&gt;&lt;p&gt;环境，指的是智能体所处的环境环境范围，其包含智能体可变更的状态集合以及每一种状态所获得的回报，例如：环境可以是一个二维的4*4地图，其中包含了智能体可以行进的16个位置以及每个位置对应的智能体到达该位置时可获得的回报。在离散的时间序列t=0,1,2,&amp;hellip;中，智能体会在每个时间$t_n$内进行相应的行为$a_t$，该行为会使智能体的环境发生改变（也可能不会发生改变），环境会向智能体反馈当前的状态$s_t$和回报$r_t$。&lt;/p&gt;
-&lt;h3 id="强化学习原理"&gt;强化学习原理
-&lt;/h3&gt;&lt;p&gt;智能体不会被告知其在当前状态下，下一步行为应当采取何种行为，只能通过不断地尝试每一种动作，并收集环境中给予的反馈，来改善自己的行为，其改善行为的本质，就是追求回报最大化或损失最小化，在经过不断地尝试（多次迭代）后，智能体的行为会收敛成某个路径，即学习到最优的行为方式。&lt;/p&gt;
+&lt;h3 id="智能体"&gt;智能体&lt;/h3&gt;
+&lt;p&gt;智能体，指的是要完成某项任务的对象，强化学习的最终目的，是让智能体通过大量的学习，能够在环境中完成某个目的。在一个离散的时间序列t=0,1,2&amp;hellip;.中，智能体会在每一个时间$t_n$内，从环境中接收一个状态$s_t$和回报$r_t$，并通过$r_t$和当前自身所处的状态$s_t$，以及已产生的经验教训判断，产生下一步$a_{t+1}$，以期望获得最大的回报。&lt;/p&gt;
+&lt;h3 id="环境"&gt;环境&lt;/h3&gt;
+&lt;p&gt;环境，指的是智能体所处的环境环境范围，其包含智能体可变更的状态集合以及每一种状态所获得的回报，例如：环境可以是一个二维的4*4地图，其中包含了智能体可以行进的16个位置以及每个位置对应的智能体到达该位置时可获得的回报。在离散的时间序列t=0,1,2,&amp;hellip;中，智能体会在每个时间$t_n$内进行相应的行为$a_t$，该行为会使智能体的环境发生改变（也可能不会发生改变），环境会向智能体反馈当前的状态$s_t$和回报$r_t$。&lt;/p&gt;
+&lt;h3 id="强化学习原理"&gt;强化学习原理&lt;/h3&gt;
+&lt;p&gt;智能体不会被告知其在当前状态下，下一步行为应当采取何种行为，只能通过不断地尝试每一种动作，并收集环境中给予的反馈，来改善自己的行为，其改善行为的本质，就是追求回报最大化或损失最小化，在经过不断地尝试（多次迭代）后，智能体的行为会收敛成某个路径，即学习到最优的行为方式。&lt;/p&gt;
 &lt;p&gt;当然，这仅是笼统的强化学习原理，智能体作为一个学习行为的对象，其不一定只能通过试完每一步行为才能收敛，开发者可以通过一些算法，来加速最优行为的收敛。&lt;/p&gt;
-&lt;h2 id="q-learning"&gt;Q-learning
-&lt;/h2&gt;&lt;p&gt;Q-learning 是一种强化学习算法，其核心是一个叫Q表的表格Q(state, action)，这个表格一轴表示state（状态），一轴表示action（行为），&lt;strong&gt;Q(i,j) = k&lt;/strong&gt;就表示智能体在 i 这个状态下，如果采取 j 这个行为会带来奖励 k ，Q表示Q-learning算法的核心，用来记录不同状态下不同行为的收益，随着迭代次数的增加，Q函数会被拟合得越来越好直至收敛或者达到指定的迭代次数。&lt;/p&gt;
+&lt;h2 id="q-learning"&gt;Q-learning&lt;/h2&gt;
+&lt;p&gt;Q-learning 是一种强化学习算法，其核心是一个叫Q表的表格Q(state, action)，这个表格一轴表示state（状态），一轴表示action（行为），&lt;strong&gt;Q(i,j) = k&lt;/strong&gt;就表示智能体在 i 这个状态下，如果采取 j 这个行为会带来奖励 k ，Q表示Q-learning算法的核心，用来记录不同状态下不同行为的收益，随着迭代次数的增加，Q函数会被拟合得越来越好直至收敛或者达到指定的迭代次数。&lt;/p&gt;
 &lt;p&gt;下面笔者将分别介绍智能体与环境两个对象，并以gym库提供的模拟游戏环境FrozenLake为例，实现Q-learning算法，训练一个智能体。&lt;/p&gt;
-&lt;h2 id="q-learning智能体"&gt;Q-learning智能体
-&lt;/h2&gt;&lt;p&gt;我们知道，Q-learning算法是一种强化学习算法，强化学习有&lt;strong&gt;智能体&lt;/strong&gt;与&lt;strong&gt;环境&lt;/strong&gt;两个对象，本小节我们就来介绍Q-learning智能体。&lt;/p&gt;
+&lt;h2 id="q-learning智能体"&gt;Q-learning智能体&lt;/h2&gt;
+&lt;p&gt;我们知道，Q-learning算法是一种强化学习算法，强化学习有&lt;strong&gt;智能体&lt;/strong&gt;与&lt;strong&gt;环境&lt;/strong&gt;两个对象，本小节我们就来介绍Q-learning智能体。&lt;/p&gt;
 &lt;p&gt;Q-learning智能体自身主要是有两个主要动作：&lt;strong&gt;选择行为&lt;/strong&gt;，&lt;strong&gt;更新Q表&lt;/strong&gt;。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;选择行为：指的是智能体在接收外部给予的信息后，选择下一步行动的过程，其中，智能体需判断是否进行探索？如果不探索，该以何种方式来选择行为？&lt;/li&gt;
 &lt;li&gt;更新Q表：在选择行为后，智能体会从外部环境接收信息，然后根据外部环境提供的回报，状态等信息来更新Q表。更新Q表的函数笔者会在后面给出并详细解释。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="参数解释"&gt;参数解释
-&lt;/h3&gt;&lt;p&gt;Q-learning智能体自身维护了一个Q表，在初始化Q-learning时会初始化自身的Q表，与此同时，智能体还需输入几个参数：学习率、折扣因子（奖励衰减）、贪婪度。&lt;/p&gt;
+&lt;h3 id="参数解释"&gt;参数解释&lt;/h3&gt;
+&lt;p&gt;Q-learning智能体自身维护了一个Q表，在初始化Q-learning时会初始化自身的Q表，与此同时，智能体还需输入几个参数：学习率、折扣因子（奖励衰减）、贪婪度。&lt;/p&gt;
 &lt;p&gt;在解释上面几个参数之前，我们要先给出几个词的定义，以避免在解释参数时产生误解：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;回报&lt;/strong&gt;：回报指的是环境给予智能体的反馈，是外部输入，比如：掉进冰湖为-1，到达终点为1，正常路径为0等，当智能体处于某一状态时，，就算它在原地打转或再次回到此处，它所获得的回报是相同的。&lt;/li&gt;
@@ -72,8 +72,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;由于笔者的模拟环境为gym库提供的ForzenLake，这里的n_states是冰湖的地图大小，即4 * 4 = 16个格子，行为数为4，分别是向左，向下，向右，向上移动。&lt;/p&gt;
-&lt;h3 id="行为选择"&gt;行为选择
-&lt;/h3&gt;&lt;p&gt;现在我们来看一看智能体是如何选择自己的行为的，智能体的行为选择策略原理非常简单，大伙简单看看，理解就行。&lt;/p&gt;
+&lt;h3 id="行为选择"&gt;行为选择&lt;/h3&gt;
+&lt;p&gt;现在我们来看一看智能体是如何选择自己的行为的，智能体的行为选择策略原理非常简单，大伙简单看看，理解就行。&lt;/p&gt;
 &lt;p&gt;当智能体到达某一状态（位置）时，首先会开始选择行为，即接下来我该往哪个方向走。但在动脚起身之前，我们先要抛一个硬币，诶，就是贪婪度，在上面的初始化过程中，我们将贪婪度设置为0.1，即我们获取一个随机数，当数小于0.1时，则采取探索策略，当数大于0.1时，我们按照正常的策略前进，毕竟人不能太贪婪嘛（智能体也是）。&lt;/p&gt;
 &lt;p&gt;最简单的贪婪策略就是随机，即随机选择一个行为，根本不在乎Q表上记录了哪一行为奖励最高（就是任性！）。当然你也可以选择其它的贪婪策略，根据自己的需要选择，但切记，贪婪的目的是为了让智能体尝试采取其它行为，不束缚于“经验主义”，陷入局部最优解之中。试想以一下，当智能体来到一个岔路口，它曾经走过向左的方向，也确实从左方能够到达终点获得相应的回报，但从上帝视角来看，往右走会有一条更近的路抵达终点，但是由于智能体没去过，且贪婪度为0，那么它将“永远”不会尝试这条路。&lt;/p&gt;
 &lt;p&gt;正常策略即通过Q表，来选择最优行为了，因为智能体会根据环境的反馈以及Q表更新函数，来记录哪一个行为它曾经试过且“最好”，因此，它会选择那个最优的行为，也就是上面那个例子中的“向左走”，因为它曾经确实走通过这条路，并拿到过不错的回报。&lt;/p&gt;
@@ -109,8 +109,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_indices&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="q表更新"&gt;Q表更新
-&lt;/h3&gt;&lt;p&gt;终于到Q表更新了，这个更新是Q-learning算法的一大难点，也牵扯到上面的两大参数学习率与折扣因子，因此我们必须好好聊聊这个函数：
+&lt;/div&gt;&lt;h3 id="q表更新"&gt;Q表更新&lt;/h3&gt;
+&lt;p&gt;终于到Q表更新了，这个更新是Q-learning算法的一大难点，也牵扯到上面的两大参数学习率与折扣因子，因此我们必须好好聊聊这个函数：
 &lt;/p&gt;
 $$
 Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[R_{t+1} + \gamma max_{a'}(s_{t+1},a') - Q(s_t,a_t)]
@@ -216,8 +216,8 @@ $$&lt;p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;###################### 当开启手动修改Q值时，会加速迭代的速度，但会影响学习曲线 #########################&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="forzenlake模拟环境"&gt;ForzenLake模拟环境
-&lt;/h2&gt;&lt;p&gt;gym库是由OpenAI推出的一个强化学习实验环境库，FrozenLake就是其库下的一个游戏模拟环境，简单介绍一下游戏规则：&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="forzenlake模拟环境"&gt;ForzenLake模拟环境&lt;/h2&gt;
+&lt;p&gt;gym库是由OpenAI推出的一个强化学习实验环境库，FrozenLake就是其库下的一个游戏模拟环境，简单介绍一下游戏规则：&lt;/p&gt;
 &lt;p&gt;环境设定为游戏角色在结冰的湖面中前进，寻找宝箱，但在冰湖中存在着一些洞，一旦掉入冰洞则失败，游戏结束，找到宝箱则成功，游戏结束。&lt;/p&gt;
 &lt;p&gt;以一个4*4的小冰湖地图为例：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/q-learning%E5%BC%BA%E5%8C%96%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/image-20250120164749605.png"
@@ -317,10 +317,10 @@ data-flex-basis="220px"
 &lt;li&gt;is_slippery：控制移动的随机性，True（默认），智能体执行动作时有1/3概率打滑，False则执行动作是确定的（智能体严格按照指定方向移动）&lt;/li&gt;
 &lt;li&gt;render_mode：设置环境渲染模式，human在屏幕上实时显示图形化界面，ansi在终端输出文本网格，None不渲染（默认）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;上面，咱们完整地讲解了Q-learning算法的基本原理，智能体与环境如何实现，有什么难点和需要掌握的地方，总的来说，Q-learning的本质核心其实也就是强化学习的本质核心——试错！只有在不断地跌倒和捶打中，才能诞生强大的智能体！抓住这一核心，其余的部分都可以做优化和修改，包括最关键的Q表更新函数，只要能够让智能体进化以达到自身目的，将其改的面目全非甚至不是Q-learning了又何尝不可呢，笔者只是通过Q-learning来初步学习强化学习，而强化学习并非只有Q-learning。笔者也把当初自己在学习过程中遇到的难点给详细阐述了一遍，当然笔者的语言功底有限，或许有部分还未讲清楚，也欢迎各位大佬留言。当笔者进一步学习其它强化学习知识点和算法的时候，再出文章，那么，下篇文章再见啦，祝各位变得更强！&lt;/p&gt;
-&lt;h2 id="完整代码"&gt;完整代码
-&lt;/h2&gt;&lt;p&gt;这代码笔者参考了下面参考文章的代码，浅浅修改了一些地方，并添加了一些注释，仅供参考：&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;上面，咱们完整地讲解了Q-learning算法的基本原理，智能体与环境如何实现，有什么难点和需要掌握的地方，总的来说，Q-learning的本质核心其实也就是强化学习的本质核心——试错！只有在不断地跌倒和捶打中，才能诞生强大的智能体！抓住这一核心，其余的部分都可以做优化和修改，包括最关键的Q表更新函数，只要能够让智能体进化以达到自身目的，将其改的面目全非甚至不是Q-learning了又何尝不可呢，笔者只是通过Q-learning来初步学习强化学习，而强化学习并非只有Q-learning。笔者也把当初自己在学习过程中遇到的难点给详细阐述了一遍，当然笔者的语言功底有限，或许有部分还未讲清楚，也欢迎各位大佬留言。当笔者进一步学习其它强化学习知识点和算法的时候，再出文章，那么，下篇文章再见啦，祝各位变得更强！&lt;/p&gt;
+&lt;h2 id="完整代码"&gt;完整代码&lt;/h2&gt;
+&lt;p&gt;这代码笔者参考了下面参考文章的代码，浅浅修改了一些地方，并添加了一些注释，仅供参考：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -525,27 +525,27 @@ data-flex-basis="220px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;Average test reward: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_rewards&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="参考文章"&gt;参考文章
-&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/universsky2015/article/details/132138174?ops_request_misc=%7B%22request%5Fid%22%3A%220aaa40bf6ecabd8c95b05e8445c140b6%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fblog.%22%7D&amp;amp;request_id=0aaa40bf6ecabd8c95b05e8445c140b6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-7-132138174-null-null.nonecase&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;spm=1018.2226.3001.4450" target="_blank" rel="noopener"
+&lt;/div&gt;&lt;h2 id="参考文章"&gt;参考文章&lt;/h2&gt;
+&lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/universsky2015/article/details/132138174?ops_request_misc=%7B%22request%5Fid%22%3A%220aaa40bf6ecabd8c95b05e8445c140b6%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fblog.%22%7D&amp;amp;request_id=0aaa40bf6ecabd8c95b05e8445c140b6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-7-132138174-null-null.nonecase&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;spm=1018.2226.3001.4450" target="_blank" rel="noopener"
 &gt;智能体入门——遗传算法与Qlearning_genetic algorithm和qlearning的区别和关系-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/shoppingend/article/details/124291112?ops_request_misc=%7B%22request%5Fid%22%3A%221dd02de3faea5040794f77b39343d4c6%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;amp;request_id=1dd02de3faea5040794f77b39343d4c6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-124291112-null-null.142%5ev101%5epc_search_result_base5&amp;amp;utm_term=Qlearning&amp;amp;spm=1018.2226.3001.4187" target="_blank" rel="noopener"
 &gt;【强化学习】Q-Learning算法详解-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/qq_43774332/article/details/131083767?ops_request_misc=%7B%22request%5Fid%22%3A%221dd02de3faea5040794f77b39343d4c6%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;amp;request_id=1dd02de3faea5040794f77b39343d4c6&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-131083767-null-null.142%5ev101%5epc_search_result_base5&amp;amp;utm_term=Qlearning&amp;amp;spm=1018.2226.3001.4187" target="_blank" rel="noopener"
 &gt;【机器学习】Q-Learning详细介绍-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://zhuanlan.zhihu.com/p/343668723" target="_blank" rel="noopener"
-&gt;强化学习之迷宫Q-Learning实践笔记——入门篇 - 知乎&lt;/a&gt;&lt;/p&gt;</description></item><item><title>遗传算法</title><link>https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link><pubDate>Sat, 21 Dec 2024 13:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image.jpg" alt="Featured image of post 遗传算法" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;遗传算法是数学建模中非常重要的一种搜索和优化算法，掌握遗传算法的精髓除了在竞赛中具有优势以外，更主要的是在解决实际问题的时候提供了一种全新的思路，通过将现实中的某种模式转换成算法，并用以解决某种问题的这种思路，或许是算法创新，提高效率的另一条路。&lt;/p&gt;
+&gt;强化学习之迷宫Q-Learning实践笔记——入门篇 - 知乎&lt;/a&gt;&lt;/p&gt;</description></item><item><title>遗传算法</title><link>https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link><pubDate>Sat, 21 Dec 2024 13:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/image.jpg" alt="Featured image of post 遗传算法" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;遗传算法是数学建模中非常重要的一种搜索和优化算法，掌握遗传算法的精髓除了在竞赛中具有优势以外，更主要的是在解决实际问题的时候提供了一种全新的思路，通过将现实中的某种模式转换成算法，并用以解决某种问题的这种思路，或许是算法创新，提高效率的另一条路。&lt;/p&gt;
 &lt;p&gt;本文将会介绍遗传算法的思想，优缺点以及提供一个遗传算法的示例代码，此外，还会讲解父代基因的适应度高而产生的子代适应度降低的原因，以及&lt;strong&gt;选择&lt;/strong&gt;的重要性。&lt;/p&gt;
-&lt;h2 id="遗传算法思想"&gt;遗传算法思想
-&lt;/h2&gt;&lt;p&gt;遗传算法主要的中心思想为“适者生存，优胜劣汰”来找到全局最优解。&lt;/p&gt;
+&lt;h2 id="遗传算法思想"&gt;遗传算法思想&lt;/h2&gt;
+&lt;p&gt;遗传算法主要的中心思想为“适者生存，优胜劣汰”来找到全局最优解。&lt;/p&gt;
 &lt;p&gt;在遗传算法中，首先会诞生一个随机的种群，这个种群的基因库随机生成。&lt;/p&gt;
 &lt;p&gt;因为环境(目标)的限制，种群中每个个体适应环境的能力（适应度）不同，因此导致每个个体能够遗传下去的概率不同&lt;/p&gt;
 &lt;p&gt;具有更高适应度的个体会享有更高的遗传概率，即能够以自身的基因段繁殖出子代。&lt;/p&gt;
 &lt;p&gt;在繁殖过程中，两个个体的基因序列会发生交叉，从而诞生的新的个体拥有两个父代的基因段。&lt;/p&gt;
 &lt;p&gt;子代还有概率发生变异，基因序列发生突变。&lt;/p&gt;
 &lt;p&gt;在不断地迭代中，个体会发生不断地进化，适应度会提高。&lt;/p&gt;
-&lt;h2 id="需要注意的相关概念"&gt;需要注意的相关概念
-&lt;/h2&gt;&lt;ul&gt;
+&lt;h2 id="需要注意的相关概念"&gt;需要注意的相关概念&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;初始化种群&lt;/strong&gt;：是随机选择一组个体，每一个个体都表示一组基因序列，因此实际上是随机选择了几组基因序列&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;计算适应度&lt;/strong&gt;：适应度是指每一个个体对环境的适应程度，也可以理解为基因的进化方向，基因在一轮一轮迭代中，尝试不断地向这个这个方向进化，以提高自身的适应度。在算法中，表现为对目标的接近程度。在实际应用中，可根据修改适应度函数，来达成自身的目的。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;选择&lt;/strong&gt;：选择负责繁殖下一代的个体，在实际应用中，可以调整选择的策略，比如：随机选择，提高优秀个体的选择权重，只选最优个体的等。不同的选择策略会产生不同的遗传效应。一般的选择策略都会提高更具适应性的个体被选中的概率，将遗传物质传递给下一代，但同时允许低适应性的个体也有遗传的几率，这样不会完全摒弃其遗传物质。&lt;/li&gt;
@@ -556,8 +556,8 @@ data-flex-basis="220px"
 &lt;li&gt;&lt;strong&gt;参数敏感性&lt;/strong&gt;：遗传算法对参数是具有较高的敏感度的，即，参数的修改对算法能否找到最优解，是否陷入局部最优解以及迭代速度都有较大影响。&lt;strong&gt;调参是门艺术，可以理解为掌握进化速度与物种多样性之间的平衡&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;终止条件&lt;/strong&gt;：算法的终止条件是达到迭代次数，也可以是达到了预期的值&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="算法优点"&gt;算法优点
-&lt;/h2&gt;&lt;ul&gt;
+&lt;h2 id="算法优点"&gt;算法优点&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;全局最优&lt;/strong&gt;：相较于大多数的传统搜索和优化算法（尤其是基于梯度的搜索和优化算法），遗传算法更有可能找到全局最优解，而不容易陷入局部最优解（这是梯度算法的一大难点）&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;处理复杂问题&lt;/strong&gt;：遗传算法仅需要依靠每个个体的适应度得分，而不在乎适应度函数其中的运算（即使适应度函数中包含导数等），因此它可以用于解决具有复杂数学表示的问题。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;处理缺乏数学表示的问题&lt;/strong&gt;：与上一条同样，遗传算法依靠的是适应度的结果而不在乎如何得出适应度的过程，因此它甚至可以用于缺乏数学表示的问题，只要在适应度函数中将逻辑表现出来，能够比较不同个体的好坏，即可运行遗传算法。&lt;/li&gt;
@@ -565,15 +565,15 @@ data-flex-basis="220px"
 &lt;li&gt;&lt;strong&gt;并行处理&lt;/strong&gt;：遗传算法非常适合并行化和分布式处理，适应度是针对每个个体独立运算，因此可以同时评估所有个体的适应度。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;持续学习&lt;/strong&gt;：遗传算法可以一直持续，随着环境的变化而使种群重新适应它们，但这要求环境的变化速度小于种群的进化速度。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="算法缺点"&gt;算法缺点
-&lt;/h2&gt;&lt;ul&gt;
+&lt;h2 id="算法缺点"&gt;算法缺点&lt;/h2&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;超参数调整&lt;/strong&gt;：遗传算法的行为由一群超参数控制，这使得研究人员需要手动调整参数，这考验研究人员的经验，在某些问题上，无法给出超参数时，遗传算法效果会大打折扣&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;计算密集&lt;/strong&gt;：种群规模较大时可能会需要大量的计算，在达到良好结果前非常耗时，可以通过选择超参数，并行处理以及在某些情况下缓存中间值来缓解这个问题&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;过早趋同&lt;/strong&gt;：如果某一个体的适应能力比种群的其他个体要强得多，那么它的重复性可能足以覆盖整个种群，导致算法过早的进入了局部最优值，而不会去寻找全局最优，为防止这种情况的发生，需要保证物种的多样性。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;无法保证解的质量&lt;/strong&gt;：遗传算法的使用并不能保证找到当前问题的全局最大值（但几乎所有的搜索和优化算法都存在此类问题，除非它是针对特定类型问题的解析解）。通常，遗传算法在适当使用时可以在合理的时间内提供良好的解决方案。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="代码示例"&gt;代码示例
-&lt;/h2&gt;&lt;p&gt;下面给出示例代码：&lt;/p&gt;
+&lt;h2 id="代码示例"&gt;代码示例&lt;/h2&gt;
+&lt;p&gt;下面给出示例代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -879,44 +879,44 @@ data-flex-basis="826px"
 &lt;p&gt;从上面我们可以看到，不仅仅是适应度函数会更具不同的常见发生变化，选择函数，交叉函数，变异函数和更新种群都可以采用不同的策略。这需要使用者的智慧根据环境选择最优的策略搭配。&lt;/p&gt;
 &lt;p&gt;尤其需要注意的是，在选择策略时还要兼顾超参数的影响，避免陷入过度进化和物种多样性危机。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="父代基因适应度高而子代基因适应度降低的原因"&gt;父代基因适应度高而子代基因适应度降低的原因
-&lt;/h2&gt;&lt;p&gt;在进行交叉时，有可能出现两个父代基因的适应度高而结合后产生的子代基因的适应度反而降低的情况，&lt;/p&gt;
+&lt;h2 id="父代基因适应度高而子代基因适应度降低的原因"&gt;父代基因适应度高而子代基因适应度降低的原因&lt;/h2&gt;
+&lt;p&gt;在进行交叉时，有可能出现两个父代基因的适应度高而结合后产生的子代基因的适应度反而降低的情况，&lt;/p&gt;
 &lt;p&gt;如上面的代码中，当父代1的基因序列为：&lt;code&gt;[1,0,1,1,1]&lt;/code&gt;，父代2的基因序列为：&lt;code&gt;[1,1,1,0,1]&lt;/code&gt;，此时做交叉，可能诞生的子代基因序列为：&lt;code&gt;[1,0,1,0,1]&lt;/code&gt;，基因的适应度反而降低。&lt;/p&gt;
-&lt;h3 id="1-交叉操作引入的不利基因组合"&gt;1. &lt;strong&gt;交叉操作引入的不利基因组合&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;交叉操作的基本思路是将两个父代基因的部分基因片段交换，从而产生新的子代。虽然这种方法通常能够产生适应度较高的后代，但也存在以下几种可能导致子代适应度降低的情况：&lt;/p&gt;
+&lt;h3 id="1-交叉操作引入的不利基因组合"&gt;1. &lt;strong&gt;交叉操作引入的不利基因组合&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;交叉操作的基本思路是将两个父代基因的部分基因片段交换，从而产生新的子代。虽然这种方法通常能够产生适应度较高的后代，但也存在以下几种可能导致子代适应度降低的情况：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;不良基因组合&lt;/strong&gt;：两个适应度较高的父代可能有一些部分基因（如某些基因位的0和1组合）对适应度产生较大影响。交叉操作时，基因片段的交换可能会把这些不良基因组合带到子代中，从而降低子代的适应度。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;局部最优&lt;/strong&gt;：即使父代的适应度较高，但它们可能都处于某个局部最优解。如果交叉操作导致子代在搜索空间中“跳出”了父代所在的局部最优区间，可能会产生较低的适应度，甚至带来“坏”基因组合，使得子代的适应度下降。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="2-变异操作对子代的影响"&gt;2. &lt;strong&gt;变异操作对子代的影响&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;变异操作在一定概率下会对个体的基因进行随机的改变。虽然变异有时能帮助算法跳出局部最优解，但也有可能导致子代的适应度下降，特别是当变异幅度过大或频率过高时。具体来说：&lt;/p&gt;
+&lt;h3 id="2-变异操作对子代的影响"&gt;2. &lt;strong&gt;变异操作对子代的影响&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;变异操作在一定概率下会对个体的基因进行随机的改变。虽然变异有时能帮助算法跳出局部最优解，但也有可能导致子代的适应度下降，特别是当变异幅度过大或频率过高时。具体来说：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;过度变异&lt;/strong&gt;：如果变异操作过于频繁或变异幅度过大，子代可能会失去父代的优良特性，从而导致适应度下降。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;适应度函数的复杂性&lt;/strong&gt;：适应度函数可能会对某些特定基因组合非常敏感，稍微的变异就可能导致适应度的显著下降。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="3-遗传算法的平衡"&gt;3. &lt;strong&gt;遗传算法的平衡&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;遗传算法的设计目标是通过交叉和变异操作从父代产生更好的子代，但也不可避免地会出现&amp;quot;适应度降低&amp;quot;的情况。这种现象尤其在遗传算法的初期或未经过多代优化时较为常见。&lt;/p&gt;
+&lt;h3 id="3-遗传算法的平衡"&gt;3. &lt;strong&gt;遗传算法的平衡&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;遗传算法的设计目标是通过交叉和变异操作从父代产生更好的子代，但也不可避免地会出现&amp;quot;适应度降低&amp;quot;的情况。这种现象尤其在遗传算法的初期或未经过多代优化时较为常见。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;探索与开发的平衡&lt;/strong&gt;：如果在每一代中都强制选择适应度较高的个体，并进行交叉，可能会导致种群中的多样性下降，从而减缓整体的进化速度。变异和交叉可以在一定程度上提供“探索”的机制，帮助算法避免陷入局部最优解。然而，过度的探索也可能导致适应度下降。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="4-交叉操作的种类"&gt;4. &lt;strong&gt;交叉操作的种类&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;交叉操作的具体方式也会影响其效果。不同的交叉方法（例如单点交叉、多点交叉、均匀交叉等）可能会在不同情况下对适应度产生不同的影响。某些交叉方法可能会更容易生成适应度较低的子代，而其他方法则能更好地保持或提高适应度。&lt;/p&gt;
-&lt;h3 id="5-种群的多样性"&gt;5. &lt;strong&gt;种群的多样性&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;遗传算法中的种群多样性对于防止“过早收敛”至局部最优解至关重要。如果种群的多样性减少（例如，所有个体都开始趋同于相似的基因组合），那么交叉操作可能会限制新解的生成，从而导致适应度的下降。&lt;/p&gt;
-&lt;h3 id="6-选择压力"&gt;6. &lt;strong&gt;选择压力&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;如果选择操作过于强烈（例如，每代仅选择适应度最高的个体进行交叉），可能会导致种群中的多样性迅速下降，甚至产生“过度优化”的现象。这样，在某些情况下，交叉出来的子代可能并不会比父代更好，反而会出现适应度下降的情况。&lt;/p&gt;
-&lt;h3 id="小结"&gt;小结
-&lt;/h3&gt;&lt;p&gt;是的，确实存在父代适应度较高时，交叉和变异操作可能导致子代适应度降低的情况。虽然遗传算法的设计目标是通过交叉和变异产生更适应环境的个体，但这种过程是随机的，并不总是能直接产生更好的解。为了应对这种问题，通常可以通过以下方法进行改进：&lt;/p&gt;
+&lt;h3 id="4-交叉操作的种类"&gt;4. &lt;strong&gt;交叉操作的种类&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;交叉操作的具体方式也会影响其效果。不同的交叉方法（例如单点交叉、多点交叉、均匀交叉等）可能会在不同情况下对适应度产生不同的影响。某些交叉方法可能会更容易生成适应度较低的子代，而其他方法则能更好地保持或提高适应度。&lt;/p&gt;
+&lt;h3 id="5-种群的多样性"&gt;5. &lt;strong&gt;种群的多样性&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;遗传算法中的种群多样性对于防止“过早收敛”至局部最优解至关重要。如果种群的多样性减少（例如，所有个体都开始趋同于相似的基因组合），那么交叉操作可能会限制新解的生成，从而导致适应度的下降。&lt;/p&gt;
+&lt;h3 id="6-选择压力"&gt;6. &lt;strong&gt;选择压力&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;如果选择操作过于强烈（例如，每代仅选择适应度最高的个体进行交叉），可能会导致种群中的多样性迅速下降，甚至产生“过度优化”的现象。这样，在某些情况下，交叉出来的子代可能并不会比父代更好，反而会出现适应度下降的情况。&lt;/p&gt;
+&lt;h3 id="小结"&gt;小结&lt;/h3&gt;
+&lt;p&gt;是的，确实存在父代适应度较高时，交叉和变异操作可能导致子代适应度降低的情况。虽然遗传算法的设计目标是通过交叉和变异产生更适应环境的个体，但这种过程是随机的，并不总是能直接产生更好的解。为了应对这种问题，通常可以通过以下方法进行改进：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;选择策略优化&lt;/strong&gt;：适当调整选择压力，避免过早收敛。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;交叉和变异操作调整&lt;/strong&gt;：设计合理的交叉和变异策略，保证种群多样性，同时减少不必要的适应度降低。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;引入精英策略&lt;/strong&gt;：保留最优个体，确保最好的基因不会丢失。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通过这些策略，遗传算法可以在进化过程中最大程度地避免出现适应度降低的现象，同时维持算法的多样性和全局搜索能力。&lt;/p&gt;
-&lt;h2 id="选择"&gt;选择
-&lt;/h2&gt;&lt;p&gt;选择是门艺术，采取不同的选择策略会给予基因进化以不同的选择压力，不同的选择压力则会影响着基因进化的方向和速度，甚至印象基因是否进化&lt;/p&gt;
-&lt;h3 id="选择压力"&gt;选择压力
-&lt;/h3&gt;&lt;p&gt;选择压力是指最佳个体选中的概率与平均选中的概率的比值。&lt;/p&gt;
+&lt;h2 id="选择"&gt;选择&lt;/h2&gt;
+&lt;p&gt;选择是门艺术，采取不同的选择策略会给予基因进化以不同的选择压力，不同的选择压力则会影响着基因进化的方向和速度，甚至印象基因是否进化&lt;/p&gt;
+&lt;h3 id="选择压力"&gt;选择压力&lt;/h3&gt;
+&lt;p&gt;选择压力是指最佳个体选中的概率与平均选中的概率的比值。&lt;/p&gt;
 &lt;p&gt;换句话说：你是否过分在意最佳个体，越提高最佳个体的选中概率，则选择压力越大，反之越小。&lt;/p&gt;
 &lt;p&gt;类比：社会中，给予有能力的人的优待越大，则压力越大（大家都拼命内卷，都想做变得比别人更出众，结果演化出有钱人表示有能力，有样貌表示有能力等，以局部能力概括全部能力的现象）。给予有能力的人的优待越小，则压力越小（大家都选择躺平，因为没有动力去成为有能力的人）。&lt;/p&gt;
 &lt;p&gt;因此，适合的压力才能更好地让推动大家进步。&lt;/p&gt;
@@ -925,14 +925,14 @@ data-flex-basis="826px"
 &lt;li&gt;选择压力小（比如随机选择），会导致群体不进化&lt;/li&gt;
 &lt;li&gt;选择压力大（比如只选择最优个体），会导致收敛到局部最优解&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="选择方式"&gt;选择方式
-&lt;/h3&gt;&lt;ul&gt;
+&lt;h3 id="选择方式"&gt;选择方式&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;轮盘赌选择（随机选择）&lt;/strong&gt;：又称比例选择算子，基本思想是：个体被选中的概率与其适应度函数的比值成正比&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;确定性选择&lt;/strong&gt;：从子代或父代中选择最优的个体&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;竞赛选择&lt;/strong&gt;：从种群中随机选择&lt;code&gt;t&lt;/code&gt;个个体并记下对应适应度，返回&lt;code&gt;t&lt;/code&gt;个个体中最好的个体，同时具备随机性和确定性&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="参考文章"&gt;参考文章
-&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/weixin_56577499/article/details/130213381?ops_request_misc=&amp;amp;request_id=&amp;amp;biz_id=102&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-130213381.142%5ev100%5epc_search_result_base5&amp;amp;spm=1018.2226.3001.4187" target="_blank" rel="noopener"
+&lt;h2 id="参考文章"&gt;参考文章&lt;/h2&gt;
+&lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/weixin_56577499/article/details/130213381?ops_request_misc=&amp;amp;request_id=&amp;amp;biz_id=102&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-130213381.142%5ev100%5epc_search_result_base5&amp;amp;spm=1018.2226.3001.4187" target="_blank" rel="noopener"
 &gt;遗传算法 (Genetic Algorithm, GA)-CSDN博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/LOVEmy134611/article/details/111639624?ops_request_misc=%7B%22request%5Fid%22%3A%22cbc07f4dc0594243e931d04e2e588e64%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;amp;request_id=cbc07f4dc0594243e931d04e2e588e64&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-2-111639624-null-null.142%5ev100%5epc_search_result_base5&amp;amp;utm_term=%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95&amp;amp;spm=1018.2226.3001.4187" target="_blank" rel="noopener"
 &gt;遗传算法与深度学习实战（4）——遗传算法（Genetic Algorithm）详解与实现-CSDN博客&lt;/a&gt;&lt;/p&gt;

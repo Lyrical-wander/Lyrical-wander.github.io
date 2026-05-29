@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>反汇编 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/</link><description>Recent content in 反汇编 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Sun, 08 Dec 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向工程实战，在反汇编中发生的事</title><link>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</link><pubDate>Sun, 08 Dec 2024 19:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg" alt="Featured image of post 逆向工程实战，在反汇编中发生的事" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;今天对某外国的机器中的某个音频解码库进行反汇编，发现了一些有趣的知识，故而记录下来，以防以后重复遇到。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>反汇编 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/</link><description>Recent content in 反汇编 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Sun, 08 Dec 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向工程实战，在反汇编中发生的事</title><link>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</link><pubDate>Sun, 08 Dec 2024 19:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg" alt="Featured image of post 逆向工程实战，在反汇编中发生的事" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;今天对某外国的机器中的某个音频解码库进行反汇编，发现了一些有趣的知识，故而记录下来，以防以后重复遇到。&lt;/p&gt;
 &lt;p&gt;现笔者使用的反汇编工具为“&lt;code&gt;Ghidra&lt;/code&gt;”。可在GitHub上下载：&lt;a class="link" href="https://github.com/NationalSecurityAgency/ghidra" target="_blank" rel="noopener"
 &gt;NationalSecurityAgency/ghidra: Ghidra is a software reverse engineering (SRE) framework&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;是由美国国家安全局研究局创建和维护的软件逆向工程 (SRE) 框架 。该框架包括一套功能齐全的高端软件分析工具，使用户能够在包括 &lt;code&gt;Windows&lt;/code&gt;、&lt;code&gt;macOS&lt;/code&gt; 和 &lt;code&gt;Linux &lt;/code&gt;在内的各种平台上分析编译代码。功能包括反汇编、汇编、反编译、绘图和脚本，以及数百个其他功能。&lt;/p&gt;
@@ -7,9 +7,9 @@
 &lt;blockquote&gt;
 &lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="adpcm_decoder1函数"&gt;adpcm_decoder1函数
-&lt;/h2&gt;&lt;h3 id="c代码"&gt;C代码
-&lt;/h3&gt;&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
+&lt;h2 id="adpcm_decoder1函数"&gt;adpcm_decoder1函数&lt;/h2&gt;
+&lt;h3 id="c代码"&gt;C代码&lt;/h3&gt;
+&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -157,8 +157,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;以上是反汇编后的结果，&lt;code&gt;Ghidra&lt;/code&gt;将机器语言解析成汇编语言，再自动转换成相应的C语言。&lt;/p&gt;
-&lt;h3 id="decryption函数并非adpcm的一部分"&gt;Decryption函数并非ADPCM的一部分
-&lt;/h3&gt;&lt;p&gt;可以看到，这是典型的ADPCM音频解码算法，笔者已经对比过经典的开源ADPCM音频解码算法的C语言版本，确实是相差无几，但在这段代码中，多出了以下内容：&lt;/p&gt;
+&lt;h3 id="decryption函数并非adpcm的一部分"&gt;Decryption函数并非ADPCM的一部分&lt;/h3&gt;
+&lt;p&gt;可以看到，这是典型的ADPCM音频解码算法，笔者已经对比过经典的开源ADPCM音频解码算法的C语言版本，确实是相差无几，但在这段代码中，多出了以下内容：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -180,8 +180,8 @@
 &lt;li&gt;一个for循环，将每帧数据丢入&lt;code&gt;Decryption&lt;/code&gt;函数中进行处理&lt;/li&gt;
 &lt;li&gt;Decryption函数接收两个参数，0x32,一个固定的常量值；param_1 + iVar6 * 0x14，param_1是语音数据的数组指针&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="decryption函数的参数问题"&gt;Decryption函数的参数问题
-&lt;/h3&gt;&lt;blockquote&gt;
+&lt;h3 id="decryption函数的参数问题"&gt;Decryption函数的参数问题&lt;/h3&gt;
+&lt;blockquote&gt;
 &lt;p&gt;这里解释一下Decryption函数接收的两个参数，实际上，Decryption函数接收三个参数，在这里，Ghidra在C中只给出了两个参数，笔者不清楚这是Ghidra的特性还是工具缺陷。对汇编不感兴趣的同学可以跳过这一部分，但推荐看看&lt;/p&gt;
 &lt;p&gt;下面会给出Decryption的函数体，在函数体中可以发现Decryption是接收三个参数的，这里我们讲解一下这一段for循环的汇编内容&lt;/p&gt;
 &lt;p&gt;C语言：&lt;/p&gt;
@@ -243,15 +243,15 @@
 &lt;/ul&gt;
 &lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="小结"&gt;小结
-&lt;/h3&gt;&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
+&lt;h3 id="小结"&gt;小结&lt;/h3&gt;
+&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;因此，接下来看如何用解密算法还原加密算法&lt;/p&gt;
-&lt;h2 id="decryption函数"&gt;decryption函数
-&lt;/h2&gt;&lt;h3 id="c代码-1"&gt;C代码
-&lt;/h3&gt;&lt;p&gt;下面是decryption函数&lt;/p&gt;
+&lt;h2 id="decryption函数"&gt;decryption函数&lt;/h2&gt;
+&lt;h3 id="c代码-1"&gt;C代码&lt;/h3&gt;
+&lt;p&gt;下面是decryption函数&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -333,8 +333,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;笔者依次解释上面的代码&lt;/p&gt;
-&lt;h3 id="数据本地化"&gt;数据本地化
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="数据本地化"&gt;数据本地化&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -353,8 +353,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这一段代码其实很好看出是在做什么，就是将传入的数据存在函数内部的局部变量中，&lt;code&gt;iVar3&lt;/code&gt;变量是一个很重要的变量，在后续计算中会用到，记住它。在将所有数据搬完之后（一共20个字节，一语音帧20个字节），&lt;code&gt;iVar3&lt;/code&gt;变量来到了&lt;code&gt;0x13&lt;/code&gt;，十进制&lt;code&gt;19&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id="第19到1的数据解码"&gt;第19到1的数据解码
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="第19到1的数据解码"&gt;第19到1的数据解码&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -377,8 +377,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里有一个很容易混淆的地方，就是标题采用的“第19到第1”这个概念，我们只能说，从while循环，从&lt;code&gt;iVar3&lt;/code&gt;变量的角度，是“从19到1”，而从数据的角度说并不是这样。为了强化读者这个概念，我们先介绍&lt;code&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/code&gt;与&lt;code&gt;local_30[*piVar1]&lt;/code&gt;这两个变量。&lt;/p&gt;
-&lt;h4 id="local_30int-dat_00019c0c--ivar4"&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]
-&lt;/h4&gt;&lt;p&gt;首先，从定义上看&lt;code&gt;byte local_30 [20];&lt;/code&gt;，local_30是一个数组的局部变量，且具有20个元素的大小，每个元素的大小为1byte，即，该数组是专门存放音频数据的。&lt;/p&gt;
+&lt;h4 id="local_30int-dat_00019c0c--ivar4"&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/h4&gt;
+&lt;p&gt;首先，从定义上看&lt;code&gt;byte local_30 [20];&lt;/code&gt;，local_30是一个数组的局部变量，且具有20个元素的大小，每个元素的大小为1byte，即，该数组是专门存放音频数据的。&lt;/p&gt;
 &lt;p&gt;其次，我们先看&lt;code&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/code&gt;，数组的内部&lt;code&gt;index&lt;/code&gt;部分很复杂，我们来做介绍&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;&amp;amp;DAT_00019c0c&lt;/code&gt;是内存中的一个地址&lt;/li&gt;
@@ -444,8 +444,8 @@
 0xf 0x1 0x2 0x7 0x8&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;刚好是0~19，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
-&lt;h4 id="local_30pivar1"&gt;local_30[*piVar1]
-&lt;/h4&gt;&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id="local_30pivar1"&gt;local_30[*piVar1]&lt;/h4&gt;
+&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;看&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3; &lt;/code&gt;一些敏锐的同学可能注意到，在我们介绍的前一个变量中，地址都是四个字节一偏移，在内存地址中查询数据的分布，也是四个字节存一个数据，其它地方都是0，而按照我们的理解，&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3 * 4;&lt;/code&gt;似乎才是正确的。我们查看一下相应的汇编代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -467,8 +467,8 @@
 &lt;/ul&gt;
 &lt;p&gt;这样可以看出，实际上，寄存器&lt;code&gt;r5&lt;/code&gt;与&lt;code&gt;r6&lt;/code&gt;都是读地址值且相差仅有4个字节。也就是说，&lt;code&gt;piVar1&lt;/code&gt;比&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;仅仅相差了4个字节，例如：在第一次循环中，&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;中的值为0x8，&lt;code&gt;piVar1&lt;/code&gt;中的值为0x7，在最后一次循环中，&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;的值为0xc，&lt;code&gt;piVar1&lt;/code&gt;的值为0x0。&lt;/p&gt;
 &lt;p&gt;为什么C代码会与汇编相差如此之大呢，第一，在GCC编译C语言的过程中，本身会对代码进行优化，即调整指令顺序，甚至优化掉部分操作，以提升效率；第二，从已经编译过的二进制文件反推出C语言代码本身就是非常难的一件事情，正如数学中，求导的难度往往比求原函数的难度要低。所以有些细微的差池是可能的，因此在逆向工程中，除了要看C代码，还要检查汇编代码以及内存的走向。&lt;/p&gt;
-&lt;h4 id="解码过程"&gt;解码过程
-&lt;/h4&gt;&lt;p&gt;现在我们了解了那两个复杂的变量，现在我们来讲一讲解码的算法&lt;/p&gt;
+&lt;h4 id="解码过程"&gt;解码过程&lt;/h4&gt;
+&lt;p&gt;现在我们了解了那两个复杂的变量，现在我们来讲一讲解码的算法&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -592,8 +592,8 @@ $$
 r1 = bVar2 \oplus param_1\\
 r2 = local\_30[*(int *)(\&amp;DAT\_00019c0c + iVar4)] + local\_30[*piVar1]\\
 res = r1 \oplus r2
-$$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+$$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -617,8 +617,8 @@ $$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 00016500 08 70 strb r0,[r1,#0x0 ]=&amp;gt;local_30
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="返回数据"&gt;返回数据
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;/div&gt;&lt;h3 id="返回数据"&gt;返回数据&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -633,5 +633,5 @@ $$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;在此过程中，通过while循环将&lt;code&gt;local_30&lt;/code&gt;中已经完成解码的数据全部放到&lt;code&gt;param_3&lt;/code&gt;参数中，完成了数据的返回（因为&lt;code&gt;param_3&lt;/code&gt;是一个指针，因此对指针数据做修改在函数退出时修改依然成立，而不会随着函数出栈而消失）。&lt;/p&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;在这个反汇编的过程中，我们通过C代码与汇编代码的结合，还原出了解码过程的真实情况，因此，在反汇编中除了看反汇编工具提供的c语言代码，也需要看原来的汇编代码。所以，在逆向工程中，学会阅读汇编代码对你的帮助时巨大的，会避免因编译优化等问题带来的困扰，同时，笔者推荐读一读《深入理解计算机系统》，会让你对C和逆向有更深层次的理解，最后祝你变得更强！&lt;/p&gt;</description></item></channel></rss>
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;在这个反汇编的过程中，我们通过C代码与汇编代码的结合，还原出了解码过程的真实情况，因此，在反汇编中除了看反汇编工具提供的c语言代码，也需要看原来的汇编代码。所以，在逆向工程中，学会阅读汇编代码对你的帮助时巨大的，会避免因编译优化等问题带来的困扰，同时，笔者推荐读一读《深入理解计算机系统》，会让你对C和逆向有更深层次的理解，最后祝你变得更强！&lt;/p&gt;</description></item></channel></rss>

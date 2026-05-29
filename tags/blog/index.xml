@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/blog/</link><description>Recent content in Blog on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Wed, 20 Nov 2024 21:48:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>基于Hugo构建一个属于自己的博客（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</link><pubDate>Wed, 20 Nov 2024 21:48:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（二）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;首先，想要实现这个功能的小伙伴需要完成几个前置条件：&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/tags/blog/</link><description>Recent content in Blog on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Wed, 20 Nov 2024 21:48:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/tags/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>基于Hugo构建一个属于自己的博客（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</link><pubDate>Wed, 20 Nov 2024 21:48:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（二）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;首先，想要实现这个功能的小伙伴需要完成几个前置条件：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有一个GitHub账号&lt;/li&gt;
 &lt;li&gt;安装了git，并可以通过git推送commit到GitHub上&lt;/li&gt;
 &lt;li&gt;完成第一篇文章的博客搭建&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="创建仓库"&gt;创建仓库
-&lt;/h2&gt;&lt;p&gt;在GitHub上创建一个仓库，用来存放代码&lt;/p&gt;
+&lt;h2 id="创建仓库"&gt;创建仓库&lt;/h2&gt;
+&lt;p&gt;在GitHub上创建一个仓库，用来存放代码&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果你不是GitHub重度使用者或高手，建议你的仓库名称就是你自己的用户名 + .github + .io。如图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527.png"
@@ -32,8 +32,8 @@ class="gallery-image"
 data-flex-grow="466"
 data-flex-basis="1118px"
 &gt;&lt;/p&gt;
-&lt;h2 id="修改配置"&gt;修改配置
-&lt;/h2&gt;&lt;p&gt;还记得上一篇文章提到的，配置文件中有一个参数是讲url重定向到自己的GitHub仓库的吗，现在我们在创建自己的仓库之后，可以开始填写，修改&lt;code&gt;hugo.yaml&lt;/code&gt;的`baseurl&lt;/p&gt;
+&lt;h2 id="修改配置"&gt;修改配置&lt;/h2&gt;
+&lt;p&gt;还记得上一篇文章提到的，配置文件中有一个参数是讲url重定向到自己的GitHub仓库的吗，现在我们在创建自己的仓库之后，可以开始填写，修改&lt;code&gt;hugo.yaml&lt;/code&gt;的`baseurl&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -42,8 +42,8 @@ data-flex-basis="1118px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;baseurl&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://Lyrical-wander.github.io&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# 这里是我的仓库名称，如果你按照上面的步骤走，输入：https://用户名.github.io 即可&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="上传代码"&gt;上传代码
-&lt;/h2&gt;&lt;p&gt;上传代码前，首先查看你的站点目录下有没有&lt;code&gt;public&lt;/code&gt;目录&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="上传代码"&gt;上传代码&lt;/h2&gt;
+&lt;p&gt;上传代码前，首先查看你的站点目录下有没有&lt;code&gt;public&lt;/code&gt;目录&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171.png"
 width="696"
 height="530"
@@ -103,8 +103,8 @@ data-flex-basis="699px"
 &lt;li&gt;网络问题，因为GitHub是全球服务器，因此国内访问可能会有些慢，有条件的同学开个代理&lt;/li&gt;
 &lt;li&gt;git并没有权限访问GitHub，看你是如何配置GitHub的，建议采用SSH，网上有许多git生成ssh密钥，GitHub绑定密钥的教程，建议跟着走一遍，如果采用HTTPS的话，应该是要登陆的，具体流程笔者很久没用了，也是建议上网搜索，网上教程很多&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="启用pages功能"&gt;启用pages功能
-&lt;/h2&gt;&lt;p&gt;如果你成功上传代码，现在可以打开GitHub上自动生成静态网页的pages功能，来帮你生成静态网页，等静态网页生成后，以后通过访问你的仓库域名，即可直接打开你的博客&lt;/p&gt;
+&lt;h2 id="启用pages功能"&gt;启用pages功能&lt;/h2&gt;
+&lt;p&gt;如果你成功上传代码，现在可以打开GitHub上自动生成静态网页的pages功能，来帮你生成静态网页，等静态网页生成后，以后通过访问你的仓库域名，即可直接打开你的博客&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103.png"
 width="1481"
 height="797"
@@ -127,19 +127,19 @@ data-flex-basis="445px"
 &lt;p&gt;值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是&lt;code&gt;www.lyrical-wander.cn&lt;/code&gt;，而不是&lt;code&gt;www.lyrical-wander.github.io&lt;/code&gt;，而如果按照上面的步骤走的话，域名应该是：&lt;code&gt;www.usename.github.io&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;至此，你的博客已经部署好了！可以开始访问你自己的博客啦&lt;/p&gt;
-&lt;h2 id="小结"&gt;小结
-&lt;/h2&gt;&lt;p&gt;还有需要注意的是：&lt;/p&gt;
+&lt;h2 id="小结"&gt;小结&lt;/h2&gt;
+&lt;p&gt;还有需要注意的是：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;每一次写完博客，都需要重新使用&lt;code&gt;hugo server -D&lt;/code&gt;命令，生成新的&lt;code&gt;public&lt;/code&gt;目录，&lt;code&gt;push&lt;/code&gt;上&lt;code&gt;GitHub&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;每次生成新的&lt;code&gt;public&lt;/code&gt;，都会有大量的文件被改动，&lt;code&gt;push&lt;/code&gt;起来非常不方便&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因此我们要通过&lt;code&gt;GitHub&lt;/code&gt;的&lt;code&gt;Action&lt;/code&gt;功能来实现自动化部署&lt;/p&gt;
-&lt;h2 id="自动化部署"&gt;自动化部署
-&lt;/h2&gt;&lt;h3 id="创建仓库-1"&gt;创建仓库
-&lt;/h3&gt;&lt;p&gt;同样地，按照上面的步骤，我们重新创建一个仓库，这个仓库不会生成&lt;code&gt;pages&lt;/code&gt;，且可以设置为私有仓库，因此随意命名，比如：&lt;code&gt;hugo-main&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id="修改代码"&gt;修改代码
-&lt;/h3&gt;&lt;h4 id="创建gitignore文件"&gt;创建.gitignore文件
-&lt;/h4&gt;&lt;p&gt;我们添加一个小文件，来保持我们代码的干净整洁。&lt;/p&gt;
+&lt;h2 id="自动化部署"&gt;自动化部署&lt;/h2&gt;
+&lt;h3 id="创建仓库-1"&gt;创建仓库&lt;/h3&gt;
+&lt;p&gt;同样地，按照上面的步骤，我们重新创建一个仓库，这个仓库不会生成&lt;code&gt;pages&lt;/code&gt;，且可以设置为私有仓库，因此随意命名，比如：&lt;code&gt;hugo-main&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id="修改代码"&gt;修改代码&lt;/h3&gt;
+&lt;h4 id="创建gitignore文件"&gt;创建.gitignore文件&lt;/h4&gt;
+&lt;p&gt;我们添加一个小文件，来保持我们代码的干净整洁。&lt;/p&gt;
 &lt;p&gt;因为每一次&lt;code&gt;hugo server -D&lt;/code&gt;都会生成新的&lt;code&gt;public&lt;/code&gt;和&lt;code&gt;resources&lt;/code&gt;，而这个并不是我们编写的代码，因此这个可以忽略掉。&lt;/p&gt;
 &lt;p&gt;在站点目录下增加一个新文件&lt;code&gt;.gitignore&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;填写以下内容：&lt;/p&gt;
@@ -154,8 +154,8 @@ data-flex-grow="150"
 data-flex-basis="360px"
 &gt;&lt;/p&gt;
 &lt;p&gt;这个文件顾名思义，可以让&lt;code&gt;git&lt;/code&gt;忽略掉它里面填写的这些文件，这些文件&lt;code&gt;git&lt;/code&gt;不会再检查它们的修改，也不会让你提交它们。&lt;/p&gt;
-&lt;h4 id="生成token并创建yaml配置文件"&gt;生成token并创建yaml配置文件
-&lt;/h4&gt;&lt;p&gt;首先我们先生成一个token，获取该token，以免你以后每次上传代码都需要重新登录一遍&lt;/p&gt;
+&lt;h4 id="生成token并创建yaml配置文件"&gt;生成token并创建yaml配置文件&lt;/h4&gt;
+&lt;p&gt;首先我们先生成一个token，获取该token，以免你以后每次上传代码都需要重新登录一遍&lt;/p&gt;
 &lt;p&gt;进入&lt;code&gt;Settings&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269.png"
 width="404"
@@ -307,8 +307,8 @@ data-flex-basis="1378px"
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;commit_message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;auto deploy&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="上传代码-1"&gt;上传代码
-&lt;/h3&gt;&lt;p&gt;同样地，我们将站点代码再一次上传到这个仓库上，&lt;code&gt;git&lt;/code&gt;操作一模一样，按照上面的&lt;code&gt;上传代码&lt;/code&gt;部分来重新操作一遍即可。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="上传代码-1"&gt;上传代码&lt;/h3&gt;
+&lt;p&gt;同样地，我们将站点代码再一次上传到这个仓库上，&lt;code&gt;git&lt;/code&gt;操作一模一样，按照上面的&lt;code&gt;上传代码&lt;/code&gt;部分来重新操作一遍即可。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -327,20 +327,20 @@ data-flex-basis="1378px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git push -u origin main
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;至此，你就实现了自动部署，现在，你撰写博文，然后直接&lt;code&gt;push&lt;/code&gt;到第二个仓库，不需要本地生成&lt;code&gt;public&lt;/code&gt;，就可以啦，第二个仓库会做一系列操作，并生成静态网站所需的资源和&lt;code&gt;public&lt;/code&gt;，传到第一个仓库中，然后生成静态网站。&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</link><pubDate>Tue, 19 Nov 2024 21:47:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（一）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;我想有一个地方，能够分享一些个人生活，记录一些技术知识，那么在茫茫大的网络世界中，有许多网站或者应用可以满足我的需求，比如CSDN，比如博客园，比如QQ空间（已经渐渐消失在时间的长河中了&amp;hellip;&amp;hellip;）。但，总感觉差了些什么，它们既不能满足我的个人世界的全部想象，又不够极客主义，谁在小时候没有幻想过拥有一间完全由自己建造的，不受地皮，户型限制的房子呢？&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;至此，你就实现了自动部署，现在，你撰写博文，然后直接&lt;code&gt;push&lt;/code&gt;到第二个仓库，不需要本地生成&lt;code&gt;public&lt;/code&gt;，就可以啦，第二个仓库会做一系列操作，并生成静态网站所需的资源和&lt;code&gt;public&lt;/code&gt;，传到第一个仓库中，然后生成静态网站。&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</link><pubDate>Tue, 19 Nov 2024 21:47:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（一）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;我想有一个地方，能够分享一些个人生活，记录一些技术知识，那么在茫茫大的网络世界中，有许多网站或者应用可以满足我的需求，比如CSDN，比如博客园，比如QQ空间（已经渐渐消失在时间的长河中了&amp;hellip;&amp;hellip;）。但，总感觉差了些什么，它们既不能满足我的个人世界的全部想象，又不够极客主义，谁在小时候没有幻想过拥有一间完全由自己建造的，不受地皮，户型限制的房子呢？&lt;/p&gt;
 &lt;p&gt;因此，我决定开始搭建自己的个人博客，它将成为我在网络世界的一座小屋，它的风格，样式由我定义，它将随我漂流，我可以自由地为它添砖加瓦，也可以任性地删除任何我不满意的功能，也许在某天它将因为我的离开而荒废，但这里，有我在网络世界的一部分记忆，一部分独属于我的记忆&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;p&gt;笔者的个人博客，&lt;a class="link" href="https://www.lyrical-wander.cn/" target="_blank" rel="noopener"
 &gt;苏三有春的博客&lt;/a&gt;，采用了Hugo框架下的stack主题搭建，非常快速且简单（当然在搭建的过程当中笔者也踩了一些坑），因此写一篇博客来记录自己的搭建心得以及给有想法搭建个人博客的小伙伴们一些参考。&lt;/p&gt;
 &lt;p&gt;参考视频：&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://www.bilibili.com/video/BV1bovfeaEtQ/?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=68677a7df285890170746fa6cd980d20" target="_blank" rel="noopener"
 &gt;【雷】Hugo + Github免费搭建博客，并实现自动化部署_哔哩哔哩_bilibili&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="hugo"&gt;Hugo
-&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+&lt;h2 id="hugo"&gt;Hugo&lt;/h2&gt;
+&lt;p&gt;&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
 &gt;Hugo&lt;/a&gt;是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署，可以帮助用户快速构建高性能的静态网站，方便个人搭建博客，和个人网站等。Hugo在GitHub（&lt;a class="link" href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener"
 &gt; The world’s fastest framework for building websites.&lt;/a&gt;）上拥有超过75K stars，近千名贡献者，拥有活跃的社区，保证了Hugo成为当下最流行的静态网站生成器之一，正如其标题所说：“Hugo是世界上最快的构建网站的框架”。&lt;/p&gt;
-&lt;h3 id="hugo下载"&gt;Hugo下载
-&lt;/h3&gt;&lt;p&gt;Hugo框架的下载有一些注意事项：&lt;/p&gt;
+&lt;h3 id="hugo下载"&gt;Hugo下载&lt;/h3&gt;
+&lt;p&gt;Hugo框架的下载有一些注意事项：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Hugo根据操作系统的不同有不同的下载方式&lt;/p&gt;
@@ -412,8 +412,8 @@ data-flex-basis="206px"
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="创建新的站点"&gt;创建新的站点
-&lt;/h3&gt;&lt;p&gt;在cmd中（如果没有配置全局路径，在hugo.exe目录下使用该命令）使用命令&lt;/p&gt;
+&lt;h3 id="创建新的站点"&gt;创建新的站点&lt;/h3&gt;
+&lt;p&gt;在cmd中（如果没有配置全局路径，在hugo.exe目录下使用该命令）使用命令&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -453,8 +453,8 @@ data-flex-basis="566px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; AHugoBlogSite
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="挑选主题"&gt;挑选主题
-&lt;/h3&gt;&lt;p&gt;Hugo下载好后，就可以开始挑选自己喜欢的主题，可以在Hugo官网下挑选（&lt;a class="link" href="https://themes.gohugo.io/" target="_blank" rel="noopener"
+&lt;/div&gt;&lt;h3 id="挑选主题"&gt;挑选主题&lt;/h3&gt;
+&lt;p&gt;Hugo下载好后，就可以开始挑选自己喜欢的主题，可以在Hugo官网下挑选（&lt;a class="link" href="https://themes.gohugo.io/" target="_blank" rel="noopener"
 &gt;Complete List | Hugo Themes&lt;/a&gt;），每个主题都可以点进去查看详细信息与下载地址，笔者这里使用了stack主题，特别适合用于搭建个人博客网站。可以通过Hugo Themes中选中stack主题，进去Download，也可以在GitHub上直接搜索&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
 &gt;CaiJimmy/hugo-theme-stack: Card-style Hugo theme designed for bloggers&lt;/a&gt;，仿照上面下载hugo的方法找到对应位置下载源码（source code）压缩包即可。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256.png"
@@ -468,9 +468,9 @@ data-flex-grow="105"
 data-flex-basis="252px"
 &gt;&lt;/p&gt;
 &lt;p&gt;如果有兴趣为该主题添砖加瓦的同学，也可以给这个主题作者提交Issues！&lt;/p&gt;
-&lt;h2 id="stack"&gt;Stack
-&lt;/h2&gt;&lt;h3 id="解压主题"&gt;解压主题
-&lt;/h3&gt;&lt;p&gt;将stack主题的源码解压到&lt;code&gt;AHugoBlogSite\themes&lt;/code&gt;目录下（接下来为了方便，&lt;code&gt;AHugoBlogSite&lt;/code&gt;统称为站点目录）。&lt;/p&gt;
+&lt;h2 id="stack"&gt;Stack&lt;/h2&gt;
+&lt;h3 id="解压主题"&gt;解压主题&lt;/h3&gt;
+&lt;p&gt;将stack主题的源码解压到&lt;code&gt;AHugoBlogSite\themes&lt;/code&gt;目录下（接下来为了方便，&lt;code&gt;AHugoBlogSite&lt;/code&gt;统称为站点目录）。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;将解压的目录名称中的版本号删除，改成像我一样&lt;code&gt;hugo-theme-stack&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将&lt;code&gt;yaml&lt;/code&gt;配置文件中的主题改成对应的主题目录名称即可（后面会提及）&lt;/p&gt;
@@ -485,8 +485,8 @@ class="gallery-image"
 data-flex-grow="244"
 data-flex-basis="586px"
 &gt;&lt;/p&gt;
-&lt;h3 id="从主题文件中复制两个重要文件"&gt;从主题文件中复制两个重要文件
-&lt;/h3&gt;&lt;p&gt;在解压的目录（&lt;code&gt;hugo-theme-stack&lt;/code&gt;）下，有一个样例目录名为：&lt;code&gt;exampleSite&lt;/code&gt;，里面有两个非常重要的东西，一个是&lt;code&gt;content&lt;/code&gt;目录，一个是&lt;code&gt;hugo.yaml&lt;/code&gt;配置文件，将这两个文件复制出来&lt;/p&gt;
+&lt;h3 id="从主题文件中复制两个重要文件"&gt;从主题文件中复制两个重要文件&lt;/h3&gt;
+&lt;p&gt;在解压的目录（&lt;code&gt;hugo-theme-stack&lt;/code&gt;）下，有一个样例目录名为：&lt;code&gt;exampleSite&lt;/code&gt;，里面有两个非常重要的东西，一个是&lt;code&gt;content&lt;/code&gt;目录，一个是&lt;code&gt;hugo.yaml&lt;/code&gt;配置文件，将这两个文件复制出来&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819.png"
 width="840"
 height="351"
@@ -497,8 +497,8 @@ class="gallery-image"
 data-flex-grow="239"
 data-flex-basis="574px"
 &gt;&lt;/p&gt;
-&lt;h3 id="放到站点目录下"&gt;放到站点目录下
-&lt;/h3&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527.png"
+&lt;h3 id="放到站点目录下"&gt;放到站点目录下&lt;/h3&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527.png"
 width="796"
 height="415"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_1a1f4cceee5774df.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_86eccc2437d1aa02.png 1024w"
@@ -512,10 +512,10 @@ data-flex-basis="460px"
 &lt;blockquote&gt;
 &lt;p&gt;注意：在&lt;code&gt;content\post\&lt;/code&gt;目录下，有一个&lt;code&gt;rich-content&lt;/code&gt;的目录==删掉==，post目录下存放的就是你的博客内容，这个&lt;code&gt;rich-content&lt;/code&gt;博客中做了一些引用&lt;code&gt;Youtube&lt;/code&gt;的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="修改配置"&gt;修改配置
-&lt;/h3&gt;&lt;p&gt;打开刚才复制过来的hugo.yaml&lt;/p&gt;
-&lt;h4 id="更换主题"&gt;更换主题
-&lt;/h4&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910.png"
+&lt;h3 id="修改配置"&gt;修改配置&lt;/h3&gt;
+&lt;p&gt;打开刚才复制过来的hugo.yaml&lt;/p&gt;
+&lt;h4 id="更换主题"&gt;更换主题&lt;/h4&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910.png"
 width="742"
 height="272"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_d5a220288b4045f4.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_63d70fd83b5d416c.png 1024w"
@@ -715,9 +715,9 @@ data-flex-grow="272"
 data-flex-basis="653px"
 &gt;&lt;/p&gt;
 &lt;p&gt;可以看见，通过访问&lt;code&gt;http://localhost:1313&lt;/code&gt;即可访问博客&lt;/p&gt;
-&lt;h3 id="开始编写文章"&gt;开始编写文章
-&lt;/h3&gt;&lt;h4 id="文章目录结构"&gt;文章目录结构
-&lt;/h4&gt;&lt;p&gt;首先看一下文章目录结构，文章都保存在&lt;code&gt;content&lt;/code&gt;目录下：&lt;/p&gt;
+&lt;h3 id="开始编写文章"&gt;开始编写文章&lt;/h3&gt;
+&lt;h4 id="文章目录结构"&gt;文章目录结构&lt;/h4&gt;
+&lt;p&gt;首先看一下文章目录结构，文章都保存在&lt;code&gt;content&lt;/code&gt;目录下：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165.png"
 width="815"
 height="275"
@@ -774,8 +774,8 @@ data-flex-grow="192"
 data-flex-basis="462px"
 &gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id="如何写博文"&gt;如何写博文
-&lt;/h4&gt;&lt;p&gt;我写博文采用的是&lt;code&gt;markdown&lt;/code&gt;格式，这个格式我非常熟悉，写起来也特别舒服，使用&lt;code&gt;Typora&lt;/code&gt;工具，写&lt;code&gt;markdown&lt;/code&gt;手感特别好。&lt;/p&gt;
+&lt;h4 id="如何写博文"&gt;如何写博文&lt;/h4&gt;
+&lt;p&gt;我写博文采用的是&lt;code&gt;markdown&lt;/code&gt;格式，这个格式我非常熟悉，写起来也特别舒服，使用&lt;code&gt;Typora&lt;/code&gt;工具，写&lt;code&gt;markdown&lt;/code&gt;手感特别好。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;makrdown&lt;/code&gt;格式没什么好说的，学起来也很快，在写博文的时候需要注意的是开头携带的信息，如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601.png"
 width="645"
@@ -827,7 +827,7 @@ data-flex-basis="507px"
 &lt;blockquote&gt;
 &lt;p&gt;博文采用markdown格式，命名规则为：&lt;code&gt;index.语言.md&lt;/code&gt;，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为&lt;code&gt;index.md&lt;/code&gt;即可。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档&lt;a class="link" href="https://stack.jimmycai.com/" target="_blank" rel="noopener"
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档&lt;a class="link" href="https://stack.jimmycai.com/" target="_blank" rel="noopener"
 &gt;Stack | Card-style Hugo theme designed for bloggers&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;同时，下面一篇文章会介绍如何将博客部署到GitHub上，可以通过GitHub的pages功能，创建一个可以在公网访问的博客网站，很感谢你读到这里，祝你变得更强！&lt;/p&gt;</description></item></channel></rss>

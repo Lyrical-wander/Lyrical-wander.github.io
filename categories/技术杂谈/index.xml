@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术杂谈 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</link><description>Recent content in 技术杂谈 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Sun, 08 Dec 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向工程实战，在反汇编中发生的事</title><link>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</link><pubDate>Sun, 08 Dec 2024 19:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg" alt="Featured image of post 逆向工程实战，在反汇编中发生的事" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;今天对某外国的机器中的某个音频解码库进行反汇编，发现了一些有趣的知识，故而记录下来，以防以后重复遇到。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术杂谈 on 苏三有春的博客</title><link>https://www.lyrical-wander.cn/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/</link><description>Recent content in 技术杂谈 on 苏三有春的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Lyrical Wander</copyright><lastBuildDate>Sun, 08 Dec 2024 19:20:00 +0800</lastBuildDate><atom:link href="https://www.lyrical-wander.cn/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向工程实战，在反汇编中发生的事</title><link>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</link><pubDate>Sun, 08 Dec 2024 19:20:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%88%98%E5%9C%A8%E5%8F%8D%E6%B1%87%E7%BC%96%E4%B8%AD%E5%8F%91%E7%94%9F%E7%9A%84%E4%BA%8B/GHIDRA.jpg" alt="Featured image of post 逆向工程实战，在反汇编中发生的事" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;今天对某外国的机器中的某个音频解码库进行反汇编，发现了一些有趣的知识，故而记录下来，以防以后重复遇到。&lt;/p&gt;
 &lt;p&gt;现笔者使用的反汇编工具为“&lt;code&gt;Ghidra&lt;/code&gt;”。可在GitHub上下载：&lt;a class="link" href="https://github.com/NationalSecurityAgency/ghidra" target="_blank" rel="noopener"
 &gt;NationalSecurityAgency/ghidra: Ghidra is a software reverse engineering (SRE) framework&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Ghidra&lt;/code&gt;是由美国国家安全局研究局创建和维护的软件逆向工程 (SRE) 框架 。该框架包括一套功能齐全的高端软件分析工具，使用户能够在包括 &lt;code&gt;Windows&lt;/code&gt;、&lt;code&gt;macOS&lt;/code&gt; 和 &lt;code&gt;Linux &lt;/code&gt;在内的各种平台上分析编译代码。功能包括反汇编、汇编、反编译、绘图和脚本，以及数百个其他功能。&lt;/p&gt;
@@ -7,9 +7,9 @@
 &lt;blockquote&gt;
 &lt;p&gt;注：本文不介绍Ghidra的使用&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="adpcm_decoder1函数"&gt;adpcm_decoder1函数
-&lt;/h2&gt;&lt;h3 id="c代码"&gt;C代码
-&lt;/h3&gt;&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
+&lt;h2 id="adpcm_decoder1函数"&gt;adpcm_decoder1函数&lt;/h2&gt;
+&lt;h3 id="c代码"&gt;C代码&lt;/h3&gt;
+&lt;p&gt;笔者通过获取机器日志，发现了机器存在音频解码函数，通过&lt;code&gt;grep&lt;/code&gt;命令查询到了，存有相应解码函数的库文件，并将库文件&lt;code&gt;pull&lt;/code&gt;了出来，我们来看一下该库文件中相应的解码函数：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -157,8 +157,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;以上是反汇编后的结果，&lt;code&gt;Ghidra&lt;/code&gt;将机器语言解析成汇编语言，再自动转换成相应的C语言。&lt;/p&gt;
-&lt;h3 id="decryption函数并非adpcm的一部分"&gt;Decryption函数并非ADPCM的一部分
-&lt;/h3&gt;&lt;p&gt;可以看到，这是典型的ADPCM音频解码算法，笔者已经对比过经典的开源ADPCM音频解码算法的C语言版本，确实是相差无几，但在这段代码中，多出了以下内容：&lt;/p&gt;
+&lt;h3 id="decryption函数并非adpcm的一部分"&gt;Decryption函数并非ADPCM的一部分&lt;/h3&gt;
+&lt;p&gt;可以看到，这是典型的ADPCM音频解码算法，笔者已经对比过经典的开源ADPCM音频解码算法的C语言版本，确实是相差无几，但在这段代码中，多出了以下内容：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -180,8 +180,8 @@
 &lt;li&gt;一个for循环，将每帧数据丢入&lt;code&gt;Decryption&lt;/code&gt;函数中进行处理&lt;/li&gt;
 &lt;li&gt;Decryption函数接收两个参数，0x32,一个固定的常量值；param_1 + iVar6 * 0x14，param_1是语音数据的数组指针&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="decryption函数的参数问题"&gt;Decryption函数的参数问题
-&lt;/h3&gt;&lt;blockquote&gt;
+&lt;h3 id="decryption函数的参数问题"&gt;Decryption函数的参数问题&lt;/h3&gt;
+&lt;blockquote&gt;
 &lt;p&gt;这里解释一下Decryption函数接收的两个参数，实际上，Decryption函数接收三个参数，在这里，Ghidra在C中只给出了两个参数，笔者不清楚这是Ghidra的特性还是工具缺陷。对汇编不感兴趣的同学可以跳过这一部分，但推荐看看&lt;/p&gt;
 &lt;p&gt;下面会给出Decryption的函数体，在函数体中可以发现Decryption是接收三个参数的，这里我们讲解一下这一段for循环的汇编内容&lt;/p&gt;
 &lt;p&gt;C语言：&lt;/p&gt;
@@ -243,15 +243,15 @@
 &lt;/ul&gt;
 &lt;p&gt;可以看到，在调用Decryption函数前，分别给三个寄存器存放了东西，分别为&lt;code&gt;r0&lt;/code&gt;存放了&lt;code&gt;0x32&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;存放了param_1的偏移地址，&lt;code&gt;r2&lt;/code&gt;存放与&lt;code&gt;r1&lt;/code&gt;相同的东西。这三个寄存器就是Decryption函数用的三个参数。如果还不确定，可以跳转到Decryption函数中查看相应的&lt;code&gt;param_1&lt;/code&gt;,&lt;code&gt;param_2&lt;/code&gt;,&lt;code&gt;param_3&lt;/code&gt;三个参数调用时所使用的寄存器，分别为&lt;code&gt;r0&lt;/code&gt;，&lt;code&gt;r1&lt;/code&gt;，&lt;code&gt;r2&lt;/code&gt;，本文给出结论，不做赘述。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="小结"&gt;小结
-&lt;/h3&gt;&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
+&lt;h3 id="小结"&gt;小结&lt;/h3&gt;
+&lt;p&gt;总而言之，这里的音频解码，虽然使用的是ADPCM算法，但是在&lt;code&gt;raw data&lt;/code&gt;与&lt;code&gt;adpcm data&lt;/code&gt;之间还加入了一个加密解密过程，即，实际上的过程为：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;原始音频数据raw data → adpcm压缩→ 加密算法 encryption → 蓝牙传输 → 解密算法 decryption → adpcm解压 → 原始音频数据 raw data&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;因此，接下来看如何用解密算法还原加密算法&lt;/p&gt;
-&lt;h2 id="decryption函数"&gt;decryption函数
-&lt;/h2&gt;&lt;h3 id="c代码-1"&gt;C代码
-&lt;/h3&gt;&lt;p&gt;下面是decryption函数&lt;/p&gt;
+&lt;h2 id="decryption函数"&gt;decryption函数&lt;/h2&gt;
+&lt;h3 id="c代码-1"&gt;C代码&lt;/h3&gt;
+&lt;p&gt;下面是decryption函数&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -333,8 +333,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;笔者依次解释上面的代码&lt;/p&gt;
-&lt;h3 id="数据本地化"&gt;数据本地化
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="数据本地化"&gt;数据本地化&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -353,8 +353,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这一段代码其实很好看出是在做什么，就是将传入的数据存在函数内部的局部变量中，&lt;code&gt;iVar3&lt;/code&gt;变量是一个很重要的变量，在后续计算中会用到，记住它。在将所有数据搬完之后（一共20个字节，一语音帧20个字节），&lt;code&gt;iVar3&lt;/code&gt;变量来到了&lt;code&gt;0x13&lt;/code&gt;，十进制&lt;code&gt;19&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id="第19到1的数据解码"&gt;第19到1的数据解码
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;h3 id="第19到1的数据解码"&gt;第19到1的数据解码&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -377,8 +377,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里有一个很容易混淆的地方，就是标题采用的“第19到第1”这个概念，我们只能说，从while循环，从&lt;code&gt;iVar3&lt;/code&gt;变量的角度，是“从19到1”，而从数据的角度说并不是这样。为了强化读者这个概念，我们先介绍&lt;code&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/code&gt;与&lt;code&gt;local_30[*piVar1]&lt;/code&gt;这两个变量。&lt;/p&gt;
-&lt;h4 id="local_30int-dat_00019c0c--ivar4"&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]
-&lt;/h4&gt;&lt;p&gt;首先，从定义上看&lt;code&gt;byte local_30 [20];&lt;/code&gt;，local_30是一个数组的局部变量，且具有20个元素的大小，每个元素的大小为1byte，即，该数组是专门存放音频数据的。&lt;/p&gt;
+&lt;h4 id="local_30int-dat_00019c0c--ivar4"&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/h4&gt;
+&lt;p&gt;首先，从定义上看&lt;code&gt;byte local_30 [20];&lt;/code&gt;，local_30是一个数组的局部变量，且具有20个元素的大小，每个元素的大小为1byte，即，该数组是专门存放音频数据的。&lt;/p&gt;
 &lt;p&gt;其次，我们先看&lt;code&gt;local_30[*(int *)(&amp;amp;DAT_00019c0c + iVar4)]&lt;/code&gt;，数组的内部&lt;code&gt;index&lt;/code&gt;部分很复杂，我们来做介绍&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;&amp;amp;DAT_00019c0c&lt;/code&gt;是内存中的一个地址&lt;/li&gt;
@@ -444,8 +444,8 @@
 0xf 0x1 0x2 0x7 0x8&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;刚好是0~19，即根据通过&amp;rsquo;iVar3&amp;rsquo;的依次从19到1的变化，local_30数组依次参与解码的数据为8，7，2，1，&amp;hellip;，4，3，13，12，0，而非按顺序解码。&lt;/p&gt;
-&lt;h4 id="local_30pivar1"&gt;local_30[*piVar1]
-&lt;/h4&gt;&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id="local_30pivar1"&gt;local_30[*piVar1]&lt;/h4&gt;
+&lt;p&gt;在这里我们可以看到，该变量依然是local_30数组中的元素，只不过其&lt;code&gt;index&lt;/code&gt;表示为&lt;code&gt;*piVar1&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;看&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3; &lt;/code&gt;一些敏锐的同学可能注意到，在我们介绍的前一个变量中，地址都是四个字节一偏移，在内存地址中查询数据的分布，也是四个字节存一个数据，其它地方都是0，而按照我们的理解，&lt;code&gt;piVar1 = &amp;amp;DAT_00019c08 + iVar3 * 4;&lt;/code&gt;似乎才是正确的。我们查看一下相应的汇编代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -467,8 +467,8 @@
 &lt;/ul&gt;
 &lt;p&gt;这样可以看出，实际上，寄存器&lt;code&gt;r5&lt;/code&gt;与&lt;code&gt;r6&lt;/code&gt;都是读地址值且相差仅有4个字节。也就是说，&lt;code&gt;piVar1&lt;/code&gt;比&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;仅仅相差了4个字节，例如：在第一次循环中，&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;中的值为0x8，&lt;code&gt;piVar1&lt;/code&gt;中的值为0x7，在最后一次循环中，&lt;code&gt;&amp;amp;DAT_00019c08 + iVar3 * 4&lt;/code&gt;的值为0xc，&lt;code&gt;piVar1&lt;/code&gt;的值为0x0。&lt;/p&gt;
 &lt;p&gt;为什么C代码会与汇编相差如此之大呢，第一，在GCC编译C语言的过程中，本身会对代码进行优化，即调整指令顺序，甚至优化掉部分操作，以提升效率；第二，从已经编译过的二进制文件反推出C语言代码本身就是非常难的一件事情，正如数学中，求导的难度往往比求原函数的难度要低。所以有些细微的差池是可能的，因此在逆向工程中，除了要看C代码，还要检查汇编代码以及内存的走向。&lt;/p&gt;
-&lt;h4 id="解码过程"&gt;解码过程
-&lt;/h4&gt;&lt;p&gt;现在我们了解了那两个复杂的变量，现在我们来讲一讲解码的算法&lt;/p&gt;
+&lt;h4 id="解码过程"&gt;解码过程&lt;/h4&gt;
+&lt;p&gt;现在我们了解了那两个复杂的变量，现在我们来讲一讲解码的算法&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -592,8 +592,8 @@ $$
 r1 = bVar2 \oplus param_1\\
 r2 = local\_30[*(int *)(\&amp;DAT\_00019c0c + iVar4)] + local\_30[*piVar1]\\
 res = r1 \oplus r2
-$$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+$$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -617,8 +617,8 @@ $$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 00016500 08 70 strb r0,[r1,#0x0 ]=&amp;gt;local_30
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="返回数据"&gt;返回数据
-&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;/div&gt;&lt;h3 id="返回数据"&gt;返回数据&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;span class="lnt"&gt;2
@@ -633,16 +633,16 @@ $$&lt;h3 id="第0个数据的解码"&gt;第0个数据的解码
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;在此过程中，通过while循环将&lt;code&gt;local_30&lt;/code&gt;中已经完成解码的数据全部放到&lt;code&gt;param_3&lt;/code&gt;参数中，完成了数据的返回（因为&lt;code&gt;param_3&lt;/code&gt;是一个指针，因此对指针数据做修改在函数退出时修改依然成立，而不会随着函数出栈而消失）。&lt;/p&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;在这个反汇编的过程中，我们通过C代码与汇编代码的结合，还原出了解码过程的真实情况，因此，在反汇编中除了看反汇编工具提供的c语言代码，也需要看原来的汇编代码。所以，在逆向工程中，学会阅读汇编代码对你的帮助时巨大的，会避免因编译优化等问题带来的困扰，同时，笔者推荐读一读《深入理解计算机系统》，会让你对C和逆向有更深层次的理解，最后祝你变得更强！&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</link><pubDate>Wed, 20 Nov 2024 21:48:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（二）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;首先，想要实现这个功能的小伙伴需要完成几个前置条件：&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;在这个反汇编的过程中，我们通过C代码与汇编代码的结合，还原出了解码过程的真实情况，因此，在反汇编中除了看反汇编工具提供的c语言代码，也需要看原来的汇编代码。所以，在逆向工程中，学会阅读汇编代码对你的帮助时巨大的，会避免因编译优化等问题带来的困扰，同时，笔者推荐读一读《深入理解计算机系统》，会让你对C和逆向有更深层次的理解，最后祝你变得更强！&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（二）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</link><pubDate>Wed, 20 Nov 2024 21:48:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（二）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;首先，想要实现这个功能的小伙伴需要完成几个前置条件：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有一个GitHub账号&lt;/li&gt;
 &lt;li&gt;安装了git，并可以通过git推送commit到GitHub上&lt;/li&gt;
 &lt;li&gt;完成第一篇文章的博客搭建&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="创建仓库"&gt;创建仓库
-&lt;/h2&gt;&lt;p&gt;在GitHub上创建一个仓库，用来存放代码&lt;/p&gt;
+&lt;h2 id="创建仓库"&gt;创建仓库&lt;/h2&gt;
+&lt;p&gt;在GitHub上创建一个仓库，用来存放代码&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果你不是GitHub重度使用者或高手，建议你的仓库名称就是你自己的用户名 + .github + .io。如图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120195922527.png"
@@ -668,8 +668,8 @@ class="gallery-image"
 data-flex-grow="466"
 data-flex-basis="1118px"
 &gt;&lt;/p&gt;
-&lt;h2 id="修改配置"&gt;修改配置
-&lt;/h2&gt;&lt;p&gt;还记得上一篇文章提到的，配置文件中有一个参数是讲url重定向到自己的GitHub仓库的吗，现在我们在创建自己的仓库之后，可以开始填写，修改&lt;code&gt;hugo.yaml&lt;/code&gt;的`baseurl&lt;/p&gt;
+&lt;h2 id="修改配置"&gt;修改配置&lt;/h2&gt;
+&lt;p&gt;还记得上一篇文章提到的，配置文件中有一个参数是讲url重定向到自己的GitHub仓库的吗，现在我们在创建自己的仓库之后，可以开始填写，修改&lt;code&gt;hugo.yaml&lt;/code&gt;的`baseurl&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -678,8 +678,8 @@ data-flex-basis="1118px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;baseurl&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://Lyrical-wander.github.io&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# 这里是我的仓库名称，如果你按照上面的步骤走，输入：https://用户名.github.io 即可&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="上传代码"&gt;上传代码
-&lt;/h2&gt;&lt;p&gt;上传代码前，首先查看你的站点目录下有没有&lt;code&gt;public&lt;/code&gt;目录&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="上传代码"&gt;上传代码&lt;/h2&gt;
+&lt;p&gt;上传代码前，首先查看你的站点目录下有没有&lt;code&gt;public&lt;/code&gt;目录&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120204339171.png"
 width="696"
 height="530"
@@ -739,8 +739,8 @@ data-flex-basis="699px"
 &lt;li&gt;网络问题，因为GitHub是全球服务器，因此国内访问可能会有些慢，有条件的同学开个代理&lt;/li&gt;
 &lt;li&gt;git并没有权限访问GitHub，看你是如何配置GitHub的，建议采用SSH，网上有许多git生成ssh密钥，GitHub绑定密钥的教程，建议跟着走一遍，如果采用HTTPS的话，应该是要登陆的，具体流程笔者很久没用了，也是建议上网搜索，网上教程很多&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="启用pages功能"&gt;启用pages功能
-&lt;/h2&gt;&lt;p&gt;如果你成功上传代码，现在可以打开GitHub上自动生成静态网页的pages功能，来帮你生成静态网页，等静态网页生成后，以后通过访问你的仓库域名，即可直接打开你的博客&lt;/p&gt;
+&lt;h2 id="启用pages功能"&gt;启用pages功能&lt;/h2&gt;
+&lt;p&gt;如果你成功上传代码，现在可以打开GitHub上自动生成静态网页的pages功能，来帮你生成静态网页，等静态网页生成后，以后通过访问你的仓库域名，即可直接打开你的博客&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120203528103.png"
 width="1481"
 height="797"
@@ -763,19 +763,19 @@ data-flex-basis="445px"
 &lt;p&gt;值得注意的是，这里我是购买了自己的域名，然后解析到我的仓库，所以我的域名是&lt;code&gt;www.lyrical-wander.cn&lt;/code&gt;，而不是&lt;code&gt;www.lyrical-wander.github.io&lt;/code&gt;，而如果按照上面的步骤走的话，域名应该是：&lt;code&gt;www.usename.github.io&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;至此，你的博客已经部署好了！可以开始访问你自己的博客啦&lt;/p&gt;
-&lt;h2 id="小结"&gt;小结
-&lt;/h2&gt;&lt;p&gt;还有需要注意的是：&lt;/p&gt;
+&lt;h2 id="小结"&gt;小结&lt;/h2&gt;
+&lt;p&gt;还有需要注意的是：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;每一次写完博客，都需要重新使用&lt;code&gt;hugo server -D&lt;/code&gt;命令，生成新的&lt;code&gt;public&lt;/code&gt;目录，&lt;code&gt;push&lt;/code&gt;上&lt;code&gt;GitHub&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;每次生成新的&lt;code&gt;public&lt;/code&gt;，都会有大量的文件被改动，&lt;code&gt;push&lt;/code&gt;起来非常不方便&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因此我们要通过&lt;code&gt;GitHub&lt;/code&gt;的&lt;code&gt;Action&lt;/code&gt;功能来实现自动化部署&lt;/p&gt;
-&lt;h2 id="自动化部署"&gt;自动化部署
-&lt;/h2&gt;&lt;h3 id="创建仓库-1"&gt;创建仓库
-&lt;/h3&gt;&lt;p&gt;同样地，按照上面的步骤，我们重新创建一个仓库，这个仓库不会生成&lt;code&gt;pages&lt;/code&gt;，且可以设置为私有仓库，因此随意命名，比如：&lt;code&gt;hugo-main&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id="修改代码"&gt;修改代码
-&lt;/h3&gt;&lt;h4 id="创建gitignore文件"&gt;创建.gitignore文件
-&lt;/h4&gt;&lt;p&gt;我们添加一个小文件，来保持我们代码的干净整洁。&lt;/p&gt;
+&lt;h2 id="自动化部署"&gt;自动化部署&lt;/h2&gt;
+&lt;h3 id="创建仓库-1"&gt;创建仓库&lt;/h3&gt;
+&lt;p&gt;同样地，按照上面的步骤，我们重新创建一个仓库，这个仓库不会生成&lt;code&gt;pages&lt;/code&gt;，且可以设置为私有仓库，因此随意命名，比如：&lt;code&gt;hugo-main&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id="修改代码"&gt;修改代码&lt;/h3&gt;
+&lt;h4 id="创建gitignore文件"&gt;创建.gitignore文件&lt;/h4&gt;
+&lt;p&gt;我们添加一个小文件，来保持我们代码的干净整洁。&lt;/p&gt;
 &lt;p&gt;因为每一次&lt;code&gt;hugo server -D&lt;/code&gt;都会生成新的&lt;code&gt;public&lt;/code&gt;和&lt;code&gt;resources&lt;/code&gt;，而这个并不是我们编写的代码，因此这个可以忽略掉。&lt;/p&gt;
 &lt;p&gt;在站点目录下增加一个新文件&lt;code&gt;.gitignore&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;填写以下内容：&lt;/p&gt;
@@ -790,8 +790,8 @@ data-flex-grow="150"
 data-flex-basis="360px"
 &gt;&lt;/p&gt;
 &lt;p&gt;这个文件顾名思义，可以让&lt;code&gt;git&lt;/code&gt;忽略掉它里面填写的这些文件，这些文件&lt;code&gt;git&lt;/code&gt;不会再检查它们的修改，也不会让你提交它们。&lt;/p&gt;
-&lt;h4 id="生成token并创建yaml配置文件"&gt;生成token并创建yaml配置文件
-&lt;/h4&gt;&lt;p&gt;首先我们先生成一个token，获取该token，以免你以后每次上传代码都需要重新登录一遍&lt;/p&gt;
+&lt;h4 id="生成token并创建yaml配置文件"&gt;生成token并创建yaml配置文件&lt;/h4&gt;
+&lt;p&gt;首先我们先生成一个token，获取该token，以免你以后每次上传代码都需要重新登录一遍&lt;/p&gt;
 &lt;p&gt;进入&lt;code&gt;Settings&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%BA%8C/image-20241120211443269.png"
 width="404"
@@ -943,8 +943,8 @@ data-flex-basis="1378px"
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;commit_message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;auto deploy&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="上传代码-1"&gt;上传代码
-&lt;/h3&gt;&lt;p&gt;同样地，我们将站点代码再一次上传到这个仓库上，&lt;code&gt;git&lt;/code&gt;操作一模一样，按照上面的&lt;code&gt;上传代码&lt;/code&gt;部分来重新操作一遍即可。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="上传代码-1"&gt;上传代码&lt;/h3&gt;
+&lt;p&gt;同样地，我们将站点代码再一次上传到这个仓库上，&lt;code&gt;git&lt;/code&gt;操作一模一样，按照上面的&lt;code&gt;上传代码&lt;/code&gt;部分来重新操作一遍即可。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -963,20 +963,20 @@ data-flex-basis="1378px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git push -u origin main
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;至此，你就实现了自动部署，现在，你撰写博文，然后直接&lt;code&gt;push&lt;/code&gt;到第二个仓库，不需要本地生成&lt;code&gt;public&lt;/code&gt;，就可以啦，第二个仓库会做一系列操作，并生成静态网站所需的资源和&lt;code&gt;public&lt;/code&gt;，传到第一个仓库中，然后生成静态网站。&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</link><pubDate>Tue, 19 Nov 2024 21:47:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（一）" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;我想有一个地方，能够分享一些个人生活，记录一些技术知识，那么在茫茫大的网络世界中，有许多网站或者应用可以满足我的需求，比如CSDN，比如博客园，比如QQ空间（已经渐渐消失在时间的长河中了&amp;hellip;&amp;hellip;）。但，总感觉差了些什么，它们既不能满足我的个人世界的全部想象，又不够极客主义，谁在小时候没有幻想过拥有一间完全由自己建造的，不受地皮，户型限制的房子呢？&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;至此，你就实现了自动部署，现在，你撰写博文，然后直接&lt;code&gt;push&lt;/code&gt;到第二个仓库，不需要本地生成&lt;code&gt;public&lt;/code&gt;，就可以啦，第二个仓库会做一系列操作，并生成静态网站所需的资源和&lt;code&gt;public&lt;/code&gt;，传到第一个仓库中，然后生成静态网站。&lt;/p&gt;</description></item><item><title>基于Hugo构建一个属于自己的博客（一）</title><link>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</link><pubDate>Tue, 19 Nov 2024 21:47:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/stackImage.png" alt="Featured image of post 基于Hugo构建一个属于自己的博客（一）" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;我想有一个地方，能够分享一些个人生活，记录一些技术知识，那么在茫茫大的网络世界中，有许多网站或者应用可以满足我的需求，比如CSDN，比如博客园，比如QQ空间（已经渐渐消失在时间的长河中了&amp;hellip;&amp;hellip;）。但，总感觉差了些什么，它们既不能满足我的个人世界的全部想象，又不够极客主义，谁在小时候没有幻想过拥有一间完全由自己建造的，不受地皮，户型限制的房子呢？&lt;/p&gt;
 &lt;p&gt;因此，我决定开始搭建自己的个人博客，它将成为我在网络世界的一座小屋，它的风格，样式由我定义，它将随我漂流，我可以自由地为它添砖加瓦，也可以任性地删除任何我不满意的功能，也许在某天它将因为我的离开而荒废，但这里，有我在网络世界的一部分记忆，一部分独属于我的记忆&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;p&gt;笔者的个人博客，&lt;a class="link" href="https://www.lyrical-wander.cn/" target="_blank" rel="noopener"
 &gt;苏三有春的博客&lt;/a&gt;，采用了Hugo框架下的stack主题搭建，非常快速且简单（当然在搭建的过程当中笔者也踩了一些坑），因此写一篇博客来记录自己的搭建心得以及给有想法搭建个人博客的小伙伴们一些参考。&lt;/p&gt;
 &lt;p&gt;参考视频：&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://www.bilibili.com/video/BV1bovfeaEtQ/?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=68677a7df285890170746fa6cd980d20" target="_blank" rel="noopener"
 &gt;【雷】Hugo + Github免费搭建博客，并实现自动化部署_哔哩哔哩_bilibili&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="hugo"&gt;Hugo
-&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+&lt;h2 id="hugo"&gt;Hugo&lt;/h2&gt;
+&lt;p&gt;&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
 &gt;Hugo&lt;/a&gt;是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署，可以帮助用户快速构建高性能的静态网站，方便个人搭建博客，和个人网站等。Hugo在GitHub（&lt;a class="link" href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener"
 &gt; The world’s fastest framework for building websites.&lt;/a&gt;）上拥有超过75K stars，近千名贡献者，拥有活跃的社区，保证了Hugo成为当下最流行的静态网站生成器之一，正如其标题所说：“Hugo是世界上最快的构建网站的框架”。&lt;/p&gt;
-&lt;h3 id="hugo下载"&gt;Hugo下载
-&lt;/h3&gt;&lt;p&gt;Hugo框架的下载有一些注意事项：&lt;/p&gt;
+&lt;h3 id="hugo下载"&gt;Hugo下载&lt;/h3&gt;
+&lt;p&gt;Hugo框架的下载有一些注意事项：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Hugo根据操作系统的不同有不同的下载方式&lt;/p&gt;
@@ -1048,8 +1048,8 @@ data-flex-basis="206px"
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="创建新的站点"&gt;创建新的站点
-&lt;/h3&gt;&lt;p&gt;在cmd中（如果没有配置全局路径，在hugo.exe目录下使用该命令）使用命令&lt;/p&gt;
+&lt;h3 id="创建新的站点"&gt;创建新的站点&lt;/h3&gt;
+&lt;p&gt;在cmd中（如果没有配置全局路径，在hugo.exe目录下使用该命令）使用命令&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1089,8 +1089,8 @@ data-flex-basis="566px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; AHugoBlogSite
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="挑选主题"&gt;挑选主题
-&lt;/h3&gt;&lt;p&gt;Hugo下载好后，就可以开始挑选自己喜欢的主题，可以在Hugo官网下挑选（&lt;a class="link" href="https://themes.gohugo.io/" target="_blank" rel="noopener"
+&lt;/div&gt;&lt;h3 id="挑选主题"&gt;挑选主题&lt;/h3&gt;
+&lt;p&gt;Hugo下载好后，就可以开始挑选自己喜欢的主题，可以在Hugo官网下挑选（&lt;a class="link" href="https://themes.gohugo.io/" target="_blank" rel="noopener"
 &gt;Complete List | Hugo Themes&lt;/a&gt;），每个主题都可以点进去查看详细信息与下载地址，笔者这里使用了stack主题，特别适合用于搭建个人博客网站。可以通过Hugo Themes中选中stack主题，进去Download，也可以在GitHub上直接搜索&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
 &gt;CaiJimmy/hugo-theme-stack: Card-style Hugo theme designed for bloggers&lt;/a&gt;，仿照上面下载hugo的方法找到对应位置下载源码（source code）压缩包即可。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211136256.png"
@@ -1104,9 +1104,9 @@ data-flex-grow="105"
 data-flex-basis="252px"
 &gt;&lt;/p&gt;
 &lt;p&gt;如果有兴趣为该主题添砖加瓦的同学，也可以给这个主题作者提交Issues！&lt;/p&gt;
-&lt;h2 id="stack"&gt;Stack
-&lt;/h2&gt;&lt;h3 id="解压主题"&gt;解压主题
-&lt;/h3&gt;&lt;p&gt;将stack主题的源码解压到&lt;code&gt;AHugoBlogSite\themes&lt;/code&gt;目录下（接下来为了方便，&lt;code&gt;AHugoBlogSite&lt;/code&gt;统称为站点目录）。&lt;/p&gt;
+&lt;h2 id="stack"&gt;Stack&lt;/h2&gt;
+&lt;h3 id="解压主题"&gt;解压主题&lt;/h3&gt;
+&lt;p&gt;将stack主题的源码解压到&lt;code&gt;AHugoBlogSite\themes&lt;/code&gt;目录下（接下来为了方便，&lt;code&gt;AHugoBlogSite&lt;/code&gt;统称为站点目录）。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;将解压的目录名称中的版本号删除，改成像我一样&lt;code&gt;hugo-theme-stack&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;值得注意的是，如果你想换其它主题，或者你一开始便不打算下载stack主题，操作也是一样的，同样将版本号删除，并将&lt;code&gt;yaml&lt;/code&gt;配置文件中的主题改成对应的主题目录名称即可（后面会提及）&lt;/p&gt;
@@ -1121,8 +1121,8 @@ class="gallery-image"
 data-flex-grow="244"
 data-flex-basis="586px"
 &gt;&lt;/p&gt;
-&lt;h3 id="从主题文件中复制两个重要文件"&gt;从主题文件中复制两个重要文件
-&lt;/h3&gt;&lt;p&gt;在解压的目录（&lt;code&gt;hugo-theme-stack&lt;/code&gt;）下，有一个样例目录名为：&lt;code&gt;exampleSite&lt;/code&gt;，里面有两个非常重要的东西，一个是&lt;code&gt;content&lt;/code&gt;目录，一个是&lt;code&gt;hugo.yaml&lt;/code&gt;配置文件，将这两个文件复制出来&lt;/p&gt;
+&lt;h3 id="从主题文件中复制两个重要文件"&gt;从主题文件中复制两个重要文件&lt;/h3&gt;
+&lt;p&gt;在解压的目录（&lt;code&gt;hugo-theme-stack&lt;/code&gt;）下，有一个样例目录名为：&lt;code&gt;exampleSite&lt;/code&gt;，里面有两个非常重要的东西，一个是&lt;code&gt;content&lt;/code&gt;目录，一个是&lt;code&gt;hugo.yaml&lt;/code&gt;配置文件，将这两个文件复制出来&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119211834819.png"
 width="840"
 height="351"
@@ -1133,8 +1133,8 @@ class="gallery-image"
 data-flex-grow="239"
 data-flex-basis="574px"
 &gt;&lt;/p&gt;
-&lt;h3 id="放到站点目录下"&gt;放到站点目录下
-&lt;/h3&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527.png"
+&lt;h3 id="放到站点目录下"&gt;放到站点目录下&lt;/h3&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527.png"
 width="796"
 height="415"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_1a1f4cceee5774df.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213110527_hu_86eccc2437d1aa02.png 1024w"
@@ -1148,10 +1148,10 @@ data-flex-basis="460px"
 &lt;blockquote&gt;
 &lt;p&gt;注意：在&lt;code&gt;content\post\&lt;/code&gt;目录下，有一个&lt;code&gt;rich-content&lt;/code&gt;的目录==删掉==，post目录下存放的就是你的博客内容，这个&lt;code&gt;rich-content&lt;/code&gt;博客中做了一些引用&lt;code&gt;Youtube&lt;/code&gt;的样例操作，可能会导致你运行失败，这些国外网站可能会导致你访问超时&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="修改配置"&gt;修改配置
-&lt;/h3&gt;&lt;p&gt;打开刚才复制过来的hugo.yaml&lt;/p&gt;
-&lt;h4 id="更换主题"&gt;更换主题
-&lt;/h4&gt;&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910.png"
+&lt;h3 id="修改配置"&gt;修改配置&lt;/h3&gt;
+&lt;p&gt;打开刚才复制过来的hugo.yaml&lt;/p&gt;
+&lt;h4 id="更换主题"&gt;更换主题&lt;/h4&gt;
+&lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910.png"
 width="742"
 height="272"
 srcset="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_d5a220288b4045f4.png 480w, https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119213249910_hu_63d70fd83b5d416c.png 1024w"
@@ -1351,9 +1351,9 @@ data-flex-grow="272"
 data-flex-basis="653px"
 &gt;&lt;/p&gt;
 &lt;p&gt;可以看见，通过访问&lt;code&gt;http://localhost:1313&lt;/code&gt;即可访问博客&lt;/p&gt;
-&lt;h3 id="开始编写文章"&gt;开始编写文章
-&lt;/h3&gt;&lt;h4 id="文章目录结构"&gt;文章目录结构
-&lt;/h4&gt;&lt;p&gt;首先看一下文章目录结构，文章都保存在&lt;code&gt;content&lt;/code&gt;目录下：&lt;/p&gt;
+&lt;h3 id="开始编写文章"&gt;开始编写文章&lt;/h3&gt;
+&lt;h4 id="文章目录结构"&gt;文章目录结构&lt;/h4&gt;
+&lt;p&gt;首先看一下文章目录结构，文章都保存在&lt;code&gt;content&lt;/code&gt;目录下：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119215102165.png"
 width="815"
 height="275"
@@ -1410,8 +1410,8 @@ data-flex-grow="192"
 data-flex-basis="462px"
 &gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id="如何写博文"&gt;如何写博文
-&lt;/h4&gt;&lt;p&gt;我写博文采用的是&lt;code&gt;markdown&lt;/code&gt;格式，这个格式我非常熟悉，写起来也特别舒服，使用&lt;code&gt;Typora&lt;/code&gt;工具，写&lt;code&gt;markdown&lt;/code&gt;手感特别好。&lt;/p&gt;
+&lt;h4 id="如何写博文"&gt;如何写博文&lt;/h4&gt;
+&lt;p&gt;我写博文采用的是&lt;code&gt;markdown&lt;/code&gt;格式，这个格式我非常熟悉，写起来也特别舒服，使用&lt;code&gt;Typora&lt;/code&gt;工具，写&lt;code&gt;markdown&lt;/code&gt;手感特别好。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;makrdown&lt;/code&gt;格式没什么好说的，学起来也很快，在写博文的时候需要注意的是开头携带的信息，如下图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/%E5%9F%BA%E4%BA%8Ehugo%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%80/image-20241119220621601.png"
 width="645"
@@ -1463,11 +1463,11 @@ data-flex-basis="507px"
 &lt;blockquote&gt;
 &lt;p&gt;博文采用markdown格式，命名规则为：&lt;code&gt;index.语言.md&lt;/code&gt;，这里因为我的默认语言是中文，就不用携带语言，即：‘zh-cn’，因此只需要命名为&lt;code&gt;index.md&lt;/code&gt;即可。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档&lt;a class="link" href="https://stack.jimmycai.com/" target="_blank" rel="noopener"
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;至此，你已经搭建了你的个人博客，并且可以开始写文章啦，更多关于stack主题的美化或修改可以看stack文档&lt;a class="link" href="https://stack.jimmycai.com/" target="_blank" rel="noopener"
 &gt;Stack | Card-style Hugo theme designed for bloggers&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;同时，下面一篇文章会介绍如何将博客部署到GitHub上，可以通过GitHub的pages功能，创建一个可以在公网访问的博客网站，很感谢你读到这里，祝你变得更强！&lt;/p&gt;</description></item><item><title>搭建自己的Wiki知识库</title><link>https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/</link><pubDate>Mon, 18 Nov 2024 19:31:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker.png" alt="Featured image of post 搭建自己的Wiki知识库" /&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。&lt;/p&gt;
+&lt;p&gt;同时，下面一篇文章会介绍如何将博客部署到GitHub上，可以通过GitHub的pages功能，创建一个可以在公网访问的博客网站，很感谢你读到这里，祝你变得更强！&lt;/p&gt;</description></item><item><title>搭建自己的Wiki知识库</title><link>https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/</link><pubDate>Mon, 18 Nov 2024 19:31:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84wiki%E7%9F%A5%E8%AF%86%E5%BA%93/WikijsAndDocker.png" alt="Featured image of post 搭建自己的Wiki知识库" /&gt;&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+&lt;p&gt;前段时间，笔者因工作需要，尝试搭建了一个Wiki.js，将笔者的学习经历以及踩坑过程通过这篇文章分享给各位读者。&lt;/p&gt;
 &lt;p&gt;Wiki是一种允许多人共同编辑和管理内容的平台，可以让被授权过的用户在上面创建，修改和更新页面，实现协作和信息共享，广泛应用于教育，公司文档管理，项目合作等多个领域。&lt;/p&gt;
 &lt;p&gt;笔者选择采用Wiki.js，一个开源且美观的Wiki程序，在网上照猫画虎地用了docker技术下载安装在Ubuntu22.04系统中，如果你采用的配置和我一样，那么可能会遇到我遇到的这些坑。&lt;/p&gt;
 &lt;p&gt;参考文档：&lt;/p&gt;
@@ -1488,11 +1488,11 @@ data-flex-basis="507px"
 &lt;blockquote&gt;
 &lt;p&gt;这里是笔者踩过的坑：&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="安装docker"&gt;安装Docker
-&lt;/h2&gt;&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class="link" href="https://cloud.tencent.com/developer/article/2302416" target="_blank" rel="noopener"
+&lt;h2 id="安装docker"&gt;安装Docker&lt;/h2&gt;
+&lt;p&gt;如果你需要在云服务器上部署，那么第一步是选择并购买服务器，现在在市面上的服务器有很多，笔者不做推荐。笔者使用的是阿里云的服务器，2核4G，Ubuntu22.04系统，预装LNMP应用。但是笔者看的看的笔记是腾讯云的，&lt;a class="link" href="https://cloud.tencent.com/developer/article/2302416" target="_blank" rel="noopener"
 &gt;【实用的开源项目】使用服务器部署Wiki.js，一个美观且强大的开源Wiki程序-腾讯云开发者社区-腾讯云&lt;/a&gt;，但感觉大部分内容大差不差，在阿里云上业跑起来了，只不过没有做反向代理的那一步，因为自己使用，直接用&lt;code&gt;IP:端口&lt;/code&gt;访问。&lt;/p&gt;
-&lt;h3 id="1更新apt-get"&gt;1.更新apt-get
-&lt;/h3&gt;&lt;p&gt;因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。&lt;/p&gt;
+&lt;h3 id="1更新apt-get"&gt;1.更新apt-get&lt;/h3&gt;
+&lt;p&gt;因为笔者采用的是阿里云的云服务器，系统没有预装docker，所以我们要自己下载并安装docker。&lt;/p&gt;
 &lt;p&gt;首先更新一下包管理器，并安装必要的软件包&lt;code&gt;curl&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -1504,8 +1504,8 @@ data-flex-basis="507px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;apt-get -y install curl
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="2下载安装docker-ce"&gt;2.下载安装Docker-ce
-&lt;/h3&gt;&lt;p&gt;接下来注意了：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="2下载安装docker-ce"&gt;2.下载安装Docker-ce&lt;/h3&gt;
+&lt;p&gt;接下来注意了：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者曾在这里踩过坑：根据上面腾讯云的内容，笔者是无法直接安装并docker的，笔者怀疑是镜像源的问题，现在许多国内镜像源在pull的时候都会出现报错，因此，笔者做了以下修改：&lt;a class="link" href="https://mirrors.huaweicloud.com/mirrorDetail/5ea14d84b58d16ef329c5c13?mirrorName=docker-ce&amp;amp;catalog=docker" target="_blank" rel="noopener"
 &gt;华为开源镜像站_软件开发服务_华为云&lt;/a&gt;&lt;/p&gt;
@@ -1545,8 +1545,8 @@ data-flex-basis="731px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
-&lt;h3 id="3启动docker"&gt;3.启动Docker
-&lt;/h3&gt;&lt;p&gt;执行以下命令启动docker&lt;/p&gt;
+&lt;h3 id="3启动docker"&gt;3.启动Docker&lt;/h3&gt;
+&lt;p&gt;执行以下命令启动docker&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1574,9 +1574,9 @@ data-flex-basis="731px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;新版的docker自带了compose命令，即，你无需下载docker-compose，即可使用&lt;code&gt;docker compose&lt;/code&gt;命令（注意中间是空格）&lt;/p&gt;
-&lt;h2 id="部署wikijs"&gt;部署Wiki.js
-&lt;/h2&gt;&lt;h3 id="1新建目录"&gt;1.新建目录
-&lt;/h3&gt;&lt;p&gt;新建Wiki.js的存放目录，且移动到目录下&lt;/p&gt;
+&lt;h2 id="部署wikijs"&gt;部署Wiki.js&lt;/h2&gt;
+&lt;h3 id="1新建目录"&gt;1.新建目录&lt;/h3&gt;
+&lt;p&gt;新建Wiki.js的存放目录，且移动到目录下&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1586,8 +1586,8 @@ data-flex-basis="731px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里新建了两个目录，一个是docker目录下的wikijs，一个是数据库的目录，数据库采用postgresql，具体数据库的差异笔者也需要去学习一下。&lt;/p&gt;
-&lt;h3 id="2新建docker-composeyaml文件"&gt;2.新建docker-compose.yaml文件
-&lt;/h3&gt;&lt;p&gt;docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用&lt;code&gt;nano&lt;/code&gt;命令来配置，因为在新安装的系统中，没有&lt;code&gt;vim&lt;/code&gt;命令，如果想使用&lt;code&gt;vim&lt;/code&gt;命令需要&lt;code&gt;apt-get install vim&lt;/code&gt;先下载。&lt;/p&gt;
+&lt;h3 id="2新建docker-composeyaml文件"&gt;2.新建docker-compose.yaml文件&lt;/h3&gt;
+&lt;p&gt;docker-compose.yaml文件是用来等会自动化下载的，按照这个文件中的配置下载Wiki.js并配好数据库。我们这使用&lt;code&gt;nano&lt;/code&gt;命令来配置，因为在新安装的系统中，没有&lt;code&gt;vim&lt;/code&gt;命令，如果想使用&lt;code&gt;vim&lt;/code&gt;命令需要&lt;code&gt;apt-get install vim&lt;/code&gt;先下载。&lt;/p&gt;
 &lt;p&gt;创建并编辑docker-compose.yaml文件&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -1668,8 +1668,8 @@ data-flex-basis="731px"
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;可以看到，这里我们需要下载两个东西，一个是db即database，一个是wiki即Wiki.js，端口开放为2078，即如果你想访问Wiki.js，则需要通过&lt;code&gt;IP地址:端口号（2078）&lt;/code&gt;的形式访问，如果不做方向代理的话&lt;/p&gt;
 &lt;p&gt;编写完成后，按&lt;code&gt;Ctrl + x&lt;/code&gt;退出，按&lt;code&gt;y&lt;/code&gt;确认保存，按&lt;code&gt;enter&lt;/code&gt;回车键退出&lt;/p&gt;
-&lt;h3 id="3更改镜像源"&gt;3.更改镜像源
-&lt;/h3&gt;&lt;p&gt;原本到这里，按照文章的内容应该是开始运行命令下载&lt;/p&gt;
+&lt;h3 id="3更改镜像源"&gt;3.更改镜像源&lt;/h3&gt;
+&lt;p&gt;原本到这里，按照文章的内容应该是开始运行命令下载&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1716,15 +1716,15 @@ data-flex-basis="731px"
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;https://docker.1panel.live&lt;/code&gt;是第二篇文章博主提供的，这个镜像源可以让我成功地下载yaml配置中的&lt;code&gt;db&lt;/code&gt;，即下载数据库，后面的镜像源采用的是第一篇博主的。它无法正常下载&lt;code&gt;db&lt;/code&gt;，会报出上面的错误，但是可以下载&lt;code&gt;wiki&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;下载时间较长，根据笔者多次失败经历以及更换镜像源的经历，在下载过程中60s内没有爆出上述错误，且&lt;code&gt;db&lt;/code&gt;于&lt;code&gt;wiki&lt;/code&gt;的下载项都出现，即开始正常下载&lt;/p&gt;
 &lt;p&gt;什么叫“&lt;code&gt;db&lt;/code&gt;于&lt;code&gt;wiki&lt;/code&gt;的下载项都出现呢”，当你运行&lt;code&gt;docker compose up -d&lt;/code&gt;命令后，会先出现 &lt;code&gt;db&lt;/code&gt;与&lt;code&gt;wiki&lt;/code&gt;两项在转圈圈，但是这两项下有许多文件需要下载，需要全部文件都展示出并显示等待下载，才算是开始正常下载。&lt;/p&gt;
-&lt;h2 id="访问wikijs"&gt;访问Wiki.js
-&lt;/h2&gt;&lt;p&gt;通过浏览器访问&lt;code&gt;IP地址:2078&lt;/code&gt;即可访问你自己的Wiki.js。&lt;/p&gt;
+&lt;h2 id="访问wikijs"&gt;访问Wiki.js&lt;/h2&gt;
+&lt;p&gt;通过浏览器访问&lt;code&gt;IP地址:2078&lt;/code&gt;即可访问你自己的Wiki.js。&lt;/p&gt;
 &lt;p&gt;在访问过程中，笔者也遇到了一些坑，首先介绍一下笔者的环境：&lt;/p&gt;
 &lt;p&gt;一台&lt;code&gt;台式机&lt;/code&gt;，开着&lt;code&gt;虚拟机&lt;/code&gt;运行Ubuntu环境下载了Wiki.js，想通过另一台&lt;code&gt;计算机（笔记本）&lt;/code&gt;访问这个Wiki.js&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者在网上查阅了大量文章，发现很多文章都是用的是NAT模式，然后通过与虚拟机与宿主机协同暴露指定端口供外接访问，因为虚拟机与宿主机是同一IP地址，因此必须要两者配合，但是宿主机又是Windows系统，因此协调起来比较麻烦，所以笔者采用了桥接模式，虚拟机拥有自己的IP地址，虚拟机可以直接访问外部网络。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="获取ip地址"&gt;获取IP地址
-&lt;/h3&gt;&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
+&lt;h3 id="获取ip地址"&gt;获取IP地址&lt;/h3&gt;
+&lt;p&gt;首先使用以下命令查看虚拟机的IP地址&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1742,8 +1742,8 @@ data-flex-basis="731px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ifconfig
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="查看防火墙状态"&gt;查看防火墙状态
-&lt;/h3&gt;&lt;p&gt;使用以下命令查看防火墙状态，确保防火墙关闭&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="查看防火墙状态"&gt;查看防火墙状态&lt;/h3&gt;
+&lt;p&gt;使用以下命令查看防火墙状态，确保防火墙关闭&lt;/p&gt;
 &lt;p&gt;如果使用的是&lt;code&gt;ufw&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;查看防火墙状态：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -1763,28 +1763,28 @@ data-flex-basis="731px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ufw disable
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id="小结"&gt;小结
-&lt;/h3&gt;&lt;p&gt;值得注意的是：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="小结"&gt;小结&lt;/h3&gt;
+&lt;p&gt;值得注意的是：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;笔者踩过的坑：&lt;/p&gt;
 &lt;p&gt;通过这样的方式访问，需要虚拟机与访问虚拟机的机器在同一局域网下，否则的话是无法访问的，因为虚拟机并没有暴露在公网中&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="总结"&gt;总结
-&lt;/h2&gt;&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结&lt;/h2&gt;
+&lt;p&gt;在本次搭建的过程中，笔者也学到了很多东西：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;安装Docker时出现大大小小各种错误，包括镜像源不行，下载过慢，GPG无法使用，&lt;code&gt;apt-key&lt;/code&gt;命令被弃用等&lt;/li&gt;
 &lt;li&gt;在部署Wiki.js时，遇到的最重要的问题就是镜像源问题，虽然在最后笔者采用的镜像源帮助了笔者完整下载，但是在这之前，笔者浏览了许多文章（大多数都相似，使用阿里云的镜像源），都无法正常下载，真的很崩溃。&lt;/li&gt;
 &lt;li&gt;在最后写这篇文章时，笔者打算重新找回那些资料，发现自己浏览记录过多，许多资料和网站已经找不到了！这也是缺失之一，以后在解决某项问题的时候，希望保持良好习惯，点赞收藏，并及时开始写博客。&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>VSCode无法使用右键“用VScode打开文件夹”解决办法</title><link>https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link><pubDate>Mon, 04 Nov 2024 09:45:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png" alt="Featured image of post VSCode无法使用右键“用VScode打开文件夹”解决办法" /&gt;&lt;h1 id="前言"&gt;前言
-&lt;/h1&gt;&lt;p&gt;作者的编程环境为VScode，工作时常使用VScode打开整个工程文件夹。如果先打开VScode再从VScode中选择文件夹打开效率太慢，作者一般使用的方式是右键文件夹，直接选择&amp;quot;通过code打开文件夹&amp;quot;，但某天，作者同往常一样工作时发现快捷键不起效，桌面的快捷方式也变成了无法使用的状态。&lt;/p&gt;
+&lt;/ul&gt;</description></item><item><title>VSCode无法使用右键“用VScode打开文件夹”解决办法</title><link>https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link><pubDate>Mon, 04 Nov 2024 09:45:00 +0800</pubDate><guid>https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid><description>&lt;img src="https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png" alt="Featured image of post VSCode无法使用右键“用VScode打开文件夹”解决办法" /&gt;&lt;h1 id="前言"&gt;前言&lt;/h1&gt;
+&lt;p&gt;作者的编程环境为VScode，工作时常使用VScode打开整个工程文件夹。如果先打开VScode再从VScode中选择文件夹打开效率太慢，作者一般使用的方式是右键文件夹，直接选择&amp;quot;通过code打开文件夹&amp;quot;，但某天，作者同往常一样工作时发现快捷键不起效，桌面的快捷方式也变成了无法使用的状态。&lt;/p&gt;
 &lt;p&gt;通过&lt;code&gt;设置&lt;/code&gt;索引回快捷方式的目标和起始位置，发现找不到对应的&lt;code&gt;code.exe&lt;/code&gt;文件。这说明可能有以下几种情况：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;VScode在我不知情的情况下被卸载了&lt;/li&gt;
 &lt;li&gt;VScode中code.exe执行文件被删了&lt;/li&gt;
 &lt;li&gt;VScode出于某种情况（可能是更新），将执行文件改了名字或移动了位置&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id="更新vscode快捷方式"&gt;更新VScode快捷方式
-&lt;/h1&gt;&lt;p&gt;通过查找VScode的目录，发现code.exe文件从原本的&lt;code&gt;Microsoft VS Code&lt;/code&gt;目录下移动到&lt;code&gt;Microsoft VS Code\_&lt;/code&gt;目录下，多了一级目录，&lt;strong&gt;暂不清楚什么原因&lt;/strong&gt;，因此桌面快捷方式不起作用，只需要将快捷方式的目标和起始位置做一下修改，桌面的快捷方式就可以重新使用了。&lt;/p&gt;
+&lt;h1 id="更新vscode快捷方式"&gt;更新VScode快捷方式&lt;/h1&gt;
+&lt;p&gt;通过查找VScode的目录，发现code.exe文件从原本的&lt;code&gt;Microsoft VS Code&lt;/code&gt;目录下移动到&lt;code&gt;Microsoft VS Code\_&lt;/code&gt;目录下，多了一级目录，&lt;strong&gt;暂不清楚什么原因&lt;/strong&gt;，因此桌面快捷方式不起作用，只需要将快捷方式的目标和起始位置做一下修改，桌面的快捷方式就可以重新使用了。&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104101906963.png"
 width="501"
 height="303"
@@ -1795,13 +1795,13 @@ class="gallery-image"
 data-flex-grow="165"
 data-flex-basis="396px"
 &gt;&lt;/p&gt;
-&lt;h1 id="右键使用vscode打开文件夹"&gt;右键使用VScode打开文件夹
-&lt;/h1&gt;&lt;h2 id="重装软件"&gt;重装软件
-&lt;/h2&gt;&lt;p&gt;重装软件确实是一个简单且有效的方法，如果你的VScode比较干净的话。但如果你安装了许多插件且配置了多个Python的虚拟环境（那可是一个大工程），那么放弃现在的VScode对你来说可能是一个噩梦。如果你是此类人，我推荐你使用&lt;strong&gt;下面的方法&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2 id="修改注册表"&gt;修改注册表
-&lt;/h2&gt;&lt;p&gt;使用&lt;code&gt;win + R&lt;/code&gt;打开运行，输入&lt;code&gt;regedit&lt;/code&gt;打开注册表。&lt;/p&gt;
-&lt;h3 id="配置右键使用vscode打开文件"&gt;配置：右键使用vscode打开文件
-&lt;/h3&gt;&lt;p&gt;你可以直接在左侧目录树下找到&lt;code&gt;HKEY_CLASSES_ROOT\*\shell&lt;/code&gt;，也可以在上方地址栏中输入，索引到相应的目录中&lt;/p&gt;
+&lt;h1 id="右键使用vscode打开文件夹"&gt;右键使用VScode打开文件夹&lt;/h1&gt;
+&lt;h2 id="重装软件"&gt;重装软件&lt;/h2&gt;
+&lt;p&gt;重装软件确实是一个简单且有效的方法，如果你的VScode比较干净的话。但如果你安装了许多插件且配置了多个Python的虚拟环境（那可是一个大工程），那么放弃现在的VScode对你来说可能是一个噩梦。如果你是此类人，我推荐你使用&lt;strong&gt;下面的方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id="修改注册表"&gt;修改注册表&lt;/h2&gt;
+&lt;p&gt;使用&lt;code&gt;win + R&lt;/code&gt;打开运行，输入&lt;code&gt;regedit&lt;/code&gt;打开注册表。&lt;/p&gt;
+&lt;h3 id="配置右键使用vscode打开文件"&gt;配置：右键使用vscode打开文件&lt;/h3&gt;
+&lt;p&gt;你可以直接在左侧目录树下找到&lt;code&gt;HKEY_CLASSES_ROOT\*\shell&lt;/code&gt;，也可以在上方地址栏中输入，索引到相应的目录中&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/image-20241104103228825.png"
 width="381"
 height="357"
@@ -1860,8 +1860,8 @@ data-flex-basis="742px"
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="配置右键使用vscode打开文件夹"&gt;配置：右键使用vscode打开文件夹
-&lt;/h3&gt;&lt;ul&gt;
+&lt;h3 id="配置右键使用vscode打开文件夹"&gt;配置：右键使用vscode打开文件夹&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;找到&lt;code&gt;HKEY_CLASSES_ROOT\Directory\shell&lt;/code&gt;目录。&lt;/p&gt;
 &lt;/li&gt;
@@ -1879,8 +1879,8 @@ class="gallery-image"
 data-flex-grow="262"
 data-flex-basis="631px"
 &gt;&lt;/p&gt;
-&lt;h3 id="配置右键空白处使用vscode打开文件夹"&gt;配置：右键空白处使用vscode打开文件夹
-&lt;/h3&gt;&lt;ul&gt;
+&lt;h3 id="配置右键空白处使用vscode打开文件夹"&gt;配置：右键空白处使用vscode打开文件夹&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;找到&lt;code&gt;HKEY_CLASSES_ROOT\Directory\Background\shell&lt;/code&gt;目录。&lt;/li&gt;
 &lt;li&gt;把command中的数值数据中的&lt;code&gt;%1&lt;/code&gt;改成&lt;code&gt;%V&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;其它操作与上面完全一样&lt;/li&gt;
@@ -1895,8 +1895,8 @@ class="gallery-image"
 data-flex-grow="290"
 data-flex-basis="698px"
 &gt;&lt;/p&gt;
-&lt;h1 id="效果"&gt;效果
-&lt;/h1&gt;&lt;p&gt;现在，你就可以使用右键文件夹，使用vscode打开该文件夹&lt;/p&gt;
+&lt;h1 id="效果"&gt;效果&lt;/h1&gt;
+&lt;p&gt;现在，你就可以使用右键文件夹，使用vscode打开该文件夹&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://www.lyrical-wander.cn/p/vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%8F%B3%E9%94%AE%E7%94%A8vscode%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/VScodeShortCutLogo.png"
 width="225"
 height="61"
